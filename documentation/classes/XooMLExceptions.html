@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>XooMLExceptions - ItemMirror</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.8.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+            
+                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+            
+                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>XooMLExceptions Class</h1>
+<div class="box meta">
+    
+
+    
+
+    
+        <div class="foundat">
+            Defined in: <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l1"><code>scripts&#x2F;XooMLExceptions.js:1</code></a>
+        </div>
+    
+
+    
+
+    
+</div>
+
+
+
+<div class="box intro">
+    <p>Collection of exceptions associated with the XooML tools.</p>
+</div>
+
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+        
+        
+        
+        
+            <li class="api-class-tab events"><a href="#events">Events</a></li>
+        
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+            
+
+            
+
+            
+
+            
+                <div class="index-section events">
+                    <h3>Events</h3>
+
+                    <ul class="index-list events">
+                        
+                            <li class="index-item event">
+                                <a href="#event_FileOrFolderAlreadyExistsException">FileOrFolderAlreadyExistsException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_FileOrFolderAlreadyExistsException">FileOrFolderAlreadyExistsException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_InvalidArgumentException">InvalidArgumentException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_InvalidStateArgument">InvalidStateArgument</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_InvalidTypeException">InvalidTypeException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_ItemUException">ItemUException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_MissingParameterException">MissingParameterException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_NonUpgradeableAssociationException">NonUpgradeableAssociationException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_NotImplementedException">NotImplementedException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_NullArgumentException">NullArgumentException</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item event">
+                                <a href="#event_XooMLUException">XooMLUException</a>
+
+                                
+                                
+                            </li>
+                        
+                    </ul>
+                </div>
+            
+        </div>
+
+        
+
+        
+
+        
+
+        
+            <div id="events" class="api-class-tabpanel">
+                <h2 class="off-left">Events</h2>
+
+                
+                    <div id="event_FileOrFolderAlreadyExistsException" class="events item">
+    <h3 class="name"><code>FileOrFolderAlreadyExistsException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l84"><code>scripts&#x2F;XooMLExceptions.js:84</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when expecting the ItemMirror to be current, and it is not.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_FileOrFolderAlreadyExistsException" class="events item">
+    <h3 class="name"><code>FileOrFolderAlreadyExistsException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l77"><code>scripts&#x2F;XooMLExceptions.js:77</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown after expecting a file or folder not to exist when it does.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_InvalidArgumentException" class="events item">
+    <h3 class="name"><code>InvalidArgumentException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l70"><code>scripts&#x2F;XooMLExceptions.js:70</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown after an argument was passed in an invalid state than expected.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_InvalidStateArgument" class="events item">
+    <h3 class="name"><code>InvalidStateArgument</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l41"><code>scripts&#x2F;XooMLExceptions.js:41</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when an a method is called when the object is in invalid state
+given what the method expected.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_InvalidTypeException" class="events item">
+    <h3 class="name"><code>InvalidTypeException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l33"><code>scripts&#x2F;XooMLExceptions.js:33</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when an argument is given a value with a different type from the
+expected type.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_ItemUException" class="events item">
+    <h3 class="name"><code>ItemUException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l56"><code>scripts&#x2F;XooMLExceptions.js:56</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown after receiving an exception from ItemU Storage</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_MissingParameterException" class="events item">
+    <h3 class="name"><code>MissingParameterException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l18"><code>scripts&#x2F;XooMLExceptions.js:18</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when a required property from a method's options is missing.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_NonUpgradeableAssociationException" class="events item">
+    <h3 class="name"><code>NonUpgradeableAssociationException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l63"><code>scripts&#x2F;XooMLExceptions.js:63</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown after an association was upgraded that could not be upgraded.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_NotImplementedException" class="events item">
+    <h3 class="name"><code>NotImplementedException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l11"><code>scripts&#x2F;XooMLExceptions.js:11</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when a method is not yet implemented.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_NullArgumentException" class="events item">
+    <h3 class="name"><code>NullArgumentException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l25"><code>scripts&#x2F;XooMLExceptions.js:25</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown when an argument is given a null value when it does not accept null
+values.</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+                    <div id="event_XooMLUException" class="events item">
+    <h3 class="name"><code>XooMLUException</code></h3>
+    <span class="type"></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;scripts_XooMLExceptions.js.html#l49"><code>scripts&#x2F;XooMLExceptions.js:49</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Thrown after receiving an exception from XooMLU Storage</p>
+    </div>
+
+    
+
+
+    
+</div>
+
+                
+            </div>
+        
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

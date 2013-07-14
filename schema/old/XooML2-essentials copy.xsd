@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    program:.......... KFTF Project / XooML Schema 
+    version:.......... 0.54
+    created by:....... Jasper Bleijs (jbleys@uw.edu)
+    created on:....... March 03, 2012
+    modified by:...... Lizhang Sun (lzsun@uw.edu)
+    modified on:...... June 01, 2013
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified"
+    elementFormDefault="qualified" xmlns:xooml="http://kftf.ischool.washington.edu/xmlns/xooml"
+    targetNamespace="http://kftf.ischool.washington.edu/xmlns/xooml" version="0.54">
+    <xs:element name="fragment" type="xooml:fragmentType"/>
+
+    <xs:complexType name="fragmentType">
+        <xs:annotation>
+            <xs:documentation>The complex fragmentType datatype represents a fragment element notation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence maxOccurs="1">
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="fragmentNamespaceElement"
+                type="xooml:namespaceDataType"/>
+            <xs:element name="association" maxOccurs="unbounded" minOccurs="0"
+                type="xooml:associationType"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="xooml:fragmentCommonData"/>
+    </xs:complexType>
+
+    <xs:complexType name="associationType">
+        <xs:annotation>
+            <xs:documentation>The complex associationType datatype represents an association element notation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="associationNamespaceElement"
+                type="xooml:namespaceDataType"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="xooml:associationCommonData"/>
+    </xs:complexType>
+
+    <xs:complexType name="namespaceDataType">
+        <xs:annotation>
+            <xs:documentation>The complex toolAttributesType datatype represents a toolAttributes element notation.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax"/>
+    </xs:complexType>
+
+    <xs:attributeGroup name="fragmentCommonData">
+        <xs:attribute name="schemaVersion" use="required" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Version of the XooML schema. Zootilities will automatically "upgrade" earlier versions of a xooml fragment.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="schemaLocation" type="xs:string" use="optional"/>
+        <xs:attribute name="itemDescribed" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URI pointing to item for which the XooML fragment is metadata. </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="displayName" type="xs:string" use="optional"/>
+        <xs:attribute name="itemDriver" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Invoked directly to Open and Close. Delete, create. </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="syncDriver" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>ignore "xooml.xml" in folder.
+ignore associations for which "localItem" is null.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="xoomlDriver" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>both xoomlDriver and itemDriver are conceived of in two parts:
+1.	part that’s specific to given store API. 
+a.	xoomlDriver simply reads from and writes to a  store via API (reading/writing a stream of XML); 
+b.	itemDriver uses store API for finer-grained control of the contents of a grouping item  (i.e., the itemDescribed – use API to create/delete localItems and to list all local Items – where listing possibly follows conventions of HTML5 File API (if easily done – just convention, obviously _NOT_ whole api).
+2.	both xoomlDriver and itemDriver then have second part that is able to generate an itemMirror object. 
+a.	xoomlDriver code generates an itemMirror object from the stream of XML read via store API and corresponding to the XooML2 schema.
+b.	itemDriver code generates an itemMirror object from the listing of contents for a grouping item. 
+i.	The itemMirror object might be used as a step towards creating a XooML fragment for a grouping item that isn’t being mirrored by XooML (yet). e.g. simply use the .save method (an_itemMirror.save). 
+or this might be a temporary object (e.g., a_tempItemMirror = new ItemMirror (….)) that is then compared to the item mirror object via its sync method (e.g., an_itemMirror.synch would use the itemU code to construct an a_tempItemMirror object that represents the current state of the itemDescribed. Matching of associations would be very easy. The sync method would quietly update the an_itemMirror object and (if updated) save an updated xooml fragment for the itemDescribed back to the store
+</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="GUIDGeneratedOnLastWrite" type="xooml:guidType" use="required"/>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="associationCommonData">
+        <xs:attribute name="ID" use="required" type="xooml:guidType">
+            <xs:annotation>
+                <xs:documentation>Represents the GUID of an association.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="displayText" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>text to be displayed in the association's display.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="associatedItem" type="xs:anyURI" use="optional"/>
+        <xs:attribute name="associatedXooMLFragment" type="xs:anyURI" use="optional">
+            <xs:annotation>
+                <xs:documentation>There is a "Exclusive Or" relation between "associatedItem" and "associatedXoomlFragment" --  both attributes can be null but both cannot be non-null.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="associatedXooMLUtility" type="xs:anyURI" use="optional"/>
+        <xs:attribute name="localItem" type="xs:anyURI" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:simpleType name="guidType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

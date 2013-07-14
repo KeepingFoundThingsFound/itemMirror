@@ -1,0 +1,14 @@
+{
+  "name": "ItemMirror",
+  "description": "ItemMirror: a library for working with XooML to promote open cross platform tool usage",
+  "version": "0.8.0",
+  "url": "https://bitbucket.org/xooml2team/xooml2",
+  "options": {
+    "linkNatives": "true",
+    "attributesEmit": "true",
+    "ignorePaths": ["dependencies", "./.hgcheck/hg-checklink-qJbfof", ".idea", "./ignore", "./test", "./documentation", "./build"],
+    "exclude": "build",
+    "paths": "*",
+    "outdir": "./documentation"
+  }
+}

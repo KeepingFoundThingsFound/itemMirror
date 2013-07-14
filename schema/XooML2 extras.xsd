@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://kftf.ischool.washington.edu/xmlns/xooml-extras"
+    xmlns:xooml-extras="http://kftf.ischool.washington.edu/xmlns/xooml-extras">
+
+    <xs:import namespace="http://www.w3.org/2001/XMLSchema-instance"
+        schemaLocation="http://www.w3.org/2001/XMLSchema-instance"/>
+    <xs:complexType name="contextType">
+        <xs:attribute name="who"/>
+        <xs:attribute name="when"/>
+        <xs:attribute name="where"/>
+        <xs:attribute name="withWhatTool"/>
+    </xs:complexType>
+    <xs:complexType name="associationExtras">
+        <xs:sequence>
+            <xs:element name="firstCreated" type="xooml-extras:contextType"/>
+            <xs:element name="cachedInformationForAssociatedItem">
+                <xs:complexType>
+                    <xs:attribute name="itemIcon"/>
+                    <xs:attribute name="itemPop-upText"/>
+                    <xs:attribute name="itemApplicationToOpen"/>
+                    <xs:attribute name="itemRightClickOptions"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="schemaVersion"/>
+        <xs:attribute name="XSI:schemaLocation"/>
+    </xs:complexType>
+    <xs:complexType name="fragmentExtras">
+        <xs:sequence>
+            <xs:element name="firstCreated" type="xooml-extras:contextType"/>
+            <xs:element name="lastWritten" type="xooml-extras:contextType"/>
+            <xs:element name="itemEventLogInformation">
+                <xs:complexType>
+                    <xs:attribute name="itemEvenLogLocatoin"/>
+                    <xs:attribute name="itemEventLogWriteDriver"/>
+                    <xs:attribute name="itemEventLogReadDriver"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="snapShotLogInformation">
+                <xs:complexType>
+                    <xs:attribute name="isnapshotLogLocatoin"/>
+                    <xs:attribute name="isnapshotLogWriteDriver"/>
+                    <xs:attribute name="isnapshotLogReadDriver"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="schemaVersion"/>
+        <xs:attribute name="schemaLocation"/>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>scripts&#x2F;XooMLUtil.js - ItemMirror</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.8.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+            
+                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+            
+                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+            
+                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: scripts&#x2F;XooMLUtil.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+ * Collection of type checking, exception throwing, utility methods for the
+ * XooML tools.
+ *
+ * @class XooMLUtil
+ * @static
+ *&#x2F;
+define([
+  &quot;.&#x2F;XooMLExceptions.js&quot;,
+  &quot;.&#x2F;XooMLConfig.js&quot;
+], function(XooMLExceptions, XooMLConfig) {
+  &quot;use strict&quot;;
+
+  var
+    _GUIDRegex = &#x2F;\[([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})\]&#x2F;i,
+    _TYPES = {
+      &quot;[object Boolean]&quot;: &quot;boolean&quot;,
+      &quot;[object Number]&quot;: &quot;number&quot;,
+      &quot;[object String]&quot;: &quot;string&quot;,
+      &quot;[object Function]&quot;: &quot;function&quot;,
+      &quot;[object Array]&quot;: &quot;array&quot;,
+      &quot;[object Date]&quot;: &quot;date&quot;,
+      &quot;[object RegExp]&quot;: &quot;regexp&quot;,
+      &quot;[object Object]&quot;: &quot;object&quot;,
+      &quot;[object Error]&quot;: &quot;error&quot;
+    };
+
+  var XooMLUtil = {
+    &#x2F;**
+     * Checks if each option within the given checkedOptions is a property of
+     * the given options.
+     *
+     * @method hasOptions
+     *
+     * @param {Object}  checkedOptions Array of strings for each expected option.
+     * @param {Object} options         Options given to a function.
+     *&#x2F;
+    hasOptions: function (checkedOptions, options) {
+      if (!checkedOptions || !options) {
+        throw XooMLExceptions.nullArgument;
+      }
+      if (!XooMLUtil.isObject(checkedOptions)
+        || !XooMLUtil.isObject(options)) {
+        throw XooMLExceptions.invalidType;
+      }
+      var checkedOption, isRequiredOption, missingOptionalParamCount;
+
+      missingOptionalParamCount = 0;
+
+      if (Object.keys(options).length &lt;= Object.keys(checkedOptions).length) {
+        for (checkedOption in checkedOptions) {
+          if (checkedOptions.hasOwnProperty(checkedOption)) {
+            isRequiredOption = checkedOptions[checkedOption];
+
+            if (!options.hasOwnProperty(checkedOption)) {
+              if (isRequiredOption) {
+                return false;
+              } else {
+                missingOptionalParamCount += 1;
+              }
+            }
+          }
+        }
+      } else {
+        return false;
+      }
+
+      return Object.keys(options).length &lt;=
+        Object.keys(checkedOptions).length - missingOptionalParamCount;
+    },
+
+    &#x2F;&#x2F; throws exceptions for callbacks since null callbacks mean the program can&#x27;t continue
+    checkCallback: function (callback) {
+      if (callback) {
+        if (!XooMLUtil.isFunction(callback)) {
+          throw XooMLExceptions.invalidType;
+        }
+      } else {
+        throw XooMLExceptions.nullArgument;
+      }
+    },
+
+    isGUID: function (GUID) {
+      if (XooMLUtil.getType(GUID) === &quot;string&quot;) {
+        return true; &#x2F;&#x2F; TODO implement guid checking
+      } else {
+        return false;
+      }
+    },
+
+    &#x2F;**
+     * Returns if the given value is an array.
+     *
+     * Throws NullArgumentException when value is null. &lt;br&#x2F;&gt;
+     *
+     * @method isArray
+     *
+     * @param {Object} value Given object have it&#x27;s type checked.
+     *&#x2F;
+    isArray: function (value) {
+      return XooMLUtil.getType(value) === &quot;array&quot;;
+    },
+
+    &#x2F;**
+     * Returns if the given value is an object.
+     *
+     * Throws NullArgumentException when value is null. &lt;br&#x2F;&gt;
+     *
+     * @method isObject
+     *
+     * @param {Object} value Given object have it&#x27;s type checked.
+     *
+     * @return {Boolean} True if the given value is an Object, else false.
+     *&#x2F;
+    isObject: function (value) {
+      return XooMLUtil.getType(value) === &quot;object&quot;;
+    },
+
+    &#x2F;**
+     * Returns if the given value is an function.
+     *
+     * Throws NullArgumentException when value is null. &lt;br&#x2F;&gt;
+     *
+     * @method isFunction
+     *
+     * @param {Object} value Given object have it&#x27;s type checked.
+     *
+     * @return {Boolean} True if the given value is a Function, else false.
+     *&#x2F;
+    isFunction: function (value) {
+      return value !== null;
+      &#x2F;&#x2F;return XooMLUtil.getType(value) === &quot;function&quot;; TODO figure out why this doesn&#x27;t work
+    },
+
+    &#x2F;**
+     * Returns if the given value is an string.
+     *
+     * Throws NullArgumentException when value is null. &lt;br&#x2F;&gt;
+     *
+     * @method isString
+     *
+     * @param {Object} value Given object have it&#x27;s type checked.
+     *
+     * @return {Boolean} True if the given value is a String, else false.
+     *&#x2F;
+    isString: function (value) {
+      return XooMLUtil.getType(value) === &quot;string&quot;;
+    },
+
+    isBoolean: function (value) {
+      return XooMLUtil.getType(value) === &quot;boolean&quot;;
+    },
+
+    &#x2F;**
+     * Generates a GUID.
+     *
+     * @method generateGUID
+     *
+     * @return {String} Randomly generated GUID.
+     *&#x2F;
+    generateGUID: function () {
+      return &#x27;xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx&#x27;.replace(&#x2F;[xy]&#x2F;g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == &#x27;x&#x27; ? r : (r &amp; 0x3 | 0x8);
+        return v.toString(16);
+      });
+    },
+
+    getType: function (obj) {
+      if (obj == null) {
+        return String(obj);
+      }
+      return typeof obj === &quot;object&quot; ||
+        typeof obj === &quot;function&quot; ? _TYPES[obj.toString()]
+        || &quot;object&quot; : typeof obj;
+    },
+
+    endsWith: function (string, suffix) {
+      return string.indexOf(suffix, string.length - suffix.length) !== -1;
+    },
+
+    &#x2F;&#x2F; http:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;728360&#x2F;most-elegant-way-to-clone-a-javascript-object
+    clone: function (obj) {
+      &#x2F;&#x2F; Handle the 3 simple types, and null or undefined
+      if (null == obj || &quot;object&quot; != typeof obj) return obj;
+
+      &#x2F;&#x2F; Handle Date
+      if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+      }
+
+      &#x2F;&#x2F; Handle Array
+      if (obj instanceof Array) {
+        var copy = [];
+        for (var i = 0, len = obj.length; i &lt; len; i++) {
+          copy[i] = XooMLUtil.clone(obj[i]);
+        }
+        return copy;
+      }
+
+      &#x2F;&#x2F; Handle Object
+      if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+          if (obj.hasOwnProperty(attr)) copy[attr] = XooMLUtil.clone(obj[attr]);
+        }
+        return copy;
+      }
+
+      throw XooMLExceptions.invalidType;
+    }
+  };
+
+  return XooMLUtil;
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
