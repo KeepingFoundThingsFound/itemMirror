@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scripts&#x2F;XooMLConfig.js - ItemMirror</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <title>scripts/XooMLConfig.js - ItemMirror</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+                <h1><img src="../assets/css/logo.png" title="ItemMirror"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,21 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+                <li><a href="../classes/FragmentWrapper.html">FragmentWrapper</a></li>
             
-                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+                <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
             
-                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+                <li><a href="../classes/ItemU.html">ItemU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+                <li><a href="../classes/XooMLU.html">XooMLU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -96,54 +96,54 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: scripts&#x2F;XooMLConfig.js</h1>
+                        <h1 class="file-heading">File: scripts/XooMLConfig.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
+/**
  * Configuration variables for XooML.js
  *
  * @class XooMLConfig
  * @static
- *&#x2F;
+ */
 define(function() {
   &quot;use strict&quot;;
 
   return {
-    &#x2F;&#x2F; default schema version
+    // default schema version
     schemaVersion: &quot;0.54&quot;,
 
-    &#x2F;&#x2F; default schema location
-    schemaLocation: &quot;http:&#x2F;&#x2F;kftf.ischool.washington.edu&#x2F;xmlns&#x2F;xooml&quot;,
+    // default schema location
+    schemaLocation: &quot;http://kftf.ischool.washington.edu/xmlns/xooml&quot;,
 
-    &#x2F;&#x2F; XooMLFragment file name for XooML2.xmlns
+    // XooMLFragment file name for XooML2.xmlns
     xooMLFragmentFileName: &quot;XooML2.xml&quot;,
 
-    &#x2F;&#x2F; Maximum file length for upgradeAssociation localItemURI truncation
+    // Maximum file length for upgradeAssociation localItemURI truncation
     maxFileLength: 50,
 
-    &#x2F;&#x2F; Case 1
+    // Case 1
     createAssociationSimple: {
       &quot;displayText&quot;: true
     },
 
-    &#x2F;&#x2F; Case 2 and 3
-    &#x2F;&#x2F; localItemRequested exists:&gt; case 3
+    // Case 2 and 3
+    // localItemRequested exists:&gt; case 3
     createAssociationLinkNonGrouping: {
-      &quot;displayText&quot;: true,        &#x2F;&#x2F; String
-      &quot;itemURI&quot;: true,            &#x2F;&#x2F; String
-      &quot;localItemRequested&quot;: false &#x2F;&#x2F; String
+      &quot;displayText&quot;: true,        // String
+      &quot;itemURI&quot;: true,            // String
+      &quot;localItemRequested&quot;: false // String
     },
 
-    &#x2F;&#x2F; Case 4 and 5
-    &#x2F;&#x2F; localItemRequested:== true:&gt; Case 5
-    createAssociationLinkGrouping: { &#x2F;&#x2F; Case 3
+    // Case 4 and 5
+    // localItemRequested:== true:&gt; Case 5
+    createAssociationLinkGrouping: { // Case 3
       &quot;displayText&quot;: true,
       &quot;groupingItemURI&quot;: true,
       &quot;xooMLDriverURI&quot;: true
     },
 
-    &#x2F;&#x2F; Case 6 and 7
+    // Case 6 and 7
     createAssociationCreate: {
       &quot;displayText&quot;: true,
       &quot;itemName&quot;: true,
@@ -160,13 +160,13 @@ define(function() {
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>

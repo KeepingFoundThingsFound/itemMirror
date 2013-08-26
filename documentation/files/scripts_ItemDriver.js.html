@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scripts&#x2F;ItemDriver.js - ItemMirror</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <title>scripts/ItemDriver.js - ItemMirror</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+                <h1><img src="../assets/css/logo.png" title="ItemMirror"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,21 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+                <li><a href="../classes/FragmentWrapper.html">FragmentWrapper</a></li>
             
-                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+                <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
             
-                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+                <li><a href="../classes/ItemU.html">ItemU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+                <li><a href="../classes/XooMLU.html">XooMLU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -96,11 +96,11 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: scripts&#x2F;ItemDriver.js</h1>
+                        <h1 class="file-heading">File: scripts/ItemDriver.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
+/**
  * An item utility interacts with the item storage and is responsible for
  * creating and deleting items. This is an implementation of item utility
  * using Dropbox as the item storage.
@@ -111,12 +111,12 @@
  * @param {Object} options Data to construct a new ItemU with
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
- *&#x2F;
+ */
 define([
-  &quot;.&#x2F;XooMLExceptions.js&quot;,
-  &quot;.&#x2F;XooMLConfig.js&quot;,
-  &quot;.&#x2F;XooMLUtil.js&quot;,
-  &quot;.&#x2F;XooMLAssociation.js&quot;
+  &quot;./XooMLExceptions.js&quot;,
+  &quot;./XooMLConfig.js&quot;,
+  &quot;./XooMLUtil.js&quot;,
+  &quot;./XooMLAssociation.js&quot;
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -125,19 +125,19 @@ define([
   &quot;use strict&quot;;
 
   var
-  &#x2F;&#x2F; private static variables
+  // private static variables
     _CONSTRUCTOR__OPTIONS = {
       driverURI: true,
       dropboxClient: true
     },
-    _DIRECTORY_STAT = &quot;inode&#x2F;directory&quot;,
+    _DIRECTORY_STAT = &quot;inode/directory&quot;,
 
-  &#x2F;&#x2F;oop helper
+  //oop helper
     self;
 
-  &#x2F;**
-   * Constructs a ItemDriver for reading&#x2F;writing Item Storage
-   *&#x2F;
+  /**
+   * Constructs a ItemDriver for reading/writing Item Storage
+   */
   function ItemDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
     if (!XooMLUtil.isObject(options)) {
@@ -151,7 +151,7 @@ define([
     }
     var self = this;
 
-    &#x2F;&#x2F; private variables
+    // private variables
     self._dropboxClient = options.dropboxClient;
 
     if (self._checkDropboxAuthenticated(self._dropboxClient)) {
@@ -167,7 +167,7 @@ define([
   }
   self = ItemDriver.prototype;
 
-  &#x2F;&#x2F; callback(false) on success
+  // callback(false) on success
   self.moveGroupingItem = function (fromPath, newPath, callback) {
     var self = this;
 
@@ -191,12 +191,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Creates a grouping item at the location
    * @method createGroupngItem
    * @param {String} path the path to the location that the grouping item will be created
    * @param {Function} callback Function to be called when self function is finished with it&#x27;s operation.
-   *&#x2F;
+   */
   self.createGroupingItem = function (path, callback) {
     var self = this;
 
@@ -208,13 +208,13 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Creates or uploads a non-grouping item at the location
    * @method createNonGroupingItem
    * @param {String} path the path to the location that the non-grouping item will be created
    * @param {String} file the contents to be written to the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it&#x27;s operation.
-   *&#x2F;
+   */
   self.createNonGroupingItem = function (path, file, callback) {
     var self = this;
 
@@ -226,12 +226,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Deletes a grouping item at the location
    * @method deleteGroupingItem
    * @param {String} path the path to the location that the grouping item is located
    * @param {Function} callback Function to be called when self function is finished with it&#x27;s operation.
-   *&#x2F;
+   */
   self.deleteGroupingItem = function (path, callback) {
     var self = this;
 
@@ -243,13 +243,13 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Deletes a non-grouping item at the location
    * @method deleteNonGroupingItem
    * @param {String} path the path to the location that the non-grouping item is located
    * @param {String} name the name of the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it&#x27;s operation.
-   *&#x2F;
+   */
   self.deleteNonGroupingItem = function (path, callback) {
     var self = this;
 
@@ -262,12 +262,12 @@ define([
   };
 
 
-  &#x2F;**
+  /**
    * Lists the items under the grouping item
    * @method listItems
    * @param {String} path the path to the grouping item
    * @param {Function} callback(output) Function to be called when self function is finished with it&#x27;s operation. Output is an array of XooMLAssociations.
-   *&#x2F;
+   */
   self.listItems = function (path, callback) {
     var self = this;
 
@@ -291,13 +291,13 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Check if the item is existed
    * @method checkExisted
    * @param {String} path the path to the location that the item is located
    * @param {String} name the name of the item
    * @param {Function} callback(result) Function to be called when self function is finished with it&#x27;s operation. Result is the bollean value for whether existed.
-   *&#x2F;
+   */
   self.checkExisted = function(path, callback){
     var self = this, result;
 
@@ -330,13 +330,13 @@ define([
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>

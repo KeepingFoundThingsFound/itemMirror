@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scripts&#x2F;FragmentDriver.js - ItemMirror</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <title>scripts/FragmentDriver.js - ItemMirror</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+                <h1><img src="../assets/css/logo.png" title="ItemMirror"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,21 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+                <li><a href="../classes/FragmentWrapper.html">FragmentWrapper</a></li>
             
-                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+                <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
             
-                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+                <li><a href="../classes/ItemU.html">ItemU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+                <li><a href="../classes/XooMLU.html">XooMLU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -96,21 +96,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: scripts&#x2F;FragmentDriver.js</h1>
+                        <h1 class="file-heading">File: scripts/FragmentDriver.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
+/**
  * Constructs a FragmentWrapper for a XooML fragment. In the following cases.
  *
- * Case 1: xooMLFragmentString is given and is used as the XooMLFragment. &lt;br&#x2F;&gt;
+ * Case 1: xooMLFragmentString is given and is used as the XooMLFragment. &lt;br/&gt;
  * Case 2: associations, xooMLUtilityURI, itemUtilityURI, syncUtilityURI,
  * groupingItemURI are given and used to create a new XooMLFragment with
  * the given data.
  *
- * Throws NullArgumentException when options is null. &lt;br&#x2F;&gt;
+ * Throws NullArgumentException when options is null. &lt;br/&gt;
  * Throws MissingParameterException when options is not null and does not have
- * the necessary arguments for any given case. &lt;br&#x2F;&gt;
+ * the necessary arguments for any given case. &lt;br/&gt;
  *
  * @class FragmentWrapper
  * @constructor
@@ -132,13 +132,13 @@
  * @param {Function}[callback] callback function
  *  @param {String} callback.error The error to the callback
  *
- **&#x2F;
+ **/
 define([
-  &quot;.&#x2F;XooMLExceptions.js&quot;,
-  &quot;.&#x2F;XooMLConfig.js&quot;,
-  &quot;.&#x2F;XooMLUtil.js&quot;,
-  &quot;.&#x2F;PathDriver.js&quot;,
-  &quot;.&#x2F;XooMLAssociation.js&quot;
+  &quot;./XooMLExceptions.js&quot;,
+  &quot;./XooMLConfig.js&quot;,
+  &quot;./XooMLUtil.js&quot;,
+  &quot;./PathDriver.js&quot;,
+  &quot;./XooMLAssociation.js&quot;
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -167,7 +167,7 @@ define([
     _ASSOCIATION_ASSOCIATED_XOOML_DRIVER = &quot;associatedXooMLDriver&quot;,
     _ASSOCIATION_ASSOCIATED_ITEM = &quot;associatedItem&quot;,
     _ASSOCIATION_LOCAL_ITEM = &quot;localItem&quot;,
-    _XML_XSI_URI = &quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;,
+    _XML_XSI_URI = &quot;http://www.w3.org/2001/XMLSchema-instance&quot;,
 
     _DEFAULT_VALUE_FOR_ADD_ATTRIBUTE = &quot;&quot;,
 
@@ -208,7 +208,7 @@ define([
   }
   self = FragmentDriver.prototype;
 
-  &#x2F;**
+  /**
    * Updates the ETag.
    *
    * @method updateETag
@@ -219,7 +219,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID from the new ETag.
-   *&#x2F;
+   */
   self.updateETag = function (callback) {
     var self = this, GUID;
 
@@ -229,13 +229,13 @@ define([
     return callback(false, GUID);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML schema version.
    *
    * @method getSchemaVersion
    *
    * @return {String} XooML schema version.
-   *&#x2F;
+   */
   self.getSchemaVersion = function (callback) {
     var self = this;
 
@@ -243,16 +243,16 @@ define([
       callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the XooML schema version.
    *
-   * Throws NullArgumentException if schemaVersion is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if schemaVersion is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if schemaVersion is null. &lt;br/&gt;
+   * Throws InvalidTypeException if schemaVersion is not a String. &lt;br/&gt;
    *
    * @method setSchemaVersion
    *
    * @param {String} schemaVersion Schema version to be set.
-   *&#x2F;
+   */
   self.setSchemaVersion = function (schemaVersion, callback) {
     var self = this;
 
@@ -260,13 +260,13 @@ define([
       null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML schema location.
    *
    * @method getSchemaLocation
    *
    * @return {String} XooML schema location.
-   *&#x2F;
+   */
   self.getSchemaLocation = function (callback) {
     var self = this;
 
@@ -274,16 +274,16 @@ define([
       null, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the XooML schema location.
    *
-   * Throws NullArgumentException if schemaLocation is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if schemaLocation is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if schemaLocation is null. &lt;br/&gt;
+   * Throws InvalidTypeException if schemaLocation is not a String. &lt;br/&gt;
    *
    * @method setSchemaLocation
    *
    * @param {String} schemaLocation Schema location to be set.
-   *&#x2F;
+   */
   self.setSchemaLocation = function (schemaLocation, callback) {
     var self = this;
 
@@ -291,7 +291,7 @@ define([
       _FRAGMENT, null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns URI pointing to item described by the metadata of a fragment. A URI
    * might point to just about anything that can be interpreted as a grouping
    * item. For example: a conventional file system folder or a “tag&#x27;s
@@ -301,7 +301,7 @@ define([
    *
    * @return {String} A URI pointing to item described by the metadata of a
    *                  fragment if it exists, else returns null.
-   *&#x2F;
+   */
   self.getItemDescribed = function (callback) {
     var self = this;
 
@@ -309,11 +309,11 @@ define([
       callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the item described by self fragment.
    *
-   * Throws NullArgumentException if itemDescribed is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if itemDescribed is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if itemDescribed is null. &lt;br/&gt;
+   * Throws InvalidTypeException if itemDescribed is not a String. &lt;br/&gt;
    *
    *
    * @method setItemDescribed
@@ -321,7 +321,7 @@ define([
    * @param {String} itemDescribed Item described to be set.
    * @param {Function}[callback] callback function
    * @param {String} callback.error The error to the callback
-   **&#x2F;
+   **/
   self.setItemDescribed = function (itemDescribed, callback) {
     var self = this;
 
@@ -329,7 +329,7 @@ define([
       null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the item utility. An item utility supports HTML5 filesystem API. self
    * utility must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
@@ -343,7 +343,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.itemUtility A URI of the item utility.
-   *&#x2F;
+   */
   self.getItemDriver = function (callback) {
     var self = this;
 
@@ -351,20 +351,20 @@ define([
       callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the item utility. An item utility supports HTML5 filesystem API. self
    * utility must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
    * Invoked directly to Open and Close. Delete, create. Invoked indirectly via
    * UI.
    *
-   * Throws NullArgumentException if itemUtility is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if itemUtility is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if itemUtility is null. &lt;br/&gt;
+   * Throws InvalidTypeException if itemUtility is not a String. &lt;br/&gt;
    *
    * @method setItemUtility
    *
    * @param {String} itemUtility Item utility to be set.
-   *&#x2F;
+   */
   self.setItemUtility = function (itemUtility, callback) {
     var self = this;
 
@@ -372,13 +372,13 @@ define([
       null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the sync utility.
    *
    * @method getSyncUtility
    *
    * @return {String} Sync utility.
-   *&#x2F;
+   */
   self.getSyncDriver = function (callback) {
     var self = this;
 
@@ -386,16 +386,16 @@ define([
       callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the sync utility.
    *
-   * Throws NullArgumentException if syncUtility is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if syncUtility is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if syncUtility is null. &lt;br/&gt;
+   * Throws InvalidTypeException if syncUtility is not a String. &lt;br/&gt;
    *
    * @method setSyncUtility
    *
    * @param {String} syncUtility Item utility to be set.
-   *&#x2F;
+   */
   self.setSyncUtility = function (syncUtility, callback) {
     var self = this;
 
@@ -403,13 +403,13 @@ define([
       null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML utility.
    *
    * @method getXooMLUtility
    *
    * @return {String} XooML utility.
-   *&#x2F;
+   */
   self.getXooMLDriver = function (callback) {
     var self = this;
 
@@ -417,16 +417,16 @@ define([
       callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the XooML utility.
    *
-   * Throws NullArgumentException if xooMlUtility is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if xooMlUtility is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if xooMlUtility is null. &lt;br/&gt;
+   * Throws InvalidTypeException if xooMlUtility is not a String. &lt;br/&gt;
    *
    * @method setXooMLUtility
    *
    * @param {String} xooMlUtility Item utility to be set.
-   *&#x2F;
+   */
   self.setXooMLUtility = function (xooMlUtility, callback) {
     var self = this;
 
@@ -434,63 +434,63 @@ define([
       null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the GUID generated on the last modification to the file.
    *
    * @method getGUIDGeneratedOnLastWrite
    *
    * @return {String} GUID Guid
-   *&#x2F;
+   */
   self.getGUIDGeneratedOnLastWrite = function (callback) {
     var self = this;
 
     self._getAttribute(_FRAGMENT_GUID, _FRAGMENT, null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the attributes within the fragment common.
    *
    * @method listFragmentCommonAttributes
    *
    * @return {String[]} Array of attributes within the the fragment common.
-   *&#x2F;
+   */
   self.listFragmentCommonAttributes = function (callback) {
     var self = this;
 
     self._listAttributes(_FRAGMENT, null, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the display text for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationDisplayText
    *
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Display name of the association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationDisplayText = function (GUID, callback) {
     var self = this;
 
     self._getAttribute(_ASSOCIATION_DISPLAY_TEXT, _ASSOCIATION, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the display name for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or displayName is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or displayName is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or displayName is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or displayName is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationDisplayName
    *
    * @param {String} GUID        GUID of the association to set.
    * @param {String} displayName Display name to be set.
-   *&#x2F;
+   */
   self.setAssociationDisplayText = function (GUID, displayName, callback) {
     var self = this;
 
@@ -498,19 +498,19 @@ define([
       _ASSOCIATION_GUID, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML fragment for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationAssociatedXooMLFragment
    *
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML fragment of the association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
     var self = this;
 
@@ -518,18 +518,18 @@ define([
       _ASSOCIATION, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the XooML fragment for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or xooMLFragment is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or xooMLFragment is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or xooMLFragment is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or xooMLFragment is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationAssociatedXooMLFragment
    *
    * @param {String} GUID                    GUID of the association to set.
    * @param {String} associatedXooMLFragment Fragment XooML fragment to be set.
-   *&#x2F;
+   */
   self.setAssociationAssociatedXooMLFragment = function (GUID,
     associatedXooMLFragment, callback) {
     var self = this;
@@ -538,19 +538,19 @@ define([
       associatedXooMLFragment, _ASSOCIATION_GUID, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML utility for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationXooMLUtility
    *
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML utility of the association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationXooMLUtility = function (GUID, callback) {
     var self = this;
 
@@ -558,18 +558,18 @@ define([
       _ASSOCIATION, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the XooML utility for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or xooMLUtility is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or xooMLUtility is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or xooMLUtility is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or xooMLUtility is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationXooMLUtility
    *
    * @param {String} GUID         GUID of the association to set.
    * @param {String} xooMLUtility XooML utility to be set.
-   *&#x2F;
+   */
   self.setAssociationXooMLUtility = function (GUID, xooMLUtility, callback) {
     var self = this;
 
@@ -577,19 +577,19 @@ define([
       xooMLUtility, _ASSOCIATION_GUID, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the local item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationLocalItem
    *
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Local item of the association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationLocalItem = function (GUID, callback) {
     var self = this;
 
@@ -597,18 +597,18 @@ define([
       GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the local item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or localItem is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or localItem is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or localItem is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or localItem is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationLocalItem
    *
    * @param {String} GUID      GUID of the association to set.
    * @param {String} localItem Local item to be set.
-   *&#x2F;
+   */
   self.setAssociationLocalItem = function (GUID, localItem, callback) {
     var self = this;
 
@@ -616,12 +616,12 @@ define([
       _ASSOCIATION_GUID, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the associated item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationAssociatedItem
    *
@@ -633,7 +633,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.associatedItem Associated item of the
    *                    association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
 
@@ -641,12 +641,12 @@ define([
       GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the associated item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationAssociatedItem
    *
@@ -656,7 +656,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setAssociationAssociatedItem = function (GUID, associatedItem, callback) {
     var self = this;
 
@@ -664,33 +664,33 @@ define([
       _ASSOCIATION_GUID, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the association common attributes within the
    * association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or localItem is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or localItem is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or localItem is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or localItem is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method listAssociationCommonAttributes
    *
    * @param {String} GUID GUID of the association to list common attributes for.
    *
    * @return {String[]} Association common attributes within the association
-   *&#x2F;
+   */
   self.listAssociationCommonAttributes = function (GUID, callback) {
     var self = this;
 
     self._listAttributes(_ASSOCIATION, null, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the value of the given attributeName for the fragmentNamespaceData
    * with the given namespaceURI.
    *
-   * Throws NullArgumentException if attributeName or namespaceURI is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if attributeName or namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName or namespaceURI is not a
-   * String. &lt;br&#x2F;&gt;
+   * String. &lt;br/&gt;
    *
    * @method getFragmentNamespaceAttribute
    * @param {String} attributeName Name of the attribute to be returned.
@@ -700,7 +700,7 @@ define([
    * @return {String} Value of the given attributeName within the given
    *                  namespaceURI if the given attributeName exists, else
    *                  returns null.
-   *&#x2F;
+   */
   self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
@@ -708,17 +708,17 @@ define([
       namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Adds the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName has already
-   * been added. &lt;br&#x2F;&gt;
+   * been added. &lt;br/&gt;
    *
    * @method addFragmentNamespaceAttribute
    *
@@ -730,7 +730,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
@@ -738,15 +738,15 @@ define([
       namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Removes the fragment namespace attribute with the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. &lt;br&#x2F;&gt;
+   * attribute. &lt;br/&gt;
    *
    * @method removeFragmentNamespaceAttribute
    *
@@ -757,7 +757,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
@@ -765,13 +765,13 @@ define([
       namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Checks if the fragment has the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
    *
    * @method Namespace
    *
@@ -783,28 +783,28 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the fragment has the
    *                    given namespaceURI, else false.
-   *&#x2F;
+   */
   self.hasFragmentNamespace = function (namespaceURI, callback) {
     var self = this;
 
     self._hasNamespace(null, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the value of the given attributeName with the given attributeValue
    * for the fragmentNamespaceData with the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, attributeValue, or
-   * namespaceURI is null. &lt;br&#x2F;&gt;
+   * namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, attributeValue, or
-   * namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * namespaceURI is not a String. &lt;br/&gt;
    *
    * @method setFragmentNamespaceAttribute
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set.
    * @param {String} namespaceURI   Name of the namespace of the given
    *                                attributeName.
-   *&#x2F;
+   */
   self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
     var self = this;
 
@@ -812,12 +812,12 @@ define([
       _FRAGMENT_NAMESPACE_DATA, namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the attributes within the fragmentNamespaceData with the
    * given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br/&gt;
    *
    * @method listFragmentNamespaceAttributes
    * @param {String} namespaceURI  Name of the namespace of the given
@@ -825,18 +825,18 @@ define([
    *
    * @return {String[]} Array of attributes within the fragmentNamespaceData with
    *                 the given namespaceURI.
-   *&#x2F;
+   */
   self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
     var self = this;
 
     self._listAttributes(_FRAGMENT_NAMESPACE_DATA, namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the fragment namespace data with the given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br/&gt;
    *
    * @method getFragmentNamespaceData
    *
@@ -845,48 +845,48 @@ define([
    * @return {String} Fragment namespace data with the given namespaceURI.
    *                  If a string is returned it will be valid
    *                  fragmentNamespaceData.
-   *&#x2F;
+   */
   self.getFragmentNamespaceData = function (namespaceURI, callback) {
     var self = this;
 
     self._getNamespaceData(_FRAGMENT, namespaceURI, null, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the fragment namespace data with the given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI or data is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI or data is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI or data is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI or data is not a String. &lt;br/&gt;
    *
    * @method setFragmentNamespaceData
    *
    * @param {String} data Fragment namespace data to be set. Must be valid
    *                 namespaceData.
    * @param {String} namespaceURI Name of the namespace to be set.
-   *&#x2F;
+   */
   self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
     var self = this;
 
     self._setNamespaceData(_FRAGMENT, namespaceURI, null, data, callback);
   };
 
-  &#x2F;**
+  /**
    * Creates an association based on the given options and the following
    * cases.
    *
-   * Case 1: Simple text association declared phantom. &lt;br&#x2F;&gt;
-   * Case 2: Link to existing non-grouping item, phantom. &lt;br&#x2F;&gt;
-   * Case 3: Link to existing non-grouping item, real. &lt;br&#x2F;&gt;
-   * Case 4: Link to existing grouping item, phantom. &lt;br&#x2F;&gt;
-   * Case 5: Link to existing grouping item, real. &lt;br&#x2F;&gt;
-   * Case 6: Create new local non-grouping item. &lt;br&#x2F;&gt;
-   * Case 7: Create new local grouping item. &lt;br&#x2F;&gt;
+   * Case 1: Simple text association declared phantom. &lt;br/&gt;
+   * Case 2: Link to existing non-grouping item, phantom. &lt;br/&gt;
+   * Case 3: Link to existing non-grouping item, real. &lt;br/&gt;
+   * Case 4: Link to existing grouping item, phantom. &lt;br/&gt;
+   * Case 5: Link to existing grouping item, real. &lt;br/&gt;
+   * Case 6: Create new local non-grouping item. &lt;br/&gt;
+   * Case 7: Create new local grouping item. &lt;br/&gt;
    *
-   * Throws NullArgumentException when options, callback is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException when options, callback is null. &lt;br/&gt;
    * Throws InvalidTypeException when options is not an object and callback
-   * is not a function. &lt;br&#x2F;&gt;
+   * is not a function. &lt;br/&gt;
    * Throws MissingParameterException when an argument is missing for an expected
-   * case. &lt;br&#x2F;&gt;
+   * case. &lt;br/&gt;
    *
    * @method createAssociation
    *
@@ -906,13 +906,13 @@ define([
    *                   association. Required for cases 4 &amp; 5.
    *
    *  @param {String}  options.itemName Name of the new local
-   *                   non-grouping&#x2F;grouping item. Required for cases 6 &amp; 7.
+   *                   non-grouping/grouping item. Required for cases 6 &amp; 7.
    *
    *  @param {String}  options.itemType Type of the new local
-   *                   non-grouping&#x2F;grouping item. Required for case 6.
+   *                   non-grouping/grouping item. Required for case 6.
    *
    * @return {String} GUID of the newly created association.
-   *&#x2F;
+   */
   self.createAssociation = function (options, callback) {
     XooMLUtil.checkCallback(callback);
     if (!options) {
@@ -947,17 +947,17 @@ define([
     }
   };
 
-  &#x2F;**
+  /**
    * Deletes the association represented by the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method deleteAssociation
    *
    * @param GUID {String} GUID of the association to be deleted.
-   *&#x2F;
+   */
   self.deleteAssociation = function (GUID, callback) {
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -977,11 +977,11 @@ define([
       }
     }
 
-    &#x2F;&#x2F;&quot;Association with given GUID does not exist.&quot;
+    //&quot;Association with given GUID does not exist.&quot;
     return callback(XooMLExceptions.invalidArgument);
   };
 
-  &#x2F;**
+  /**
    * Lists the GUIDs of each association.
    *
    * @method listAssociations
@@ -995,7 +995,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {String[]} callback.GUIDs Array of each association GUID
    *                    within given namespaceURI.
-   *&#x2F;
+   */
   self.listAssociations = function (callback) {
     XooMLUtil.checkCallback(callback);
     var self = this, associations, associationNodes, associationNode, i, GUID;
@@ -1010,15 +1010,15 @@ define([
     return callback(false, associations);
   };
 
-  &#x2F;**
+  /**
    * Returns the association namespace attribute with the given attributeName
    * and the given namespaceURI within the association with the given GUID.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationNamespaceAttribute
    *
@@ -1029,7 +1029,7 @@ define([
    * @return {String} Value of association namespace attribute with the given
    *                  attributeName and the given namespaceURI within the
    *                  association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
     var self = this;
@@ -1038,17 +1038,17 @@ define([
       namespaceURI, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Adds the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName has already
-   * been added. &lt;br&#x2F;&gt;
+   * been added. &lt;br/&gt;
    *
    * @method addAssociationNamespaceAttribute
    *
@@ -1060,7 +1060,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.addAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
     var self = this;
@@ -1069,17 +1069,17 @@ define([
       GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Removes the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. &lt;br&#x2F;&gt;
+   * attribute. &lt;br/&gt;
    *
    * @method removeAssociationNamespaceAttribute
    *
@@ -1091,7 +1091,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.removeAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
     var self = this;
@@ -1100,15 +1100,15 @@ define([
       namespaceURI, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the association namespace attribute with the given attributeName
    * and the given namespaceURI within the association with the given GUID.
    *
    * Throws NullArgumentException if attributeName, attributeValue, GUID, or
-   * namespaceURI is null. &lt;br&#x2F;&gt;
+   * namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, attributeValue, GUID, or
-   * namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationNamespaceAttribute
    *
@@ -1116,7 +1116,7 @@ define([
    * @param {String} attributeValue Value of the attribute to be set
    * @param {String} GUID           GUID of association to set attribute for.
    * @param {String} namespaceURI   Name of the namespace for the association.
-   *&#x2F;
+   */
   self.setAssociationNamespaceAttribute = function (attributeName,
     attributeValue, GUID, namespaceURI, callback) {
     var self = this;
@@ -1125,14 +1125,14 @@ define([
       _ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns if an association with the given GUID has the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method hasAssociationNamespace
    *
@@ -1145,21 +1145,21 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the association has the
    *                    given namespaceURI, else false.
-   *&#x2F;
+   */
   self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._hasNamespace(GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the association namespace attributes with the given
    * attributeName and the given namespaceURI within the association with
    * the given GUID.
    *
-   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method listAssociationNamespaceAttributes
    *
@@ -1168,20 +1168,20 @@ define([
    *
    * @return {String[]} Array of the attributes within the association namespace
    *                    with the given namespaceURI.
-   *&#x2F;
+   */
   self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._listAttributes(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the association namespace data for an association with the given GUID
    * and the given namespaceURI.
    *
-   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationNamespaceData
    *
@@ -1193,21 +1193,21 @@ define([
    * @return {String} Association namespace data if the association namespace data
    *                  exists, else returns null. If a string is returned it will be
    *                  valid fragmentNamespaceData.
-   *&#x2F;
+   */
   self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._getNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the association namespace data for an association with the given GUID
    * and given namespaceURI using the given data.
    *
-   * Throws NullArgumentException if data, GUID, or namespaceURI is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if data, GUID, or namespaceURI is null. &lt;br/&gt;
    *  Throws InvalidTypeException if data, GUID, or namespaceURI is not a
-   * String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationNamespaceData
    *
@@ -1216,20 +1216,20 @@ define([
    * @param {String} GUID          GUID of the association namespace data to set.
    * @param {String} namespaceURI  Name of the namespace of the association
    *                               namespace data to set.
-   *&#x2F;
+   */
   self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
     var self = this;
 
     self._setNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, data, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns a string representation of wrapper.
    *
    * @method toString
    *
    * @return {String} String representation of self wrapper.
-   *&#x2F;
+   */
   self.toString = function (callback) {
     XooMLUtil.checkCallback(callback);
     var self = this, tmp;
@@ -1240,7 +1240,7 @@ define([
     callback(false, tmp.innerHTML);
   };
 
-  &#x2F;**
+  /**
    * TODO
    *
    * @method _parseXML
@@ -1249,14 +1249,14 @@ define([
    * @param {String} xml TODO
    *
    * @return {Object} TODO
-   *&#x2F;
+   */
   self._parseXML = function (xml) {
     var parser, xmlDoc;
 
     if (window.DOMParser) {
       parser = new DOMParser();
-      xmlDoc = parser.parseFromString(xml, &quot;text&#x2F;xml&quot;);
-    } else {&#x2F;&#x2F; Internet Explorer
+      xmlDoc = parser.parseFromString(xml, &quot;text/xml&quot;);
+    } else {// Internet Explorer
       xmlDoc = new ActiveXObject(&quot;Microsoft.XMLDOM&quot;);
       xmlDoc.async = false;
       xmlDoc.loadXML(xml);
@@ -1265,19 +1265,19 @@ define([
     return xmlDoc;
   };
 
-  &#x2F;**
+  /**
    * TODO
    *
    * @method _createXooMLFragment
    * @private _createXooMLFragment
    *
    * @return {Object} TODO GUID of the
-   *&#x2F;
+   */
   self._createXooMLFragment = function (associations,
     xooMLUtilityURI, itemUtilityURI, syncUtilityURI) {
     var self = this, fragment, document, i, association, GUID, associatedXooMLFragment;
 
-    document = self._parseXML(&quot;&lt;&quot; + _FRAGMENT + &quot;&gt;&lt;&#x2F;&quot; + _FRAGMENT + &quot;&gt;&quot;);
+    document = self._parseXML(&quot;&lt;&quot; + _FRAGMENT + &quot;&gt;&lt;/&quot; + _FRAGMENT + &quot;&gt;&quot;);
     fragment = document.firstChild;
     fragment.setAttribute(&quot;xmlns&quot;, XooMLConfig.schemaLocation);
     fragment.setAttribute(&quot;xmlns:xsi&quot;, _XML_XSI_URI);
@@ -1310,7 +1310,7 @@ define([
   };
 
 
-  &#x2F;**
+  /**
    * Creates an association.
    *
    * @method self._createAssociation
@@ -1322,7 +1322,7 @@ define([
    * @param {String} associatedItem Associated item of the association.
    * @param {String} localItem TODO
    * @param {Object} fragment TODO
-   *&#x2F;
+   */
   self._createAssociation = function (GUID, associationXooMLFragment, displayText, associatedItem, localItem, fragment, callback) {
     var self = this, association, parent;
 
@@ -1331,14 +1331,14 @@ define([
     associatedItem = associatedItem || &quot;&quot;;
     associationXooMLFragment = associationXooMLFragment || &quot;&quot;;
 
-    association = self._parseXML(&quot;&lt;&quot; + _ASSOCIATION + &quot;&#x2F;&gt;&quot;).firstChild;
-    &#x2F;&#x2F;associationXooMLFragment = isUpgradeable ? XooMLConfig.upgradeableString : &quot;&quot;;
+    association = self._parseXML(&quot;&lt;&quot; + _ASSOCIATION + &quot;/&gt;&quot;).firstChild;
+    //associationXooMLFragment = isUpgradeable ? XooMLConfig.upgradeableString : &quot;&quot;;
     association.setAttribute(_ASSOCIATION_GUID, GUID);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_ITEM, associatedItem);
     association.setAttribute(_ASSOCIATION_DISPLAY_TEXT, displayText);
     association.setAttribute(_ASSOCIATION_LOCAL_ITEM, localItem);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT, associationXooMLFragment);
-    association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER, &quot;&quot;); &#x2F;&#x2F; TODO consider removal?
+    association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER, &quot;&quot;); // TODO consider removal?
     parent.appendChild(association.cloneNode(true));
 
     if (callback) {
@@ -1349,9 +1349,9 @@ define([
   self._createAssociationLinkNonGrouping = function (GUID, options, callback) {
     var self = this;
 
-    if (!options.localItemRequested) { &#x2F;&#x2F; Case 2
+    if (!options.localItemRequested) { // Case 2
       return self._createAssociation(GUID, null, options.displayText, options.itemURI, null,  null, callback);
-    } else { &#x2F;&#x2F; Case 3
+    } else { // Case 3
       return callback(XooMLExceptions.notImplemented);
     }
   };
@@ -1361,36 +1361,36 @@ define([
     var self = this;
 
     if (!options.localItemRequested) {
-      &#x2F;&#x2F; Case 4
+      // Case 4
     } else {
-      &#x2F;&#x2F; Case 5
+      // Case 5
     }
   };
 
   self._createAssociationCreate = function (GUID, options, callback) {
     var self = this;
 
-    if (!options.isGroupingItem) { &#x2F;&#x2F; Case 6
+    if (!options.isGroupingItem) { // Case 6
       self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null, callback);
-    } else { &#x2F;&#x2F; Case 7
+    } else { // Case 7
       self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null, callback);
     }
   };
 
-  &#x2F;&#x2F; for now does now update etag, because that is done at the ItemMirror level,
-  &#x2F;&#x2F; it will simply return the old GUID. it should eventually be removed
+  // for now does now update etag, because that is done at the ItemMirror level,
+  // it will simply return the old GUID. it should eventually be removed
   self._updateFragment = function (fragment) {
     var self = this;
 
     return fragment.getElementsByTagName(_FRAGMENT)[0].getAttribute(_FRAGMENT_GUID);
   };
 
-  &#x2F;**
+  /**
    * TODO meta function for self._setAttribute, self._listAttributes, self._getAttribute, self._setNamespaceData, self._getNamespaceData
    *
-   * Throws NullArgumentException if elementName is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if elementName is null. &lt;br/&gt;
    * Throws InvalidTypeException if GUID, or namespaceURI exists and is not a
-   * string. &lt;br&#x2F;&gt;
+   * string. &lt;br/&gt;
    *
    * @method _getOrCreateElement
    * @private _getOrCreateElement
@@ -1400,7 +1400,7 @@ define([
    * @param {String} GUID TODO
    *
    * @return {Object} TODO
-   *&#x2F;
+   */
   self._getOrCreateElement = function (elementName, namespaceURI, GUID, callback) {
     if (!elementName) {
       return callback(XooMLExceptions.nullArgument);
@@ -1460,7 +1460,7 @@ define([
           return childNode
         }
 
-        &#x2F;&#x2F; figure out bug with getElementsByTagName, work this logic by finding the association first
+        // figure out bug with getElementsByTagName, work this logic by finding the association first
         namespaceNodes = documentNode.getElementsByTagName(_ASSOCIATION_NAMESPACE_DATA);
         for (j = 0; j &lt; namespaceNodes.length; j += 1) {
           namespaceNode = namespaceNodes[j];
@@ -1506,7 +1506,7 @@ define([
       : association;
   };
 
-  &#x2F;**
+  /**
    * Returns the value of the given attributeName for the common fragment.
    *
    * @method _getAttribute
@@ -1519,7 +1519,7 @@ define([
    *
    * @return {String} Value of the given attributeName if the attributeName
    *                  exists, else null.
-   *&#x2F;
+   */
   self._getAttribute = function (attributeName, elementName, namespaceURI, GUID, callback) {
     var self = this;
 
@@ -1532,7 +1532,7 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Sets the given attributeName to the given attributeValue for the fragment
    *  common.
    *
@@ -1549,7 +1549,7 @@ define([
    * @param {String} elementName    TODO
    * @param {String} namespaceURI   TODO
    * @param {String} GUID           TODO
-   *&#x2F;
+   */
   self._setAttribute = function (attributeName, attributeValue, elementName, namespaceURI, GUID, callback) {
     var self = this;
 
@@ -1557,7 +1557,7 @@ define([
       if (error) {
         throw error;
       }
-      &#x2F;&#x2F; TODO: Consider checking for the variables existence.
+      // TODO: Consider checking for the variables existence.
 
       element.setAttribute(attributeName, attributeValue);
       self._updateFragment(self._document);
@@ -1679,13 +1679,13 @@ define([
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>

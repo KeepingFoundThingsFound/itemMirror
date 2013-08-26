@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>ItemMirror - ItemMirror</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+                <h1><img src="../assets/css/logo.png" title="ItemMirror"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,21 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+                <li><a href="../classes/FragmentWrapper.html">FragmentWrapper</a></li>
             
-                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+                <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
             
-                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+                <li><a href="../classes/ItemU.html">ItemU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+                <li><a href="../classes/XooMLU.html">XooMLU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -104,7 +104,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1"><code>scripts&#x2F;ItemMirror.js:1</code></a>
+            Defined in: <a href="../files/scripts_ItemMirror.js.html#l1"><code>scripts&#x2F;ItemMirror.js:1</code></a>
         </div>
     
 
@@ -117,10 +117,8 @@
 
 <div class="box intro">
     <p>ItemMirror represents an Item according to the XooML2 specification.</p>
-
 <p>It can be instantiated using one of the following two cases based on the
 given arguments.</p>
-
 <p>Case 1: XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
 <br/>
 Case 2: The XooMLFragment is created from an existing groupingItemURI.
@@ -128,10 +126,10 @@ Given a groupingItemURI, saveLocationURI. Optionally a itemDriver,
 syncDriver, and a xooMLDriver can be supplied for the XooMLFragment.
 <br/>
 Case 3: Try case 1, and then fallback on case 2.</p>
-
 <p>Throws NullArgumentException when options is null. <br/>
 Throws MissingParameterException when options is not null and a required
 argument is missing.<br/></p>
+
 </div>
 
 
@@ -185,7 +183,7 @@ argument is missing.<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1"><code>scripts&#x2F;ItemMirror.js:1</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1"><code>scripts&#x2F;ItemMirror.js:1</code></a>
         
         </p>
 
@@ -215,6 +213,7 @@ argument is missing.<br/></p>
 
                     <div class="param-description">
                         <p>Data to construct a new ItemMirror with</p>
+
                     </div>
 
                     
@@ -229,6 +228,7 @@ argument is missing.<br/></p>
                                 <div class="param-description">
                                     <p>URI to the grouping item. Required
                  for all cases.</p>
+
                                 </div>
 
                                 
@@ -245,6 +245,7 @@ argument is missing.<br/></p>
                  construct ItemMirror with. Required for all cases.
                  Can contain any amount of optional key/value pairs for
                  the various Driver implementations.</p>
+
                                 </div>
 
                                 
@@ -276,6 +277,7 @@ argument is missing.<br/></p>
                  construct ItemMirror with. Required for all cases.
                  Can contain any amount of optional key/value pairs for
                  the various Driver implementations.</p>
+
                                 </div>
 
                                 
@@ -307,6 +309,7 @@ argument is missing.<br/></p>
                  construct ItemMirror with. Required Case 2 &amp; 3. Can
                  contain any amount of optional key/value pairs for
                  the various Driver implementations.</p>
+
                                 </div>
 
                                 
@@ -337,6 +340,7 @@ argument is missing.<br/></p>
                                     <p>True if ItemMirror
                   should create an ItemMirror if it does not exist,
                   else false. Required for Case 2 &amp; 3.</p>
+
                                 </div>
 
                                 
@@ -351,6 +355,7 @@ argument is missing.<br/></p>
                                 <div class="param-description">
                                     <p>Parent ItemMirror of the ItemMirror
                      to be constructed. Optional.</p>
+
                                 </div>
 
                                 
@@ -370,6 +375,7 @@ argument is missing.<br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -385,6 +391,7 @@ argument is missing.<br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -398,6 +405,7 @@ argument is missing.<br/></p>
 
                                 <div class="param-description">
                                     <p>Newly constructed ItemMirror</p>
+
                                 </div>
 
                                 
@@ -825,7 +833,7 @@ argument is missing.<br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1028"><code>scripts&#x2F;ItemMirror.js:1028</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1028"><code>scripts&#x2F;ItemMirror.js:1028</code></a>
         
         </p>
 
@@ -838,7 +846,6 @@ argument is missing.<br/></p>
     <div class="description">
         <p>Adds the given attributeName to the association with the given GUID and
 namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, GUID, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
@@ -846,6 +853,7 @@ a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
 Throws an InvalidStateException when the given attributeName has already
 been added. <br/></p>
+
     </div>
 
     
@@ -864,6 +872,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute.</p>
+
                     </div>
 
                     
@@ -879,6 +888,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association.</p>
+
                     </div>
 
                     
@@ -894,6 +904,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -909,6 +920,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -924,6 +936,7 @@ been added. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1003,7 +1016,7 @@ been added. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l469"><code>scripts&#x2F;ItemMirror.js:469</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l469"><code>scripts&#x2F;ItemMirror.js:469</code></a>
         
         </p>
 
@@ -1016,7 +1029,6 @@ been added. <br/></p>
     <div class="description">
         <p>Adds the given attributeName to the association with the given GUID and
 namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, GUID, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
@@ -1024,6 +1036,7 @@ a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
 Throws an InvalidStateException when the given attributeName has already
 been added. <br/></p>
+
     </div>
 
     
@@ -1042,6 +1055,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute.</p>
+
                     </div>
 
                     
@@ -1057,6 +1071,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association.</p>
+
                     </div>
 
                     
@@ -1072,6 +1087,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -1087,6 +1103,7 @@ been added. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1102,6 +1119,7 @@ been added. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1169,7 +1187,7 @@ been added. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l722"><code>scripts&#x2F;ItemMirror.js:722</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l722"><code>scripts&#x2F;ItemMirror.js:722</code></a>
         
         </p>
 
@@ -1182,9 +1200,7 @@ been added. <br/></p>
     <div class="description">
         <p>Creates an association based on the given options and the following
 cases.</p>
-
 <p>Cases 1, 2, 7 implemented. All else are not implemented.</p>
-
 <p>Case 1: Simple text association declared phantom. <br/>
 Case 2: Link to existing non-grouping item, phantom. <br/>
 Case 3: Link to existing non-grouping item, real. <br/>
@@ -1192,12 +1208,12 @@ Case 4: Link to existing grouping item, phantom. <br/>
 Case 5: Link to existing grouping item, real. <br/>
 Case 6: Create new local non-grouping item. <br/>
 Case 7: Create new local grouping item. <br/></p>
-
 <p>Throws NullArgumentException when options, or callback is null. <br/>
 Throws InvalidTypeException when options is not an object and callback
 is not a function. <br/>
 Throws MissingParameterException when an argument is missing for an expected
 case. <br/></p>
+
     </div>
 
     
@@ -1216,6 +1232,7 @@ case. <br/></p>
 
                     <div class="param-description">
                         <p>Data to create an new association for.</p>
+
                     </div>
 
                     
@@ -1230,6 +1247,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>Display text for the association.
                   Required in all cases.</p>
+
                                 </div>
 
                                 
@@ -1243,6 +1261,7 @@ case. <br/></p>
 
                                 <div class="param-description">
                                     <p>URI of the item. Required for case 2 &amp; 3.</p>
+
                                 </div>
 
                                 
@@ -1257,6 +1276,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>True if the local item is
                   requested, else false. Required for cases 2 &amp; 3.</p>
+
                                 </div>
 
                                 
@@ -1271,6 +1291,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>URI of the grouping item.
                   Required for cases 4 &amp; 5.</p>
+
                                 </div>
 
                                 
@@ -1285,6 +1306,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>URI of the XooML driver for the
                   association. Required for cases 4 &amp; 5.</p>
+
                                 </div>
 
                                 
@@ -1299,6 +1321,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>URI of the new local
                   non-grouping/grouping item. Required for cases 6 &amp; 7.</p>
+
                                 </div>
 
                                 
@@ -1313,6 +1336,7 @@ case. <br/></p>
                                 <div class="param-description">
                                     <p>True if the item is a grouping
                   item, else false. Required for cases 6 &amp; 7.</p>
+
                                 </div>
 
                                 
@@ -1332,6 +1356,7 @@ case. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1347,6 +1372,7 @@ case. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1360,6 +1386,7 @@ case. <br/></p>
 
                                 <div class="param-description">
                                     <p>GUID of the association created.</p>
+
                                 </div>
 
                                 
@@ -1427,7 +1454,7 @@ case. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l651"><code>scripts&#x2F;ItemMirror.js:651</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l651"><code>scripts&#x2F;ItemMirror.js:651</code></a>
         
         </p>
 
@@ -1440,11 +1467,11 @@ case. <br/></p>
     <div class="description">
         <p>Creates an ItemMirror from the associated grouping item represented by
 the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID or callback is null. <br/>
 Throws InvalidTypeException if GUID is not a string, and callback is
 not a function. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -1464,6 +1491,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>GUID of the association to create the ItemMirror
                 from.</p>
+
                     </div>
 
                     
@@ -1479,6 +1507,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1494,6 +1523,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1509,6 +1539,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>ItemMirror from the groupingItem
                      of the given GUID, null if the given GUID is not
                      a grouping item.</p>
+
                                 </div>
 
                                 
@@ -1576,7 +1607,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l806"><code>scripts&#x2F;ItemMirror.js:806</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l806"><code>scripts&#x2F;ItemMirror.js:806</code></a>
         
         </p>
 
@@ -1588,10 +1619,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Deletes the association represented by the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID is null. <br/>
 Throws InvalidTypeException if GUID is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -1610,6 +1641,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to be deleted.</p>
+
                     </div>
 
                     
@@ -1625,6 +1657,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1640,6 +1673,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1707,7 +1741,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l418"><code>scripts&#x2F;ItemMirror.js:418</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l418"><code>scripts&#x2F;ItemMirror.js:418</code></a>
         
         </p>
 
@@ -1719,10 +1753,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Returns the associated item for the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID is null. <br/>
 Throws InvalidTypeException if GUID is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -1741,6 +1775,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to get.</p>
+
                     </div>
 
                     
@@ -1756,6 +1791,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1771,6 +1807,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1785,6 +1822,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                 <div class="param-description">
                                     <p>Associated item of the
                    association with the given GUID.</p>
+
                                 </div>
 
                                 
@@ -1852,7 +1890,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l370"><code>scripts&#x2F;ItemMirror.js:370</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l370"><code>scripts&#x2F;ItemMirror.js:370</code></a>
         
         </p>
 
@@ -1864,10 +1902,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Returns the XooML fragment for the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID is null. <br/>
 Throws InvalidTypeException if GUID is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -1886,6 +1924,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to get.</p>
+
                     </div>
 
                     
@@ -1901,6 +1940,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -1916,6 +1956,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -1930,6 +1971,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                 <div class="param-description">
                                     <p>The associated
                    XooMLFragment.</p>
+
                                 </div>
 
                                 
@@ -1997,7 +2039,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l323"><code>scripts&#x2F;ItemMirror.js:323</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l323"><code>scripts&#x2F;ItemMirror.js:323</code></a>
         
         </p>
 
@@ -2009,10 +2051,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Returns the display text for the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID is null. <br/>
 Throws InvalidTypeException if GUID is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -2031,6 +2073,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to get.</p>
+
                     </div>
 
                     
@@ -2046,6 +2089,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2061,6 +2105,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2074,6 +2119,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                                 <div class="param-description">
                                     <p>The display text.</p>
+
                                 </div>
 
                                 
@@ -2141,7 +2187,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l394"><code>scripts&#x2F;ItemMirror.js:394</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l394"><code>scripts&#x2F;ItemMirror.js:394</code></a>
         
         </p>
 
@@ -2153,10 +2199,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Returns the local item for the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID is null. <br/>
 Throws InvalidTypeException if GUID is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -2175,6 +2221,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to get.</p>
+
                     </div>
 
                     
@@ -2190,6 +2237,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2205,6 +2253,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2219,6 +2268,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                 <div class="param-description">
                                     <p>Local item of the association
                    with the given GUID.</p>
+
                                 </div>
 
                                 
@@ -2298,7 +2348,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l997"><code>scripts&#x2F;ItemMirror.js:997</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l997"><code>scripts&#x2F;ItemMirror.js:997</code></a>
         
         </p>
 
@@ -2311,12 +2361,12 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Returns the association namespace attribute with the given attributeName
 and the given namespaceURI within the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if attributeName, GUID, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
 a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -2335,6 +2385,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute to be returned.</p>
+
                     </div>
 
                     
@@ -2350,6 +2401,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to return attribute from.</p>
+
                     </div>
 
                     
@@ -2365,6 +2417,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -2380,6 +2433,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2395,6 +2449,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2411,6 +2466,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                    association namespace attribute with the given
                    attributeName and the given namespaceURI within the
                    association with the given GUID.</p>
+
                                 </div>
 
                                 
@@ -2484,7 +2540,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1172"><code>scripts&#x2F;ItemMirror.js:1172</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1172"><code>scripts&#x2F;ItemMirror.js:1172</code></a>
         
         </p>
 
@@ -2497,10 +2553,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Returns the association namespace data for an association with the given GUID
 and the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if GUID, namespaceURI is null. <br/>
 Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -2520,6 +2576,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>GUID of the association namespace data to
                               returned.</p>
+
                     </div>
 
                     
@@ -2536,6 +2593,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>URI of the namespace of the association
                               namespace data to returned.</p>
+
                     </div>
 
                     
@@ -2551,6 +2609,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2566,6 +2625,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2582,6 +2642,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                    namespace data if the association namespace data
                    exists, else returns null. If a string is returned
                    it will be valid fragmentNamespaceData.</p>
+
                                 </div>
 
                                 
@@ -2643,7 +2704,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l168"><code>scripts&#x2F;ItemMirror.js:168</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l168"><code>scripts&#x2F;ItemMirror.js:168</code></a>
         
         </p>
 
@@ -2655,6 +2716,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Returns the display name.</p>
+
     </div>
 
     
@@ -2673,6 +2735,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2688,6 +2751,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2701,6 +2765,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                                 <div class="param-description">
                                     <p>Display name.</p>
+
                                 </div>
 
                                 
@@ -2774,7 +2839,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l442"><code>scripts&#x2F;ItemMirror.js:442</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l442"><code>scripts&#x2F;ItemMirror.js:442</code></a>
         
         </p>
 
@@ -2787,10 +2852,10 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Returns the value of the given attributeName for the fragmentNamespaceData
 with the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName or namespaceURI is null. <br/>
 Throws InvalidTypeException if attributeName or namespaceURI is not a
 String. <br/></p>
+
     </div>
 
     
@@ -2809,6 +2874,7 @@ String. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute to be returned.</p>
+
                     </div>
 
                     
@@ -2825,6 +2891,7 @@ String. <br/></p>
                     <div class="param-description">
                         <p>Name of the namespace of the given
                               attributeName.</p>
+
                     </div>
 
                     
@@ -2840,6 +2907,7 @@ String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -2855,6 +2923,7 @@ String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -2870,6 +2939,7 @@ String. <br/></p>
                                     <p>Value of the given
                    attributeName within the given namespaceURI if the given
                    attributeName exists, else returns null.</p>
+
                                 </div>
 
                                 
@@ -2937,7 +3007,7 @@ String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l602"><code>scripts&#x2F;ItemMirror.js:602</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l602"><code>scripts&#x2F;ItemMirror.js:602</code></a>
         
         </p>
 
@@ -2949,9 +3019,9 @@ String. <br/></p>
 
     <div class="description">
         <p>Returns the fragment namespace data with the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if namespaceURI is null. <br/>
 Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
+
     </div>
 
     
@@ -2970,6 +3040,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace to be set.</p>
+
                     </div>
 
                     
@@ -2985,6 +3056,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3000,6 +3072,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3015,6 +3088,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Fragment namespace
                    data with the given namespaceURI. If a string is
                    returned it will be valid fragmentNamespaceData.</p>
+
                                 </div>
 
                                 
@@ -3076,7 +3150,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l151"><code>scripts&#x2F;ItemMirror.js:151</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l151"><code>scripts&#x2F;ItemMirror.js:151</code></a>
         
         </p>
 
@@ -3088,6 +3162,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
     <div class="description">
         <p>Returns the grouping item URI.</p>
+
     </div>
 
     
@@ -3106,6 +3181,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3121,6 +3197,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3134,6 +3211,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                                 <div class="param-description">
                                     <p>Grouping item URI.</p>
+
                                 </div>
 
                                 
@@ -3195,7 +3273,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l305"><code>scripts&#x2F;ItemMirror.js:305</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l305"><code>scripts&#x2F;ItemMirror.js:305</code></a>
         
         </p>
 
@@ -3207,6 +3285,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
     <div class="description">
         <p>Returns the GUID generated on the last modification to the file.</p>
+
     </div>
 
     
@@ -3225,6 +3304,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3240,6 +3320,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3254,6 +3335,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                 <div class="param-description">
                                     <p>Gets the GUID
                    generated on last write of this XooML Fragment.</p>
+
                                 </div>
 
                                 
@@ -3317,7 +3399,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l227"><code>scripts&#x2F;ItemMirror.js:227</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l227"><code>scripts&#x2F;ItemMirror.js:227</code></a>
         
         </p>
 
@@ -3332,6 +3414,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 might point to just about anything that can be interpreted as a grouping
 item. For example: a conventional file system folder or a “tag�as
 supported by any of several applications.</p>
+
     </div>
 
     
@@ -3350,6 +3433,7 @@ supported by any of several applications.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3365,6 +3449,7 @@ supported by any of several applications.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3380,6 +3465,7 @@ supported by any of several applications.</p>
                                     <p>A URI pointing to item
                    described by the metadata of a fragment if it
                    exists, else returns null.</p>
+
                                 </div>
 
                                 
@@ -3441,7 +3527,7 @@ supported by any of several applications.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l250"><code>scripts&#x2F;ItemMirror.js:250</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l250"><code>scripts&#x2F;ItemMirror.js:250</code></a>
         
         </p>
 
@@ -3457,6 +3543,7 @@ driver must work hand in glove with SyncU. There is no exclusive control
 over items as stored in the dataStore so need to view and synchronize.
 Invoked directly to Open and Close. Delete, create. Invoked indirectly via
 UI.</p>
+
     </div>
 
     
@@ -3475,6 +3562,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3490,6 +3578,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3503,6 +3592,7 @@ UI.</p>
 
                                 <div class="param-description">
                                     <p>A URI of the item driver.</p>
+
                                 </div>
 
                                 
@@ -3556,7 +3646,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1491"><code>scripts&#x2F;ItemMirror.js:1491</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1491"><code>scripts&#x2F;ItemMirror.js:1491</code></a>
         
         </p>
 
@@ -3568,6 +3658,7 @@ UI.</p>
 
     <div class="description">
         <p>Async Methods for getting list of items</p>
+
     </div>
 
     
@@ -3620,7 +3711,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1335"><code>scripts&#x2F;ItemMirror.js:1335</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1335"><code>scripts&#x2F;ItemMirror.js:1335</code></a>
         
         </p>
 
@@ -3632,6 +3723,7 @@ UI.</p>
 
     <div class="description">
         <p>Returns the parent ItemMirror if this ItemMirror has a parent.</p>
+
     </div>
 
     
@@ -3650,6 +3742,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3665,6 +3758,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3680,6 +3774,7 @@ UI.</p>
                                     <p>Parent ItemMirror of this
                    ItemMirror object if it has a parent, else
                    null.</p>
+
                                 </div>
 
                                 
@@ -3741,7 +3836,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l210"><code>scripts&#x2F;ItemMirror.js:210</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l210"><code>scripts&#x2F;ItemMirror.js:210</code></a>
         
         </p>
 
@@ -3753,6 +3848,7 @@ UI.</p>
 
     <div class="description">
         <p>Returns the XooML schema location.</p>
+
     </div>
 
     
@@ -3771,6 +3867,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3786,6 +3883,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3799,6 +3897,7 @@ UI.</p>
 
                                 <div class="param-description">
                                     <p>XooML schema location.</p>
+
                                 </div>
 
                                 
@@ -3860,7 +3959,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l193"><code>scripts&#x2F;ItemMirror.js:193</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l193"><code>scripts&#x2F;ItemMirror.js:193</code></a>
         
         </p>
 
@@ -3872,6 +3971,7 @@ UI.</p>
 
     <div class="description">
         <p>Returns the XooML schema version.</p>
+
     </div>
 
     
@@ -3890,6 +3990,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -3905,6 +4006,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -3918,6 +4020,7 @@ UI.</p>
 
                                 <div class="param-description">
                                     <p>XooML schema version.</p>
+
                                 </div>
 
                                 
@@ -3979,7 +4082,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l271"><code>scripts&#x2F;ItemMirror.js:271</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l271"><code>scripts&#x2F;ItemMirror.js:271</code></a>
         
         </p>
 
@@ -3991,6 +4094,7 @@ UI.</p>
 
     <div class="description">
         <p>Returns the sync driver URI.</p>
+
     </div>
 
     
@@ -4009,6 +4113,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4024,6 +4129,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4037,6 +4143,7 @@ UI.</p>
 
                                 <div class="param-description">
                                     <p>A URI of the sync driver.</p>
+
                                 </div>
 
                                 
@@ -4098,7 +4205,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l288"><code>scripts&#x2F;ItemMirror.js:288</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l288"><code>scripts&#x2F;ItemMirror.js:288</code></a>
         
         </p>
 
@@ -4110,6 +4217,7 @@ UI.</p>
 
     <div class="description">
         <p>Returns the XooML driver.</p>
+
     </div>
 
     
@@ -4128,6 +4236,7 @@ UI.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4143,6 +4252,7 @@ UI.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4156,6 +4266,7 @@ UI.</p>
 
                                 <div class="param-description">
                                     <p>A URI of the XooML driver.</p>
+
                                 </div>
 
                                 
@@ -4229,7 +4340,7 @@ UI.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1086"><code>scripts&#x2F;ItemMirror.js:1086</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1086"><code>scripts&#x2F;ItemMirror.js:1086</code></a>
         
         </p>
 
@@ -4241,12 +4352,12 @@ UI.</p>
 
     <div class="description">
         <p>Returns if an association with the given GUID has the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, GUID, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
 a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -4265,6 +4376,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association.</p>
+
                     </div>
 
                     
@@ -4280,6 +4392,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -4295,6 +4408,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4310,6 +4424,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4324,6 +4439,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                 <div class="param-description">
                                     <p>True if the association has the
                    given namespaceURI, else false.</p>
+
                                 </div>
 
                                 
@@ -4391,7 +4507,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l524"><code>scripts&#x2F;ItemMirror.js:524</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l524"><code>scripts&#x2F;ItemMirror.js:524</code></a>
         
         </p>
 
@@ -4403,11 +4519,11 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Checks if the fragment has the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, or namespaceURI is not
 a String. <br/></p>
+
     </div>
 
     
@@ -4426,6 +4542,7 @@ a String. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -4441,6 +4558,7 @@ a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4456,6 +4574,7 @@ a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4470,6 +4589,7 @@ a String. <br/></p>
                                 <div class="param-description">
                                     <p>True if the fragment has the
                    given namespaceURI, else false.</p>
+
                                 </div>
 
                                 
@@ -4537,7 +4657,7 @@ a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l930"><code>scripts&#x2F;ItemMirror.js:930</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l930"><code>scripts&#x2F;ItemMirror.js:930</code></a>
         
         </p>
 
@@ -4549,10 +4669,10 @@ a String. <br/></p>
 
     <div class="description">
         <p>Checks if the association with the given GUID is a grouping item.</p>
-
 <p>Throws NullArgumentException if GUID, callback is null. <br/>
 Throws InvalidTypeException if GUID is not a String, and if callback
 is not an function. <br/></p>
+
     </div>
 
     
@@ -4571,6 +4691,7 @@ is not an function. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to be to be checked.</p>
+
                     </div>
 
                     
@@ -4586,6 +4707,7 @@ is not an function. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4601,6 +4723,7 @@ is not an function. <br/></p>
                                     <p>Null if no error has occurred
                  in executing this function, else an contains
                  an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4616,6 +4739,7 @@ is not an function. <br/></p>
                                     <p>True if the association
                   with the given GUID is a grouping item, else
                   false.</p>
+
                                 </div>
 
                                 
@@ -4677,7 +4801,7 @@ is not an function. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1251"><code>scripts&#x2F;ItemMirror.js:1251</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1251"><code>scripts&#x2F;ItemMirror.js:1251</code></a>
         
         </p>
 
@@ -4690,6 +4814,7 @@ is not an function. <br/></p>
     <div class="description">
         <p>Checks the local GUID and the remote GUID to see if the local fragment
 is out of date with the remote fragment.</p>
+
     </div>
 
     
@@ -4708,6 +4833,7 @@ is out of date with the remote fragment.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4723,6 +4849,7 @@ is out of date with the remote fragment.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4737,6 +4864,7 @@ is out of date with the remote fragment.</p>
                                 <div class="param-description">
                                     <p>True if the local GUID matches
                    the remote GUID, else false.</p>
+
                                 </div>
 
                                 
@@ -4820,7 +4948,7 @@ is out of date with the remote fragment.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1143"><code>scripts&#x2F;ItemMirror.js:1143</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1143"><code>scripts&#x2F;ItemMirror.js:1143</code></a>
         
         </p>
 
@@ -4834,10 +4962,10 @@ is out of date with the remote fragment.</p>
         <p>Returns an array of the association namespace attributes with the given
 attributeName and the given namespaceURI within the association with
 the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID, namespaceURI is null. <br/>
 Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -4856,6 +4984,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of association to list attributes for.</p>
+
                     </div>
 
                     
@@ -4871,6 +5000,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -4886,6 +5016,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -4901,6 +5032,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -4921,6 +5053,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>of the attributes within the association namespace
                    with the given namespaceURI.</p>
+
                     </div>
 
                     
@@ -4992,7 +5125,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l976"><code>scripts&#x2F;ItemMirror.js:976</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l976"><code>scripts&#x2F;ItemMirror.js:976</code></a>
         
         </p>
 
@@ -5004,6 +5137,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
     <div class="description">
         <p>Lists the GUIDs of each association.</p>
+
     </div>
 
     
@@ -5022,6 +5156,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5037,6 +5172,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5051,6 +5187,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                 <div class="param-description">
                                     <p>Array of each association GUID
                    within given namespaceURI.</p>
+
                                 </div>
 
                                 
@@ -5073,8 +5210,9 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String[]</a></span>:
                     
-                    Array of the GUIDs of each association
-                   of the given namespaceURI
+                    <p>Array of the GUIDs of each association
+                   of the given namespaceURI</p>
+
                 
             </div>
         </div>
@@ -5132,7 +5270,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l577"><code>scripts&#x2F;ItemMirror.js:577</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l577"><code>scripts&#x2F;ItemMirror.js:577</code></a>
         
         </p>
 
@@ -5145,9 +5283,9 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Returns an array of the attributes within the fragmentNamespaceData with the
 given namespaceURI.</p>
-
 <p>Throws NullArgumentException if namespaceURI is null. <br/>
 Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
+
     </div>
 
     
@@ -5167,6 +5305,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                     <div class="param-description">
                         <p>Name of the namespace of the given
                                attributeName.</p>
+
                     </div>
 
                     
@@ -5182,6 +5321,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5197,6 +5337,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5212,6 +5353,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Array of
                    attributes within the fragmentNamespaceData with
                    the given namespaceURI.</p>
+
                                 </div>
 
                                 
@@ -5265,7 +5407,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1456"><code>scripts&#x2F;ItemMirror.js:1456</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1456"><code>scripts&#x2F;ItemMirror.js:1456</code></a>
         
         </p>
 
@@ -5277,6 +5419,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
     <div class="description">
         <p>Async Methods for loading the XooML Fragment String</p>
+
     </div>
 
     
@@ -5329,7 +5472,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1290"><code>scripts&#x2F;ItemMirror.js:1290</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1290"><code>scripts&#x2F;ItemMirror.js:1290</code></a>
         
         </p>
 
@@ -5341,6 +5484,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
     <div class="description">
         <p>Reloads the XooML Fragment</p>
+
     </div>
 
     
@@ -5359,6 +5503,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5374,6 +5519,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5453,7 +5599,7 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1057"><code>scripts&#x2F;ItemMirror.js:1057</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1057"><code>scripts&#x2F;ItemMirror.js:1057</code></a>
         
         </p>
 
@@ -5466,7 +5612,6 @@ Throws InvalidTypeException if namespaceURI is not a String. <br/></p>
     <div class="description">
         <p>Removes the given attributeName to the association with the given GUID and
 namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, GUID, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
@@ -5474,6 +5619,7 @@ a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
 Throws an InvalidStateException when the given attributeName is not an
 attribute. <br/></p>
+
     </div>
 
     
@@ -5492,6 +5638,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute.</p>
+
                     </div>
 
                     
@@ -5507,6 +5654,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association.</p>
+
                     </div>
 
                     
@@ -5522,6 +5670,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -5537,6 +5686,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5552,6 +5702,7 @@ attribute. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5625,7 +5776,7 @@ attribute. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l498"><code>scripts&#x2F;ItemMirror.js:498</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l498"><code>scripts&#x2F;ItemMirror.js:498</code></a>
         
         </p>
 
@@ -5637,13 +5788,13 @@ attribute. <br/></p>
 
     <div class="description">
         <p>Removes the fragment namespace attribute with the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, or namespaceURI is
 null. <br/>
 Throws InvalidTypeException if attributeName, or namespaceURI is not
 a String. <br/>
 Throws an InvalidStateException when the given attributeName is not an
 attribute. <br/></p>
+
     </div>
 
     
@@ -5662,6 +5813,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute.</p>
+
                     </div>
 
                     
@@ -5677,6 +5829,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -5692,6 +5845,7 @@ attribute. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5707,6 +5861,7 @@ attribute. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5774,7 +5929,7 @@ attribute. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l909"><code>scripts&#x2F;ItemMirror.js:909</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l909"><code>scripts&#x2F;ItemMirror.js:909</code></a>
         
         </p>
 
@@ -5786,12 +5941,11 @@ attribute. <br/></p>
 
     <div class="description">
         <p>Renames the local item for the association with the given GUID.</p>
-
 <p>NOT IMPLEMENTED</p>
-
 <p>Throws NullArgumentException if GUID, callback is null. <br/>
 Throws InvalidTypeException if GUID is not a String, and if callback
 is not a function. <br/></p>
+
     </div>
 
     
@@ -5810,6 +5964,7 @@ is not a function. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association.</p>
+
                     </div>
 
                     
@@ -5825,6 +5980,7 @@ is not a function. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5840,6 +5996,7 @@ is not a function. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -5913,7 +6070,7 @@ is not a function. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l346"><code>scripts&#x2F;ItemMirror.js:346</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l346"><code>scripts&#x2F;ItemMirror.js:346</code></a>
         
         </p>
 
@@ -5925,10 +6082,10 @@ is not a function. <br/></p>
 
     <div class="description">
         <p>Sets the display text for the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if GUID or displayName is null. <br/>
 Throws InvalidTypeException if GUID or displayName is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -5947,6 +6104,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association to set.</p>
+
                     </div>
 
                     
@@ -5962,6 +6120,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Display text to be set.</p>
+
                     </div>
 
                     
@@ -5977,6 +6136,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -5992,6 +6152,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6077,7 +6238,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1113"><code>scripts&#x2F;ItemMirror.js:1113</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1113"><code>scripts&#x2F;ItemMirror.js:1113</code></a>
         
         </p>
 
@@ -6090,12 +6251,12 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Sets the association namespace attribute with the given attributeName
 and the given namespaceURI within the association with the given GUID.</p>
-
 <p>Throws NullArgumentException if attributeName, attributeValue, GUID, or
 namespaceURI is null. <br/>
 Throws InvalidTypeException if attributeName, attributeValue, GUID, or
 namespaceURI is not a String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -6114,6 +6275,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute to be set.</p>
+
                     </div>
 
                     
@@ -6129,6 +6291,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Value of the attribute to be set</p>
+
                     </div>
 
                     
@@ -6144,6 +6307,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of association to set attribute for.</p>
+
                     </div>
 
                     
@@ -6159,6 +6323,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace for the association.</p>
+
                     </div>
 
                     
@@ -6174,6 +6339,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6189,6 +6355,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6268,7 +6435,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1202"><code>scripts&#x2F;ItemMirror.js:1202</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1202"><code>scripts&#x2F;ItemMirror.js:1202</code></a>
         
         </p>
 
@@ -6281,11 +6448,11 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Sets the association namespace data for an association with the given GUID
 and given namespaceURI using the given data.</p>
-
 <p>Throws NullArgumentException if data, GUID, or namespaceURI is null. <br/>
 Throws InvalidTypeException if data, GUID, or namespaceURI is not a
 String. <br/>
 Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
+
     </div>
 
     
@@ -6305,6 +6472,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>Association namespace data to set. Must be
                               valid fragmentNamespaceData.</p>
+
                     </div>
 
                     
@@ -6320,6 +6488,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>GUID of the association namespace data to set.</p>
+
                     </div>
 
                     
@@ -6336,6 +6505,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                     <div class="param-description">
                         <p>URI of the namespace of the association
                               namespace data to set.</p>
+
                     </div>
 
                     
@@ -6351,6 +6521,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6366,6 +6537,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6445,7 +6617,7 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l549"><code>scripts&#x2F;ItemMirror.js:549</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l549"><code>scripts&#x2F;ItemMirror.js:549</code></a>
         
         </p>
 
@@ -6458,11 +6630,11 @@ Throws InvalidGUIDException if GUID is not a valid GUID. <br/></p>
     <div class="description">
         <p>Sets the value of the given attributeName with the given attributeValue
 for the fragmentNamespaceData with the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if attributeName, attributeValue, or
 namespaceURI is null. <br/>
 Throws InvalidTypeException if attributeName, attributeValue, or
 namespaceURI is not a String. <br/></p>
+
     </div>
 
     
@@ -6481,6 +6653,7 @@ namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Name of the attribute to be set.</p>
+
                     </div>
 
                     
@@ -6496,6 +6669,7 @@ namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Value of the attribute to be set.</p>
+
                     </div>
 
                     
@@ -6512,6 +6686,7 @@ namespaceURI is not a String. <br/></p>
                     <div class="param-description">
                         <p>Name of the namespace of the given
                                attributeName.</p>
+
                     </div>
 
                     
@@ -6527,6 +6702,7 @@ namespaceURI is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6542,6 +6718,7 @@ namespaceURI is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6615,7 +6792,7 @@ namespaceURI is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l626"><code>scripts&#x2F;ItemMirror.js:626</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l626"><code>scripts&#x2F;ItemMirror.js:626</code></a>
         
         </p>
 
@@ -6627,9 +6804,9 @@ namespaceURI is not a String. <br/></p>
 
     <div class="description">
         <p>Returns the fragment namespace data with the given namespaceURI.</p>
-
 <p>Throws NullArgumentException if namespaceURI or data is null. <br/>
 Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
+
     </div>
 
     
@@ -6649,6 +6826,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
                     <div class="param-description">
                         <p>Fragment namespace data to be set. Must be valid
                 namespaceData.</p>
+
                     </div>
 
                     
@@ -6664,6 +6842,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>URI of the namespace to be set.</p>
+
                     </div>
 
                     
@@ -6679,6 +6858,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6694,6 +6874,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6755,7 +6936,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1232"><code>scripts&#x2F;ItemMirror.js:1232</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1232"><code>scripts&#x2F;ItemMirror.js:1232</code></a>
         
         </p>
 
@@ -6770,6 +6951,7 @@ Throws InvalidTypeException if namespaceURI or data is not a String. <br/></p>
 local ItemMirror object changes. This is an implmentation of Synchronization
 Driver which modifies the XooML Fragment according to the real structure
 under the item described.</p>
+
     </div>
 
     
@@ -6788,6 +6970,7 @@ under the item described.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6803,6 +6986,7 @@ under the item described.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6864,7 +7048,7 @@ under the item described.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l1317"><code>scripts&#x2F;ItemMirror.js:1317</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l1317"><code>scripts&#x2F;ItemMirror.js:1317</code></a>
         
         </p>
 
@@ -6876,6 +7060,7 @@ under the item described.</p>
 
     <div class="description">
         <p>Returns a string representation of self.</p>
+
     </div>
 
     
@@ -6894,6 +7079,7 @@ under the item described.</p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -6909,6 +7095,7 @@ under the item described.</p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -6923,6 +7110,7 @@ under the item described.</p>
                                 <div class="param-description">
                                     <p>String representation of self
                    wrapper.</p>
+
                                 </div>
 
                                 
@@ -6990,7 +7178,7 @@ under the item described.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;scripts_ItemMirror.js.html#l853"><code>scripts&#x2F;ItemMirror.js:853</code></a>
+        <a href="../files/scripts_ItemMirror.js.html#l853"><code>scripts&#x2F;ItemMirror.js:853</code></a>
         
         </p>
 
@@ -7005,9 +7193,7 @@ under the item described.</p>
 by a truncated form of the display name of this ItemMirror if the
 localItemURI is not given, else uses given localItemURI. Always
 truncated to 50 characters.</p>
-
 <p>ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM</p>
-
 <p>Throws NullArgumentException when options is null. <br/>
 Throws MissingParameterException when options is not null and a required
 argument is missing.<br/>
@@ -7015,6 +7201,7 @@ Throws InvalidTypeException if GUID is not a string, and if callback
 is not a function. <br/>
 Throws InvalidState if the association with the given GUID cannot be
 upgraded. <br/></p>
+
     </div>
 
     
@@ -7033,6 +7220,7 @@ upgraded. <br/></p>
 
                     <div class="param-description">
                         <p>Data to construct a new ItemMirror with</p>
+
                     </div>
 
                     
@@ -7046,6 +7234,7 @@ upgraded. <br/></p>
 
                                 <div class="param-description">
                                     <p>of the association to be upgraded. Required</p>
+
                                 </div>
 
                                 
@@ -7061,6 +7250,7 @@ upgraded. <br/></p>
                                     <p>URI of the local item to be used if
                  a truncated display name is not the intended behavior.
                  Optional.</p>
+
                                 </div>
 
                                 
@@ -7080,6 +7270,7 @@ upgraded. <br/></p>
 
                     <div class="param-description">
                         <p>Function to execute once finished.</p>
+
                     </div>
 
                     
@@ -7095,6 +7286,7 @@ upgraded. <br/></p>
                                     <p>Null if no error has occurred
                    in executing this function, else an contains
                    an object with the error that occurred.</p>
+
                                 </div>
 
                                 
@@ -7131,13 +7323,13 @@ upgraded. <br/></p>
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scripts&#x2F;ItemMirror.js - ItemMirror</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <title>scripts/ItemMirror.js - ItemMirror</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
@@ -15,7 +15,7 @@
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
             
-                <h1><img src="..&#x2F;assets/css/logo.png" title="ItemMirror"></h1>
+                <h1><img src="../assets/css/logo.png" title="ItemMirror"></h1>
             
         </div>
         <div class="yui3-u-1-4 version">
@@ -41,21 +41,21 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/FragmentWrapper.html">FragmentWrapper</a></li>
+                <li><a href="../classes/FragmentWrapper.html">FragmentWrapper</a></li>
             
-                <li><a href="..&#x2F;classes/ItemMirror.html">ItemMirror</a></li>
+                <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
             
-                <li><a href="..&#x2F;classes/ItemU.html">ItemU</a></li>
+                <li><a href="../classes/ItemU.html">ItemU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLAssociation.html">XooMLAssociation</a></li>
+                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLConfig.html">XooMLConfig</a></li>
+                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLExceptions.html">XooMLExceptions</a></li>
+                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLU.html">XooMLU</a></li>
+                <li><a href="../classes/XooMLU.html">XooMLU</a></li>
             
-                <li><a href="..&#x2F;classes/XooMLUtil.html">XooMLUtil</a></li>
+                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -96,27 +96,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: scripts&#x2F;ItemMirror.js</h1>
+                        <h1 class="file-heading">File: scripts/ItemMirror.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-&#x2F;**
+/**
  * ItemMirror represents an Item according to the XooML2 specification.
  *
  * It can be instantiated using one of the following two cases based on the
  * given arguments.
  *
  * Case 1: XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
- * &lt;br&#x2F;&gt;
+ * &lt;br/&gt;
  * Case 2: The XooMLFragment is created from an existing groupingItemURI.
  * Given a groupingItemURI, saveLocationURI. Optionally a itemDriver,
  * syncDriver, and a xooMLDriver can be supplied for the XooMLFragment.
- * &lt;br&#x2F;&gt;
+ * &lt;br/&gt;
  * Case 3: Try case 1, and then fallback on case 2.
  *
- * Throws NullArgumentException when options is null. &lt;br&#x2F;&gt;
+ * Throws NullArgumentException when options is null. &lt;br/&gt;
  * Throws MissingParameterException when options is not null and a required
- * argument is missing.&lt;br&#x2F;&gt;
+ * argument is missing.&lt;br/&gt;
  *
  * @class ItemMirror
  * @constructor
@@ -128,19 +128,19 @@
  *
  *  @param {String} options.itemDriver Data for the ItemDriver to
  *                  construct ItemMirror with. Required for all cases.
- *                  Can contain any amount of optional key&#x2F;value pairs for
+ *                  Can contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.itemDriver.driverURI URI of the driver.
  *
  *  @param {String} options.xooMLDriver Data for the XooMLDriver to
  *                  construct ItemMirror with. Required for all cases.
- *                  Can contain any amount of optional key&#x2F;value pairs for
+ *                  Can contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.xooMLDriver.driverURI URI of the driver.
  *
  *  @param {String} options.syncDriver Data for the SyncDriver to
  *                  construct ItemMirror with. Required Case 2 &amp; 3. Can
- *                  contain any amount of optional key&#x2F;value pairs for
+ *                  contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.syncDriver.driverURI URI of the driver.
  *
@@ -156,16 +156,16 @@
  *                    in executing this function, else an contains
  *                    an object with the error that occurred.
  *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
- *&#x2F;
+ */
 define([
-  &quot;.&#x2F;XooMLExceptions.js&quot;,
-  &quot;.&#x2F;XooMLConfig.js&quot;,
-  &quot;.&#x2F;XooMLUtil.js&quot;,
-  &quot;.&#x2F;PathDriver.js&quot;,
-  &quot;.&#x2F;FragmentDriver.js&quot;,
-  &quot;.&#x2F;ItemDriver.js&quot;,
-  &quot;.&#x2F;XooMLDriver.js&quot;,
-  &quot;.&#x2F;SyncDriver.js&quot;
+  &quot;./XooMLExceptions.js&quot;,
+  &quot;./XooMLConfig.js&quot;,
+  &quot;./XooMLUtil.js&quot;,
+  &quot;./PathDriver.js&quot;,
+  &quot;./FragmentDriver.js&quot;,
+  &quot;./ItemDriver.js&quot;,
+  &quot;./XooMLDriver.js&quot;,
+  &quot;./SyncDriver.js&quot;
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -212,7 +212,7 @@ define([
     }
     var self = this, xooMLFragmentURI;
 
-    &#x2F;&#x2F; private variables
+    // private variables
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
@@ -235,7 +235,7 @@ define([
             return callback(error);
           }
 
-          &#x2F;&#x2F; change options here, after they have been used
+          // change options here, after they have been used
           if (!self._newItemMirrorOptions.hasOwnProperty(&quot;syncDriver&quot;)) {
             self._newItemMirrorOptions.syncDriver = {
               utilityURI: &quot;MirrorSyncUtility&quot;
@@ -250,7 +250,7 @@ define([
   }
   self = ItemMirror.prototype;
 
-  &#x2F;**
+  /**
    * Returns the grouping item URI.
    *
    * @method getGroupingItemURI
@@ -260,14 +260,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.groupingItemURI Grouping item URI.
-   *&#x2F;
+   */
   self.getGroupingItemURI = function (callback) {
     var self = this;
 
     return callback(false, self._groupingItemURI);
   };
 
-  &#x2F;**
+  /**
    * Returns the display name.
    *
    * @method getDisplayName
@@ -277,7 +277,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.displayName Display name.
-   *&#x2F;
+   */
   self.getDisplayName = function (callback) {
     var self = this, displayName;
 
@@ -292,7 +292,7 @@ define([
     return callback(false, displayName);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML schema version.
    *
    * @method getSchemaVersion
@@ -302,14 +302,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.schemaVersion XooML schema version.
-   *&#x2F;
+   */
   self.getSchemaVersion = function (callback) {
     var self = this;
 
     self._fragmentDriver.getSchemaVersion(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML schema location.
    *
    * @method getSchemaLocation
@@ -319,14 +319,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.schemaVersion XooML schema location.
-   *&#x2F;
+   */
   self.getSchemaLocation = function (callback) {
     var self = this;
 
     self._fragmentDriver.getSchemaLocation(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns URI pointing to item described by the metadata of a fragment. A URI
    * might point to just about anything that can be interpreted as a grouping
    * item. For example: a conventional file system folder or a “tag�as
@@ -342,14 +342,14 @@ define([
    *  @param {String}   callback.itemDescribed A URI pointing to item
    *                    described by the metadata of a fragment if it
    *                    exists, else returns null.
-   *&#x2F;
+   */
   self.getItemDescribed = function (callback) {
     var self = this;
 
     self._fragmentDriver.getItemDescribed(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the item driver. An item driver supports HTML5 filesystem API. self
    * driver must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
@@ -363,14 +363,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.itemDriver A URI of the item driver.
-   *&#x2F;
+   */
   self.getItemDriver = function (callback) {
     var self = this;
 
     self._fragmentDriver.getItemDriver(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the sync driver URI.
    *
    * @method getSyncDriver
@@ -380,14 +380,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.syncDriver A URI of the sync driver.
-   *&#x2F;
+   */
   self.getSyncDriver = function (callback) {
     var self = this;
 
     self._fragmentDriver.getSyncDriver(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML driver.
    *
    * @method getXooMLDriver
@@ -397,14 +397,14 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.xooMLDriver A URI of the XooML driver.
-   *&#x2F;
+   */
   self.getXooMLDriver = function (callback) {
     var self = this;
 
     self._fragmentDriver.getXooMLDriver(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the GUID generated on the last modification to the file.
    *
    * @method getGUIDGeneratedOnLastWrite
@@ -415,19 +415,19 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUIDGeneratedOnLastWrite Gets the GUID
    *                    generated on last write of this XooML Fragment.
-   *&#x2F;
+   */
   self.getGUIDGeneratedOnLastWrite = function (callback) {
     var self = this;
 
     self._fragmentDriver.getGUIDGeneratedOnLastWrite(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the display text for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationDisplayText
    *
@@ -438,19 +438,19 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.displayText The display text.
-   *&#x2F;
+   */
   self.getAssociationDisplayText = function (GUID, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationDisplayText(GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the display text for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or displayName is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID or displayName is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or displayName is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID or displayName is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationDisplayText
    *
@@ -460,7 +460,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setAssociationDisplayText = function (GUID, displayText, callback) {
     var self = this;
 
@@ -469,12 +469,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Returns the XooML fragment for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationAssociatedXooMLFragment
    *
@@ -486,19 +486,19 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.associatedXooMLFragment The associated
    *                    XooMLFragment.
-   *&#x2F;
+   */
   self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the local item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationLocalItem
    *
@@ -510,19 +510,19 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.localItem Local item of the association
    *                    with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationLocalItem = function (GUID, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationLocalItem(GUID, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the associated item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationAssociatedItem
    *
@@ -534,20 +534,20 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.associatedItem Associated item of the
    *                    association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationAssociatedItem(GUID, callback)
   };
 
-  &#x2F;**
+  /**
    * Returns the value of the given attributeName for the fragmentNamespaceData
    * with the given namespaceURI.
    *
-   * Throws NullArgumentException if attributeName or namespaceURI is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if attributeName or namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName or namespaceURI is not a
-   * String. &lt;br&#x2F;&gt;
+   * String. &lt;br/&gt;
    *
    * @method getFragmentNamespaceAttribute
    * @param {String} attributeName Name of the attribute to be returned.
@@ -561,24 +561,24 @@ define([
    *  @param {String}   callback.fragmentNamespaceAttribute Value of the given
    *                    attributeName within the given namespaceURI if the given
    *                    attributeName exists, else returns null.
-   *&#x2F;
+   */
   self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.getFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Adds the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName has already
-   * been added. &lt;br&#x2F;&gt;
+   * been added. &lt;br/&gt;
    *
    * @method addFragmentNamespaceAttribute
    *
@@ -590,22 +590,22 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.addFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Removes the fragment namespace attribute with the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. &lt;br&#x2F;&gt;
+   * attribute. &lt;br/&gt;
    *
    * @method removeFragmentNamespaceAttribute
    *
@@ -616,20 +616,20 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.removeFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Checks if the fragment has the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
    *
    * @method hasFragmentNamespace
    *
@@ -641,21 +641,21 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the fragment has the
    *                    given namespaceURI, else false.
-   *&#x2F;
+   */
   self.hasFragmentNamespace = function (namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.hasFragmentNamespace(namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the value of the given attributeName with the given attributeValue
    * for the fragmentNamespaceData with the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, attributeValue, or
-   * namespaceURI is null. &lt;br&#x2F;&gt;
+   * namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, attributeValue, or
-   * namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * namespaceURI is not a String. &lt;br/&gt;
    *
    * @method setFragmentNamespaceAttribute
    * @param {String} attributeName  Name of the attribute to be set.
@@ -666,7 +666,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
     var self = this;
 
@@ -676,12 +676,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the attributes within the fragmentNamespaceData with the
    * given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br/&gt;
    *
    * @method listFragmentNamespaceAttributes
    * @param {String} namespaceURI  Name of the namespace of the given
@@ -694,18 +694,18 @@ define([
    *  @param {String[]} callback.fragmentNamespaceAttributes Array of
    *                    attributes within the fragmentNamespaceData with
    *                    the given namespaceURI.
-   *&#x2F;
+   */
   self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.listFragmentNamespaceAttributes(namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the fragment namespace data with the given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI is not a String. &lt;br/&gt;
    *
    * @method getFragmentNamespaceData
    *
@@ -718,18 +718,18 @@ define([
    *  @param {String}   callback.fragmentNamespaceData Fragment namespace
    *                    data with the given namespaceURI. If a string is
    *                    returned it will be valid fragmentNamespaceData.
-   *&#x2F;
+   */
   self.getFragmentNamespaceData = function (namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.getFragmentNamespaceData(namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the fragment namespace data with the given namespaceURI.
    *
-   * Throws NullArgumentException if namespaceURI or data is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if namespaceURI or data is not a String. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if namespaceURI or data is null. &lt;br/&gt;
+   * Throws InvalidTypeException if namespaceURI or data is not a String. &lt;br/&gt;
    *
    * @method setFragmentNamespaceData
    *
@@ -741,7 +741,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
     var self = this;
 
@@ -750,14 +750,14 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Creates an ItemMirror from the associated grouping item represented by
    * the given GUID.
    *
-   * Throws NullArgumentException if GUID or callback is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID or callback is null. &lt;br/&gt;
    * Throws InvalidTypeException if GUID is not a string, and callback is
-   * not a function. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * not a function. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method createItemMirrorForAssociatedGroupingItem
    *
@@ -771,7 +771,7 @@ define([
    *  @param {ItemMirror} callback.itemMirror ItemMirror from the groupingItem
    *                      of the given GUID, null if the given GUID is not
    *                      a grouping item.
-   *&#x2F;
+   */
   self.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
     var self = this;
 
@@ -821,25 +821,25 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Creates an association based on the given options and the following
    * cases.
    *
    * Cases 1, 2, 7 implemented. All else are not implemented.
    *
-   * Case 1: Simple text association declared phantom. &lt;br&#x2F;&gt;
-   * Case 2: Link to existing non-grouping item, phantom. &lt;br&#x2F;&gt;
-   * Case 3: Link to existing non-grouping item, real. &lt;br&#x2F;&gt;
-   * Case 4: Link to existing grouping item, phantom. &lt;br&#x2F;&gt;
-   * Case 5: Link to existing grouping item, real. &lt;br&#x2F;&gt;
-   * Case 6: Create new local non-grouping item. &lt;br&#x2F;&gt;
-   * Case 7: Create new local grouping item. &lt;br&#x2F;&gt;
+   * Case 1: Simple text association declared phantom. &lt;br/&gt;
+   * Case 2: Link to existing non-grouping item, phantom. &lt;br/&gt;
+   * Case 3: Link to existing non-grouping item, real. &lt;br/&gt;
+   * Case 4: Link to existing grouping item, phantom. &lt;br/&gt;
+   * Case 5: Link to existing grouping item, real. &lt;br/&gt;
+   * Case 6: Create new local non-grouping item. &lt;br/&gt;
+   * Case 7: Create new local grouping item. &lt;br/&gt;
    *
-   * Throws NullArgumentException when options, or callback is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException when options, or callback is null. &lt;br/&gt;
    * Throws InvalidTypeException when options is not an object and callback
-   * is not a function. &lt;br&#x2F;&gt;
+   * is not a function. &lt;br/&gt;
    * Throws MissingParameterException when an argument is missing for an expected
-   * case. &lt;br&#x2F;&gt;
+   * case. &lt;br/&gt;
    *
    * @method createAssociation
    *
@@ -860,7 +860,7 @@ define([
    *                   association. Required for cases 4 &amp; 5.
    *
    *  @param {String}  options.itemName URI of the new local
-   *                   non-grouping&#x2F;grouping item. Required for cases 6 &amp; 7.
+   *                   non-grouping/grouping item. Required for cases 6 &amp; 7.
    *
    *  @param {String}  options.isGroupingItem True if the item is a grouping
    *                   item, else false. Required for cases 6 &amp; 7.
@@ -870,7 +870,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID of the association created.
-   *&#x2F;
+   */
   self.createAssociation = function (options, callback) {
     var self = this, isSimple, isLinkNonGrouping, isLinkGrouping, isCreate;
 
@@ -905,12 +905,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Deletes the association represented by the given GUID.
    *
-   * Throws NullArgumentException if GUID is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method deleteAssociation
    *
@@ -920,7 +920,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.deleteAssociation = function (GUID, callback) {
     var self = this;
 
@@ -942,7 +942,7 @@ define([
           return callback(error);
         }
         if (!localItem) {
-          &#x2F;&#x2F; Phantom case
+          // Phantom case
           return self._save(callback);
         }
 
@@ -952,7 +952,7 @@ define([
 
   };
 
-  &#x2F;**
+  /**
    * Upgrades a given association without a local item. Local item is named
    * by a truncated form of the display name of this ItemMirror if the
    * localItemURI is not given, else uses given localItemURI. Always
@@ -960,13 +960,13 @@ define([
    *
    * ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM
    *
-   * Throws NullArgumentException when options is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException when options is null. &lt;br/&gt;
    * Throws MissingParameterException when options is not null and a required
-   * argument is missing.&lt;br&#x2F;&gt;
+   * argument is missing.&lt;br/&gt;
    * Throws InvalidTypeException if GUID is not a string, and if callback
-   * is not a function. &lt;br&#x2F;&gt;
+   * is not a function. &lt;br/&gt;
    * Throws InvalidState if the association with the given GUID cannot be
-   * upgraded. &lt;br&#x2F;&gt;
+   * upgraded. &lt;br/&gt;
    *
    * @method upgradeAssociation
    *
@@ -983,7 +983,7 @@ define([
    *  @param {String}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.upgradeAssociation = function (options, callback) {
     var self = this, localItemURI;
     XooMLUtil.checkCallback(callback);
@@ -1008,14 +1008,14 @@ define([
     }
   };
 
-  &#x2F;**
+  /**
    * Renames the local item for the association with the given GUID.
    *
    * NOT IMPLEMENTED
    *
-   * Throws NullArgumentException if GUID, callback is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, callback is null. &lt;br/&gt;
    * Throws InvalidTypeException if GUID is not a String, and if callback
-   * is not a function. &lt;br&#x2F;&gt;
+   * is not a function. &lt;br/&gt;
    *
    * @method renameLocalItem
    *
@@ -1024,17 +1024,17 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.renameLocalItem = function (GUID, callback) {
     return callback(XooMLExceptions.notImplemented);
   };
 
-  &#x2F;**
+  /**
    * Checks if the association with the given GUID is a grouping item.
    *
-   * Throws NullArgumentException if GUID, callback is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, callback is null. &lt;br/&gt;
    * Throws InvalidTypeException if GUID is not a String, and if callback
-   * is not an function. &lt;br&#x2F;&gt;
+   * is not an function. &lt;br/&gt;
    *
    * @method isAssociatedItemGrouping
    *
@@ -1049,7 +1049,7 @@ define([
    *  @param {Boolean} callback.isGroupingItem True if the association
    *                   with the given GUID is a grouping item, else
    *                   false.
-   *&#x2F;
+   */
   self.isAssociatedItemGrouping = function (GUID, callback) {
     var self = this;
 
@@ -1075,7 +1075,7 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Lists the GUIDs of each association.
    *
    * @method listAssociations
@@ -1089,22 +1089,22 @@ define([
    *                    an object with the error that occurred.
    *  @param {String[]} callback.GUIDs Array of each association GUID
    *                    within given namespaceURI.
-   *&#x2F;
+   */
   self.listAssociations = function (callback) {
     var self = this;
 
     self._fragmentDriver.listAssociations(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the association namespace attribute with the given attributeName
    * and the given namespaceURI within the association with the given GUID.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationNamespaceAttribute
    *
@@ -1120,24 +1120,24 @@ define([
    *                    association namespace attribute with the given
    *                    attributeName and the given namespaceURI within the
    *                    association with the given GUID.
-   *&#x2F;
+   */
   self.getAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Adds the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName has already
-   * been added. &lt;br&#x2F;&gt;
+   * been added. &lt;br/&gt;
    *
    * @method addAssociationNamespaceAttribute
    *
@@ -1149,24 +1149,24 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Removes the given attributeName to the association with the given GUID and
    * namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. &lt;br&#x2F;&gt;
+   * attribute. &lt;br/&gt;
    *
    * @method removeAssociationNamespaceAttribute
    *
@@ -1178,21 +1178,21 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns if an association with the given GUID has the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. &lt;br&#x2F;&gt;
+   * null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method hasAssociationNamespace
    *
@@ -1205,22 +1205,22 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the association has the
    *                    given namespaceURI, else false.
-   *&#x2F;
+   */
   self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.hasAssociationNamespace(GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the association namespace attribute with the given attributeName
    * and the given namespaceURI within the association with the given GUID.
    *
    * Throws NullArgumentException if attributeName, attributeValue, GUID, or
-   * namespaceURI is null. &lt;br&#x2F;&gt;
+   * namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if attributeName, attributeValue, GUID, or
-   * namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationNamespaceAttribute
    *
@@ -1233,7 +1233,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI, callback) {
     var self = this;
 
@@ -1242,14 +1242,14 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Returns an array of the association namespace attributes with the given
    * attributeName and the given namespaceURI within the association with
    * the given GUID.
    *
-   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method listAssociationNamespaceAttributes
    *
@@ -1264,20 +1264,20 @@ define([
    *                    an object with the error that occurred.
    *  @param {String[]} Array of the attributes within the association namespace
    *                    with the given namespaceURI.
-   *&#x2F;
+   */
   self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.listAssociationNamespaceAttributes(GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the association namespace data for an association with the given GUID
    * and the given namespaceURI.
    *
-   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br&#x2F;&gt;
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if GUID, namespaceURI is null. &lt;br/&gt;
+   * Throws InvalidTypeException if GUID, namespaceURI is not a String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method getAssociationNamespaceData
    *
@@ -1294,21 +1294,21 @@ define([
    *                    namespace data if the association namespace data
    *                    exists, else returns null. If a string is returned
    *                    it will be valid fragmentNamespaceData.
-   *&#x2F;
+   */
   self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
     var self = this;
 
     self._fragmentDriver.getAssociationNamespaceData(GUID, namespaceURI, callback);
   };
 
-  &#x2F;**
+  /**
    * Sets the association namespace data for an association with the given GUID
    * and given namespaceURI using the given data.
    *
-   * Throws NullArgumentException if data, GUID, or namespaceURI is null. &lt;br&#x2F;&gt;
+   * Throws NullArgumentException if data, GUID, or namespaceURI is null. &lt;br/&gt;
    * Throws InvalidTypeException if data, GUID, or namespaceURI is not a
-   * String. &lt;br&#x2F;&gt;
-   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br&#x2F;&gt;
+   * String. &lt;br/&gt;
+   * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
    *
    * @method setAssociationNamespaceData
    *
@@ -1322,7 +1322,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
     var self = this;
 
@@ -1331,7 +1331,7 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Uses the specified ItemDriver and SyncDriver to synchronize the
    * local ItemMirror object changes. This is an implmentation of Synchronization
    * Driver which modifies the XooML Fragment according to the real structure
@@ -1343,14 +1343,14 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.sync = function (callback) {
     var self = this;
 
     self._syncDriver.sync(callback);
   };
 
-  &#x2F;**
+  /**
    * Checks the local GUID and the remote GUID to see if the local fragment
    * is out of date with the remote fragment.
    *
@@ -1362,7 +1362,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {Boolean}  callback.isCurrent True if the local GUID matches
    *                    the remote GUID, else false.
-   *&#x2F;
+   */
   self.isCurrent = function (callback) {
     var self = this, inMemoryGUID, fileGUID, xooMLFragmentURI;
 
@@ -1389,7 +1389,7 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Reloads the XooML Fragment
    *
    * @method refresh
@@ -1398,7 +1398,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *&#x2F;
+   */
   self.refresh = function (callback) {
     var self = this, xooMLFragmentPath;
 
@@ -1416,7 +1416,7 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Returns a string representation of self.
    *
    * @method toString
@@ -1427,14 +1427,14 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.toString String representation of self
    *                    wrapper.
-   *&#x2F;
+   */
   self.toString = function (callback) {
     var self = this;
 
     self._fragmentDriver.toString(callback);
   };
 
-  &#x2F;**
+  /**
    * Returns the parent ItemMirror if this ItemMirror has a parent.
    *
    * @method getParent
@@ -1446,7 +1446,7 @@ define([
    *  @param {String}   callback.parent Parent ItemMirror of this
    *                    ItemMirror object if it has a parent, else
    *                    null.
-   *&#x2F;
+   */
   self.getParent = function (callback) {
     var self = this;
 
@@ -1555,12 +1555,12 @@ define([
     return new SyncDriver(self);
   };
 
-  &#x2F;**
+  /**
    * Async Methods for loading the XooML Fragment String
    *
    * @method loadXooMLFragmentString
    * @private
-   *&#x2F;
+   */
   self._loadXooMLFragmentString = function (uri, callback) {
     var self = this;
 
@@ -1590,12 +1590,12 @@ define([
     });
   };
 
-  &#x2F;**
+  /**
    * Async Methods for getting list of items
    *
    * @method getItemList
    * @private
-   *&#x2F;
+   */
   self._getItemList = function (options, callback) {
     var self = this;
 
@@ -1693,7 +1693,7 @@ define([
     var self = this;
 
     self._xooMLDriver.checkExisted(xooMLFragmentURI, function (error, result) {
-      &#x2F;&#x2F; TODO handle error for already existing file, throw others
+      // TODO handle error for already existing file, throw others
 
       if (result === true) {
         return callback(XooMLExceptions.itemAlreadyExists);
@@ -1706,7 +1706,7 @@ define([
   self._createAssociationSimple = function (GUID, options, callback) {
     var self = this;
 
-    &#x2F;&#x2F; Case 1
+    // Case 1
     return self._save(function (error) {
       return callback(error, GUID);
     });
@@ -1716,12 +1716,12 @@ define([
     var self = this;
 
     if (!options.localItemRequested) {
-      &#x2F;&#x2F; Case 2
+      // Case 2
       return self._save(function (error) {
         return callback(error, GUID);
       });
     } else {
-      &#x2F;&#x2F; Case 3
+      // Case 3
       return callback(XooMLExceptions.notImplemented);
     }
   };
@@ -1731,9 +1731,9 @@ define([
     var self = this;
 
     if (!options.localItemRequested) {
-      &#x2F;&#x2F; Case 4
+      // Case 4
     } else {
-      &#x2F;&#x2F; Case 5
+      // Case 5
     }
   };
 
@@ -1741,9 +1741,9 @@ define([
     var self = this;
 
     if (!options.isGroupingItem) {
-      return self._createAssociationNonGroupingItem(GUID, options, callback); &#x2F;&#x2F; Case 6
+      return self._createAssociationNonGroupingItem(GUID, options, callback); // Case 6
     } else {
-      return self._createAssociationGroupingItem(GUID, options, callback); &#x2F;&#x2F; Case 7
+      return self._createAssociationGroupingItem(GUID, options, callback); // Case 7
     }
   };
 
@@ -1838,7 +1838,7 @@ define([
       if (result === true) {
         return self._handleExistingAssociationDelete(GUID, localItem, callback);
       } else {
-        &#x2F;&#x2F; file that should exist does not
+        // file that should exist does not
         return callback(XooMLExceptions.invalidState);
       }
     });
@@ -1856,13 +1856,13 @@ define([
         </div>
     </div>
 </div>
-<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
-<script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<script src="..&#x2F;assets/../api.js"></script>
-<script src="..&#x2F;assets/js/api-filter.js"></script>
-<script src="..&#x2F;assets/js/api-list.js"></script>
-<script src="..&#x2F;assets/js/api-search.js"></script>
-<script src="..&#x2F;assets/js/apidocs.js"></script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
 </body>
 </html>
