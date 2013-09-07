@@ -3,7 +3,7 @@
  * reading and writing XooML fragments. This is an implementation of XooML utility
  * using Dropbox as the storage.
  *
- * @class XooMLU
+ * @class XooMLDriver
  * @constructor
  *
  * @param {Object} options Data to construct a new XooMLU with

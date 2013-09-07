@@ -10,7 +10,7 @@
             "name": "scripts/FragmentDriver.js",
             "modules": {},
             "classes": {
-                "FragmentWrapper": 1
+                "FragmentDriver": 1
             },
             "fors": {},
             "namespaces": {}
@@ -19,7 +19,7 @@
             "name": "scripts/ItemDriver.js",
             "modules": {},
             "classes": {
-                "ItemU": 1
+                "ItemDriver": 1
             },
             "fors": {},
             "namespaces": {}
@@ -55,7 +55,7 @@
             "name": "scripts/XooMLDriver.js",
             "modules": {},
             "classes": {
-                "XooMLU": 1
+                "XooMLDriver": 1
             },
             "fors": {},
             "namespaces": {}
@@ -95,9 +95,9 @@
     },
     "modules": {},
     "classes": {
-        "FragmentWrapper": {
-            "name": "FragmentWrapper",
-            "shortname": "FragmentWrapper",
+        "FragmentDriver": {
+            "name": "FragmentDriver",
+            "shortname": "FragmentDriver",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -161,9 +161,9 @@
                 }
             ]
         },
-        "ItemU": {
-            "name": "ItemU",
-            "shortname": "ItemU",
+        "ItemDriver": {
+            "name": "ItemDriver",
+            "shortname": "ItemDriver",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -331,9 +331,9 @@
             "description": "Configuration variables for XooML.js",
             "static": 1
         },
-        "XooMLU": {
-            "name": "XooMLU",
-            "shortname": "XooMLU",
+        "XooMLDriver": {
+            "name": "XooMLDriver",
+            "shortname": "XooMLDriver",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -418,7 +418,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -430,7 +430,7 @@
                 "description": "XooML schema version.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -445,7 +445,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -457,7 +457,7 @@
                 "description": "XooML schema location.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -472,7 +472,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -484,7 +484,7 @@
                 "description": "A URI pointing to item described by the metadata of a\n                 fragment if it exists, else returns null.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -513,7 +513,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -540,7 +540,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -555,7 +555,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -567,7 +567,7 @@
                 "description": "Sync utility.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -582,7 +582,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -594,7 +594,7 @@
                 "description": "XooML utility.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -609,7 +609,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -621,7 +621,7 @@
                 "description": "GUID Guid",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -633,7 +633,7 @@
                 "description": "Array of attributes within the the fragment common.",
                 "type": "String[]"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -652,7 +652,7 @@
                 "description": "Display name of the association with the given GUID.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -672,7 +672,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -691,7 +691,7 @@
                 "description": "XooML fragment of the association with the given GUID.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -711,7 +711,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -730,7 +730,7 @@
                 "description": "XooML utility of the association with the given GUID.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -750,7 +750,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -769,7 +769,7 @@
                 "description": "Local item of the association with the given GUID.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -789,7 +789,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -821,7 +821,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -853,7 +853,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -872,7 +872,7 @@
                 "description": "Association common attributes within the association",
                 "type": "String[]"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -896,7 +896,7 @@
                 "description": "Value of the given attributeName within the given\n                 namespaceURI if the given attributeName exists, else\n                 returns null.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -933,7 +933,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -965,7 +965,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -997,7 +997,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1022,7 +1022,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1041,7 +1041,7 @@
                 "description": "Array of attributes within the fragmentNamespaceData with\n                the given namespaceURI.",
                 "type": "String[]"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1060,7 +1060,7 @@
                 "description": "Fragment namespace data with the given namespaceURI.\n                 If a string is returned it will be valid\n                 fragmentNamespaceData.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1080,7 +1080,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1131,7 +1131,7 @@
                 "description": "GUID of the newly created association.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1146,7 +1146,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1177,7 +1177,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1206,7 +1206,7 @@
                 "description": "Value of association namespace attribute with the given\n                 attributeName and the given namespaceURI within the\n                 association with the given GUID.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1243,7 +1243,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1280,7 +1280,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1310,7 +1310,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1347,7 +1347,7 @@
                     ]
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1371,7 +1371,7 @@
                 "description": "Array of the attributes within the association namespace\n                   with the given namespaceURI.",
                 "type": "String[]"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1395,7 +1395,7 @@
                 "description": "Association namespace data if the association namespace data\n                 exists, else returns null. If a string is returned it will be\n                 valid fragmentNamespaceData.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1420,7 +1420,7 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1432,7 +1432,7 @@
                 "description": "String representation of self wrapper.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1453,7 +1453,7 @@
                 "description": "TODO",
                 "type": "Object"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1467,7 +1467,7 @@
                 "description": "TODO GUID of the",
                 "type": "Object"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1509,7 +1509,7 @@
                     "type": "Object"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1540,7 +1540,7 @@
                 "description": "TODO",
                 "type": "Object"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1576,7 +1576,7 @@
                 "description": "Value of the given attributeName if the attributeName\n                 exists, else null.",
                 "type": "String"
             },
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/FragmentDriver.js",
@@ -1613,13 +1613,13 @@
                     "type": "String"
                 }
             ],
-            "class": "FragmentWrapper"
+            "class": "FragmentDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
             "line": 36,
             "description": "Constructs a ItemDriver for reading/writing Item Storage",
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1639,7 +1639,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1664,7 +1664,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1684,7 +1684,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1709,7 +1709,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1729,7 +1729,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemDriver.js",
@@ -1754,7 +1754,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "ItemU"
+            "class": "ItemDriver"
         },
         {
             "file": "scripts/ItemMirror.js",
@@ -3170,7 +3170,7 @@
             "file": "scripts/XooMLDriver.js",
             "line": 30,
             "description": "Constructs a XooMLDriver for reading/writing XooML fragment.",
-            "class": "XooMLU"
+            "class": "XooMLDriver"
         },
         {
             "file": "scripts/XooMLDriver.js",
@@ -3190,7 +3190,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "XooMLU"
+            "class": "XooMLDriver"
         },
         {
             "file": "scripts/XooMLDriver.js",
@@ -3215,7 +3215,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "XooMLU"
+            "class": "XooMLDriver"
         },
         {
             "file": "scripts/XooMLDriver.js",
@@ -3235,7 +3235,7 @@
                     "type": "Function"
                 }
             ],
-            "class": "XooMLU"
+            "class": "XooMLDriver"
         },
         {
             "file": "scripts/XooMLExceptions.js",

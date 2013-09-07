@@ -3,7 +3,7 @@
  * creating and deleting items. This is an implementation of item utility
  * using Dropbox as the item storage.
  *
- * @class ItemU
+ * @class ItemDriver
  * @constructor
  *
  * @param {Object} options Data to construct a new ItemU with

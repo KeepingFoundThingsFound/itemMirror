@@ -10,7 +10,7 @@
  * Throws MissingParameterException when options is not null and does not have
  * the necessary arguments for any given case. <br/>
  *
- * @class FragmentWrapper
+ * @class FragmentDriver
  * @constructor
  * @async
  *
