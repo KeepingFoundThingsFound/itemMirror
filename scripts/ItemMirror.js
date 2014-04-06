@@ -286,6 +286,55 @@ define([
   };
 
   /**
+   * Returns a publicly available URL hosted at dropbox for an associated non-grouping item
+   * @method getURLForAssociatedNonGroupingItem
+   *
+   * @param {String} GUID GUID of the association to get
+   * @param {Function} callback Function to execute once finished
+   *  @param {Object} callback.error Null if no error has occurred
+   *                  in executing this function, else an contains
+   *                  an object with the error that occurred.
+   *  @param {String} callback.publicURL Local item of the association
+   *                  with the given GUID.
+   */
+  self.getURLForAssociatedNonGroupingItem = function (GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
+      var path;
+      if (error) {
+        return callback(error);
+      }
+      path = PathDriver.joinPath(self._groupingItemURI, localItem);
+      
+      self._itemDriver.checkExisted(path, function (error, result) {
+        if (error) {
+          return callback(error);
+        }
+        if (result === true) {
+          return self._itemDriver.getURL(path, function (error, publicURL) {
+            if (error) {
+              return callback(error);
+            }
+            return callback(false, publicURL);
+          });
+        }else {
+          //file that should exist does not
+          return callback(XooMLExceptions.invalidState);
+        }
+      });
+    });
+  };
+  
+  /**
    * Returns the XooML driver.
    *
    * @method getXooMLDriver

@@ -91,7 +91,7 @@ define([
 
   /**
    * Creates a grouping item at the location
-   * @method createGroupngItem
+   * @method createGroupingItem
    * @param {String} path the path to the location that the grouping item will be created
    * @param {Function} callback Function to be called when self function is finished with it's operation.
    */
@@ -159,6 +159,22 @@ define([
     });
   };
 
+  /**
+   * Get publicly readable download url for a non-grouping item from Dropbox website.
+   * @method getURL
+   * @param {String} path the path to the location that the non-grouping item is located
+   * @param {Function} callback Function to be called when self function is finished with it's operation.
+  */
+  self.getURL = function (path, callback){
+    var self = this;
+    
+    self._dropboxClient.makeUrl(path, null, function (error, publicURL){
+        if (error) {
+          return self._showDropboxError(error, callback);
+        }
+         return callback(false, publicURL.url);
+    });
+  };
 
   /**
    * Lists the items under the grouping item

@@ -1,5 +1,5 @@
 /*
- XooML.js - Version 0.8.0
+ ItemMirror - Version 0.8.0
 
  Copyright 2013, William Paul Jones and the Keeping Found Things Found team.
 
@@ -15,8 +15,7 @@
  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE. For commercial permissions, contact williampauljones@gmail.com
-*/
-/**
+*//**
  * Collection of exceptions associated with the XooML tools.
  *
  * @class XooMLExceptions
@@ -537,7 +536,7 @@ define('XooMLAssociation.js',[
  * Throws MissingParameterException when options is not null and does not have
  * the necessary arguments for any given case. <br/>
  *
- * @class FragmentWrapper
+ * @class FragmentDriver
  * @constructor
  * @async
  *
@@ -2100,7 +2099,7 @@ define('FragmentDriver.js',[
  * creating and deleting items. This is an implementation of item utility
  * using Dropbox as the item storage.
  *
- * @class ItemU
+ * @class ItemDriver
  * @constructor
  *
  * @param {Object} options Data to construct a new ItemU with
@@ -2188,7 +2187,7 @@ define('ItemDriver.js',[
 
   /**
    * Creates a grouping item at the location
-   * @method createGroupngItem
+   * @method createGroupingItem
    * @param {String} path the path to the location that the grouping item will be created
    * @param {Function} callback Function to be called when self function is finished with it's operation.
    */
@@ -2256,6 +2255,22 @@ define('ItemDriver.js',[
     });
   };
 
+  /**
+   * Get publicly readable download url for a non-grouping item from Dropbox website.
+   * @method getURL
+   * @param {String} path the path to the location that the non-grouping item is located
+   * @param {Function} callback Function to be called when self function is finished with it's operation.
+  */
+  self.getURL = function (path, callback){
+    var self = this;
+    
+    self._dropboxClient.makeUrl(path, null, function (error, publicURL){
+        if (error) {
+          return self._showDropboxError(error, callback);
+        }
+         return callback(false, publicURL.url);
+    });
+  };
 
   /**
    * Lists the items under the grouping item
@@ -2321,7 +2336,7 @@ define('ItemDriver.js',[
  * reading and writing XooML fragments. This is an implementation of XooML utility
  * using Dropbox as the storage.
  *
- * @class XooMLU
+ * @class XooMLDriver
  * @constructor
  *
  * @param {Object} options Data to construct a new XooMLU with
@@ -2882,6 +2897,55 @@ define('ItemMirror',[
     self._fragmentDriver.getSyncDriver(callback);
   };
 
+  /**
+   * Returns a publicly available URL hosted at dropbox for an associated non-grouping item
+   * @method getURLForAssociatedNonGroupingItem
+   *
+   * @param {String} GUID GUID of the association to get
+   * @param {Function} callback Function to execute once finished
+   *  @param {Object} callback.error Null if no error has occurred
+   *                  in executing this function, else an contains
+   *                  an object with the error that occurred.
+   *  @param {String} callback.publicURL Local item of the association
+   *                  with the given GUID.
+   */
+  self.getURLForAssociatedNonGroupingItem = function (GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
+      var path;
+      if (error) {
+        return callback(error);
+      }
+      path = PathDriver.joinPath(self._groupingItemURI, localItem);
+      
+      self._itemDriver.checkExisted(path, function (error, result) {
+        if (error) {
+          return callback(error);
+        }
+        if (result === true) {
+          return self._itemDriver.getURL(path, function (error, publicURL) {
+            if (error) {
+              return callback(error);
+            }
+            return callback(false, publicURL);
+          });
+        }else {
+          //file that should exist does not
+          return callback(XooMLExceptions.invalidState);
+        }
+      });
+    });
+  };
+  
   /**
    * Returns the XooML driver.
    *
@@ -4341,3 +4405,4 @@ define('ItemMirror',[
 
   return ItemMirror;
 });
+
