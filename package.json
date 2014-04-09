@@ -1,7 +1,8 @@
 {
-  "name" : "my-project",
-  "version" : "1.0.0",
+  "name" : "ItemMirror",
+  "version" : "0.8.1",
   "dependencies" : {
     //"async" : "1.0.0"
+    "require.js" : "1.0.0"
   }
 }

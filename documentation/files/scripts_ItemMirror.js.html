@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>scripts/ItemMirror.js - ItemMirror</title>
+    <title>scripts\ItemMirror.js - ItemMirror</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.8.0</em>
+            <em>API Docs for: 0.8.1</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -41,21 +41,7 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/FragmentDriver.html">FragmentDriver</a></li>
-            
-                <li><a href="../classes/ItemDriver.html">ItemDriver</a></li>
-            
                 <li><a href="../classes/ItemMirror.html">ItemMirror</a></li>
-            
-                <li><a href="../classes/XooMLAssociation.html">XooMLAssociation</a></li>
-            
-                <li><a href="../classes/XooMLConfig.html">XooMLConfig</a></li>
-            
-                <li><a href="../classes/XooMLDriver.html">XooMLDriver</a></li>
-            
-                <li><a href="../classes/XooMLExceptions.html">XooMLExceptions</a></li>
-            
-                <li><a href="../classes/XooMLUtil.html">XooMLUtil</a></li>
             
             </ul>
 
@@ -96,7 +82,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: scripts/ItemMirror.js</h1>
+                        <h1 class="file-heading">File: scripts\ItemMirror.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -292,34 +278,12 @@ define([
     return callback(false, displayName);
   };
 
-  /**
-   * Returns the XooML schema version.
-   *
-   * @method getSchemaVersion
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.schemaVersion XooML schema version.
-   */
   self.getSchemaVersion = function (callback) {
     var self = this;
 
     self._fragmentDriver.getSchemaVersion(callback);
   };
 
-  /**
-   * Returns the XooML schema location.
-   *
-   * @method getSchemaLocation
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.schemaVersion XooML schema location.
-   */
   self.getSchemaLocation = function (callback) {
     var self = this;
 
@@ -329,7 +293,7 @@ define([
   /**
    * Returns URI pointing to item described by the metadata of a fragment. A URI
    * might point to just about anything that can be interpreted as a grouping
-   * item. For example: a conventional file system folder or a “tag�as
+   * item. For example: a conventional file system folder or a “tag&quot; as
    * supported by any of several applications.
    *
    * @method getItemDescribed
@@ -370,17 +334,6 @@ define([
     self._fragmentDriver.getItemDriver(callback);
   };
 
-  /**
-   * Returns the sync driver URI.
-   *
-   * @method getSyncDriver
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.syncDriver A URI of the sync driver.
-   */
   self.getSyncDriver = function (callback) {
     var self = this;
 
@@ -388,34 +341,60 @@ define([
   };
 
   /**
-   * Returns the XooML driver.
+   * Returns a publicly available URL hosted at dropbox for an associated non-grouping item
+   * @method getURLForAssociatedNonGroupingItem
    *
-   * @method getXooMLDriver
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.xooMLDriver A URI of the XooML driver.
+   * @param {String} GUID GUID of the association to get
+   * @param {Function} callback Function to execute once finished
+   *  @param {Object} callback.error Null if no error has occurred
+   *                  in executing this function, else an contains
+   *                  an object with the error that occurred.
+   *  @param {String} callback.publicURL Local item of the association
+   *                  with the given GUID.
    */
+  self.getURLForAssociatedNonGroupingItem = function (GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
+      var path;
+      if (error) {
+        return callback(error);
+      }
+      path = PathDriver.joinPath(self._groupingItemURI, localItem);
+      
+      self._itemDriver.checkExisted(path, function (error, result) {
+        if (error) {
+          return callback(error);
+        }
+        if (result === true) {
+          return self._itemDriver.getURL(path, function (error, publicURL) {
+            if (error) {
+              return callback(error);
+            }
+            return callback(false, publicURL);
+          });
+        }else {
+          //file that should exist does not
+          return callback(XooMLExceptions.invalidState);
+        }
+      });
+    });
+  };
+  
   self.getXooMLDriver = function (callback) {
     var self = this;
 
     self._fragmentDriver.getXooMLDriver(callback);
   };
 
-  /**
-   * Returns the GUID generated on the last modification to the file.
-   *
-   * @method getGUIDGeneratedOnLastWrite
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.GUIDGeneratedOnLastWrite Gets the GUID
-   *                    generated on last write of this XooML Fragment.
-   */
   self.getGUIDGeneratedOnLastWrite = function (callback) {
     var self = this;
 
@@ -1350,19 +1329,6 @@ define([
     self._syncDriver.sync(callback);
   };
 
-  /**
-   * Checks the local GUID and the remote GUID to see if the local fragment
-   * is out of date with the remote fragment.
-   *
-   * @method isCurrent
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {Boolean}  callback.isCurrent True if the local GUID matches
-   *                    the remote GUID, else false.
-   */
   self.isCurrent = function (callback) {
     var self = this, inMemoryGUID, fileGUID, xooMLFragmentURI;
 

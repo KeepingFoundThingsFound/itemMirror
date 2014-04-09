@@ -1,14 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "FragmentDriver",
-        "ItemDriver",
-        "ItemMirror",
-        "XooMLAssociation",
-        "XooMLConfig",
-        "XooMLDriver",
-        "XooMLExceptions",
-        "XooMLUtil"
+        "ItemMirror"
     ],
     "modules": [],
     "allModules": []
