@@ -158,6 +158,24 @@ define([
       return callback(false, stat);
     });
   };
+  
+  /**
+   * Moves an item
+   * @method moveItem
+   * @param {String} fromPath the path to the file you want moved
+   * @param {String} toPath the GroupingItem path you want the fromPath file moved
+   * @param {Function} callback Function to be called when self function is finished with it's operation.
+   */
+  self.moveItem = function (fromPath, toPath, callback) {
+    var self = this;
+    
+    self._dropboxClient.move(fromPath, toPath, function(error){
+      if (error) {
+        return self._showDropboxError(error, callback);
+      }
+      return callback(false);
+    });
+  };
 
   /**
    * Get publicly readable download url for a non-grouping item from Dropbox website.

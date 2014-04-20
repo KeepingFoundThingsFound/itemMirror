@@ -853,6 +853,74 @@ define([
   };
 
   /**
+   * Cuts (returns path to) the association represented by a given GUID
+   *
+   * Throws NullArgumentException if GUID is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method cutAssociation
+   *
+   * @param {String} GUID GUID of the association to execute once finished.
+   *
+   * @param {Function} callback Function to execute once finished.
+   * @param {Object} callback.error Null if no error Null if no error has occurred
+   *                 in executing this function, else it contains
+   *                 an object with the error that occurred.
+   * @param {String} callback.path path of the 
+   * @param {String} callback.GUID GUID of the association to execute once finished.
+   */
+   self.cutAssociation = function (GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback
+        if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    var path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
+    return callback(false, path, GUID);
+   }
+   
+  /**
+   * Paste (inserts) a cut association represented by a given GUID
+   *
+   * Throws NullArgumentException if GUID is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method pasteAssociation
+   *
+   * @param {String} Path path of the item you want to paste or move
+   * @param {String} GUID GUID of the association to execute once finished.
+   *
+   * @param {Function} callback Function to execute once finished.
+   * @param {Object} callback.error Null if no error Null if no error has occurred
+   *                 in executing this function, else it contains
+   *                 an object with the error that occurred.
+   */
+   self.pasteAssociation = function (path, GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback
+        if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self._itemDriver.moveItem(path, self._groupingItemURI, function(error){
+      if (error) {
+        return callback(error);
+      }
+      return callback(false);
+    });
+   }
+  
+  /**
    * Deletes the association represented by the given GUID.
    *
    * Throws NullArgumentException if GUID is null. <br/>
