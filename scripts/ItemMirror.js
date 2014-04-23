@@ -873,7 +873,7 @@ define([
    self.cutAssociation = function (GUID, callback) {
     var self = this;
     
-    XooMLUtil.checkCallback
+    XooMLUtil.checkCallback(callback);
         if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
     }
@@ -882,7 +882,7 @@ define([
     }
     var path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
     return callback(false, path, GUID);
-   }
+   };
    
   /**
    * Paste (inserts) a cut association represented by a given GUID
@@ -904,8 +904,8 @@ define([
    self.pasteAssociation = function (path, GUID, callback) {
     var self = this;
     
-    XooMLUtil.checkCallback
-        if (!GUID) {
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
     }
     if (!XooMLUtil.isGUID(GUID)) {
@@ -918,7 +918,55 @@ define([
       }
       return callback(false);
     });
-   }
+   };
+  
+  /**
+   * Moves an association to another ItemMirror Object (representing a grouping item)
+   *
+   *
+   * Throws NullArgumentException if GUID is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method moveAssociation
+   *
+   * @param {String} GUID GUID of the item you want to paste or move
+   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
+   *
+   * @param {Function} callback Function to execute once finished.
+   * @param {Object} callback.error Null if no error Null if no error has occurred
+   *                 in executing this function, else it contains
+   *                 an object with the error that occurred.
+   */
+   self.moveAssociation = function (GUID, ItemMirror, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
+      if (error) {
+        return callback(error);
+      }
+      self._fragmentDriver._getAssociation
+        if (!localItem) {
+          //phantom case
+          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
+          self.getAssociationDisplayText(GUID, function(error, displayText){
+            ItemMirror.createAssociation();
+          });
+          
+        }
+        self._handleDataWrapperDeleteAssociation(GUID, localItem, ItemMirror, error, callback);
+      
+    });
+    
+   };
   
   /**
    * Deletes the association represented by the given GUID.
@@ -1662,6 +1710,20 @@ define([
       }
     });
   };
+  
+  self._handleExistingAssociationMove = function (GUID, item, ItemMirror, callback) {
+    var self = this, path;
+
+    path = PathDriver.joinPath(self._groupingItemURI, item);
+
+      self._itemDriver.moveItem(path, ItemMirror._groupingItemURI, function(error){
+        if (error) {
+          return callback(error);
+        }
+         return callback(false);
+      });
+
+  };
 
   self._removeNonGroupingItemThroughAssociation = function (GUID, item, callback) {
     var self = this, path;
@@ -1858,6 +1920,28 @@ define([
       }
     });
   };
+  
+  self._handleDataWrapperMoveAssociation = function (GUID, localItem, ItemMirror, error, callback) {
+    var self = this, path;
+    if ((error)) {
+      return callback(error);
+    }
+    
+    path = PathDriver.joinPath(self._groupingItemURI, localItem);
+    
+    self._itemDriver.checkExisted(path, function (error, result) {
+      if (error) {
+        return callback(error);
+      }
+
+      if (result === true) {
+        return self._handleExistingAssociationMove(GUID, localItem, ItemMirror, callback);
+      } else {
+        // file that should exist does not
+        return callback(XooMLExceptions.invalidState);
+      }
+    });
+  }
 
   return ItemMirror;
 });
