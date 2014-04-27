@@ -190,7 +190,7 @@ define([
     return callback(false, displayName);
   };
 
-  /**
+  /*
    * Returns the XooML schema version.
    *
    * @method getSchemaVersion
@@ -207,7 +207,7 @@ define([
     self._fragmentDriver.getSchemaVersion(callback);
   };
 
-  /**
+  /*
    * Returns the XooML schema location.
    *
    * @method getSchemaLocation
@@ -247,7 +247,7 @@ define([
     self._fragmentDriver.getItemDescribed(callback);
   };
 
-  /**
+  /*
    * Returns the item driver. An item driver supports HTML5 filesystem API. self
    * driver must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
@@ -268,7 +268,7 @@ define([
     self._fragmentDriver.getItemDriver(callback);
   };
 
-  /**
+  /*
    * Returns the sync driver URI.
    *
    * @method getSyncDriver
@@ -334,7 +334,7 @@ define([
     });
   };
   
-  /**
+  /*
    * Returns the XooML driver.
    *
    * @method getXooMLDriver
@@ -1844,29 +1844,31 @@ define([
   };
   
   self._handleExistingAssociationCopy = function (GUID, item, ItemMirror, callback) {
-    var self = this, path;
+    var self = this, pathFrom, pathTo;
 
-    path = PathDriver.joinPath(self._groupingItemURI, item);
-
-      self._itemDriver.copyItem(path, ItemMirror._groupingItemURI, function(error){
-        if (error) {
-          return self._handleSet(error, callback);
-        }
-         return callback(false);
-      });
+    pathFrom = PathDriver.joinPath(self._groupingItemURI, item);
+    pathTo = PathDriver.joinPath(ItemMirror._groupingItemURI, item);
+    
+    self._itemDriver.copyItem(pathFrom, pathTo, function(error){
+      if (error) {
+        return self._handleSet(error, callback);
+      }
+        return callback(false);
+    });
   };
   
   self._handleExistingAssociationMove = function (GUID, item, ItemMirror, callback) {
-    var self = this, path;
+    var self = this, pathFrom, pathTo;
 
-    path = PathDriver.joinPath(self._groupingItemURI, item);
-
-      self._itemDriver.moveItem(path, ItemMirror._groupingItemURI, function(error){
-        if (error) {
-          return self._handleSet(error, callback);
-        }
-         return callback(false);
-      });
+    pathFrom = PathDriver.joinPath(self._groupingItemURI, item);
+    pathTo = PathDriver.joinPath(ItemMirror._groupingItemURI, item);
+    
+    self._itemDriver.moveItem(pathFrom, pathTo, function(error){
+      if (error) {
+        return self._handleSet(error, callback);
+      }
+       return callback(false);
+    });
   };
 
   self._removeNonGroupingItemThroughAssociation = function (GUID, item, callback) {

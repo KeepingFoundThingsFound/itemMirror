@@ -169,7 +169,7 @@ define([
   self.copyItem = function (fromPath, toPath, callback) {
     var self = this;
     
-    self._dropboxClient.move(fromPath, toPath, function(error){
+    self._dropboxClient.copy(fromPath, toPath, function(error){
       if (error) {
         return self._showDropboxError(error, callback);
       }

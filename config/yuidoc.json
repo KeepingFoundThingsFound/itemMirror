@@ -1,13 +1,13 @@
 {
   "name": "ItemMirror",
   "description": "ItemMirror: a library for working with XooML to promote open cross platform tool usage",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "url": "https://bitbucket.org/xooml2team/xooml2",
   "options": {
     "linkNatives": "true",
     "attributesEmit": "true",
     "ignorePaths": ["dependencies", "./.hgcheck/hg-checklink-qJbfof", ".idea", "./ignore", "./test", "./documentation", "./build"],
-    "exclude": "build,XooML,Driver",
+    "exclude": "build,XooMLAssociation.js,XooMLConfig.js,XooMLDriver.js,XooMLExceptions.js,XooMLUtil.js,FragmentDriver.js,ItemDriver.js",
     "paths": "*",
     "outdir": "./documentation"
   }
