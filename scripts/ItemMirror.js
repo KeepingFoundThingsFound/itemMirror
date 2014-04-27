@@ -867,25 +867,57 @@ define([
    * @param {Object} callback.error Null if no error Null if no error has occurred
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
-   * @param {String} callback.path path of the 
+   * @param {String} callback.ItemMirror path of the source ItemMirror
    * @param {String} callback.GUID GUID of the association to execute once finished.
+   * @param {Boolean} callback.cut Whether or not to cut the item and remove the source association
    */
    self.cutAssociation = function (GUID, callback) {
     var self = this;
     
     XooMLUtil.checkCallback(callback);
-        if (!GUID) {
+    if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
     }
     if (!XooMLUtil.isGUID(GUID)) {
       return callback(XooMLExceptions.invalidType);
     }
-    var path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
-    return callback(false, path, GUID);
+    return callback(false, self, GUID, true);
    };
    
   /**
-   * Paste (inserts) a cut association represented by a given GUID
+   * Copies (returns path to) the association represented by a given GUID
+   *
+   * Throws NullArgumentException if GUID is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method copyAssociation
+   *
+   * @param {String} GUID GUID of the association to execute once finished.
+   *
+   * @param {Function} callback Function to execute once finished.
+   * @param {Object} callback.error Null if no error Null if no error has occurred
+   *                 in executing this function, else it contains
+   *                 an object with the error that occurred.
+   * @param {String} callback.ItemMirror path of the source ItemMirror
+   * @param {String} callback.GUID GUID of the association to execute once finished.
+   * @param {Boolean} callback.cut Whether or not to cut the item and remove the source association
+   */
+   self.copyAssociation = function (GUID, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    return callback(false, self, GUID, false);
+   };
+   
+  /**
+   * Paste (inserts) a cut or copy association represented by a given GUID and source ItemMirror
    *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
@@ -893,15 +925,63 @@ define([
    *
    * @method pasteAssociation
    *
-   * @param {String} Path path of the item you want to paste or move
-   * @param {String} GUID GUID of the association to execute once finished.
+   * @param {String} ItemMirror ItemMirror that contains the association you want moved or copied
+   * @param {String} GUID GUID of the association to move or copy
+   * @param {Boolean} Cut Cuts the item, deleting the source Association if set to true. Copies if false.
    *
    * @param {Function} callback Function to execute once finished.
    * @param {Object} callback.error Null if no error Null if no error has occurred
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   self.pasteAssociation = function (path, GUID, callback) {
+   self.pasteAssociation = function (ItemMirror, GUID, cut, callback) {
+    var self = this;
+    
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    if (cut) {
+      ItemMirror.moveAssociation(GUID, self, function(error){
+        if (error) {
+          return callback(error);
+        }
+        return callback(false);
+      });
+    }else{ //copy
+      ItemMirror.duplicateAssociation(GUID, self, function(error){
+        if (error) {
+          return callback(error);
+        }
+        return callback(false);
+      });
+    }
+    
+   };
+  
+    
+  /**
+   * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
+   *
+   *
+   * Throws NullArgumentException if GUID is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method duplicateAssociation
+   *
+   * @param {String} GUID GUID of the source item you wish to copy/duplicate
+   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
+   *
+   * @param {Function} callback Function to execute once finished.
+   * @param {Object} callback.error Null if no error Null if no error has occurred
+   *                 in executing this function, else it contains
+   *                 an object with the error that occurred.
+   */
+   self.duplicateAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
     
     XooMLUtil.checkCallback(callback);
@@ -912,14 +992,42 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self._itemDriver.moveItem(path, self._groupingItemURI, function(error){
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
-      return callback(false);
+        //phantom case
+        if (!localItem) {
+          var options;
+          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
+          self.getAssociationDisplayText(GUID, function(error, displayText){
+            if (error) {
+              return callback(error);
+            }
+            options.displayText = displayText;
+            
+            //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
+            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
+              if (error) {
+                return callback(error);
+              }
+              options.itemURI = associatedItem; 
+            });
+          });
+          //create a new phantom association in destItemMirror
+          ItemMirror.createAssociation(options, function(error, GUID) {
+            if(error) {
+              return callback(error);
+            }
+          });
+          return ItemMirror._save(callback);
+        }
+        
+        self._handleDataWrapperCopyAssociation(GUID, localItem, ItemMirror, error, callback);
+      
     });
+    
    };
-  
   /**
    * Moves an association to another ItemMirror Object (representing a grouping item)
    *
@@ -953,16 +1061,40 @@ define([
       if (error) {
         return callback(error);
       }
-      self._fragmentDriver._getAssociation
+        //phantom case
         if (!localItem) {
-          //phantom case
+          var options;
           //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
           self.getAssociationDisplayText(GUID, function(error, displayText){
-            ItemMirror.createAssociation();
+            if (error) {
+              return callback(error);
+            }
+            options.displayText = displayText;
+            
+            //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
+            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
+              if (error) {
+                return callback(error);
+              }
+              options.itemURI = associatedItem; 
+            });
           });
-          
+          //create a new phantom association in destItemMirror
+          ItemMirror.createAssociation(options, function(error, GUID) {
+            if(error) {
+              return callback(error);
+            }
+            //delete the current phantom association
+            self._fragmentDriver.deleteAssociation(GUID, function (error) {
+              if(error) {
+                return callback(error);
+              }
+            });
+          });
+          return self._save(callback);
         }
-        self._handleDataWrapperDeleteAssociation(GUID, localItem, ItemMirror, error, callback);
+        
+        self._handleDataWrapperMoveAssociation(GUID, localItem, ItemMirror, error, callback);
       
     });
     
@@ -1711,6 +1843,19 @@ define([
     });
   };
   
+  self._handleExistingAssociationCopy = function (GUID, item, ItemMirror, callback) {
+    var self = this, path;
+
+    path = PathDriver.joinPath(self._groupingItemURI, item);
+
+      self._itemDriver.copyItem(path, ItemMirror._groupingItemURI, function(error){
+        if (error) {
+          return self._handleSet(error, callback);
+        }
+         return callback(false);
+      });
+  };
+  
   self._handleExistingAssociationMove = function (GUID, item, ItemMirror, callback) {
     var self = this, path;
 
@@ -1718,11 +1863,10 @@ define([
 
       self._itemDriver.moveItem(path, ItemMirror._groupingItemURI, function(error){
         if (error) {
-          return callback(error);
+          return self._handleSet(error, callback);
         }
          return callback(false);
       });
-
   };
 
   self._removeNonGroupingItemThroughAssociation = function (GUID, item, callback) {
@@ -1920,6 +2064,28 @@ define([
       }
     });
   };
+  
+  self._handleDataWrapperCopyAssociation = function (GUID, localItem, ItemMirror, error, callback) {
+    var self = this, path;
+    if ((error)) {
+      return callback(error);
+    }
+    
+    path = PathDriver.joinPath(self._groupingItemURI, localItem);
+    
+    self._itemDriver.checkExisted(path, function (error, result) {
+      if (error) {
+        return callback(error);
+      }
+
+      if (result === true) {
+        return self._handleExistingAssociationCopy(GUID, localItem, ItemMirror, callback);
+      } else {
+        // file that should exist does not
+        return callback(XooMLExceptions.invalidState);
+      }
+    });
+  }
   
   self._handleDataWrapperMoveAssociation = function (GUID, localItem, ItemMirror, error, callback) {
     var self = this, path;

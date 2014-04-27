@@ -159,6 +159,24 @@ define([
     });
   };
   
+    /**
+   * Copies an item in the fashion of moveItem
+   * @method copyItem
+   * @param {String} fromPath the path to the file you want copied
+   * @param {String} toPath the GroupingItem path you want the fromPath file copied to
+   * @param {Function} callback Function to be called when self function is finished with it's operation.
+   */
+  self.copyItem = function (fromPath, toPath, callback) {
+    var self = this;
+    
+    self._dropboxClient.move(fromPath, toPath, function(error){
+      if (error) {
+        return self._showDropboxError(error, callback);
+      }
+      return callback(false);
+    });
+  };
+  
   /**
    * Moves an item
    * @method moveItem
