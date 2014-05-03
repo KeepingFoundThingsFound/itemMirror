@@ -998,7 +998,7 @@ define([
       }
         //phantom case
         if (!localItem) {
-          var options;
+          var options = {};
           //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
           self.getAssociationDisplayText(GUID, function(error, displayText){
             if (error) {
@@ -1048,7 +1048,7 @@ define([
    */
    self.moveAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
-    
+    console.log("Initiating Move");
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
@@ -1063,24 +1063,23 @@ define([
       }
         //phantom case
         if (!localItem) {
-          var options;
+          var options = {};
           //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
           self.getAssociationDisplayText(GUID, function(error, displayText){
             if (error) {
               return callback(error);
             }
             options.displayText = displayText;
-            
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
             self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
-              options.itemURI = associatedItem; 
+              options.itemURI = associatedItem;
             });
           });
           //create a new phantom association in destItemMirror
-          ItemMirror.createAssociation(options, function(error, GUID) {
+          ItemMirror.createAssociation(options, function(error, newGUID) {
             if(error) {
               return callback(error);
             }
@@ -1089,6 +1088,7 @@ define([
               if(error) {
                 return callback(error);
               }
+              return self._save(callback);
             });
           });
           return self._save(callback);
