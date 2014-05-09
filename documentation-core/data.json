@@ -6,11 +6,74 @@
         "url": "https://bitbucket.org/xooml2team/xooml2"
     },
     "files": {
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "modules": {},
+            "classes": {
+                "FragmentDriver": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "modules": {},
+            "classes": {
+                "ItemDriver": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js": {
             "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
             "modules": {},
             "classes": {
                 "ItemMirror": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLAssociation.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLAssociation.js",
+            "modules": {},
+            "classes": {
+                "XooMLAssociation": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLConfig.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLConfig.js",
+            "modules": {},
+            "classes": {
+                "XooMLConfig": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "modules": {},
+            "classes": {
+                "XooMLDriver": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "modules": {},
+            "classes": {
+                "XooMLExceptions": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js": {
+            "name": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "modules": {},
+            "classes": {
+                "XooMLUtil": 1
             },
             "fors": {},
             "namespaces": {}
@@ -32,6 +95,104 @@
     },
     "modules": {},
     "classes": {
+        "FragmentDriver": {
+            "name": "FragmentDriver",
+            "shortname": "FragmentDriver",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1,
+            "description": "Constructs a FragmentWrapper for a XooML fragment. In the following cases.\n\nCase 1: xooMLFragmentString is given and is used as the XooMLFragment. <br/>\nCase 2: associations, xooMLUtilityURI, itemUtilityURI, syncUtilityURI,\ngroupingItemURI are given and used to create a new XooMLFragment with\nthe given data.\n\nThrows NullArgumentException when options is null. <br/>\nThrows MissingParameterException when options is not null and does not have\nthe necessary arguments for any given case. <br/>",
+            "is_constructor": 1,
+            "async": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Data to construct a new FragmentWrapper with",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "xooMLFragmentString",
+                            "description": "XML string representing a XooML2\n                  fragment. Required for case 1.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "associations",
+                            "description": "List of associations for\n         the newly constructed XooMLFragment in case 2. Required in Case 2.",
+                            "type": "XooMLAssociation[]"
+                        },
+                        {
+                            "name": "xooMLUtilityURI",
+                            "description": "URI for the XooMLUtility for the\n         newly constructed XooMLFragment in case 2. Required in Case 2.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "itemUtilityURI",
+                            "description": "URI for the ItemUtility for the\n         newly constructed XooMLFragment in case 2. Required in Case 2.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "syncUtilityURI",
+                            "description": "URI for the SyncUtility for the\n         newly constructed XooMLFragment in case 2. Required in Case 2.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "groupingItemURI",
+                            "description": "URI for the Grouping Item for the\n         newly constructed XooMLFragment in case 2. Required in Case 2.",
+                            "type": "String"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "callback function",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error to the callback",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ]
+        },
+        "ItemDriver": {
+            "name": "ItemDriver",
+            "shortname": "ItemDriver",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 1,
+            "description": "An item utility interacts with the item storage and is responsible for\ncreating and deleting items. This is an implementation of item utility\nusing Dropbox as the item storage.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Data to construct a new ItemU with",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "utilityURI",
+                            "description": "URI of the utility",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dropboxClient",
+                            "description": "Authenticated dropbox client",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ]
+        },
         "ItemMirror": {
             "name": "ItemMirror",
             "shortname": "ItemMirror",
@@ -121,9 +282,1550 @@
                     ]
                 }
             ]
+        },
+        "XooMLAssociation": {
+            "name": "XooMLAssociation",
+            "shortname": "XooMLAssociation",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLAssociation.js",
+            "line": 1,
+            "description": "XooMLAssociation is a minimal interface to represent a XooML2 association\nwithin a fragment.\n\nThrows NullArgumentException when GUID, name, or isUpgradeable is null. <br/>\nThrows InvalidTypeException if GUID, or name is not a String and if\nisUpgradeable is not a boolean. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "isUpgradeable",
+                    "description": "Boolean representing if the association\n                 is upgradeable.",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "displayText",
+                    "description": "Display text of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "associatedItem",
+                    "description": "Associated item of the association.",
+                    "type": "String"
+                }
+            ]
+        },
+        "XooMLConfig": {
+            "name": "XooMLConfig",
+            "shortname": "XooMLConfig",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLConfig.js",
+            "line": 1,
+            "description": "Configuration variables for XooML.js",
+            "static": 1
+        },
+        "XooMLDriver": {
+            "name": "XooMLDriver",
+            "shortname": "XooMLDriver",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "line": 1,
+            "description": "An XooML utility interacts with an storage and is responsible for\nreading and writing XooML fragments. This is an implementation of XooML utility\nusing Dropbox as the storage.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Data to construct a new XooMLU with",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "utilityURI",
+                            "description": "URI of the utility",
+                            "type": "String"
+                        },
+                        {
+                            "name": "dropboxClient",
+                            "description": "Authenticated dropbox client",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ]
+        },
+        "XooMLExceptions": {
+            "name": "XooMLExceptions",
+            "shortname": "XooMLExceptions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 1,
+            "description": "Collection of exceptions associated with the XooML tools.",
+            "static": 1
+        },
+        "XooMLUtil": {
+            "name": "XooMLUtil",
+            "shortname": "XooMLUtil",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 1,
+            "description": "Collection of type checking, exception throwing, utility methods for the\nXooML tools.",
+            "static": 1
         }
     },
     "classitems": [
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 109,
+            "description": "Updates the ETag.",
+            "itemtype": "method",
+            "name": "updateETag",
+            "access": "private",
+            "tagname": "updateETag",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "GUID",
+                            "description": "GUID from the new ETag.",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 130,
+            "description": "Returns the XooML schema version.",
+            "itemtype": "method",
+            "name": "getSchemaVersion",
+            "return": {
+                "description": "XooML schema version.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 144,
+            "description": "Sets the XooML schema version.\n\nThrows NullArgumentException if schemaVersion is null. <br/>\nThrows InvalidTypeException if schemaVersion is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setSchemaVersion",
+            "params": [
+                {
+                    "name": "schemaVersion",
+                    "description": "Schema version to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 161,
+            "description": "Returns the XooML schema location.",
+            "itemtype": "method",
+            "name": "getSchemaLocation",
+            "return": {
+                "description": "XooML schema location.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 175,
+            "description": "Sets the XooML schema location.\n\nThrows NullArgumentException if schemaLocation is null. <br/>\nThrows InvalidTypeException if schemaLocation is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setSchemaLocation",
+            "params": [
+                {
+                    "name": "schemaLocation",
+                    "description": "Schema location to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 192,
+            "description": "Returns URI pointing to item described by the metadata of a fragment. A URI\nmight point to just about anything that can be interpreted as a grouping\nitem. For example: a conventional file system folder or a “tag's\nsupported by any of several applications.",
+            "itemtype": "method",
+            "name": "getItemDescribed",
+            "return": {
+                "description": "A URI pointing to item described by the metadata of a\n                 fragment if it exists, else returns null.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 210,
+            "description": "Sets the item described by self fragment.\n\nThrows NullArgumentException if itemDescribed is null. <br/>\nThrows InvalidTypeException if itemDescribed is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setItemDescribed",
+            "async": 1,
+            "params": [
+                {
+                    "name": "itemDescribed",
+                    "description": "Item described to be set.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "callback function",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "The error to the callback",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 230,
+            "description": "Returns the item utility. An item utility supports HTML5 filesystem API. self\nutility must work hand in glove with SyncU. There is no exclusive control\nover items as stored in the dataStore so need to view and synchronize.\nInvoked directly to Open and Close. Delete, create. Invoked indirectly via\nUI.",
+            "itemtype": "method",
+            "name": "getItemDriver",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "itemUtility",
+                            "description": "A URI of the item utility.",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 252,
+            "description": "Sets the item utility. An item utility supports HTML5 filesystem API. self\nutility must work hand in glove with SyncU. There is no exclusive control\nover items as stored in the dataStore so need to view and synchronize.\nInvoked directly to Open and Close. Delete, create. Invoked indirectly via\nUI.\n\nThrows NullArgumentException if itemUtility is null. <br/>\nThrows InvalidTypeException if itemUtility is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setItemUtility",
+            "params": [
+                {
+                    "name": "itemUtility",
+                    "description": "Item utility to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 273,
+            "description": "Returns the sync utility.",
+            "itemtype": "method",
+            "name": "getSyncUtility",
+            "return": {
+                "description": "Sync utility.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 287,
+            "description": "Sets the sync utility.\n\nThrows NullArgumentException if syncUtility is null. <br/>\nThrows InvalidTypeException if syncUtility is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setSyncUtility",
+            "params": [
+                {
+                    "name": "syncUtility",
+                    "description": "Item utility to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 304,
+            "description": "Returns the XooML utility.",
+            "itemtype": "method",
+            "name": "getXooMLUtility",
+            "return": {
+                "description": "XooML utility.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 318,
+            "description": "Sets the XooML utility.\n\nThrows NullArgumentException if xooMlUtility is null. <br/>\nThrows InvalidTypeException if xooMlUtility is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setXooMLUtility",
+            "params": [
+                {
+                    "name": "xooMlUtility",
+                    "description": "Item utility to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 335,
+            "description": "Returns the GUID generated on the last modification to the file.",
+            "itemtype": "method",
+            "name": "getGUIDGeneratedOnLastWrite",
+            "return": {
+                "description": "GUID Guid",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 348,
+            "description": "Returns an array of the attributes within the fragment common.",
+            "itemtype": "method",
+            "name": "listFragmentCommonAttributes",
+            "return": {
+                "description": "Array of attributes within the the fragment common.",
+                "type": "String[]"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 361,
+            "description": "Returns the display text for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationDisplayText",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Display name of the association with the given GUID.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 380,
+            "description": "Sets the display name for the association with the given GUID.\n\nThrows NullArgumentException if GUID or displayName is null. <br/>\nThrows InvalidTypeException if GUID or displayName is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationDisplayName",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "displayName",
+                    "description": "Display name to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 399,
+            "description": "Returns the XooML fragment for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationAssociatedXooMLFragment",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "XooML fragment of the association with the given GUID.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 419,
+            "description": "Sets the XooML fragment for the association with the given GUID.\n\nThrows NullArgumentException if GUID or xooMLFragment is null. <br/>\nThrows InvalidTypeException if GUID or xooMLFragment is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationAssociatedXooMLFragment",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "associatedXooMLFragment",
+                    "description": "Fragment XooML fragment to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 439,
+            "description": "Returns the XooML utility for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationXooMLUtility",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "XooML utility of the association with the given GUID.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 459,
+            "description": "Sets the XooML utility for the association with the given GUID.\n\nThrows NullArgumentException if GUID or xooMLUtility is null. <br/>\nThrows InvalidTypeException if GUID or xooMLUtility is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationXooMLUtility",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "xooMLUtility",
+                    "description": "XooML utility to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 478,
+            "description": "Returns the local item for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationLocalItem",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Local item of the association with the given GUID.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 498,
+            "description": "Sets the local item for the association with the given GUID.\n\nThrows NullArgumentException if GUID or localItem is null. <br/>\nThrows InvalidTypeException if GUID or localItem is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationLocalItem",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "localItem",
+                    "description": "Local item to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 517,
+            "description": "Returns the associated item for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationAssociatedItem",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "associatedItem",
+                            "description": "Associated item of the\n                   association with the given GUID.",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 542,
+            "description": "Sets the associated item for the association with the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationAssociatedItem",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to get.",
+                    "type": "String"
+                },
+                {
+                    "name": "associatedItem",
+                    "description": "Associated item to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 565,
+            "description": "Returns an array of the association common attributes within the\nassociation with the given GUID.\n\nThrows NullArgumentException if GUID or localItem is null. <br/>\nThrows InvalidTypeException if GUID or localItem is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "listAssociationCommonAttributes",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to list common attributes for.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Association common attributes within the association",
+                "type": "String[]"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 585,
+            "description": "Returns the value of the given attributeName for the fragmentNamespaceData\nwith the given namespaceURI.\n\nThrows NullArgumentException if attributeName or namespaceURI is null. <br/>\nThrows InvalidTypeException if attributeName or namespaceURI is not a\nString. <br/>",
+            "itemtype": "method",
+            "name": "getFragmentNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace of the given\n                              attributeName.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Value of the given attributeName within the given\n                 namespaceURI if the given attributeName exists, else\n                 returns null.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 609,
+            "description": "Adds the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName has already\nbeen added. <br/>",
+            "itemtype": "method",
+            "name": "addFragmentNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute.",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 639,
+            "description": "Removes the fragment namespace attribute with the given namespaceURI.\n\nThrows NullArgumentException if attributeName, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, or namespaceURI is not\na String. <br/>\nThrows an InvalidStateException when the given attributeName is not an\nattribute. <br/>",
+            "itemtype": "method",
+            "name": "removeFragmentNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 666,
+            "description": "Checks if the fragment has the given namespaceURI.\n\nThrows NullArgumentException if attributeName, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, or namespaceURI is not\na String. <br/>",
+            "itemtype": "method",
+            "name": "Namespace",
+            "params": [
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "result",
+                            "description": "True if the fragment has the\n                   given namespaceURI, else false.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 691,
+            "description": "Sets the value of the given attributeName with the given attributeValue\nfor the fragmentNamespaceData with the given namespaceURI.\n\nThrows NullArgumentException if attributeName, attributeValue, or\nnamespaceURI is null. <br/>\nThrows InvalidTypeException if attributeName, attributeValue, or\nnamespaceURI is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setFragmentNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be set.",
+                    "type": "String"
+                },
+                {
+                    "name": "attributeValue",
+                    "description": "Value of the attribute to be set.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace of the given\n                               attributeName.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 713,
+            "description": "Returns an array of the attributes within the fragmentNamespaceData with the\ngiven namespaceURI.\n\nThrows NullArgumentException if namespaceURI is null. <br/>\nThrows InvalidTypeException if namespaceURI is not a String. <br/>",
+            "itemtype": "method",
+            "name": "listFragmentNamespaceAttributes",
+            "params": [
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace of the given\n                               attributeName.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Array of attributes within the fragmentNamespaceData with\n                the given namespaceURI.",
+                "type": "String[]"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 733,
+            "description": "Returns the fragment namespace data with the given namespaceURI.\n\nThrows NullArgumentException if namespaceURI is null. <br/>\nThrows InvalidTypeException if namespaceURI is not a String. <br/>",
+            "itemtype": "method",
+            "name": "getFragmentNamespaceData",
+            "params": [
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace to be set.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Fragment namespace data with the given namespaceURI.\n                 If a string is returned it will be valid\n                 fragmentNamespaceData.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 753,
+            "description": "Returns the fragment namespace data with the given namespaceURI.\n\nThrows NullArgumentException if namespaceURI or data is null. <br/>\nThrows InvalidTypeException if namespaceURI or data is not a String. <br/>",
+            "itemtype": "method",
+            "name": "setFragmentNamespaceData",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Fragment namespace data to be set. Must be valid\n                namespaceData.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace to be set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 771,
+            "description": "Creates an association based on the given options and the following\ncases.\n\nCase 1: Simple text association declared phantom. <br/>\nCase 2: Link to existing non-grouping item, phantom. <br/>\nCase 3: Link to existing non-grouping item, real. <br/>\nCase 4: Link to existing grouping item, phantom. <br/>\nCase 5: Link to existing grouping item, real. <br/>\nCase 6: Create new local non-grouping item. <br/>\nCase 7: Create new local grouping item. <br/>\n\nThrows NullArgumentException when options, callback is null. <br/>\nThrows InvalidTypeException when options is not an object and callback\nis not a function. <br/>\nThrows MissingParameterException when an argument is missing for an expected\ncase. <br/>",
+            "itemtype": "method",
+            "name": "createAssociation",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Data to create an new association for.",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "displayText.",
+                            "description": "Display text for the association.\n                  Required in all cases.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "itemOrXooMLFragmentURI",
+                            "description": "URI of the item or\n                  XooMLFragment depending on the case. Required for\n                  cases 2, 3, 4 & 5.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "localItemRequested",
+                            "description": "True if the local item is\n                  requested, else false. Required for cases 2, 3, 4, & 5.",
+                            "type": "Boolean"
+                        },
+                        {
+                            "name": "xooMLUtilityURI",
+                            "description": "URI of the XooML utility for the\n                  association. Required for cases 4 & 5.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "itemName",
+                            "description": "Name of the new local\n                  non-grouping/grouping item. Required for cases 6 & 7.",
+                            "type": "String"
+                        },
+                        {
+                            "name": "itemType",
+                            "description": "Type of the new local\n                  non-grouping/grouping item. Required for case 6.",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "GUID of the newly created association.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 848,
+            "description": "Deletes the association represented by the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "deleteAssociation",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to be deleted.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 882,
+            "description": "Lists the GUIDs of each association.",
+            "itemtype": "method",
+            "name": "listAssociations",
+            "return": {
+                "description": "Array of the GUIDs of each association\n                   of the given namespaceURI",
+                "type": "String[]"
+            },
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "GUIDs",
+                            "description": "Array of each association GUID\n                   within given namespaceURI.",
+                            "type": "String[]"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 911,
+            "description": "Returns the association namespace attribute with the given attributeName\nand the given namespaceURI within the association with the given GUID.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association to return attribute from.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace for the association.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Value of association namespace attribute with the given\n                 attributeName and the given namespaceURI within the\n                 association with the given GUID.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 939,
+            "description": "Adds the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName has already\nbeen added. <br/>",
+            "itemtype": "method",
+            "name": "addAssociationNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute.",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 970,
+            "description": "Removes the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName is not an\nattribute. <br/>",
+            "itemtype": "method",
+            "name": "removeAssociationNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute.",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1001,
+            "description": "Sets the association namespace attribute with the given attributeName\nand the given namespaceURI within the association with the given GUID.\n\nThrows NullArgumentException if attributeName, attributeValue, GUID, or\nnamespaceURI is null. <br/>\nThrows InvalidTypeException if attributeName, attributeValue, GUID, or\nnamespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationNamespaceAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be set.",
+                    "type": "String"
+                },
+                {
+                    "name": "attributeValue",
+                    "description": "Value of the attribute to be set",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of association to set attribute for.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace for the association.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1026,
+            "description": "Returns if an association with the given GUID has the given namespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "hasAssociationNamespace",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "URI of the namespace for the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "result",
+                            "description": "True if the association has the\n                   given namespaceURI, else false.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1053,
+            "description": "Returns an array of the association namespace attributes with the given\nattributeName and the given namespaceURI within the association with\nthe given GUID.\n\nThrows NullArgumentException if GUID, namespaceURI is null. <br/>\nThrows InvalidTypeException if GUID, namespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "listAssociationNamespaceAttributes",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of association to list attributes for.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace for the association.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Array of the attributes within the association namespace\n                   with the given namespaceURI.",
+                "type": "String[]"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1076,
+            "description": "Returns the association namespace data for an association with the given GUID\nand the given namespaceURI.\n\nThrows NullArgumentException if GUID, namespaceURI is null. <br/>\nThrows InvalidTypeException if GUID, namespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "getAssociationNamespaceData",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association namespace data to\n                              returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace of the association\n                              namespace data to returned.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Association namespace data if the association namespace data\n                 exists, else returns null. If a string is returned it will be\n                 valid fragmentNamespaceData.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1101,
+            "description": "Sets the association namespace data for an association with the given GUID\nand given namespaceURI using the given data.\n\nThrows NullArgumentException if data, GUID, or namespaceURI is null. <br/>\n Throws InvalidTypeException if data, GUID, or namespaceURI is not a\nString. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
+            "itemtype": "method",
+            "name": "setAssociationNamespaceData",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Association namespace data to set. Must be\n                              valid fragmentNamespaceData.",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association namespace data to set.",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "Name of the namespace of the association\n                              namespace data to set.",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1124,
+            "description": "Returns a string representation of wrapper.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "String representation of self wrapper.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1141,
+            "description": "TODO",
+            "itemtype": "method",
+            "name": "_parseXML",
+            "access": "private",
+            "tagname": "_parseXML",
+            "params": [
+                {
+                    "name": "xml",
+                    "description": "TODO",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "TODO",
+                "type": "Object"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1166,
+            "description": "TODO",
+            "itemtype": "method",
+            "name": "_createXooMLFragment",
+            "access": "private",
+            "tagname": "_createXooMLFragment",
+            "return": {
+                "description": "TODO GUID of the",
+                "type": "Object"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1211,
+            "description": "Creates an association.",
+            "itemtype": "method",
+            "name": "self._createAssociation",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "GUID of the association",
+                    "type": "String"
+                },
+                {
+                    "name": "associationXooMLFragment",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "displayText",
+                    "description": "Display text of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "associatedItem",
+                    "description": "Associated item of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "localItem",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "fragment",
+                    "description": "TODO",
+                    "type": "Object"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1286,
+            "description": "TODO meta function for self._setAttribute, self._listAttributes, self._getAttribute, self._setNamespaceData, self._getNamespaceData\n\nThrows NullArgumentException if elementName is null. <br/>\nThrows InvalidTypeException if GUID, or namespaceURI exists and is not a\nstring. <br/>",
+            "itemtype": "method",
+            "name": "_getOrCreateElement",
+            "access": "private",
+            "tagname": "_getOrCreateElement",
+            "params": [
+                {
+                    "name": "elementName",
+                    "description": "Name of the element",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "TODO",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "TODO",
+                "type": "Object"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1407,
+            "description": "Returns the value of the given attributeName for the common fragment.",
+            "itemtype": "method",
+            "name": "_getAttribute",
+            "access": "private",
+            "tagname": "_getAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "elementName",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "TODO",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Value of the given attributeName if the attributeName\n                 exists, else null.",
+                "type": "String"
+            },
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\FragmentDriver.js",
+            "line": 1433,
+            "description": "Sets the given attributeName to the given attributeValue for the fragment\n common.",
+            "itemtype": "method",
+            "name": "_setAttribute",
+            "access": "private",
+            "tagname": "_setAttribute",
+            "params": [
+                {
+                    "name": "attributeName",
+                    "description": "Name of the attribute to be set.",
+                    "type": "String"
+                },
+                {
+                    "name": "attributeValue",
+                    "description": "Value of the attribute to be set. If type\n                               of attributeValue is an Array than multiple\n                               values, each element of the array, will be\n                               set to the given attributeName. Else if\n                               the type of attributeValue is a String than\n                               one value, the given string, will be set to\n                               the given attributeName",
+                    "type": "String"
+                },
+                {
+                    "name": "elementName",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "namespaceURI",
+                    "description": "TODO",
+                    "type": "String"
+                },
+                {
+                    "name": "GUID",
+                    "description": "TODO",
+                    "type": "String"
+                }
+            ],
+            "class": "FragmentDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 36,
+            "description": "Constructs a ItemDriver for reading/writing Item Storage",
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 92,
+            "description": "Creates a grouping item at the location",
+            "itemtype": "method",
+            "name": "createGroupingItem",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the grouping item will be created",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 109,
+            "description": "Creates or uploads a non-grouping item at the location",
+            "itemtype": "method",
+            "name": "createNonGroupingItem",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the non-grouping item will be created",
+                    "type": "String"
+                },
+                {
+                    "name": "file",
+                    "description": "the contents to be written to the non-grouping item",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 127,
+            "description": "Deletes a grouping item at the location",
+            "itemtype": "method",
+            "name": "deleteGroupingItem",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the grouping item is located",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 144,
+            "description": "Deletes a non-grouping item at the location",
+            "itemtype": "method",
+            "name": "deleteNonGroupingItem",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the non-grouping item is located",
+                    "type": "String"
+                },
+                {
+                    "name": "name",
+                    "description": "the name of the non-grouping item",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 162,
+            "description": "Copies an item in the fashion of moveItem",
+            "itemtype": "method",
+            "name": "copyItem",
+            "params": [
+                {
+                    "name": "fromPath",
+                    "description": "the path to the file you want copied",
+                    "type": "String"
+                },
+                {
+                    "name": "toPath",
+                    "description": "the GroupingItem path you want the fromPath file copied to",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 180,
+            "description": "Moves an item",
+            "itemtype": "method",
+            "name": "moveItem",
+            "params": [
+                {
+                    "name": "fromPath",
+                    "description": "the path to the file you want moved",
+                    "type": "String"
+                },
+                {
+                    "name": "toPath",
+                    "description": "the GroupingItem path you want the fromPath file moved",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 198,
+            "description": "Get publicly readable download url for a non-grouping item from Dropbox website.",
+            "itemtype": "method",
+            "name": "getURL",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the non-grouping item is located",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to be called when self function is finished with it's operation.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 215,
+            "description": "Lists the items under the grouping item",
+            "itemtype": "method",
+            "name": "listItems",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the grouping item",
+                    "type": "String"
+                },
+                {
+                    "name": "callback(output)",
+                    "description": "Function to be called when self function is finished with it's operation. Output is an array of XooMLAssociations.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js",
+            "line": 244,
+            "description": "Check if the item is existed",
+            "itemtype": "method",
+            "name": "checkExisted",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "the path to the location that the item is located",
+                    "type": "String"
+                },
+                {
+                    "name": "name",
+                    "description": "the name of the item",
+                    "type": "String"
+                },
+                {
+                    "name": "callback(result)",
+                    "description": "Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.",
+                    "type": "Function"
+                }
+            ],
+            "class": "ItemDriver"
+        },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
             "line": 151,
@@ -1591,6 +3293,293 @@
             "access": "private",
             "tagname": "",
             "class": "ItemMirror"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLAssociation.js",
+            "line": 42,
+            "description": "Returns a boolean representing if this XooMLAssociation is a grouping item.",
+            "itemtype": "method",
+            "name": "getIsGroupingItem",
+            "return": {
+                "description": "True if this XooMLAssociation is a grouping item\n                  else returns false.",
+                "type": "Boolean"
+            },
+            "class": "XooMLAssociation"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLAssociation.js",
+            "line": 54,
+            "description": "Returns the display text of this association.",
+            "itemtype": "method",
+            "name": "getDisplayText",
+            "return": {
+                "description": "The display text of this association.",
+                "type": "String"
+            },
+            "class": "XooMLAssociation"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "line": 30,
+            "description": "Constructs a XooMLDriver for reading/writing XooML fragment.",
+            "class": "XooMLDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "line": 58,
+            "description": "Reads and returns a XooML fragment",
+            "itemtype": "method",
+            "name": "getXooMLFragment",
+            "params": [
+                {
+                    "name": "uri",
+                    "description": "the location of the XooML fragment",
+                    "type": "String"
+                },
+                {
+                    "name": "callback(content)",
+                    "description": "Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.",
+                    "type": "Function"
+                }
+            ],
+            "class": "XooMLDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "line": 75,
+            "description": "Writes a XooML fragment",
+            "itemtype": "method",
+            "name": "setXooMLFragment",
+            "params": [
+                {
+                    "name": "uri",
+                    "description": "the location of the XooML fragment",
+                    "type": "String"
+                },
+                {
+                    "name": "fragment",
+                    "description": "the content of the XooML fragment",
+                    "type": "String"
+                },
+                {
+                    "name": "callback(content)",
+                    "description": "Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.",
+                    "type": "Function"
+                }
+            ],
+            "class": "XooMLDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js",
+            "line": 94,
+            "description": "Check if the XooML fragment is existed",
+            "itemtype": "method",
+            "name": "checkExisted",
+            "params": [
+                {
+                    "name": "uri",
+                    "description": "the location of the XooML fragment",
+                    "type": "String"
+                },
+                {
+                    "name": "callback(result)",
+                    "description": "Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.",
+                    "type": "Function"
+                }
+            ],
+            "class": "XooMLDriver"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 11,
+            "description": "Thrown when a method is not yet implemented.",
+            "itemtype": "event",
+            "name": "NotImplementedException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 18,
+            "description": "Thrown when a required property from a method's options is missing.",
+            "itemtype": "event",
+            "name": "MissingParameterException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 25,
+            "description": "Thrown when an argument is given a null value when it does not accept null\nvalues.",
+            "itemtype": "event",
+            "name": "NullArgumentException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 33,
+            "description": "Thrown when an argument is given a value with a different type from the\nexpected type.",
+            "itemtype": "event",
+            "name": "InvalidTypeException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 41,
+            "description": "Thrown when an a method is called when the object is in invalid state\ngiven what the method expected.",
+            "itemtype": "event",
+            "name": "InvalidStateArgument",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 49,
+            "description": "Thrown after receiving an exception from XooMLU Storage",
+            "itemtype": "event",
+            "name": "XooMLUException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 56,
+            "description": "Thrown after receiving an exception from ItemU Storage",
+            "itemtype": "event",
+            "name": "ItemUException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 63,
+            "description": "Thrown after an association was upgraded that could not be upgraded.",
+            "itemtype": "event",
+            "name": "NonUpgradeableAssociationException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 70,
+            "description": "Thrown after an argument was passed in an invalid state than expected.",
+            "itemtype": "event",
+            "name": "InvalidArgumentException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 77,
+            "description": "Thrown after expecting a file or folder not to exist when it does.",
+            "itemtype": "event",
+            "name": "FileOrFolderAlreadyExistsException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLExceptions.js",
+            "line": 84,
+            "description": "Thrown when expecting the ItemMirror to be current, and it is not.",
+            "itemtype": "event",
+            "name": "FileOrFolderAlreadyExistsException",
+            "class": "XooMLExceptions"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 29,
+            "description": "Checks if each option within the given checkedOptions is a property of\nthe given options.",
+            "itemtype": "method",
+            "name": "hasOptions",
+            "params": [
+                {
+                    "name": "checkedOptions",
+                    "description": "Array of strings for each expected option.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options given to a function.",
+                    "type": "Object"
+                }
+            ],
+            "class": "XooMLUtil"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 91,
+            "description": "Returns if the given value is an array.\n\nThrows NullArgumentException when value is null. <br/>",
+            "itemtype": "method",
+            "name": "isArray",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Given object have it's type checked.",
+                    "type": "Object"
+                }
+            ],
+            "class": "XooMLUtil"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 104,
+            "description": "Returns if the given value is an object.\n\nThrows NullArgumentException when value is null. <br/>",
+            "itemtype": "method",
+            "name": "isObject",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Given object have it's type checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the given value is an Object, else false.",
+                "type": "Boolean"
+            },
+            "class": "XooMLUtil"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 119,
+            "description": "Returns if the given value is an function.\n\nThrows NullArgumentException when value is null. <br/>",
+            "itemtype": "method",
+            "name": "isFunction",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Given object have it's type checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the given value is a Function, else false.",
+                "type": "Boolean"
+            },
+            "class": "XooMLUtil"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 135,
+            "description": "Returns if the given value is an string.\n\nThrows NullArgumentException when value is null. <br/>",
+            "itemtype": "method",
+            "name": "isString",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Given object have it's type checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True if the given value is a String, else false.",
+                "type": "Boolean"
+            },
+            "class": "XooMLUtil"
+        },
+        {
+            "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLUtil.js",
+            "line": 154,
+            "description": "Generates a GUID.",
+            "itemtype": "method",
+            "name": "generateGUID",
+            "return": {
+                "description": "Randomly generated GUID.",
+                "type": "String"
+            },
+            "class": "XooMLUtil"
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\test\\lib\\mocha\\mocha.js",
@@ -7945,6 +9934,14 @@
         {
             "message": "unknown tag: api",
             "line": " C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\test\\lib\\chai.js:3765"
+        },
+        {
+            "message": "Missing item type\nConstructs a ItemDriver for reading/writing Item Storage",
+            "line": " C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemDriver.js:36"
+        },
+        {
+            "message": "Missing item type\nConstructs a XooMLDriver for reading/writing XooML fragment.",
+            "line": " C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\XooMLDriver.js:30"
         },
         {
             "message": "Missing item type\nModule exports.",
