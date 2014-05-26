@@ -3696,7 +3696,6 @@ define('ItemMirror',[
    */
    self.moveAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
-    console.log("Initiating Move");
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
@@ -3863,13 +3862,32 @@ define('ItemMirror',[
    * @method renameLocalItem
    *
    * @param {String} GUID GUID of the association.
+   * @param {String} String String Name you want to rename the file to (including file extension)
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.renameLocalItem = function (GUID, callback) {
-    return callback(XooMLExceptions.notImplemented);
+  self.renameLocalItem = function (GUID, newName, callback) {
+    var self = this;
+    XooMLUtil.checkCallback(callback);
+    if (!GUID) {
+      return callback(XooMLExceptions.nullArgument);
+    }
+    if (!XooMLUtil.isGUID(GUID)) {
+      return callback(XooMLExceptions.invalidType);
+    }
+    
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
+      if (error) {
+        return callback(error);
+      }
+        //phantom case
+        if (!localItem) {
+          return callback(error);
+        }
+        self._handleDataWrapperRenameAssociation(GUID, localItem, newName, error, callback);
+    });
   };
 
   /**
@@ -4518,6 +4536,20 @@ define('ItemMirror',[
        return callback(false);
     });
   };
+  
+  self._handleExistingAssociationRename = function (GUID, item1, item2, callback) {
+    var self = this, pathFrom, pathTo;
+
+    pathFrom = PathDriver.joinPath(self._groupingItemURI, item1);
+    pathTo = PathDriver.joinPath(self._groupingItemURI, item2);
+    
+    self._itemDriver.moveItem(pathFrom, pathTo, function(error){
+      if (error) {
+        return self._handleSet(error, callback);
+      }
+       return callback(false);
+    });
+  };
 
   self._removeNonGroupingItemThroughAssociation = function (GUID, item, callback) {
     var self = this, path;
@@ -4735,7 +4767,7 @@ define('ItemMirror',[
         return callback(XooMLExceptions.invalidState);
       }
     });
-  }
+  };
   
   self._handleDataWrapperMoveAssociation = function (GUID, localItem, ItemMirror, error, callback) {
     var self = this, path;
@@ -4757,7 +4789,30 @@ define('ItemMirror',[
         return callback(XooMLExceptions.invalidState);
       }
     });
-  }
+  };
+  
+  self._handleDataWrapperRenameAssociation = function (GUID, localItem, newName, error, callback) {
+    var self = this, path;
+    if ((error)) {
+      return callback(error);
+    }
+    
+    path = PathDriver.joinPath(self._groupingItemURI, localItem);
+    
+    self._itemDriver.checkExisted(path, function (error, result) {
+      if (error) {
+        return callback(error);
+      }
+
+      if (result === true) {
+        return self._handleExistingAssociationRename(GUID, localItem, newName, callback);
+      } else {
+        // file that should exist does not
+        return callback(XooMLExceptions.invalidState);
+      }
+    });
+  };
+
 
   return ItemMirror;
 });
