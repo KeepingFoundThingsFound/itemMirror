@@ -1205,8 +1205,6 @@ define([
   /**
    * Renames the local item for the association with the given GUID.
    *
-   * NOT IMPLEMENTED
-   *
    * Throws NullArgumentException if GUID, callback is null. <br/>
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not a function. <br/>
