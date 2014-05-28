@@ -984,7 +984,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1103,
+            "line": 1102,
             "description": "Deletes the association represented by the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "deleteAssociation",
@@ -1011,7 +1011,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1150,
+            "line": 1149,
             "description": "Upgrades a given association without a local item. Local item is named\nby a truncated form of the display name of this ItemMirror if the\nlocalItemURI is not given, else uses given localItemURI. Always\ntruncated to 50 characters.\n\nONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM\n\nThrows NullArgumentException when options is null. <br/>\nThrows MissingParameterException when options is not null and a required\nargument is missing.<br/>\nThrows InvalidTypeException if GUID is not a string, and if callback\nis not a function. <br/>\nThrows InvalidState if the association with the given GUID cannot be\nupgraded. <br/>",
             "itemtype": "method",
             "name": "upgradeAssociation",
@@ -1050,14 +1050,19 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1206,
-            "description": "Renames the local item for the association with the given GUID.\n\nNOT IMPLEMENTED\n\nThrows NullArgumentException if GUID, callback is null. <br/>\nThrows InvalidTypeException if GUID is not a String, and if callback\nis not a function. <br/>",
+            "line": 1205,
+            "description": "Renames the local item for the association with the given GUID.\n\nThrows NullArgumentException if GUID, callback is null. <br/>\nThrows InvalidTypeException if GUID is not a String, and if callback\nis not a function. <br/>",
             "itemtype": "method",
             "name": "renameLocalItem",
             "params": [
                 {
                     "name": "GUID",
                     "description": "GUID of the association.",
+                    "type": "String"
+                },
+                {
+                    "name": "String",
+                    "description": "String Name you want to rename the file to (including file extension)",
                     "type": "String"
                 },
                 {
@@ -1077,7 +1082,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1227,
+            "line": 1243,
             "description": "Checks if the association with the given GUID is a grouping item.\n\nThrows NullArgumentException if GUID, callback is null. <br/>\nThrows InvalidTypeException if GUID is not a String, and if callback\nis not an function. <br/>",
             "itemtype": "method",
             "name": "isAssociatedItemGrouping",
@@ -1109,7 +1114,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1273,
+            "line": 1289,
             "description": "Lists the GUIDs of each association.",
             "itemtype": "method",
             "name": "listAssociations",
@@ -1140,7 +1145,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1294,
+            "line": 1310,
             "description": "Returns the association namespace attribute with the given attributeName\nand the given namespaceURI within the association with the given GUID.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "getAssociationNamespaceAttribute",
@@ -1182,7 +1187,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1325,
+            "line": 1341,
             "description": "Adds the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName has already\nbeen added. <br/>",
             "itemtype": "method",
             "name": "addAssociationNamespaceAttribute",
@@ -1219,7 +1224,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1354,
+            "line": 1370,
             "description": "Removes the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName is not an\nattribute. <br/>",
             "itemtype": "method",
             "name": "removeAssociationNamespaceAttribute",
@@ -1256,7 +1261,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1383,
+            "line": 1399,
             "description": "Returns if an association with the given GUID has the given namespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "hasAssociationNamespace",
@@ -1293,7 +1298,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1410,
+            "line": 1426,
             "description": "Sets the association namespace attribute with the given attributeName\nand the given namespaceURI within the association with the given GUID.\n\nThrows NullArgumentException if attributeName, attributeValue, GUID, or\nnamespaceURI is null. <br/>\nThrows InvalidTypeException if attributeName, attributeValue, GUID, or\nnamespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "setAssociationNamespaceAttribute",
@@ -1335,7 +1340,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1440,
+            "line": 1456,
             "description": "Returns an array of the association namespace attributes with the given\nattributeName and the given namespaceURI within the association with\nthe given GUID.\n\nThrows NullArgumentException if GUID, namespaceURI is null. <br/>\nThrows InvalidTypeException if GUID, namespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "listAssociationNamespaceAttributes",
@@ -1375,7 +1380,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1469,
+            "line": 1485,
             "description": "Returns the association namespace data for an association with the given GUID\nand the given namespaceURI.\n\nThrows NullArgumentException if GUID, namespaceURI is null. <br/>\nThrows InvalidTypeException if GUID, namespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "getAssociationNamespaceData",
@@ -1412,7 +1417,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1499,
+            "line": 1515,
             "description": "Sets the association namespace data for an association with the given GUID\nand given namespaceURI using the given data.\n\nThrows NullArgumentException if data, GUID, or namespaceURI is null. <br/>\nThrows InvalidTypeException if data, GUID, or namespaceURI is not a\nString. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "setAssociationNamespaceData",
@@ -1449,7 +1454,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1529,
+            "line": 1545,
             "description": "Uses the specified ItemDriver and SyncDriver to synchronize the\nlocal ItemMirror object changes. This is an implmentation of Synchronization\nDriver which modifies the XooML Fragment according to the real structure\nunder the item described.",
             "itemtype": "method",
             "name": "sync",
@@ -1471,7 +1476,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1548,
+            "line": 1564,
             "description": "Checks the local GUID and the remote GUID to see if the local fragment\nis out of date with the remote fragment.",
             "itemtype": "method",
             "name": "isCurrent",
@@ -1498,7 +1503,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1587,
+            "line": 1603,
             "description": "Reloads the XooML Fragment",
             "itemtype": "method",
             "name": "refresh",
@@ -1520,7 +1525,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1614,
+            "line": 1630,
             "description": "Returns a string representation of self.",
             "itemtype": "method",
             "name": "toString",
@@ -1547,7 +1552,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1632,
+            "line": 1648,
             "description": "Returns the parent ItemMirror if this ItemMirror has a parent.",
             "itemtype": "method",
             "name": "getParent",
@@ -1574,7 +1579,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1753,
+            "line": 1769,
             "description": "Async Methods for loading the XooML Fragment String",
             "itemtype": "method",
             "name": "loadXooMLFragmentString",
@@ -1584,7 +1589,7 @@
         },
         {
             "file": "C:\\Users\\Travis\\Documents\\GitHub\\itemMirrorWebClient\\scripts\\ItemMirror.js",
-            "line": 1788,
+            "line": 1804,
             "description": "Async Methods for getting list of items",
             "itemtype": "method",
             "name": "getItemList",
