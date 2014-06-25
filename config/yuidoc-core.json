@@ -8,7 +8,7 @@
     "attributesEmit": "true",
     "ignorePaths": ["dependencies", "./.hgcheck/hg-checklink-qJbfof", ".idea", "./ignore", "./test", "./documentation", "./build"],
     "exclude": "build",
-    "paths": "*",
+    "paths": "./scripts",
     "outdir": "./documentation-core"
   }
 }

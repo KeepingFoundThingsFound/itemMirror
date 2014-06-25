@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>XooMLConfig - ItemMirror</title>
+    <title>scripts\XooMLConfig.js - ItemMirror</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -96,63 +96,62 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>XooMLConfig Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: scripts\XooMLConfig.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Configuration variables for XooML.js
+ *
+ * @class XooMLConfig
+ * @static
+ */
+define(function() {
+  &quot;use strict&quot;;
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/scripts_XooMLConfig.js.html#l1"><code>scripts\XooMLConfig.js:1</code></a>
-        </div>
-    
+  return {
+    // default schema version
+    schemaVersion: &quot;0.54&quot;,
 
-    
+    // default schema location
+    schemaLocation: &quot;http://kftf.ischool.washington.edu/xmlns/xooml&quot;,
 
-    
-</div>
+    // XooMLFragment file name for XooML2.xmlns
+    xooMLFragmentFileName: &quot;XooML2.xml&quot;,
 
+    // Maximum file length for upgradeAssociation localItemURI truncation
+    maxFileLength: 50,
 
+    // Case 1
+    createAssociationSimple: {
+      &quot;displayText&quot;: true
+    },
 
-<div class="box intro">
-    <p>Configuration variables for XooML.js</p>
+    // Case 2 and 3
+    // localItemRequested exists:&gt; case 3
+    createAssociationLinkNonGrouping: {
+      &quot;displayText&quot;: true,        // String
+      &quot;itemURI&quot;: true,            // String
+      &quot;localItemRequested&quot;: false // String
+    },
 
-</div>
+    // Case 4 and 5
+    // localItemRequested:== true:&gt; Case 5
+    createAssociationLinkGrouping: { // Case 3
+      &quot;displayText&quot;: true,
+      &quot;groupingItemURI&quot;: true,
+      &quot;xooMLDriverURI&quot;: true
+    },
 
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    // Case 6 and 7
+    createAssociationCreate: {
+      &quot;displayText&quot;: true,
+      &quot;itemName&quot;: true,
+      &quot;isGroupingItem&quot;: true
+    }
+  };
+});
+    </pre>
 </div>
 
                     </div>

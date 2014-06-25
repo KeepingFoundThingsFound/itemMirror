@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>XooMLConfig - ItemMirror</title>
+    <title>scripts\XooMLAssociation.js - ItemMirror</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -96,63 +96,78 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>XooMLConfig Class</h1>
-<div class="box meta">
-    
+                        <h1 class="file-heading">File: scripts\XooMLAssociation.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * XooMLAssociation is a minimal interface to represent a XooML2 association
+ * within a fragment.
+ *
+ * Throws NullArgumentException when GUID, name, or isUpgradeable is null. &lt;br/&gt;
+ * Throws InvalidTypeException if GUID, or name is not a String and if
+ * isUpgradeable is not a boolean. &lt;br/&gt;
+ * Throws InvalidGUIDException if GUID is not a valid GUID. &lt;br/&gt;
+ *
+ * @class XooMLAssociation
+ * @constructor
+ *
+ * @param {String}  GUID           GUID of the association.
+ * @param {Boolean} isUpgradeable  Boolean representing if the association
+ *                  is upgradeable.
+ * @param {String}  displayText    Display text of the association.
+ * @param {String}  associatedItem Associated item of the association.
+ */
+define([
+  &quot;./XooMLExceptions.js&quot;,
+  &quot;./XooMLConfig.js&quot;,
+  &quot;./XooMLUtil.js&quot;
+], function(
+  XooMLExceptions,
+  XooMLConfig,
+  XooMLUtil) {
+  &quot;use strict&quot;;
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/scripts_XooMLConfig.js.html#l1"><code>scripts\XooMLConfig.js:1</code></a>
-        </div>
-    
+  var self;
 
-    
+  function XooMLAssociation(isGroupingItem, displayText) {
+    if (!XooMLUtil.isBoolean(isGroupingItem)
+      || !XooMLUtil.isString(displayText)) {
+      throw XooMLExceptions.invalidType;
+    }
 
-    
-</div>
+    this._isGroupingItem = isGroupingItem;
+    this._displayText = displayText;
+  }
+  self = XooMLAssociation.prototype;
 
+ /**
+  * Returns a boolean representing if this XooMLAssociation is a grouping item.
+  *
+  * @method getIsGroupingItem
+  *
+  * @return {Boolean} True if this XooMLAssociation is a grouping item
+  *                   else returns false.
+  */
+  self.getIsGroupingItem = function() {
+    return this._isGroupingItem;
+  };
 
+ /**
+  * Returns the display text of this association.
+  *
+  * @method getDisplayText
+  *
+  * @return {String} The display text of this association.
+  */
+  self.getDisplayText = function() {
+    return this._displayText;
+  };
 
-<div class="box intro">
-    <p>Configuration variables for XooML.js</p>
+  return XooMLAssociation;
+});
 
-</div>
-
-
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-        
-        
-        
-        
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-            
-
-            
-
-            
-
-            
-        </div>
-
-        
-
-        
-
-        
-
-        
-    </div>
+    </pre>
 </div>
 
                     </div>
