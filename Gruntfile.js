@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         options: {
           baseUrl: "scripts",
           name: "ItemMirror",
-          out: "../build/ItemMirror.dev.js",
+          out: "./build/ItemMirror.dev.js",
           optimize: "none",
           useStrict: true,
           enforceDefine: true,
