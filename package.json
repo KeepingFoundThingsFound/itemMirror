@@ -1,7 +1,15 @@
 {
-  "name" : "ItemMirror",
-  "version" : "0.8.1",
-  "dependencies" : {
-    "require.js" : "1.0.0"
-  }
+    "name": "ItemMirror",
+    "version": "0.8.1",
+    "dependencies": {
+        "requirejs": "~2.1.14"
+    },
+    "devDependencies": {
+        "yuidocjs": "~0.3.50",
+        "jshint": "~2.5.1",
+        "grunt": "~0.4.5",
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-requirejs": "~0.4.4",
+        "grunt-contrib-yuidoc": "~0.5.2"
+    }
 }
