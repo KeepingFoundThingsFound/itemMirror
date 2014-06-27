@@ -16,10 +16,11 @@ module.exports = function(grunt) {
         }
       }
     },
+
     requirejs: {
       compile: {
         options: {
-          baseUrl: "scripts",
+          baseUrl: "./scripts",
           name: "ItemMirror",
           out: "./build/ItemMirror.dev.js",
           optimize: "none",
@@ -40,6 +41,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
     yuidoc: {
       compile: {
         "name": "ItemMirror",
@@ -55,15 +57,27 @@ module.exports = function(grunt) {
           "outdir": "./documentation"
         }
       }
+    },
+
+    uglify: {
+      my_target: {
+        options: {
+          mangle: false
+        },
+        files: {
+          './build/ItemMirror.min.js': ['./build/ItemMirror.dev.js']
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('test', ['jshint', 'yuidoc']);
+  grunt.registerTask('document', ['jshint', 'yuidoc']);
   
-  grunt.registerTask('default', ['jshint', 'yuidoc', 'requirejs']);
+  grunt.registerTask('default', ['jshint', 'yuidoc', 'requirejs', 'uglify']);
 
 };
