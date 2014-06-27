@@ -104,8 +104,8 @@ define([
     if (!XooMLUtil.isObject(options)) {
       return callback(XooMLExceptions.invalidType);
     }
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_AND_3_OPTIONS, options)
-      && !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
+    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_AND_3_OPTIONS, options) &&
+      !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
       return callback(XooMLExceptions.missingParameter);
     }
     var self = this, xooMLFragmentURI;
@@ -227,7 +227,7 @@ define([
   /**
    * Returns URI pointing to item described by the metadata of a fragment. A URI
    * might point to just about anything that can be interpreted as a grouping
-   * item. For example: a conventional file system folder or a “tag�as
+   * item. For example: a conventional file system folder or a “tag as
    * supported by any of several applications.
    *
    * @method getItemDescribed
@@ -485,7 +485,7 @@ define([
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
 
-    self._fragmentDriver.getAssociationAssociatedItem(GUID, callback)
+    self._fragmentDriver.getAssociationAssociatedItem(GUID, callback);
   };
 
   /**
@@ -839,7 +839,7 @@ define([
       }
 
       if (isSimple) {
-        self._createAssociationSimple(GUID, options, callback)
+        self._createAssociationSimple(GUID, options, callback);
       } else if (isLinkNonGrouping) {
         return self._createAssociationLinkNonGrouping(GUID, options, callback);
       } else if (isLinkGrouping) {
@@ -1667,9 +1667,8 @@ define([
   self._getSubGroupingItemURIFromDisplayText = function (GUID, displayText, callback) {
     var self = this, length, subGroupingItemURI, path;
 
-    length = displayText.length <= XooMLConfig.maxFileLength
-      ? displayText.length
-      : XooMLConfig.maxFileLength;
+    length = displayText.length <= XooMLConfig.maxFileLength ?
+      displayText.length : XooMLConfig.maxFileLength;
     subGroupingItemURI = displayText.substring(0, length);
     path = PathDriver.joinPath(self._groupingItemURI, subGroupingItemURI);
 
@@ -1693,7 +1692,7 @@ define([
           return callback(error);
         }
         self._save(callback);
-      })
+      });
     });
   };
 
@@ -1980,7 +1979,6 @@ define([
   };
 
   self._createAssociationLinkGrouping = function (GUID, options, callback) {
-    return callback(XooMLExceptions.notImplemented);
     var self = this;
 
     if (!options.localItemRequested) {
@@ -1988,6 +1986,8 @@ define([
     } else {
       // Case 5
     }
+      
+    return callback(XooMLExceptions.notImplemented);
   };
 
   self._createAssociationCreate = function (GUID, options, callback) {
