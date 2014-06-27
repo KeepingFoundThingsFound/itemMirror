@@ -26,7 +26,7 @@ module.exports = function(grunt) {
           useStrict: true,
           enforceDefine: true,
           wrap: {
-            startFile: ["LICENSE"]
+            startFile: ["./LICENSE"]
           },
           //Introduced in 2.1.3: Some situations do not throw and stop the optimizer
           //when an error occurs. However, you may want to have the optimizer stop
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
           "ignorePaths": ["dependencies", "./.hgcheck/hg-checklink-qJbfof", ".idea", "./ignore", "./test", "./documentation", "./build"],
           "exclude": "build",
           "paths": "./scripts",
-          "outdir": "./documentation-core"
+          "outdir": "./documentation"
         }
       }
     }
