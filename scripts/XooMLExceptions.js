@@ -3,6 +3,8 @@
  *
  * @class XooMLExceptions
  * @static
+ *
+ * @protected
  */
 define(function() {
   "use strict";

@@ -4,6 +4,8 @@
  *
  * @class XooMLUtil
  * @static
+ *
+ * @protected
  */
 define([
   "./XooMLExceptions.js",

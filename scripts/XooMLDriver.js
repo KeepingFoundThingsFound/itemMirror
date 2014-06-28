@@ -9,6 +9,8 @@
  * @param {Object} options Data to construct a new XooMLU with
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
+ *
+ * @protected
  */
 define([
   "./XooMLExceptions.js",

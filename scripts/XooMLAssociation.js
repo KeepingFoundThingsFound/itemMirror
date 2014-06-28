@@ -15,6 +15,8 @@
  *                  is upgradeable.
  * @param {String}  displayText    Display text of the association.
  * @param {String}  associatedItem Associated item of the association.
+ *
+ * @protected
  */
 define([
   "./XooMLExceptions.js",

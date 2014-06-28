@@ -30,6 +30,7 @@
  * @param {Function}[callback] callback function
  *  @param {String} callback.error The error to the callback
  *
+ * @protected
  **/
 define([
   "./XooMLExceptions.js",
