@@ -3,6 +3,8 @@
  * reading and writing XooML fragments. This is an implementation of XooML utility
  * using Dropbox as the storage.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLDriver
  * @constructor
  *
@@ -31,6 +33,8 @@ define([
 
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
+   *
+   * @protected
    */
   function XooMLDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -62,6 +66,8 @@ define([
    * @method getXooMLFragment
    * @param {String} uri the location of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
+   *
+   * @protected
    */
   self.getXooMLFragment = function (uri, callback) {
     var self = this;
@@ -80,6 +86,8 @@ define([
    * @param {String} uri the location of the XooML fragment
    * @param {String} fragment the content of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
+   *
+   * @protected
    */
   self.setXooMLFragment = function (uri, fragment, callback) {
     var self = this;
@@ -98,6 +106,8 @@ define([
    * @method checkExisted
    * @param {String} uri the location of the XooML fragment
    * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
+   *
+   * @protected
    */
   self.checkExisted = function (uri, callback) {
     var self = this, result;

@@ -7,6 +7,8 @@
  * isUpgradeable is not a boolean. <br/>
  * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLAssociation
  * @constructor
  *
@@ -48,6 +50,8 @@ define([
   *
   * @return {Boolean} True if this XooMLAssociation is a grouping item
   *                   else returns false.
+  *
+  * @protected
   */
   self.getIsGroupingItem = function() {
     return this._isGroupingItem;
@@ -59,6 +63,8 @@ define([
   * @method getDisplayText
   *
   * @return {String} The display text of this association.
+  *
+  * @protected
   */
   self.getDisplayText = function() {
     return this._displayText;

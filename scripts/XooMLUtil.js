@@ -2,6 +2,8 @@
  * Collection of type checking, exception throwing, utility methods for the
  * XooML tools.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLUtil
  * @static
  *
@@ -36,6 +38,8 @@ define([
      *
      * @param {Object}  checkedOptions Array of strings for each expected option.
      * @param {Object} options         Options given to a function.
+     *
+     * @protected
      */
     hasOptions: function (checkedOptions, options) {
       if (!checkedOptions || !options) {
@@ -98,6 +102,8 @@ define([
      * @method isArray
      *
      * @param {Object} value Given object have it's type checked.
+     *
+     * @protected
      */
     isArray: function (value) {
       return XooMLUtil.getType(value) === "array";
@@ -113,6 +119,8 @@ define([
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is an Object, else false.
+     *
+     * @protected
      */
     isObject: function (value) {
       return XooMLUtil.getType(value) === "object";
@@ -128,6 +136,8 @@ define([
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is a Function, else false.
+     *
+     * @protected
      */
     isFunction: function (value) {
       return value !== null;
@@ -144,6 +154,8 @@ define([
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is a String, else false.
+     *
+     * @protected
      */
     isString: function (value) {
       return XooMLUtil.getType(value) === "string";
@@ -159,6 +171,8 @@ define([
      * @method generateGUID
      *
      * @return {String} Randomly generated GUID.
+     *
+     * @protected
      */
     generateGUID: function () {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

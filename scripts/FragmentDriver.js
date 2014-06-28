@@ -10,6 +10,8 @@
  * Throws MissingParameterException when options is not null and does not have
  * the necessary arguments for any given case. <br/>
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class FragmentDriver
  * @constructor
  * @async
@@ -118,6 +120,8 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID from the new ETag.
+   *
+   * @protected
    */
   self.updateETag = function (callback) {
     var self = this, GUID;
@@ -134,6 +138,8 @@ define([
    * @method getSchemaVersion
    *
    * @return {String} XooML schema version.
+   *
+   * @protected
    */
   self.getSchemaVersion = function (callback) {
     var self = this;
@@ -151,6 +157,8 @@ define([
    * @method setSchemaVersion
    *
    * @param {String} schemaVersion Schema version to be set.
+   *
+   * @protected
    */
   self.setSchemaVersion = function (schemaVersion, callback) {
     var self = this;
@@ -165,6 +173,8 @@ define([
    * @method getSchemaLocation
    *
    * @return {String} XooML schema location.
+   *
+   * @protected
    */
   self.getSchemaLocation = function (callback) {
     var self = this;
@@ -182,6 +192,8 @@ define([
    * @method setSchemaLocation
    *
    * @param {String} schemaLocation Schema location to be set.
+   *
+   * @protected
    */
   self.setSchemaLocation = function (schemaLocation, callback) {
     var self = this;
@@ -200,6 +212,8 @@ define([
    *
    * @return {String} A URI pointing to item described by the metadata of a
    *                  fragment if it exists, else returns null.
+   *
+   * @protected
    */
   self.getItemDescribed = function (callback) {
     var self = this;
@@ -220,6 +234,8 @@ define([
    * @param {String} itemDescribed Item described to be set.
    * @param {Function}[callback] callback function
    * @param {String} callback.error The error to the callback
+   *
+   * @protected
    **/
   self.setItemDescribed = function (itemDescribed, callback) {
     var self = this;
@@ -242,6 +258,8 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.itemUtility A URI of the item utility.
+   *
+   * @protected
    */
   self.getItemDriver = function (callback) {
     var self = this;
@@ -263,6 +281,8 @@ define([
    * @method setItemUtility
    *
    * @param {String} itemUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setItemUtility = function (itemUtility, callback) {
     var self = this;
@@ -277,6 +297,8 @@ define([
    * @method getSyncUtility
    *
    * @return {String} Sync utility.
+   *
+   * @protected
    */
   self.getSyncDriver = function (callback) {
     var self = this;
@@ -294,6 +316,8 @@ define([
    * @method setSyncUtility
    *
    * @param {String} syncUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setSyncUtility = function (syncUtility, callback) {
     var self = this;
@@ -308,6 +332,8 @@ define([
    * @method getXooMLUtility
    *
    * @return {String} XooML utility.
+   *
+   * @protected
    */
   self.getXooMLDriver = function (callback) {
     var self = this;
@@ -325,6 +351,8 @@ define([
    * @method setXooMLUtility
    *
    * @param {String} xooMlUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setXooMLUtility = function (xooMlUtility, callback) {
     var self = this;
@@ -339,6 +367,8 @@ define([
    * @method getGUIDGeneratedOnLastWrite
    *
    * @return {String} GUID Guid
+   *
+   * @protected
    */
   self.getGUIDGeneratedOnLastWrite = function (callback) {
     var self = this;
@@ -352,6 +382,8 @@ define([
    * @method listFragmentCommonAttributes
    *
    * @return {String[]} Array of attributes within the the fragment common.
+   *
+   * @protected
    */
   self.listFragmentCommonAttributes = function (callback) {
     var self = this;
@@ -371,6 +403,8 @@ define([
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Display name of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationDisplayText = function (GUID, callback) {
     var self = this;
@@ -389,6 +423,8 @@ define([
    *
    * @param {String} GUID        GUID of the association to set.
    * @param {String} displayName Display name to be set.
+   *
+   * @protected
    */
   self.setAssociationDisplayText = function (GUID, displayName, callback) {
     var self = this;
@@ -409,6 +445,8 @@ define([
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML fragment of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
     var self = this;
@@ -428,6 +466,8 @@ define([
    *
    * @param {String} GUID                    GUID of the association to set.
    * @param {String} associatedXooMLFragment Fragment XooML fragment to be set.
+   *
+   * @protected
    */
   self.setAssociationAssociatedXooMLFragment = function (GUID,
     associatedXooMLFragment, callback) {
@@ -449,6 +489,8 @@ define([
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML utility of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationXooMLUtility = function (GUID, callback) {
     var self = this;
@@ -468,6 +510,8 @@ define([
    *
    * @param {String} GUID         GUID of the association to set.
    * @param {String} xooMLUtility XooML utility to be set.
+   *
+   * @protected
    */
   self.setAssociationXooMLUtility = function (GUID, xooMLUtility, callback) {
     var self = this;
@@ -488,6 +532,8 @@ define([
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Local item of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationLocalItem = function (GUID, callback) {
     var self = this;
@@ -507,6 +553,8 @@ define([
    *
    * @param {String} GUID      GUID of the association to set.
    * @param {String} localItem Local item to be set.
+   *
+   * @protected
    */
   self.setAssociationLocalItem = function (GUID, localItem, callback) {
     var self = this;
@@ -532,6 +580,8 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.associatedItem Associated item of the
    *                    association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
@@ -555,6 +605,8 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.setAssociationAssociatedItem = function (GUID, associatedItem, callback) {
     var self = this;
@@ -576,6 +628,8 @@ define([
    * @param {String} GUID GUID of the association to list common attributes for.
    *
    * @return {String[]} Association common attributes within the association
+   *
+   * @protected
    */
   self.listAssociationCommonAttributes = function (GUID, callback) {
     var self = this;
@@ -599,6 +653,8 @@ define([
    * @return {String} Value of the given attributeName within the given
    *                  namespaceURI if the given attributeName exists, else
    *                  returns null.
+   *
+   * @protected
    */
   self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -629,6 +685,8 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -656,6 +714,8 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -682,6 +742,8 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the fragment has the
    *                    given namespaceURI, else false.
+   *
+   * @protected
    */
   self.hasFragmentNamespace = function (namespaceURI, callback) {
     var self = this;
@@ -703,6 +765,8 @@ define([
    * @param {String} attributeValue Value of the attribute to be set.
    * @param {String} namespaceURI   Name of the namespace of the given
    *                                attributeName.
+   *
+   * @protected
    */
   self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
     var self = this;
@@ -724,6 +788,8 @@ define([
    *
    * @return {String[]} Array of attributes within the fragmentNamespaceData with
    *                 the given namespaceURI.
+   *
+   * @protected
    */
   self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
     var self = this;
@@ -744,6 +810,8 @@ define([
    * @return {String} Fragment namespace data with the given namespaceURI.
    *                  If a string is returned it will be valid
    *                  fragmentNamespaceData.
+   *
+   * @protected
    */
   self.getFragmentNamespaceData = function (namespaceURI, callback) {
     var self = this;
@@ -762,6 +830,8 @@ define([
    * @param {String} data Fragment namespace data to be set. Must be valid
    *                 namespaceData.
    * @param {String} namespaceURI Name of the namespace to be set.
+   *
+   * @protected
    */
   self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
     var self = this;
@@ -811,6 +881,8 @@ define([
    *                   non-grouping/grouping item. Required for case 6.
    *
    * @return {String} GUID of the newly created association.
+   *
+   * @protected
    */
   self.createAssociation = function (options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -856,6 +928,8 @@ define([
    * @method deleteAssociation
    *
    * @param GUID {String} GUID of the association to be deleted.
+   *
+   * @protected
    */
   self.deleteAssociation = function (GUID, callback) {
     XooMLUtil.checkCallback(callback);
@@ -894,6 +968,8 @@ define([
    *                    an object with the error that occurred.
    *  @param {String[]} callback.GUIDs Array of each association GUID
    *                    within given namespaceURI.
+   *
+   * @protected
    */
   self.listAssociations = function (callback) {
     XooMLUtil.checkCallback(callback);
@@ -928,6 +1004,8 @@ define([
    * @return {String} Value of association namespace attribute with the given
    *                  attributeName and the given namespaceURI within the
    *                  association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -959,6 +1037,8 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.addAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -990,6 +1070,8 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.removeAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -1015,6 +1097,8 @@ define([
    * @param {String} attributeValue Value of the attribute to be set
    * @param {String} GUID           GUID of association to set attribute for.
    * @param {String} namespaceURI   Name of the namespace for the association.
+   *
+   * @protected
    */
   self.setAssociationNamespaceAttribute = function (attributeName,
     attributeValue, GUID, namespaceURI, callback) {
@@ -1044,6 +1128,8 @@ define([
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the association has the
    *                    given namespaceURI, else false.
+   *
+   * @protected
    */
   self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1067,6 +1153,8 @@ define([
    *
    * @return {String[]} Array of the attributes within the association namespace
    *                    with the given namespaceURI.
+   *
+   * @protected
    */
   self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1092,6 +1180,8 @@ define([
    * @return {String} Association namespace data if the association namespace data
    *                  exists, else returns null. If a string is returned it will be
    *                  valid fragmentNamespaceData.
+   *
+   * @protected
    */
   self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1115,6 +1205,8 @@ define([
    * @param {String} GUID          GUID of the association namespace data to set.
    * @param {String} namespaceURI  Name of the namespace of the association
    *                               namespace data to set.
+   *
+   * @protected
    */
   self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
     var self = this;
@@ -1128,6 +1220,8 @@ define([
    * @method toString
    *
    * @return {String} String representation of self wrapper.
+   *
+   * @protected
    */
   self.toString = function (callback) {
     XooMLUtil.checkCallback(callback);
@@ -1148,6 +1242,8 @@ define([
    * @param {String} xml TODO
    *
    * @return {Object} TODO
+   *
+   * @protected
    */
   self._parseXML = function (xml) {
     var parser, xmlDoc;

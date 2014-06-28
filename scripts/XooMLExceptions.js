@@ -1,6 +1,8 @@
 /**
  * Collection of exceptions associated with the XooML tools.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLExceptions
  * @static
  *
@@ -14,6 +16,8 @@ define(function() {
      * Thrown when a method is not yet implemented.
      *
      * @event NotImplementedException
+     *
+     * @protected
      */
     notImplemented: "NotImplementedException",
 
@@ -21,6 +25,8 @@ define(function() {
      * Thrown when a required property from a method's options is missing.
      *
      * @event MissingParameterException
+     *
+     * @protected
      */
     missingParameter: "MissingParameterException",
 
@@ -29,6 +35,8 @@ define(function() {
      * values.
      *
      * @event NullArgumentException
+     *
+     * @protected
      */
     nullArgument: "NullArgumentException",
 
@@ -37,6 +45,8 @@ define(function() {
      * expected type.
      *
      * @event InvalidTypeException
+     *
+     * @protected
      */
     invalidType: "InvalidTypeException",
 
@@ -45,6 +55,8 @@ define(function() {
      * given what the method expected.
      *
      * @event InvalidStateArgument
+     *
+     * @protected
      */
     invalidState: "InvalidStateArgument",
 
@@ -52,6 +64,8 @@ define(function() {
      * Thrown after receiving an exception from XooMLU Storage
      *
      * @event XooMLUException
+     *
+     * @protected
      */
     xooMLUException: "XooMLUException",
 
@@ -59,6 +73,8 @@ define(function() {
      * Thrown after receiving an exception from ItemU Storage
      *
      * @event ItemUException
+     *
+     * @protected
      */
     itemUException: "ItemUException",
 
@@ -66,6 +82,8 @@ define(function() {
      * Thrown after an association was upgraded that could not be upgraded.
      *
      * @event NonUpgradeableAssociationException
+     *
+     * @protected
      */
     nonUpgradeableAssociationException: "NonUpgradeableAssociationException",
 
@@ -73,6 +91,8 @@ define(function() {
      * Thrown after an argument was passed in an invalid state than expected.
      *
      * @event InvalidArgumentException
+     *
+     * @protected
      */
     invalidArgument: "InvalidOptionsException",
 
@@ -80,6 +100,8 @@ define(function() {
      * Thrown after expecting a file or folder not to exist when it does.
      *
      * @event FileOrFolderAlreadyExistsException
+     *
+     * @protected
      */
     itemAlreadyExists: "ItemAlreadyExistsException",
 
@@ -87,6 +109,8 @@ define(function() {
      * Thrown when expecting the ItemMirror to be current, and it is not.
      *
      * @event FileOrFolderAlreadyExistsException
+     *
+     * @protected
      */
     itemMirrorNotCurrent: "ItemMirrorNotCurrent"
   };

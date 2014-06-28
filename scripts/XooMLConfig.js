@@ -1,6 +1,8 @@
 /**
  * Configuration variables for XooML.js
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLConfig
  * @static
  *

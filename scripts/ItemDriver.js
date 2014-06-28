@@ -3,6 +3,8 @@
  * creating and deleting items. This is an implementation of item utility
  * using Dropbox as the item storage.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class ItemDriver
  * @constructor
  *
@@ -37,6 +39,8 @@ define([
 
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
+   *
+   * @protected
    */
   function ItemDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -96,6 +100,8 @@ define([
    * @method createGroupingItem
    * @param {String} path the path to the location that the grouping item will be created
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.createGroupingItem = function (path, callback) {
     var self = this;
@@ -114,6 +120,8 @@ define([
    * @param {String} path the path to the location that the non-grouping item will be created
    * @param {String} file the contents to be written to the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.createNonGroupingItem = function (path, file, callback) {
     var self = this;
@@ -131,6 +139,8 @@ define([
    * @method deleteGroupingItem
    * @param {String} path the path to the location that the grouping item is located
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.deleteGroupingItem = function (path, callback) {
     var self = this;
@@ -149,6 +159,8 @@ define([
    * @param {String} path the path to the location that the non-grouping item is located
    * @param {String} name the name of the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.deleteNonGroupingItem = function (path, callback) {
     var self = this;
@@ -167,6 +179,8 @@ define([
    * @param {String} fromPath the path to the file you want copied
    * @param {String} toPath the GroupingItem path you want the fromPath file copied to
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.copyItem = function (fromPath, toPath, callback) {
     var self = this;
@@ -185,6 +199,8 @@ define([
    * @param {String} fromPath the path to the file you want moved
    * @param {String} toPath the GroupingItem path you want the fromPath file moved
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.moveItem = function (fromPath, toPath, callback) {
     var self = this;
@@ -202,6 +218,8 @@ define([
    * @method getURL
    * @param {String} path the path to the location that the non-grouping item is located
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
   */
   self.getURL = function (path, callback){
     var self = this;
@@ -219,6 +237,8 @@ define([
    * @method listItems
    * @param {String} path the path to the grouping item
    * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of XooMLAssociations.
+   *
+   * @protected
    */
   self.listItems = function (path, callback) {
     var self = this;
@@ -249,6 +269,8 @@ define([
    * @param {String} path the path to the location that the item is located
    * @param {String} name the name of the item
    * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
+   *
+   * @protected
    */
   self.checkExisted = function(path, callback){
     var self = this, result;
