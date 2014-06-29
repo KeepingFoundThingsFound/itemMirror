@@ -1272,6 +1272,11 @@ define([
       if (!associatedItem || associatedItem === "") {
         return callback(false, false);
       }
+      
+      if (self._isURL(associatedItem)) {
+        return callback(false, false);
+      }
+      
       var path;
 
       path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
@@ -2162,7 +2167,15 @@ define([
       }
     });
   };
-
+/**
+ * Checks if the AssociatedItem String passed into it is a URL or not.
+ *
+ * @private
+ * @param {String} associatedItem Function to execute once finished.
+ */
+  self._isURL = function (URL){
+    return /^http:\/\//.exec(URL);
+  };
 
   return ItemMirror;
 });

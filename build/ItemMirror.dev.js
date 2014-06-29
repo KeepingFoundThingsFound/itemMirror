@@ -15,11 +15,17 @@
  OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE. For commercial permissions, contact williampauljones@gmail.com
-*//**
+*/
+
+/**
  * Collection of exceptions associated with the XooML tools.
+ *
+ * For ItemMirror core developers only. Enable protected to see.
  *
  * @class XooMLExceptions
  * @static
+ *
+ * @protected
  */
 define('XooMLExceptions.js',[],function() {
   "use strict";
@@ -29,6 +35,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown when a method is not yet implemented.
      *
      * @event NotImplementedException
+     *
+     * @protected
      */
     notImplemented: "NotImplementedException",
 
@@ -36,6 +44,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown when a required property from a method's options is missing.
      *
      * @event MissingParameterException
+     *
+     * @protected
      */
     missingParameter: "MissingParameterException",
 
@@ -44,6 +54,8 @@ define('XooMLExceptions.js',[],function() {
      * values.
      *
      * @event NullArgumentException
+     *
+     * @protected
      */
     nullArgument: "NullArgumentException",
 
@@ -52,6 +64,8 @@ define('XooMLExceptions.js',[],function() {
      * expected type.
      *
      * @event InvalidTypeException
+     *
+     * @protected
      */
     invalidType: "InvalidTypeException",
 
@@ -60,6 +74,8 @@ define('XooMLExceptions.js',[],function() {
      * given what the method expected.
      *
      * @event InvalidStateArgument
+     *
+     * @protected
      */
     invalidState: "InvalidStateArgument",
 
@@ -67,6 +83,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown after receiving an exception from XooMLU Storage
      *
      * @event XooMLUException
+     *
+     * @protected
      */
     xooMLUException: "XooMLUException",
 
@@ -74,6 +92,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown after receiving an exception from ItemU Storage
      *
      * @event ItemUException
+     *
+     * @protected
      */
     itemUException: "ItemUException",
 
@@ -81,6 +101,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown after an association was upgraded that could not be upgraded.
      *
      * @event NonUpgradeableAssociationException
+     *
+     * @protected
      */
     nonUpgradeableAssociationException: "NonUpgradeableAssociationException",
 
@@ -88,6 +110,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown after an argument was passed in an invalid state than expected.
      *
      * @event InvalidArgumentException
+     *
+     * @protected
      */
     invalidArgument: "InvalidOptionsException",
 
@@ -95,6 +119,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown after expecting a file or folder not to exist when it does.
      *
      * @event FileOrFolderAlreadyExistsException
+     *
+     * @protected
      */
     itemAlreadyExists: "ItemAlreadyExistsException",
 
@@ -102,6 +128,8 @@ define('XooMLExceptions.js',[],function() {
      * Thrown when expecting the ItemMirror to be current, and it is not.
      *
      * @event FileOrFolderAlreadyExistsException
+     *
+     * @protected
      */
     itemMirrorNotCurrent: "ItemMirrorNotCurrent"
   };
@@ -110,8 +138,12 @@ define('XooMLExceptions.js',[],function() {
 /**
  * Configuration variables for XooML.js
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLConfig
  * @static
+ *
+ * @protected
  */
 define('XooMLConfig.js',[],function() {
   "use strict";
@@ -158,12 +190,17 @@ define('XooMLConfig.js',[],function() {
     }
   };
 });
+
 /**
  * Collection of type checking, exception throwing, utility methods for the
  * XooML tools.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLUtil
  * @static
+ *
+ * @protected
  */
 define('XooMLUtil.js',[
   "./XooMLExceptions.js",
@@ -194,6 +231,8 @@ define('XooMLUtil.js',[
      *
      * @param {Object}  checkedOptions Array of strings for each expected option.
      * @param {Object} options         Options given to a function.
+     *
+     * @protected
      */
     hasOptions: function (checkedOptions, options) {
       if (!checkedOptions || !options) {
@@ -256,6 +295,8 @@ define('XooMLUtil.js',[
      * @method isArray
      *
      * @param {Object} value Given object have it's type checked.
+     *
+     * @protected
      */
     isArray: function (value) {
       return XooMLUtil.getType(value) === "array";
@@ -271,6 +312,8 @@ define('XooMLUtil.js',[
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is an Object, else false.
+     *
+     * @protected
      */
     isObject: function (value) {
       return XooMLUtil.getType(value) === "object";
@@ -286,6 +329,8 @@ define('XooMLUtil.js',[
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is a Function, else false.
+     *
+     * @protected
      */
     isFunction: function (value) {
       return value !== null;
@@ -302,6 +347,8 @@ define('XooMLUtil.js',[
      * @param {Object} value Given object have it's type checked.
      *
      * @return {Boolean} True if the given value is a String, else false.
+     *
+     * @protected
      */
     isString: function (value) {
       return XooMLUtil.getType(value) === "string";
@@ -317,6 +364,8 @@ define('XooMLUtil.js',[
      * @method generateGUID
      *
      * @return {String} Randomly generated GUID.
+     *
+     * @protected
      */
     generateGUID: function () {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -466,6 +515,8 @@ define('PathDriver.js',[
  * isUpgradeable is not a boolean. <br/>
  * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class XooMLAssociation
  * @constructor
  *
@@ -474,6 +525,8 @@ define('PathDriver.js',[
  *                  is upgradeable.
  * @param {String}  displayText    Display text of the association.
  * @param {String}  associatedItem Associated item of the association.
+ *
+ * @protected
  */
 define('XooMLAssociation.js',[
   "./XooMLExceptions.js",
@@ -505,6 +558,8 @@ define('XooMLAssociation.js',[
   *
   * @return {Boolean} True if this XooMLAssociation is a grouping item
   *                   else returns false.
+  *
+  * @protected
   */
   self.getIsGroupingItem = function() {
     return this._isGroupingItem;
@@ -516,6 +571,8 @@ define('XooMLAssociation.js',[
   * @method getDisplayText
   *
   * @return {String} The display text of this association.
+  *
+  * @protected
   */
   self.getDisplayText = function() {
     return this._displayText;
@@ -535,6 +592,8 @@ define('XooMLAssociation.js',[
  * Throws NullArgumentException when options is null. <br/>
  * Throws MissingParameterException when options is not null and does not have
  * the necessary arguments for any given case. <br/>
+ *
+ * For ItemMirror core developers only. Enable protected to see.
  *
  * @class FragmentDriver
  * @constructor
@@ -556,6 +615,7 @@ define('XooMLAssociation.js',[
  * @param {Function}[callback] callback function
  *  @param {String} callback.error The error to the callback
  *
+ * @protected
  **/
 define('FragmentDriver.js',[
   "./XooMLExceptions.js",
@@ -643,6 +703,8 @@ define('FragmentDriver.js',[
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID from the new ETag.
+   *
+   * @protected
    */
   self.updateETag = function (callback) {
     var self = this, GUID;
@@ -659,6 +721,8 @@ define('FragmentDriver.js',[
    * @method getSchemaVersion
    *
    * @return {String} XooML schema version.
+   *
+   * @protected
    */
   self.getSchemaVersion = function (callback) {
     var self = this;
@@ -676,6 +740,8 @@ define('FragmentDriver.js',[
    * @method setSchemaVersion
    *
    * @param {String} schemaVersion Schema version to be set.
+   *
+   * @protected
    */
   self.setSchemaVersion = function (schemaVersion, callback) {
     var self = this;
@@ -690,6 +756,8 @@ define('FragmentDriver.js',[
    * @method getSchemaLocation
    *
    * @return {String} XooML schema location.
+   *
+   * @protected
    */
   self.getSchemaLocation = function (callback) {
     var self = this;
@@ -707,6 +775,8 @@ define('FragmentDriver.js',[
    * @method setSchemaLocation
    *
    * @param {String} schemaLocation Schema location to be set.
+   *
+   * @protected
    */
   self.setSchemaLocation = function (schemaLocation, callback) {
     var self = this;
@@ -725,6 +795,8 @@ define('FragmentDriver.js',[
    *
    * @return {String} A URI pointing to item described by the metadata of a
    *                  fragment if it exists, else returns null.
+   *
+   * @protected
    */
   self.getItemDescribed = function (callback) {
     var self = this;
@@ -745,6 +817,8 @@ define('FragmentDriver.js',[
    * @param {String} itemDescribed Item described to be set.
    * @param {Function}[callback] callback function
    * @param {String} callback.error The error to the callback
+   *
+   * @protected
    **/
   self.setItemDescribed = function (itemDescribed, callback) {
     var self = this;
@@ -767,6 +841,8 @@ define('FragmentDriver.js',[
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    *  @param {String}   callback.itemUtility A URI of the item utility.
+   *
+   * @protected
    */
   self.getItemDriver = function (callback) {
     var self = this;
@@ -788,6 +864,8 @@ define('FragmentDriver.js',[
    * @method setItemUtility
    *
    * @param {String} itemUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setItemUtility = function (itemUtility, callback) {
     var self = this;
@@ -802,6 +880,8 @@ define('FragmentDriver.js',[
    * @method getSyncUtility
    *
    * @return {String} Sync utility.
+   *
+   * @protected
    */
   self.getSyncDriver = function (callback) {
     var self = this;
@@ -819,6 +899,8 @@ define('FragmentDriver.js',[
    * @method setSyncUtility
    *
    * @param {String} syncUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setSyncUtility = function (syncUtility, callback) {
     var self = this;
@@ -833,6 +915,8 @@ define('FragmentDriver.js',[
    * @method getXooMLUtility
    *
    * @return {String} XooML utility.
+   *
+   * @protected
    */
   self.getXooMLDriver = function (callback) {
     var self = this;
@@ -850,6 +934,8 @@ define('FragmentDriver.js',[
    * @method setXooMLUtility
    *
    * @param {String} xooMlUtility Item utility to be set.
+   *
+   * @protected
    */
   self.setXooMLUtility = function (xooMlUtility, callback) {
     var self = this;
@@ -864,6 +950,8 @@ define('FragmentDriver.js',[
    * @method getGUIDGeneratedOnLastWrite
    *
    * @return {String} GUID Guid
+   *
+   * @protected
    */
   self.getGUIDGeneratedOnLastWrite = function (callback) {
     var self = this;
@@ -877,6 +965,8 @@ define('FragmentDriver.js',[
    * @method listFragmentCommonAttributes
    *
    * @return {String[]} Array of attributes within the the fragment common.
+   *
+   * @protected
    */
   self.listFragmentCommonAttributes = function (callback) {
     var self = this;
@@ -896,6 +986,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Display name of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationDisplayText = function (GUID, callback) {
     var self = this;
@@ -914,6 +1006,8 @@ define('FragmentDriver.js',[
    *
    * @param {String} GUID        GUID of the association to set.
    * @param {String} displayName Display name to be set.
+   *
+   * @protected
    */
   self.setAssociationDisplayText = function (GUID, displayName, callback) {
     var self = this;
@@ -934,6 +1028,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML fragment of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
     var self = this;
@@ -953,6 +1049,8 @@ define('FragmentDriver.js',[
    *
    * @param {String} GUID                    GUID of the association to set.
    * @param {String} associatedXooMLFragment Fragment XooML fragment to be set.
+   *
+   * @protected
    */
   self.setAssociationAssociatedXooMLFragment = function (GUID,
     associatedXooMLFragment, callback) {
@@ -974,6 +1072,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} XooML utility of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationXooMLUtility = function (GUID, callback) {
     var self = this;
@@ -993,6 +1093,8 @@ define('FragmentDriver.js',[
    *
    * @param {String} GUID         GUID of the association to set.
    * @param {String} xooMLUtility XooML utility to be set.
+   *
+   * @protected
    */
   self.setAssociationXooMLUtility = function (GUID, xooMLUtility, callback) {
     var self = this;
@@ -1013,6 +1115,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID GUID of the association to get.
    *
    * @return {String} Local item of the association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationLocalItem = function (GUID, callback) {
     var self = this;
@@ -1032,6 +1136,8 @@ define('FragmentDriver.js',[
    *
    * @param {String} GUID      GUID of the association to set.
    * @param {String} localItem Local item to be set.
+   *
+   * @protected
    */
   self.setAssociationLocalItem = function (GUID, localItem, callback) {
     var self = this;
@@ -1057,6 +1163,8 @@ define('FragmentDriver.js',[
    *                    an object with the error that occurred.
    *  @param {String}   callback.associatedItem Associated item of the
    *                    association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
@@ -1080,6 +1188,8 @@ define('FragmentDriver.js',[
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.setAssociationAssociatedItem = function (GUID, associatedItem, callback) {
     var self = this;
@@ -1101,6 +1211,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID GUID of the association to list common attributes for.
    *
    * @return {String[]} Association common attributes within the association
+   *
+   * @protected
    */
   self.listAssociationCommonAttributes = function (GUID, callback) {
     var self = this;
@@ -1124,6 +1236,8 @@ define('FragmentDriver.js',[
    * @return {String} Value of the given attributeName within the given
    *                  namespaceURI if the given attributeName exists, else
    *                  returns null.
+   *
+   * @protected
    */
   self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -1154,6 +1268,8 @@ define('FragmentDriver.js',[
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -1181,6 +1297,8 @@ define('FragmentDriver.js',[
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
     var self = this;
@@ -1207,6 +1325,8 @@ define('FragmentDriver.js',[
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the fragment has the
    *                    given namespaceURI, else false.
+   *
+   * @protected
    */
   self.hasFragmentNamespace = function (namespaceURI, callback) {
     var self = this;
@@ -1228,6 +1348,8 @@ define('FragmentDriver.js',[
    * @param {String} attributeValue Value of the attribute to be set.
    * @param {String} namespaceURI   Name of the namespace of the given
    *                                attributeName.
+   *
+   * @protected
    */
   self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
     var self = this;
@@ -1249,6 +1371,8 @@ define('FragmentDriver.js',[
    *
    * @return {String[]} Array of attributes within the fragmentNamespaceData with
    *                 the given namespaceURI.
+   *
+   * @protected
    */
   self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
     var self = this;
@@ -1269,6 +1393,8 @@ define('FragmentDriver.js',[
    * @return {String} Fragment namespace data with the given namespaceURI.
    *                  If a string is returned it will be valid
    *                  fragmentNamespaceData.
+   *
+   * @protected
    */
   self.getFragmentNamespaceData = function (namespaceURI, callback) {
     var self = this;
@@ -1287,6 +1413,8 @@ define('FragmentDriver.js',[
    * @param {String} data Fragment namespace data to be set. Must be valid
    *                 namespaceData.
    * @param {String} namespaceURI Name of the namespace to be set.
+   *
+   * @protected
    */
   self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
     var self = this;
@@ -1336,6 +1464,8 @@ define('FragmentDriver.js',[
    *                   non-grouping/grouping item. Required for case 6.
    *
    * @return {String} GUID of the newly created association.
+   *
+   * @protected
    */
   self.createAssociation = function (options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -1381,6 +1511,8 @@ define('FragmentDriver.js',[
    * @method deleteAssociation
    *
    * @param GUID {String} GUID of the association to be deleted.
+   *
+   * @protected
    */
   self.deleteAssociation = function (GUID, callback) {
     XooMLUtil.checkCallback(callback);
@@ -1419,6 +1551,8 @@ define('FragmentDriver.js',[
    *                    an object with the error that occurred.
    *  @param {String[]} callback.GUIDs Array of each association GUID
    *                    within given namespaceURI.
+   *
+   * @protected
    */
   self.listAssociations = function (callback) {
     XooMLUtil.checkCallback(callback);
@@ -1453,6 +1587,8 @@ define('FragmentDriver.js',[
    * @return {String} Value of association namespace attribute with the given
    *                  attributeName and the given namespaceURI within the
    *                  association with the given GUID.
+   *
+   * @protected
    */
   self.getAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -1484,6 +1620,8 @@ define('FragmentDriver.js',[
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.addAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -1515,6 +1653,8 @@ define('FragmentDriver.js',[
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   *
+   * @protected
    */
   self.removeAssociationNamespaceAttribute = function (attributeName, GUID,
     namespaceURI, callback) {
@@ -1540,6 +1680,8 @@ define('FragmentDriver.js',[
    * @param {String} attributeValue Value of the attribute to be set
    * @param {String} GUID           GUID of association to set attribute for.
    * @param {String} namespaceURI   Name of the namespace for the association.
+   *
+   * @protected
    */
   self.setAssociationNamespaceAttribute = function (attributeName,
     attributeValue, GUID, namespaceURI, callback) {
@@ -1569,6 +1711,8 @@ define('FragmentDriver.js',[
    *                    an object with the error that occurred.
    *  @param {Object}   callback.result True if the association has the
    *                    given namespaceURI, else false.
+   *
+   * @protected
    */
   self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1592,6 +1736,8 @@ define('FragmentDriver.js',[
    *
    * @return {String[]} Array of the attributes within the association namespace
    *                    with the given namespaceURI.
+   *
+   * @protected
    */
   self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1617,6 +1763,8 @@ define('FragmentDriver.js',[
    * @return {String} Association namespace data if the association namespace data
    *                  exists, else returns null. If a string is returned it will be
    *                  valid fragmentNamespaceData.
+   *
+   * @protected
    */
   self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
     var self = this;
@@ -1640,6 +1788,8 @@ define('FragmentDriver.js',[
    * @param {String} GUID          GUID of the association namespace data to set.
    * @param {String} namespaceURI  Name of the namespace of the association
    *                               namespace data to set.
+   *
+   * @protected
    */
   self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
     var self = this;
@@ -1653,6 +1803,8 @@ define('FragmentDriver.js',[
    * @method toString
    *
    * @return {String} String representation of self wrapper.
+   *
+   * @protected
    */
   self.toString = function (callback) {
     XooMLUtil.checkCallback(callback);
@@ -1673,6 +1825,8 @@ define('FragmentDriver.js',[
    * @param {String} xml TODO
    *
    * @return {Object} TODO
+   *
+   * @protected
    */
   self._parseXML = function (xml) {
     var parser, xmlDoc;
@@ -2099,12 +2253,16 @@ define('FragmentDriver.js',[
  * creating and deleting items. This is an implementation of item utility
  * using Dropbox as the item storage.
  *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
  * @class ItemDriver
  * @constructor
  *
  * @param {Object} options Data to construct a new ItemU with
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
+ *
+ * @protected
  */
 define('ItemDriver.js',[
   "./XooMLExceptions.js",
@@ -2131,6 +2289,8 @@ define('ItemDriver.js',[
 
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
+   *
+   * @protected
    */
   function ItemDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -2190,6 +2350,8 @@ define('ItemDriver.js',[
    * @method createGroupingItem
    * @param {String} path the path to the location that the grouping item will be created
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.createGroupingItem = function (path, callback) {
     var self = this;
@@ -2208,6 +2370,8 @@ define('ItemDriver.js',[
    * @param {String} path the path to the location that the non-grouping item will be created
    * @param {String} file the contents to be written to the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.createNonGroupingItem = function (path, file, callback) {
     var self = this;
@@ -2225,6 +2389,8 @@ define('ItemDriver.js',[
    * @method deleteGroupingItem
    * @param {String} path the path to the location that the grouping item is located
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.deleteGroupingItem = function (path, callback) {
     var self = this;
@@ -2243,6 +2409,8 @@ define('ItemDriver.js',[
    * @param {String} path the path to the location that the non-grouping item is located
    * @param {String} name the name of the non-grouping item
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.deleteNonGroupingItem = function (path, callback) {
     var self = this;
@@ -2261,6 +2429,8 @@ define('ItemDriver.js',[
    * @param {String} fromPath the path to the file you want copied
    * @param {String} toPath the GroupingItem path you want the fromPath file copied to
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.copyItem = function (fromPath, toPath, callback) {
     var self = this;
@@ -2279,6 +2449,8 @@ define('ItemDriver.js',[
    * @param {String} fromPath the path to the file you want moved
    * @param {String} toPath the GroupingItem path you want the fromPath file moved
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
    */
   self.moveItem = function (fromPath, toPath, callback) {
     var self = this;
@@ -2296,6 +2468,8 @@ define('ItemDriver.js',[
    * @method getURL
    * @param {String} path the path to the location that the non-grouping item is located
    * @param {Function} callback Function to be called when self function is finished with it's operation.
+   *
+   * @protected
   */
   self.getURL = function (path, callback){
     var self = this;
@@ -2313,6 +2487,8 @@ define('ItemDriver.js',[
    * @method listItems
    * @param {String} path the path to the grouping item
    * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of XooMLAssociations.
+   *
+   * @protected
    */
   self.listItems = function (path, callback) {
     var self = this;
@@ -2343,6 +2519,8 @@ define('ItemDriver.js',[
    * @param {String} path the path to the location that the item is located
    * @param {String} name the name of the item
    * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
+   *
+   * @protected
    */
   self.checkExisted = function(path, callback){
     var self = this, result;
@@ -2367,10 +2545,13 @@ define('ItemDriver.js',[
 
   return ItemDriver;
 });
+
 /**
  * An XooML utility interacts with an storage and is responsible for
  * reading and writing XooML fragments. This is an implementation of XooML utility
  * using Dropbox as the storage.
+ *
+ * For ItemMirror core developers only. Enable protected to see.
  *
  * @class XooMLDriver
  * @constructor
@@ -2378,6 +2559,8 @@ define('ItemDriver.js',[
  * @param {Object} options Data to construct a new XooMLU with
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
+ *
+ * @protected
  */
 define('XooMLDriver.js',[
   "./XooMLExceptions.js",
@@ -2398,6 +2581,8 @@ define('XooMLDriver.js',[
 
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
+   *
+   * @protected
    */
   function XooMLDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -2429,6 +2614,8 @@ define('XooMLDriver.js',[
    * @method getXooMLFragment
    * @param {String} uri the location of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
+   *
+   * @protected
    */
   self.getXooMLFragment = function (uri, callback) {
     var self = this;
@@ -2447,6 +2634,8 @@ define('XooMLDriver.js',[
    * @param {String} uri the location of the XooML fragment
    * @param {String} fragment the content of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
+   *
+   * @protected
    */
   self.setXooMLFragment = function (uri, fragment, callback) {
     var self = this;
@@ -2465,6 +2654,8 @@ define('XooMLDriver.js',[
    * @method checkExisted
    * @param {String} uri the location of the XooML fragment
    * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
+   *
+   * @protected
    */
   self.checkExisted = function (uri, callback) {
     var self = this, result;
@@ -2752,8 +2943,8 @@ define('ItemMirror',[
     if (!XooMLUtil.isObject(options)) {
       return callback(XooMLExceptions.invalidType);
     }
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_AND_3_OPTIONS, options)
-      && !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
+    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_AND_3_OPTIONS, options) &&
+      !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
       return callback(XooMLExceptions.missingParameter);
     }
     var self = this, xooMLFragmentURI;
@@ -2875,7 +3066,7 @@ define('ItemMirror',[
   /**
    * Returns URI pointing to item described by the metadata of a fragment. A URI
    * might point to just about anything that can be interpreted as a grouping
-   * item. For example: a conventional file system folder or a “tag�as
+   * item. For example: a conventional file system folder or a “tag as
    * supported by any of several applications.
    *
    * @method getItemDescribed
@@ -3133,7 +3324,7 @@ define('ItemMirror',[
   self.getAssociationAssociatedItem = function (GUID, callback) {
     var self = this;
 
-    self._fragmentDriver.getAssociationAssociatedItem(GUID, callback)
+    self._fragmentDriver.getAssociationAssociatedItem(GUID, callback);
   };
 
   /**
@@ -3487,7 +3678,7 @@ define('ItemMirror',[
       }
 
       if (isSimple) {
-        self._createAssociationSimple(GUID, options, callback)
+        self._createAssociationSimple(GUID, options, callback);
       } else if (isLinkNonGrouping) {
         return self._createAssociationLinkNonGrouping(GUID, options, callback);
       } else if (isLinkGrouping) {
@@ -3853,8 +4044,6 @@ define('ItemMirror',[
   /**
    * Renames the local item for the association with the given GUID.
    *
-   * NOT IMPLEMENTED
-   *
    * Throws NullArgumentException if GUID, callback is null. <br/>
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not a function. <br/>
@@ -3922,6 +4111,11 @@ define('ItemMirror',[
       if (!associatedItem || associatedItem === "") {
         return callback(false, false);
       }
+      
+      if (self._isURL(associatedItem)) {
+        return callback(false, false);
+      }
+      
       var path;
 
       path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
@@ -4317,9 +4511,8 @@ define('ItemMirror',[
   self._getSubGroupingItemURIFromDisplayText = function (GUID, displayText, callback) {
     var self = this, length, subGroupingItemURI, path;
 
-    length = displayText.length <= XooMLConfig.maxFileLength
-      ? displayText.length
-      : XooMLConfig.maxFileLength;
+    length = displayText.length <= XooMLConfig.maxFileLength ?
+      displayText.length : XooMLConfig.maxFileLength;
     subGroupingItemURI = displayText.substring(0, length);
     path = PathDriver.joinPath(self._groupingItemURI, subGroupingItemURI);
 
@@ -4343,7 +4536,7 @@ define('ItemMirror',[
           return callback(error);
         }
         self._save(callback);
-      })
+      });
     });
   };
 
@@ -4630,7 +4823,6 @@ define('ItemMirror',[
   };
 
   self._createAssociationLinkGrouping = function (GUID, options, callback) {
-    return callback(XooMLExceptions.notImplemented);
     var self = this;
 
     if (!options.localItemRequested) {
@@ -4638,6 +4830,8 @@ define('ItemMirror',[
     } else {
       // Case 5
     }
+      
+    return callback(XooMLExceptions.notImplemented);
   };
 
   self._createAssociationCreate = function (GUID, options, callback) {
@@ -4812,7 +5006,15 @@ define('ItemMirror',[
       }
     });
   };
-
+/**
+ * Checks if the AssociatedItem String passed into it is a URL or not.
+ *
+ * @private
+ * @param {String} associatedItem Function to execute once finished.
+ */
+  self._isURL = function (URL){
+    return /^http:\/\//.exec(URL);
+  };
 
   return ItemMirror;
 });
