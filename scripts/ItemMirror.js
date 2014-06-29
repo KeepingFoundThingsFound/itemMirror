@@ -2170,6 +2170,7 @@ define([
 /**
  * Checks if the AssociatedItem String passed into it is a URL or not.
  *
+ * @method _isURL
  * @private
  * @param {String} associatedItem Function to execute once finished.
  */
