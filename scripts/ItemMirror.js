@@ -775,7 +775,7 @@ define([
    * Cases 1, 2, 7 implemented. All else are not implemented.
    *
    * Case 1: Simple text association declared phantom. <br/>
-   * Case 2: Link to existing non-grouping item, phantom. <br/>
+   * Case 2: Link to existing non-grouping item, phantom. This can be a URL <br/>
    * Case 3: Link to existing non-grouping item, real. <br/>
    * Case 4: Link to existing grouping item, phantom. <br/>
    * Case 5: Link to existing grouping item, real. <br/>
@@ -795,7 +795,7 @@ define([
    *  @param {String}  options.displayText Display text for the association.
    *                   Required in all cases.
    *
-   *  @param {String}  options.itemURI URI of the item. Required for case 2 & 3.
+   *  @param {String}  options.itemURI URI of the item. Required for case 2 & 3. Note: Please ensure "http://" prefix exists at the beginning of the string when referencing a Web URL and not an Item.
    *
    *  @param {Boolean} options.localItemRequested True if the local item is
    *                   requested, else false. Required for cases 2 & 3.
