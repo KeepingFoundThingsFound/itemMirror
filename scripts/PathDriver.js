@@ -29,7 +29,7 @@ define([
     var self = this;
 
     if (rootPath === _PATH_SEPARATOR) {
-      return leafPath
+      return leafPath;
     }
 
     rootPath = self._stripTrailingSlash(rootPath);
