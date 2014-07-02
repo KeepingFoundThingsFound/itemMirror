@@ -1,3 +1,13 @@
+/**
+ * A utility library for processing file paths. Handles any type of
+ * file path so long as the separator is "/"
+ *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
+ * @class PathDriver
+ *
+ * @protected
+ */
 define([
   "./XooMLExceptions.js",
   "./XooMLConfig.js",
