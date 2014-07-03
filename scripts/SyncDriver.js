@@ -1,3 +1,18 @@
+/**
+ * A collection of methods that are used to synchronize XooML
+ * fragments across storage platforms. Synchronization may create or
+ * delete associations depending on the situation
+ *
+ * For ItemMirror core developers only. Enable protected to see.
+ *
+ * @class SyncDriver
+ *
+ * @constructor
+ * @param {Object} itemMirror The itemMirror object which you wish to
+ * synchronize
+ *
+ * @protected
+ */
 define([
   "./XooMLExceptions.js",
   "./XooMLConfig.js",
@@ -19,6 +34,19 @@ define([
   }
   self = SyncDriver.prototype;
 
+
+  /**
+   * Synchonizes the itemMirror object.
+   *
+   * @method sync
+   *
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * 
+   * @protected
+   */
   self.sync = function (callback) {
     var self = this, compXooML, compItem, compXooMLLocalItem = [];
 
@@ -47,6 +75,24 @@ define([
     });
   };
 
+  /**
+   * A recursive method which removes non local items that it finds in
+   * the associations until all of them are processed.
+   *
+   * @method _getLocalItems
+   *
+   * @param {String} compXooML Array of association GUIDs
+   * @param {String} compItem Array of XooML associations
+   * @param {String} compXooMLLocaLItem Array of XooML associations
+   * recursively generated
+   * @param {Number} i index
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   *
+   * @private
+   */
   self._getLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback){
     var self = this;
 
@@ -69,6 +115,24 @@ define([
     }
   };
 
+  /**
+   * Contrary to the name, this function will both remove AND create
+   * local items depending on the situation.
+   *
+   * @method _removeNonLocalItems
+   *
+   * @param {String} compXooML Array of association GUIDs
+   * @param {String} compItem Array of XooML associations
+   * @param {String} compXooMLLocaLItem Array of XooML associations
+   * recursively generated
+   * @param {Number} i index
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   *
+   * @private
+   */
   self._removeNonLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback) {
     var self = this;
 
@@ -120,6 +184,24 @@ define([
     }
   };
 
+  /**
+   * Creates new associations and saves those new associations. Also a
+   * recursive function.
+   *
+   * @method _createNewLocalItems
+   *
+   * @param {String} compXooML Array of association GUIDs
+   * @param {String} compItem Array of XooML associations
+   * @param {String} compXooMLLocaLItem Array of XooML associations
+   * recursively generated
+   * @param {Number} i index
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   *
+   * @private
+   */
   self._createNewLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback){
     var self = this;
 
