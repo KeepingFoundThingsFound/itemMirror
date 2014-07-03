@@ -13,7 +13,7 @@ define([
   function SyncDriver(itemMirror) {
     var self = this;
 
-    self._itemMirror = itemMirror
+    self._itemMirror = itemMirror;
     self._fragmentDriver = itemMirror._fragmentDriver;
     self._itemDriver = itemMirror._itemDriver;
   }
@@ -67,7 +67,7 @@ define([
         }
       });
     }
-  }
+  };
 
   self._removeNonLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback) {
     var self = this;
