@@ -4,17 +4,16 @@
  * It can be instantiated using one of the following two cases based on the
  * given arguments.
  *
- * Case 1: XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
- * <br/>
- * Case 2: The XooMLFragment is created from an existing groupingItemURI.
+ * 1. XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
+ * 2. The XooMLFragment is created from an existing groupingItemURI.
  * Given a groupingItemURI, saveLocationURI. Optionally a itemDriver,
  * syncDriver, and a xooMLDriver can be supplied for the XooMLFragment.
- * <br/>
- * Case 3: Try case 1, and then fallback on case 2.
+ * 3. Try case 1, and then fallback on case 2.
  *
- * Throws NullArgumentException when options is null. <br/>
+ * Throws NullArgumentException when options is null.
+ *
  * Throws MissingParameterException when options is not null and a required
- * argument is missing.<br/>
+ * argument is missing.
  *
  * @class ItemMirror
  * @constructor
@@ -149,10 +148,8 @@ define([
   self = ItemMirror.prototype;
 
   /**
-   * Returns the grouping item URI.
-   *
    * @method getGroupingItemURI
-   *
+   * @return {String} The grouping item URI.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -166,10 +163,8 @@ define([
   };
 
   /**
-   * Returns the display name.
-   *
    * @method getDisplayName
-   *
+   * @return {String} The display name.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -190,11 +185,10 @@ define([
     return callback(false, displayName);
   };
 
-  /*
-   * Returns the XooML schema version.
+  /**
    *
    * @method getSchemaVersion
-   *
+   * @return {String} XooML schema version.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -207,11 +201,10 @@ define([
     self._fragmentDriver.getSchemaVersion(callback);
   };
 
-  /*
-   * Returns the XooML schema location.
+  /**
    *
    * @method getSchemaLocation
-   *
+   * @return {String} XooML schema location.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -231,7 +224,8 @@ define([
    * supported by any of several applications.
    *
    * @method getItemDescribed
-   * @async
+   * @return {String} A URI pointing to item described by the metadata
+   * of a fragment if it exists, else returns null.
    *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
@@ -247,15 +241,15 @@ define([
     self._fragmentDriver.getItemDescribed(callback);
   };
 
-  /*
-   * Returns the item driver. An item driver supports HTML5 filesystem API. self
-   * driver must work hand in glove with SyncU. There is no exclusive control
-   * over items as stored in the dataStore so need to view and synchronize.
-   * Invoked directly to Open and Close. Delete, create. Invoked indirectly via
-   * UI.
+  /**
+   * An item driver supports HTML5 filesystem API. self driver must
+   * work hand in glove with SyncU. There is no exclusive control over
+   * items as stored in the dataStore so need to view and synchronize.
+   * Invoked directly to Open and Close. Delete, create. Invoked
+   * indirectly via UI.
    *
    * @method getItemDriver
-   *
+   * @return {String} The URI of the item driver.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -268,11 +262,10 @@ define([
     self._fragmentDriver.getItemDriver(callback);
   };
 
-  /*
-   * Returns the sync driver URI.
+  /**
    *
    * @method getSyncDriver
-   *
+   * @return {String} Returns the sync driver URI.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -286,9 +279,9 @@ define([
   };
 
   /**
-   * Returns a publicly available URL hosted at dropbox for an associated non-grouping item
+   * 
    * @method getURLForAssociatedNonGroupingItem
-   *
+   * @return {String} A publicly available URL hosted at dropbox for an associated non-grouping item
    * @param {String} GUID GUID of the association to get
    * @param {Function} callback Function to execute once finished
    *  @param {Object} callback.error Null if no error has occurred
@@ -334,11 +327,10 @@ define([
     });
   };
   
-  /*
-   * Returns the XooML driver.
+  /**
    *
    * @method getXooMLDriver
-   *
+   * @return {String} The XooML driver.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -352,10 +344,9 @@ define([
   };
 
   /**
-   * Returns the GUID generated on the last modification to the file.
    *
    * @method getGUIDGeneratedOnLastWrite
-   *
+   * @return {String} The GUID generated on the last modification to the file.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -370,16 +361,15 @@ define([
   };
 
   /**
-   * Returns the display text for the association with the given GUID.
-   *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
+   *
    * @method getAssociationDisplayText
+   * @return {String} The display text for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
-   *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -417,8 +407,6 @@ define([
   };
 
   /**
-   * Returns the XooML fragment for the association with the given GUID.
-   *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
@@ -426,7 +414,7 @@ define([
    * @method getAssociationAssociatedXooMLFragment
    *
    * @param {String} GUID GUID of the association to get.
-   *
+   * @return {String} The XooML fragment for the association with the given GUID.
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -441,16 +429,14 @@ define([
   };
 
   /**
-   * Returns the local item for the association with the given GUID.
-   *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method getAssociationLocalItem
+   * @return {String} The local item for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
-   *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
@@ -465,14 +451,12 @@ define([
   };
 
   /**
-   * Returns the associated item for the association with the given GUID.
-   *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method getAssociationAssociatedItem
-   *
+   * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
    *
    * @param {Function} callback Function to execute once finished.
@@ -489,14 +473,14 @@ define([
   };
 
   /**
-   * Returns the value of the given attributeName for the fragmentNamespaceData
-   * with the given namespaceURI.
-   *
    * Throws NullArgumentException if attributeName or namespaceURI is null. <br/>
    * Throws InvalidTypeException if attributeName or namespaceURI is not a
    * String. <br/>
    *
    * @method getFragmentNamespaceAttribute
+   * @return {String} Returns the value of the given attributeName for the
+   * fragmentNamespaceData with the given namespaceURI.
+   
    * @param {String} attributeName Name of the attribute to be returned.
    * @param {String} namespaceURI Name of the namespace of the given
    *                               attributeName.
@@ -579,6 +563,8 @@ define([
    * a String. <br/>
    *
    * @method hasFragmentNamespace
+   * @return {Boolean} True if the fragment has the given
+   * namespaceURI, otherwise false.
    *
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
@@ -624,13 +610,13 @@ define([
   };
 
   /**
-   * Returns an array of the attributes within the fragmentNamespaceData with the
-   * given namespaceURI.
-   *
    * Throws NullArgumentException if namespaceURI is null. <br/>
    * Throws InvalidTypeException if namespaceURI is not a String. <br/>
    *
    * @method listFragmentNamespaceAttributes
+   * @return {String[]} An array of the attributes within the
+   * fragmentNamespaceData with the given namespaceURI.
+   *
    * @param {String} namespaceURI  Name of the namespace of the given
    *                                attributeName.
    *
@@ -649,12 +635,11 @@ define([
   };
 
   /**
-   * Returns the fragment namespace data with the given namespaceURI.
-   *
    * Throws NullArgumentException if namespaceURI is null. <br/>
    * Throws InvalidTypeException if namespaceURI is not a String. <br/>
    *
    * @method getFragmentNamespaceData
+   * @return {String} The fragment namespace data with the given namespaceURI.
    *
    * @param {String} namespaceURI URI of the namespace to be set.
    *
@@ -673,7 +658,7 @@ define([
   };
 
   /**
-   * Returns the fragment namespace data with the given namespaceURI.
+   * Sets the fragment namespace data with the given namespaceURI.
    *
    * Throws NullArgumentException if namespaceURI or data is null. <br/>
    * Throws InvalidTypeException if namespaceURI or data is not a String. <br/>
@@ -707,6 +692,7 @@ define([
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method createItemMirrorForAssociatedGroupingItem
+   * @return {ItemMirror} Possibly return an itemMirror if the GUID is a grouping item
    *
    * @param {String} GUID GUID of the association to create the ItemMirror
    *                 from.
@@ -774,13 +760,13 @@ define([
    *
    * Cases 1, 2, 7 implemented. All else are not implemented.
    *
-   * Case 1: Simple text association declared phantom. <br/>
-   * Case 2: Link to existing non-grouping item, phantom. This can be a URL <br/>
-   * Case 3: Link to existing non-grouping item, real. <br/>
-   * Case 4: Link to existing grouping item, phantom. <br/>
-   * Case 5: Link to existing grouping item, real. <br/>
-   * Case 6: Create new local non-grouping item. <br/>
-   * Case 7: Create new local grouping item. <br/>
+   * 1. Simple text association declared phantom. <br/>
+   * 2. Link to existing non-grouping item, phantom. This can be a URL <br/>
+   * 3. Link to existing non-grouping item, real. <br/>
+   * 4. Link to existing grouping item, phantom. <br/>
+   * 5. Link to existing grouping item, real. <br/>
+   * 6. Create new local non-grouping item. <br/>
+   * 7. Create new local grouping item. <br/>
    *
    * Throws NullArgumentException when options, or callback is null. <br/>
    * Throws InvalidTypeException when options is not an object and callback
@@ -1241,13 +1227,13 @@ define([
   };
 
   /**
-   * Checks if the association with the given GUID is a grouping item.
-   *
    * Throws NullArgumentException if GUID, callback is null. <br/>
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not an function. <br/>
    *
    * @method isAssociatedItemGrouping
+   * @return {Boolean} True if the association with the given GUID is a grouping
+   * item, otherwise false.
    *
    * @param GUID {String} GUID of the association to be to be checked.
    *
@@ -1313,8 +1299,6 @@ define([
   };
 
   /**
-   * Returns the association namespace attribute with the given attributeName
-   * and the given namespaceURI within the association with the given GUID.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
    * null. <br/>
@@ -1323,6 +1307,9 @@ define([
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method getAssociationNamespaceAttribute
+   * @return {String} The association namespace attribute with
+   * the given attributeName and the given namespaceURI within the
+   * association with the given GUID.
    *
    * @param {String} attributeName Name of the attribute to be returned.
    * @param {String} GUID          GUID of the association to return attribute from.
@@ -1402,7 +1389,6 @@ define([
   };
 
   /**
-   * Returns if an association with the given GUID has the given namespaceURI.
    *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
    * null. <br/>
@@ -1411,6 +1397,8 @@ define([
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method hasAssociationNamespace
+   * @return {Boolean} True if the association has the given
+   * namespaceURI, else false.
    *
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
@@ -1459,15 +1447,15 @@ define([
   };
 
   /**
-   * Returns an array of the association namespace attributes with the given
-   * attributeName and the given namespaceURI within the association with
-   * the given GUID.
    *
    * Throws NullArgumentException if GUID, namespaceURI is null. <br/>
    * Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method listAssociationNamespaceAttributes
+   * @return {String[]} An array of the association namespace
+   * attributes with the given attributeName and the given
+   * namespaceURI within the association with the given GUID.
    *
    * @param {String} GUID          GUID of association to list attributes for.
    * @param {String} namespaceURI  URI of the namespace for the association.
@@ -1488,14 +1476,14 @@ define([
   };
 
   /**
-   * Returns the association namespace data for an association with the given GUID
-   * and the given namespaceURI.
    *
    * Throws NullArgumentException if GUID, namespaceURI is null. <br/>
    * Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method getAssociationNamespaceData
+   * @return {String} The association namespace data for an
+   * association with the given GUID and the given namespaceURI.
    *
    * @param {String} GUID          GUID of the association namespace data to
    *                               returned.
@@ -1571,6 +1559,8 @@ define([
    * is out of date with the remote fragment.
    *
    * @method isCurrent
+   * @return {Boolean} True if the local GUID matches the remote GUID,
+   * else false.
    *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
@@ -1633,9 +1623,8 @@ define([
   };
 
   /**
-   * Returns a string representation of self.
-   *
    * @method toString
+   * @return {String} String representation of self
    *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
@@ -1651,9 +1640,8 @@ define([
   };
 
   /**
-   * Returns the parent ItemMirror if this ItemMirror has a parent.
-   *
    * @method getParent
+   * @return {String} Perent ItemMirror if this ItemMirror has a paraent.
    *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
