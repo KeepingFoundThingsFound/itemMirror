@@ -1177,13 +1177,13 @@ define([
     }
 
     if (options.hasOwnProperty("localItemURI")) {
-      self._getSubGroupingItemURIFromDisplayText(options.GUID, options.localItemURI, callback);
+      self._setSubGroupingItemURIFromDisplayText(options.GUID, options.localItemURI, callback);
     } else {
       self.getAssociationDisplayText(options.GUID, function (error, displayText) {
         if (error) {
           return callback(error);
         }
-        self._getSubGroupingItemURIFromDisplayText(options.GUID, displayText, callback);
+        self._setSubGroupingItemURIFromDisplayText(options.GUID, displayText, callback);
       });
     }
   };
@@ -1657,7 +1657,21 @@ define([
     return callback(false, self._parent);
   };
 
-  self._getSubGroupingItemURIFromDisplayText = function (GUID, displayText, callback) {
+  /**
+   * Given a GUID and displayText this will create a grouping item
+   * based on the displayText for that item.
+   *
+   * @method _setSubGroupingItemURIFromDisplayText
+   *
+   * @param {String} GUID
+   * @param {String} displayText
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
+  self._setSubGroupingItemURIFromDisplayText = function (GUID, displayText, callback) {
     var self = this, length, subGroupingItemURI, path;
 
     length = displayText.length <= XooMLConfig.maxFileLength ?
@@ -1673,6 +1687,19 @@ define([
     });
   };
 
+  /**
+   * Sets the associated and local item for the association to the
+   * same itemURI passed in.
+   *
+   * @method _setAssociationLocalItemAndAssociatedItem
+   *
+   * @param {String} GUID
+   * @param {String} itemURI
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   */
   self._setAssociationLocalItemAndAssociatedItem = function (GUID, itemURI, callback) {
     var self = this;
 
@@ -1689,6 +1716,21 @@ define([
     });
   };
 
+  /**
+   * Checks to see if the fragment is current, and if it isn't, then
+   * save it.
+   *
+   * @method _save
+   * 
+   *
+   * @param {String} GUID
+   * @param {String} itemURI
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._save = function (callback) {
     var self = this;
 
@@ -1703,6 +1745,17 @@ define([
     });
   };
 
+  /**
+   * Saves the fragment
+   *
+   * @method _saveFragment
+   *
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._saveFragment = function (callback) {
     var self = this;
 
@@ -1730,6 +1783,19 @@ define([
     });
   };
 
+  /**
+   * Sets the item driver specified in the options for the XooMLFragment.
+   *
+   * @method _getItemU
+   *
+   * @param {String} xooMLFragmentURI
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._getItemU = function (xooMLFragmentURI, options, callback) {
     var self = this;
 
@@ -1752,6 +1818,13 @@ define([
     });
   };
 
+  /**
+   * Creates a sync driver
+   *
+   * @method _createSyncDriver
+   * @return The sync driver
+   * @private
+   */
   self._createSyncDriver = function () {
     var self = this;
 
@@ -1759,9 +1832,15 @@ define([
   };
 
   /**
-   * Async Methods for loading the XooML Fragment String
+   * Sets the item driver specified in the options for the XooMLFragment.
    *
-   * @method loadXooMLFragmentString
+   * @method _loadXooMLFragmentString
+   *
+   * @param {Function} uri URI for the XooMLFragment
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
    * @private
    */
   self._loadXooMLFragmentString = function (uri, callback) {
@@ -1794,9 +1873,15 @@ define([
   };
 
   /**
-   * Async Methods for getting list of items
+   * Uses itemDriver to retrieve a list of items and creates
+   * corresponding XooMLFragments for the retrieved items in the list
    *
    * @method getItemList
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
    * @private
    */
   self._getItemList = function (options, callback) {
@@ -1811,6 +1896,20 @@ define([
     });
   };
 
+  /**
+   * Given a list of associations this will create a new XooMLFragment
+   * with all of the assocations in the given list. The fragment will
+   * also be saved.
+   *
+   * @method _createXooMLFragment
+   * @param {Object} options
+   * @param {String[]} list Associations
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createXooMLFragment = function (options, list, callback) {
     var self = this, fragmentWrapperOptions;
 
@@ -1833,6 +1932,19 @@ define([
     });
   };
 
+  /**
+   * Given an association, this will delete the association, whether
+   * it's a grouping item or isn't. The item is then saved.
+   *
+   * @method _handleExistingAssociationDelete
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleExistingAssociationDelete = function (GUID, item, callback) {
     var self = this, path;
 
@@ -1851,6 +1963,19 @@ define([
     });
   };
   
+  /**
+   * TODO: Document. Purpose and usage unknown as of 7/3/2014
+   *
+   * @method _handleExistingAssociationCopy
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Object} ItemMirror
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleExistingAssociationCopy = function (GUID, item, ItemMirror, callback) {
     var self = this, pathFrom, pathTo;
 
@@ -1865,6 +1990,19 @@ define([
     });
   };
   
+  /**
+   * TODO: Document. Purpose and usage unknown as of 7/3/2014
+   *
+   * @method _handleExistingAssociationMove
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Object} ItemMirror
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleExistingAssociationMove = function (GUID, item, ItemMirror, callback) {
     var self = this, pathFrom, pathTo;
 
@@ -1879,6 +2017,19 @@ define([
     });
   };
   
+  /**
+   * TODO: Document. Purpose and usage unknown as of 7/3/2014
+   *
+   * @method _handleExistingAssociationRename
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Object} ItemMirror
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleExistingAssociationRename = function (GUID, item1, item2, callback) {
     var self = this, pathFrom, pathTo;
 
@@ -1893,6 +2044,19 @@ define([
     });
   };
 
+  /**
+   * Removes a non grouping item based on it's assocation. Must pass
+   * in a non grouping item, or errors will be thrown.
+   *
+   * @method _removeNonGroupingItemThroughAssociation
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._removeNonGroupingItemThroughAssociation = function (GUID, item, callback) {
     var self = this, path;
 
@@ -1903,6 +2067,19 @@ define([
     });
   };
 
+  /**
+   * Removes a grouping item based on it's assocation. Must pass
+   * in a grouping item, or errors will be thrown.
+   *
+   * @method _removeGroupingItemThroughAssociation
+   * @param {String} GUID
+   * @param {String} item
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._removeGroupingItemThroughAssociation = function (GUID, item, callback) {
     var self = this, path;
 
@@ -1922,6 +2099,18 @@ define([
     self._save(callback);
   };
 
+  /**
+   * Retrieves a fallback constructor for XooML Driver
+   *
+   * @method _getItemUForFallbackConstructor
+   * @param {String} xooMLFragmentURI
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._getItemUForFallbackConstructor = function (xooMLFragmentURI, options, callback) {
     var self = this;
 
@@ -1934,6 +2123,21 @@ define([
     });
   };
 
+  /**
+   * Creates new XooML Fragment for an already existing item. For
+   * instance, in dropbox's case, it would look at a folder, and then
+   * create a new fragment, with the associations being all of the
+   * items in that folder.
+   *
+   * @method _getItemUNewXooMLFragment
+   * @param {String} xooMLFragmentURI
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._getItemUNewXooMLFragment = function (xooMLFragmentURI, options, callback) {
     var self = this;
 
@@ -1948,15 +2152,39 @@ define([
     });
   };
 
+  /**
+   * Takes care of case 1.
+   *
+   * @method _createAssociationSimple
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationSimple = function (GUID, options, callback) {
     var self = this;
-
+    
     // Case 1
     return self._save(function (error) {
       return callback(error, GUID);
     });
   };
 
+  /**
+   * Takes care of cases 2 and 3. Only case 2 appears to be implemented.
+   *
+   * @method _createAssociationLinkNonGrouping
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationLinkNonGrouping = function (GUID, options, callback) {
     var self = this;
 
@@ -1971,6 +2199,18 @@ define([
     }
   };
 
+  /**
+   * Takes care of cases 4 and 5. Neither are implemented.
+   *
+   * @method _createAssociationLinkGrouping
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationLinkGrouping = function (GUID, options, callback) {
     var self = this;
 
@@ -1983,6 +2223,18 @@ define([
     return callback(XooMLExceptions.notImplemented);
   };
 
+  /**
+   * Takes care of cases 6 and 7.
+   *
+   * @method _createAssociationLinkGrouping
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationCreate = function (GUID, options, callback) {
     var self = this;
 
@@ -1993,6 +2245,18 @@ define([
     }
   };
 
+  /**
+   * Creates an association grouping item and then saves that association
+   *
+   * @method _createAssociationGroupingItem
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationGroupingItem = function (GUID, options, callback) {
     var self = this, path;
 
@@ -2007,6 +2271,18 @@ define([
     });
   };
 
+  /**
+   * Saves the association
+   *
+   * @method _saveAssociationAssociatedXooMLFragment
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._saveAssociationAssociatedXooMLFragment = function (GUID, options, callback) {
     var self = this;
 
@@ -2022,6 +2298,18 @@ define([
     });
   };
 
+  /**
+   * Creates an association non grouping item and saves it.
+   *
+   * @method _createAssociationNonGroupingItem
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createAssociationNonGroupingItem = function (GUID, options, callback) {
     var self = this;
 
@@ -2038,6 +2326,19 @@ define([
     });
   };
 
+  /**
+   * Creates an association non grouping item based off of the name
+   * specified in options and saves it.
+   *
+   * @method _createNonGroupingItemFromItemDescribed
+   * @param {String} GUID
+   * @param {Object} options
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._createNonGroupingItemFromItemDescribed = function (GUID, options, callback) {
     var self = this, path;
 
@@ -2054,6 +2355,18 @@ define([
     });
   };
 
+  /**
+   * Checks to see whether the given item exists based on the name
+   * provided.
+   *
+   * @method _checkExistenceFromItemDescribed
+   * @param {String} itemName
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._checkExistenceFromItemDescribed = function (itemName, callback) {
     var self = this, path;
 
@@ -2068,6 +2381,21 @@ define([
     });
   };
 
+  /**
+   * Helps to handle whether assoiations should be deleted. Not
+   * entirely sure about the utility of this function, it looks like
+   * something that should be handled by the sync driver.
+   *
+   * @method _handleDataWrapperDeleteAssociation
+   * @param {String} GUID
+   * @param {String} localItem
+   * @param {Object} error
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleDataWrapperDeleteAssociation = function (GUID, localItem, error, callback) {
     var self = this, path;
     if (error) {
@@ -2090,6 +2418,20 @@ define([
     });
   };
   
+  /**
+   * Purpose unknown
+   *
+   * @method _handleDataWrapperCopyAssociation
+   * @param {String} GUID
+   * @param {String} localItem
+   * @param {Object} itemMirror
+   * @param {Object} error
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleDataWrapperCopyAssociation = function (GUID, localItem, ItemMirror, error, callback) {
     var self = this, path;
     if ((error)) {
@@ -2112,6 +2454,20 @@ define([
     });
   };
   
+  /**
+   * Purpose unknown
+   *
+   * @method _handleDataWrapperMoveAssociation
+   * @param {String} GUID
+   * @param {String} localItem
+   * @param {Object} itemMirror
+   * @param {Object} error
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleDataWrapperMoveAssociation = function (GUID, localItem, ItemMirror, error, callback) {
     var self = this, path;
     if ((error)) {
@@ -2134,6 +2490,20 @@ define([
     });
   };
   
+  /**
+   * Purpose unknown
+   *
+   * @method _handleDataWrapperRenameAssociation
+   * @param {String} GUID
+   * @param {String} localItem
+   * @param {Object} itemMirror
+   * @param {Object} error
+   * @param {Function} callback
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   * @private
+   */
   self._handleDataWrapperRenameAssociation = function (GUID, localItem, newName, error, callback) {
     var self = this, path;
     if ((error)) {
@@ -2155,12 +2525,15 @@ define([
       }
     });
   };
+
 /**
  * Checks if the AssociatedItem String passed into it is a URL or not.
  *
  * @method _isURL
+ * @return {Boolean} True if it is an HTTP URL, false otherwise
+ * (HTTPS will fail)
  * @private
- * @param {String} associatedItem Function to execute once finished.
+ * @param {String} URL
  */
   self._isURL = function (URL){
     return /^http:\/\//.exec(URL);
