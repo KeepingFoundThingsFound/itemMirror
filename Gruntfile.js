@@ -80,5 +80,7 @@ module.exports = function(grunt) {
   grunt.registerTask('document', ['jshint', 'yuidoc']);
   
   grunt.registerTask('default', ['jshint', 'yuidoc', 'requirejs', 'uglify']);
+  
+  grunt.registerTask('build', ['jshint', 'requirejs', 'uglify']);
 
 };

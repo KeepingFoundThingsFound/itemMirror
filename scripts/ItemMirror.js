@@ -1259,21 +1259,19 @@ define([
         return callback(false, false);
       }
       
-      if (self._isURL(associatedItem)) {
-        return callback(false, false);
-      }
+      self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID,
+        function (error, XooMLFragment){
+          if(error){
+            return callback(error);
+          }
+          if (!XooMLFragment || XooMLFragment === "" || XooMLFragment === null) {
+            return callback(false, false);
+          }else{
+          return callback(false, true);
+          }
+        });
       
-      var path;
 
-      path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
-
-      self._itemDriver.isGroupingItem(path, function (error, result) {
-        if (error) {
-          return callback(error);
-        }
-
-        return callback(false, result);
-      });
     });
   };
 
