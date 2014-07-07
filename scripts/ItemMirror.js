@@ -1075,8 +1075,8 @@ define([
               }
               return self._save(callback);
             });
+            return ItemMirror._save(callback);
           });
-          return self._save(callback);
         }
         
         self._handleDataWrapperMoveAssociation(GUID, localItem, ItemMirror, error, callback);
