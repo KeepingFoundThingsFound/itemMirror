@@ -1,10 +1,12 @@
 /**
- * Constructs a FragmentWrapper for a XooML fragment. In the following cases.
+ * Constructs a XooMLDriver for a XooML fragment. In the following cases.
  *
  * Case 1: xooMLFragmentString is given and is used as the XooMLFragment. <br/>
  * Case 2: associations, xooMLUtilityURI, itemUtilityURI, syncUtilityURI,
  * groupingItemURI are given and used to create a new XooMLFragment with
  * the given data.
+ *
+ * Uses Dropbox for storage of the fragment
  *
  * Throws NullArgumentException when options is null. <br/>
  * Throws MissingParameterException when options is not null and does not have
@@ -12,25 +14,27 @@
  *
  * For ItemMirror core developers only. Enable protected to see.
  *
- * @class FragmentDriver
+ * @class XooMLDriver
  * @constructor
  * @async
  *
- * @param {Object} options Data to construct a new FragmentWrapper with
+ * @param {Object} options Data to construct a new XooMLDriver with
  *   @param {String} options.xooMLFragmentString XML string representing a XooML2
  *                   fragment. Required for case 1.
  *   @param {XooMLAssociation[]} options.associations List of associations for
  *          the newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.xooMLUtilityURI URI for the XooMLUtility for the
+ *   @param {String} options.xooMLDriverURI URI for the XooMLDriver for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.itemUtilityURI URI for the ItemUtility for the
+ *   @param {String} options.itemDriverURI URI for the ItemDriver for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.syncUtilityURI URI for the SyncUtility for the
+ *   @param {String} options.syncDriverURI URI for the SyncDriver for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
  *   @param {String} options.groupingItemURI URI for the Grouping Item for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
+ *   @param {String} options.utilityURI URI of the utility
+ *   @param {Object} options.dropboxClient Authenticated dropbox client
  * @param {Function}[callback] callback function
- *  @param {String} callback.error The error to the callback
+ * @param {String} callback.error The error to the callback
  *
  * @protected
  **/
@@ -49,6 +53,10 @@ define([
   "use strict";
 
   var
+    _CONSTRUCTOR_OPTIONS = {
+      driverURI:   true,
+      dropboxClient: true
+    },
     _NAMESPACE_ATTRIBUTE = "xmlns",
     _FRAGMENT = "fragment",
     _FRAGMENT_NAMESPACE_DATA = "fragmentNamespaceData",
@@ -58,7 +66,7 @@ define([
     _ITEM_DESCRIBED = ".",
     _FRAGMENT_ITEM_DRIVER = "itemDriver",
     _FRAGMENT_SYNC_DRIVER = "syncDriver",
-    _FRAGMENT_XOOML_UTILITY = "xooMLDriver",
+    _FRAGMENT_XOOML_DRIVER = "xooMLDriver",
     _FRAGMENT_GUID = "GUIDGeneratedOnLastWrite",
     _ASSOCIATION = "association",
     _ASSOCIATION_NAMESPACE_DATA = "associationNamespaceData",
@@ -77,9 +85,9 @@ define([
     },
     _CONSTRUCTOR_CASE_2_OPTIONS = {
       "associations": true,
-      "xooMLUtilityURI": true,
-      "itemUtilityURI": true,
-      "syncUtilityURI": true,
+      "xooMLDriverURI": true,
+      "itemDriverURI": true,
+      "syncDriverURI": true,
       "groupingItemURI": true
     },
 
@@ -100,8 +108,8 @@ define([
       return callback(false, self);
     } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options)) {
       self._document = self._createXooMLFragment(options.associations,
-        options.xooMLUtilityURI, options.itemUtilityURI,
-        options.syncUtilityURI, options.groupingItemURI);
+        options.xooMLDriverURI, options.itemDriverURI,
+        options.syncDriverURI, options.groupingItemURI);
       return callback(false, self);
     } else {
       return callback(XooMLExceptions.missingParameter);
@@ -245,8 +253,8 @@ define([
   };
 
   /**
-   * Returns the item utility. An item utility supports HTML5 filesystem API. self
-   * utility must work hand in glove with SyncU. There is no exclusive control
+   * Returns the item driver. An item driver supports HTML5 filesystem API. self
+   * driver must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
    * Invoked directly to Open and Close. Delete, create. Invoked indirectly via
    * UI.
@@ -257,7 +265,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *  @param {String}   callback.itemUtility A URI of the item utility.
+   *  @param {String}   callback.itemDriver A URI of the item driver.
    *
    * @protected
    */
@@ -269,34 +277,34 @@ define([
   };
 
   /**
-   * Sets the item utility. An item utility supports HTML5 filesystem API. self
-   * utility must work hand in glove with SyncU. There is no exclusive control
+   * Sets the item driver. An item driver supports HTML5 filesystem API. self
+   * driver must work hand in glove with SyncU. There is no exclusive control
    * over items as stored in the dataStore so need to view and synchronize.
    * Invoked directly to Open and Close. Delete, create. Invoked indirectly via
    * UI.
    *
-   * Throws NullArgumentException if itemUtility is null. <br/>
-   * Throws InvalidTypeException if itemUtility is not a String. <br/>
+   * Throws NullArgumentException if itemDriver is null. <br/>
+   * Throws InvalidTypeException if itemDriver is not a String. <br/>
    *
-   * @method setItemUtility
+   * @method setItemDriver
    *
-   * @param {String} itemUtility Item utility to be set.
+   * @param {String} itemDriver Item driver to be set.
    *
    * @protected
    */
-  self.setItemUtility = function (itemUtility, callback) {
+  self.setItemDriver = function (itemDriver, callback) {
     var self = this;
 
-    self._setAttribute(_FRAGMENT_ITEM_DRIVER, itemUtility, _FRAGMENT,
+    self._setAttribute(_FRAGMENT_ITEM_DRIVER, itemDriver, _FRAGMENT,
       null, null, callback);
   };
 
   /**
-   * Returns the sync utility.
+   * Returns the sync driver.
    *
-   * @method getSyncUtility
+   * @method getSyncDriver
    *
-   * @return {String} Sync utility.
+   * @return {String} Sync driver.
    *
    * @protected
    */
@@ -308,56 +316,56 @@ define([
   };
 
   /**
-   * Sets the sync utility.
+   * Sets the sync driver.
    *
-   * Throws NullArgumentException if syncUtility is null. <br/>
-   * Throws InvalidTypeException if syncUtility is not a String. <br/>
+   * Throws NullArgumentException if syncDriver is null. <br/>
+   * Throws InvalidTypeException if syncDriver is not a String. <br/>
    *
-   * @method setSyncUtility
+   * @method setSyncDriver
    *
-   * @param {String} syncUtility Item utility to be set.
+   * @param {String} syncDriver Item driver to be set.
    *
    * @protected
    */
-  self.setSyncUtility = function (syncUtility, callback) {
+  self.setSyncDriver = function (syncDriver, callback) {
     var self = this;
 
-    self._setAttribute(_FRAGMENT_SYNC_DRIVER, syncUtility, _FRAGMENT,
+    self._setAttribute(_FRAGMENT_SYNC_DRIVER, syncDriver, _FRAGMENT,
       null, null, callback);
   };
 
   /**
-   * Returns the XooML utility.
+   * Returns the XooML driver.
    *
-   * @method getXooMLUtility
+   * @method getXooMLDriver
    *
-   * @return {String} XooML utility.
+   * @return {String} XooML driver.
    *
    * @protected
    */
   self.getXooMLDriver = function (callback) {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_XOOML_UTILITY, _FRAGMENT, null, null,
+    self._getAttribute(_FRAGMENT_XOOML_DRIVER, _FRAGMENT, null, null,
       callback);
   };
 
   /**
-   * Sets the XooML utility.
+   * Sets the XooML driver.
    *
-   * Throws NullArgumentException if xooMlUtility is null. <br/>
-   * Throws InvalidTypeException if xooMlUtility is not a String. <br/>
+   * Throws NullArgumentException if xooMlDriver is null. <br/>
+   * Throws InvalidTypeException if xooMlDriver is not a String. <br/>
    *
-   * @method setXooMLUtility
+   * @method setXooMLDriver
    *
-   * @param {String} xooMlUtility Item utility to be set.
+   * @param {String} xooMlDriver Item driver to be set.
    *
    * @protected
    */
-  self.setXooMLUtility = function (xooMlUtility, callback) {
+  self.setXooMLDriver = function (xooMlDriver, callback) {
     var self = this;
 
-    self._setAttribute(_FRAGMENT_XOOML_UTILITY, xooMlUtility, _FRAGMENT,
+    self._setAttribute(_FRAGMENT_XOOML_DRIVER, xooMlDriver, _FRAGMENT,
       null, null, callback);
   };
 
@@ -478,21 +486,21 @@ define([
   };
 
   /**
-   * Returns the XooML utility for the association with the given GUID.
+   * Returns the XooML driver for the association with the given GUID.
    *
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationXooMLUtility
+   * @method getAssociationXooMLDriver
    *
    * @param {String} GUID GUID of the association to get.
    *
-   * @return {String} XooML utility of the association with the given GUID.
+   * @return {String} XooML driver of the association with the given GUID.
    *
    * @protected
    */
-  self.getAssociationXooMLUtility = function (GUID, callback) {
+  self.getAssociationXooMLDriver = function (GUID, callback) {
     var self = this;
 
     self._getAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER,
@@ -500,24 +508,24 @@ define([
   };
 
   /**
-   * Sets the XooML utility for the association with the given GUID.
+   * Sets the XooML driver for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID or xooMLUtility is null. <br/>
-   * Throws InvalidTypeException if GUID or xooMLUtility is not a String. <br/>
+   * Throws NullArgumentException if GUID or xooMLDriver is null. <br/>
+   * Throws InvalidTypeException if GUID or xooMLDriver is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method setAssociationXooMLUtility
+   * @method setAssociationXooMLDriver
    *
    * @param {String} GUID         GUID of the association to set.
-   * @param {String} xooMLUtility XooML utility to be set.
+   * @param {String} xooMLDriver XooML driver to be set.
    *
    * @protected
    */
-  self.setAssociationXooMLUtility = function (GUID, xooMLUtility, callback) {
+  self.setAssociationXooMLDriver = function (GUID, xooMLDriver, callback) {
     var self = this;
 
     self._setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER,
-      xooMLUtility, _ASSOCIATION_GUID, null, GUID, callback);
+      xooMLDriver, _ASSOCIATION_GUID, null, GUID, callback);
   };
 
   /**
@@ -871,7 +879,7 @@ define([
    *  @param {Boolean} options.localItemRequested True if the local item is
    *                   requested, else false. Required for cases 2, 3, 4, & 5.
    *
-   *  @param {String}  options.xooMLUtilityURI URI of the XooML utility for the
+   *  @param {String}  options.xooMLDriverURI URI of the XooML driver for the
    *                   association. Required for cases 4 & 5.
    *
    *  @param {String}  options.itemName Name of the new local
@@ -1269,16 +1277,16 @@ define([
    * @return {Object} TODO GUID of the
    */
   self._createXooMLFragment = function (associations,
-    xooMLUtilityURI, itemUtilityURI, syncUtilityURI) {
+    xooMLDriverURI, itemDriverURI, syncDriverURI) {
     var self = this, fragment, document, i, association, GUID, associatedXooMLFragment;
 
     document = self._parseXML("<" + _FRAGMENT + "></" + _FRAGMENT + ">");
     fragment = document.firstChild;
     fragment.setAttribute("xmlns", XooMLConfig.schemaLocation);
     fragment.setAttribute("xmlns:xsi", _XML_XSI_URI);
-    fragment.setAttribute(_FRAGMENT_ITEM_DRIVER, itemUtilityURI);
-    fragment.setAttribute(_FRAGMENT_XOOML_UTILITY, xooMLUtilityURI);
-    fragment.setAttribute(_FRAGMENT_SYNC_DRIVER, syncUtilityURI);
+    fragment.setAttribute(_FRAGMENT_ITEM_DRIVER, itemDriverURI);
+    fragment.setAttribute(_FRAGMENT_XOOML_DRIVER, xooMLDriverURI);
+    fragment.setAttribute(_FRAGMENT_SYNC_DRIVER, syncDriverURI);
     fragment.setAttribute(_FRAGMENT_ITEM_DESCRIBED, _ITEM_DESCRIBED);
     fragment.setAttribute(_FRAGMENT_SCHEMA_LOCATION, XooMLConfig.schemaLocation);
     fragment.setAttribute(_FRAGMENT_SCHEMA_VERSION, XooMLConfig.schemaVersion);
