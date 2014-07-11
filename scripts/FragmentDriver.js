@@ -2,9 +2,10 @@
  * Constructs a XooMLDriver for a XooML fragment. In the following cases.
  *
  * Case 1: xooMLFragmentString is given and is used as the XooMLFragment. <br/>
- * Case 2: associations, xooMLUtilityURI, itemUtilityURI, syncUtilityURI,
- * groupingItemURI are given and used to create a new XooMLFragment with
- * the given data.
+ * Case 2: associations, itemDriverURI, syncDriverURI, groupingItemURI
+ * are given and used to create a new XooMLFragment with the given
+ * data.
+ * Case 3: Give only an itemDriverURI and a GroupingItemURI, and look for an existing XooML file and load that. (Note that this loads the information, but doesn't promise that it's actually correct, so a sync should be performed)
  *
  * Uses Dropbox for storage of the fragment
  *
@@ -23,18 +24,21 @@
  *                   fragment. Required for case 1.
  *   @param {XooMLAssociation[]} options.associations List of associations for
  *          the newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.xooMLDriverURI URI for the XooMLDriver for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.itemDriverURI URI for the ItemDriver for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
  *   @param {String} options.syncDriverURI URI for the SyncDriver for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
  *   @param {String} options.groupingItemURI URI for the Grouping Item for the
  *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.utilityURI URI of the utility
- *   @param {Object} options.dropboxClient Authenticated dropbox client
+ *   @param {Object} options.itemDriver ItemDriver options that
+ *   specify both a URI, and any number of implementation specific key
+ *   pair values. Required for case 2
+ *     @param {String} options.itemDriver.itemDriverURI URI for the
+ *     ItemDriver for the newly constructed XooMLFragment in case 2.
+ *     @param {Object} options.itemDriver.dropboxClient Authenticated
+ *     dropbox client. Required if the given itemDriverURI uses
+ *     dropbox. (Since dropbox is the only supported option now this
+ *     should always be specified)
  * @param {Function}[callback] callback function
- * @param {String} callback.error The error to the callback
+ *   @param {String} callback.error The error to the callback
  *
  * @protected
  **/
@@ -43,7 +47,8 @@ define([
   "./XooMLConfig.js",
   "./XooMLUtil.js",
   "./PathDriver.js",
-  "./XooMLAssociation.js"
+  "./XooMLAssociation.js",
+  "./ItemDriver.js"
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -53,10 +58,6 @@ define([
   "use strict";
 
   var
-    _CONSTRUCTOR_OPTIONS = {
-      driverURI:   true,
-      dropboxClient: true
-    },
     _NAMESPACE_ATTRIBUTE = "xmlns",
     _FRAGMENT = "fragment",
     _FRAGMENT_NAMESPACE_DATA = "fragmentNamespaceData",
@@ -85,15 +86,18 @@ define([
     },
     _CONSTRUCTOR_CASE_2_OPTIONS = {
       "associations": true,
-      "xooMLDriverURI": true,
-      "itemDriverURI": true,
       "syncDriverURI": true,
-      "groupingItemURI": true
+      "groupingItemURI": true,
+      "itemDriver": true
+    },
+    _CONSTRUCTOR_CASE_3_OPTIONS = {
+      "itemDriver": true,
+      "groupingItemURI": true      
     },
 
     self;
 
-  function FragmentDriver(options, callback) {
+  function XooMLDriver(options, callback) {
     XooMLUtil.checkCallback(callback);
     if (!options) {
       return callback(XooMLExceptions.nullArgument);
@@ -103,14 +107,33 @@ define([
     }
     var self = this;
 
+    // Case 1
     if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
       self._document = self._parseXML(options.xooMLFragmentString);
       return callback(false, self);
-    } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options)) {
+    // Case 2
+    } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options)){
       self._document = self._createXooMLFragment(options.associations,
         options.xooMLDriverURI, options.itemDriverURI,
         options.syncDriverURI, options.groupingItemURI);
       return callback(false, self);
+    // Case 3
+    } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_3_OPTIONS, options)) {
+      self._itemDriver = new ItemDriver.ItemDriver(itemDriver.options, function (error, itemDriver) {
+	if (error) {
+	  return callback(error, null);
+	}
+
+	var xooMLFragmentURI = PathDriver.join(self.groupingItemURI,"XooML2.xml");
+	self._itemDriver.checkExisted("xooMLFragmentURI", function(error, result) {
+	  // If XooML file isn't present, then throw an error
+	  if (error) {
+	    return callback(error);
+	  } else {
+	    return callback(false, self);
+	  }
+	});
+      });
     } else {
       return callback(XooMLExceptions.missingParameter);
     }
