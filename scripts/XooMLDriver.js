@@ -147,21 +147,15 @@ define([
    * @method updateETag
    * @private updateETag
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.GUID GUID from the new ETag.
-   *
    * @protected
    */
-  self.updateETag = function (callback) {
+  self.updateETag = function () {
     var self = this, GUID;
 
     GUID = XooMLUtil.generateGUID();
     self._document.getElementsByTagName(_FRAGMENT)[0].getAttribute(_FRAGMENT_GUID);
 
-    return callback(false, GUID);
+    return GUID;
   };
 
   /**
@@ -173,11 +167,10 @@ define([
    *
    * @protected
    */
-  self.getSchemaVersion = function (callback) {
+  self.getSchemaVersion = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_SCHEMA_VERSION, _FRAGMENT, null, null,
-      callback);
+    return self._getAttribute(_FRAGMENT_SCHEMA_VERSION, _FRAGMENT, null, null);
   };
 
   /**
@@ -192,11 +185,11 @@ define([
    *
    * @protected
    */
-  self.setSchemaVersion = function (schemaVersion, callback) {
+  self.setSchemaVersion = function (schemaVersion) {
     var self = this;
 
-    self._setAttribute(_FRAGMENT_SCHEMA_VERSION, schemaVersion, _FRAGMENT,
-      null, null, callback);
+    self._setAttribute(_FRAGMENT_SCHEMA_VERSION, schemaVersion,
+			      _FRAGMENT, null, null);
   };
 
   /**
@@ -208,11 +201,11 @@ define([
    *
    * @protected
    */
-  self.getSchemaLocation = function (callback) {
+  self.getSchemaLocation = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_SCHEMA_LOCATION, _FRAGMENT, null,
-      null, callback);
+    return self._getAttribute(_FRAGMENT_SCHEMA_LOCATION,
+			      _FRAGMENT, null, null);
   };
 
   /**
@@ -227,11 +220,11 @@ define([
    *
    * @protected
    */
-  self.setSchemaLocation = function (schemaLocation, callback) {
+  self.setSchemaLocation = function (schemaLocation) {
     var self = this;
 
     self._setAttribute(_FRAGMENT_SCHEMA_LOCATION, schemaLocation,
-      _FRAGMENT, null, null, callback);
+		       _FRAGMENT, null, null);
   };
 
   /**
@@ -247,11 +240,11 @@ define([
    *
    * @protected
    */
-  self.getItemDescribed = function (callback) {
+  self.getItemDescribed = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_ITEM_DESCRIBED, _FRAGMENT, null, null,
-      callback);
+    return self._getAttribute(_FRAGMENT_ITEM_DESCRIBED,
+			      _FRAGMENT, null, null);
   };
 
   /**
@@ -262,18 +255,15 @@ define([
    *
    *
    * @method setItemDescribed
-   * @async
    * @param {String} itemDescribed Item described to be set.
-   * @param {Function}[callback] callback function
-   * @param {String} callback.error The error to the callback
    *
    * @protected
    **/
-  self.setItemDescribed = function (itemDescribed, callback) {
+  self.setItemDescribed = function (itemDescribed) {
     var self = this;
 
-    self._setAttribute(_FRAGMENT_ITEM_DESCRIBED, itemDescribed, _FRAGMENT,
-      null, null, callback);
+    self._setAttribute(_FRAGMENT_ITEM_DESCRIBED, itemDescribed,
+		       _FRAGMENT, null, null);
   };
 
   /**
@@ -285,19 +275,12 @@ define([
    *
    * @method getItemDriver
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.itemDriver A URI of the item driver.
-   *
    * @protected
    */
-  self.getItemDriver = function (callback) {
+  self.getItemDriver = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_ITEM_DRIVER, _FRAGMENT, null, null,
-      callback);
+    return self._getAttribute(_FRAGMENT_ITEM_DRIVER, _FRAGMENT, null, null);
   };
 
   /**
@@ -417,10 +400,10 @@ define([
    *
    * @protected
    */
-  self.listFragmentCommonAttributes = function (callback) {
+  self.listFragmentCommonAttributes = function () {
     var self = this;
 
-    self._listAttributes(_FRAGMENT, null, null, callback);
+    return self._listAttributes(_FRAGMENT, null, null);
   };
 
   /**
@@ -438,10 +421,11 @@ define([
    *
    * @protected
    */
-  self.getAssociationDisplayText = function (GUID, callback) {
+  self.getAssociationDisplayText = function (GUID) {
     var self = this;
 
-    self._getAttribute(_ASSOCIATION_DISPLAY_TEXT, _ASSOCIATION, null, GUID, callback);
+    return self._getAttribute(_ASSOCIATION_DISPLAY_TEXT, _ASSOCIATION,
+			      null, GUID);
   };
 
   /**
@@ -458,11 +442,11 @@ define([
    *
    * @protected
    */
-  self.setAssociationDisplayText = function (GUID, displayName, callback) {
+  self.setAssociationDisplayText = function (GUID, displayName) {
     var self = this;
 
     self._setAttribute(_ASSOCIATION_DISPLAY_TEXT, displayName,
-      _ASSOCIATION_GUID, null, GUID, callback);
+		       _ASSOCIATION_GUID, null, GUID);
   };
 
   /**
@@ -480,11 +464,11 @@ define([
    *
    * @protected
    */
-  self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
+  self.getAssociationAssociatedXooMLFragment = function (GUID) {
     var self = this;
 
-    self._getAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT,
-      _ASSOCIATION, null, GUID, callback);
+    return self._getAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT,
+			      _ASSOCIATION, null, GUID);
   };
 
   /**
@@ -501,12 +485,11 @@ define([
    *
    * @protected
    */
-  self.setAssociationAssociatedXooMLFragment = function (GUID,
-    associatedXooMLFragment, callback) {
+  self.setAssociationAssociatedXooMLFragment = function (GUID, associatedXooMLFragment) {
     var self = this;
 
     self._setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT,
-      associatedXooMLFragment, _ASSOCIATION_GUID, null, GUID, callback);
+		       associatedXooMLFragment, _ASSOCIATION_GUID, null, GUID);
   };
 
   /**
@@ -524,11 +507,11 @@ define([
    *
    * @protected
    */
-  self.getAssociationXooMLDriver = function (GUID, callback) {
+  self.getAssociationXooMLDriver = function (GUID) {
     var self = this;
 
-    self._getAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER,
-      _ASSOCIATION, null, GUID, callback);
+    return self._getAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER,
+			      _ASSOCIATION, null, GUID);
   };
 
   /**
@@ -545,11 +528,11 @@ define([
    *
    * @protected
    */
-  self.setAssociationXooMLDriver = function (GUID, xooMLDriver, callback) {
+  self.setAssociationXooMLDriver = function (GUID, xooMLDriver) {
     var self = this;
 
     self._setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER,
-      xooMLDriver, _ASSOCIATION_GUID, null, GUID, callback);
+		       xooMLDriver, _ASSOCIATION_GUID, null, GUID);
   };
 
   /**
@@ -567,11 +550,11 @@ define([
    *
    * @protected
    */
-  self.getAssociationLocalItem = function (GUID, callback) {
+  self.getAssociationLocalItem = function (GUID) {
     var self = this;
 
-    self._getAttribute(_ASSOCIATION_LOCAL_ITEM, _ASSOCIATION, null,
-      GUID, callback);
+    return self._getAttribute(_ASSOCIATION_LOCAL_ITEM, _ASSOCIATION, null,
+			      GUID);
   };
 
   /**
@@ -588,11 +571,11 @@ define([
    *
    * @protected
    */
-  self.setAssociationLocalItem = function (GUID, localItem, callback) {
+  self.setAssociationLocalItem = function (GUID, localItem) {
     var self = this;
 
-    return self._setAttribute(_ASSOCIATION_LOCAL_ITEM, localItem,
-      _ASSOCIATION_GUID, null, GUID, callback);
+    self._setAttribute(_ASSOCIATION_LOCAL_ITEM, localItem,
+		       _ASSOCIATION_GUID, null, GUID);
   };
 
   /**
@@ -606,20 +589,14 @@ define([
    *
    * @param {String} GUID GUID of the association to get.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.associatedItem Associated item of the
-   *                    association with the given GUID.
    *
    * @protected
    */
-  self.getAssociationAssociatedItem = function (GUID, callback) {
+  self.getAssociationAssociatedItem = function (GUID) {
     var self = this;
 
-    self._getAttribute(_ASSOCIATION_ASSOCIATED_ITEM, _ASSOCIATION, null,
-      GUID, callback);
+    return self._getAttribute(_ASSOCIATION_ASSOCIATED_ITEM, _ASSOCIATION,
+			      null, GUID);
   };
 
   /**
@@ -631,20 +608,16 @@ define([
    *
    * @method setAssociationAssociatedItem
    *
-   * @param {String} GUID GUID of the association to get.
+   * @param {String} GUID GUID of the association to set.
    * @param {String} associatedItem Associated item to set.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    *
    * @protected
    */
-  self.setAssociationAssociatedItem = function (GUID, associatedItem, callback) {
+  self.setAssociationAssociatedItem = function (GUID, associatedItem) {
     var self = this;
 
-    return self._setAttribute(_ASSOCIATION_ASSOCIATED_ITEM, associatedItem,
-      _ASSOCIATION_GUID, null, GUID, callback);
+    self._setAttribute(_ASSOCIATION_ASSOCIATED_ITEM, associatedItem,
+		       _ASSOCIATION_GUID, null, GUID);
   };
 
   /**
@@ -663,10 +636,10 @@ define([
    *
    * @protected
    */
-  self.listAssociationCommonAttributes = function (GUID, callback) {
+  self.listAssociationCommonAttributes = function (GUID) {
     var self = this;
 
-    self._listAttributes(_ASSOCIATION, null, GUID, callback);
+    return self._listAttributes(_ASSOCIATION, null, GUID);
   };
 
   /**
@@ -688,11 +661,11 @@ define([
    *
    * @protected
    */
-  self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._getAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
-      namespaceURI, null, callback);
+    return self._getAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
+			      namespaceURI, null);
   };
 
   /**
@@ -713,18 +686,13 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
    * @protected
    */
-  self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    return self._addAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
-      namespaceURI, null, callback);
+    self._addAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
+		       namespaceURI, null);
   };
 
   /**
@@ -742,18 +710,13 @@ define([
    * @param {String} attributeName Name of the attribute.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
    * @protected
    */
-  self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    return self._removeAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
-      namespaceURI, null, callback);
+    self._removeAttribute(attributeName, _FRAGMENT_NAMESPACE_DATA,
+			  namespaceURI, null);
   };
 
   /**
@@ -764,23 +727,17 @@ define([
    * Throws InvalidTypeException if attributeName, or namespaceURI is not
    * a String. <br/>
    *
-   * @method Namespace
+   * @method hasFragmentNamespace
    *
    * @param {String} namespaceURI  URI of the namespace for the association.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {Object}   callback.result True if the fragment has the
-   *                    given namespaceURI, else false.
+   * @return {Boolean} True if it has the given namespace
    *
    * @protected
    */
-  self.hasFragmentNamespace = function (namespaceURI, callback) {
+  self.hasFragmentNamespace = function (namespaceURI) {
     var self = this;
 
-    self._hasNamespace(null, namespaceURI, callback);
+    return self._hasNamespace(null, namespaceURI);
   };
 
   /**
@@ -800,11 +757,11 @@ define([
    *
    * @protected
    */
-  self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
+  self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
     var self = this;
 
-    return self._setAttribute(attributeName, attributeValue,
-      _FRAGMENT_NAMESPACE_DATA, namespaceURI, null, callback);
+    self._setAttribute(attributeName, attributeValue,_FRAGMENT_NAMESPACE_DATA,
+		       namespaceURI, null);
   };
 
   /**
@@ -823,10 +780,10 @@ define([
    *
    * @protected
    */
-  self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
+  self.listFragmentNamespaceAttributes = function (namespaceURI) {
     var self = this;
 
-    self._listAttributes(_FRAGMENT_NAMESPACE_DATA, namespaceURI, null, callback);
+    self._listAttributes(_FRAGMENT_NAMESPACE_DATA, namespaceURI, null);
   };
 
   /**
@@ -845,10 +802,10 @@ define([
    *
    * @protected
    */
-  self.getFragmentNamespaceData = function (namespaceURI, callback) {
+  self.getFragmentNamespaceData = function (namespaceURI) {
     var self = this;
 
-    self._getNamespaceData(_FRAGMENT, namespaceURI, null, callback);
+    return self._getNamespaceData(_FRAGMENT, namespaceURI, null);
   };
 
   /**
@@ -865,10 +822,10 @@ define([
    *
    * @protected
    */
-  self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
+  self.setFragmentNamespaceData = function (data, namespaceURI) {
     var self = this;
 
-    self._setNamespaceData(_FRAGMENT, namespaceURI, null, data, callback);
+    self._setNamespaceData(_FRAGMENT, namespaceURI, null, data);
   };
 
   /**
@@ -994,17 +951,10 @@ define([
    * @return {String[]} Array of the GUIDs of each association
    *                    of the given namespaceURI
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String[]} callback.GUIDs Array of each association GUID
-   *                    within given namespaceURI.
    *
    * @protected
    */
-  self.listAssociations = function (callback) {
-    XooMLUtil.checkCallback(callback);
+  self.listAssociations = function () {
     var self = this, associations, associationNodes, associationNode, i, GUID;
 
     associations = [];
@@ -1014,7 +964,7 @@ define([
       GUID = associationNode.getAttribute(_ASSOCIATION_GUID);
       associations.push(GUID);
     }
-    return callback(false, associations);
+    return associations;
   };
 
   /**
@@ -1040,11 +990,11 @@ define([
    * @protected
    */
   self.getAssociationNamespaceAttribute = function (attributeName, GUID,
-    namespaceURI, callback) {
+    namespaceURI) {
     var self = this;
 
-    self._getAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA,
-      namespaceURI, GUID, callback);
+    return self._getAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA,
+			      namespaceURI, GUID);
   };
 
   /**
@@ -1064,20 +1014,14 @@ define([
    * @param {String} attributeName Name of the attribute.
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+
    *
    * @protected
    */
-  self.addAssociationNamespaceAttribute = function (attributeName, GUID,
-    namespaceURI, callback) {
+  self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    self._addAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA, namespaceURI,
-      GUID, callback);
+    self._addAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID);
   };
 
   /**
@@ -1098,19 +1042,13 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
    * @protected
    */
-  self.removeAssociationNamespaceAttribute = function (attributeName, GUID,
-    namespaceURI, callback) {
+  self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    return self._removeAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA,
-      namespaceURI, GUID, callback);
+    self._removeAttribute(attributeName, _ASSOCIATION_NAMESPACE_DATA,
+			  namespaceURI, GUID);
   };
 
   /**
@@ -1132,17 +1070,14 @@ define([
    *
    * @protected
    */
-  self.setAssociationNamespaceAttribute = function (attributeName,
-    attributeValue, GUID, namespaceURI, callback) {
+  self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
     var self = this;
 
-    return self._setAttribute(attributeName, attributeValue,
-      _ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
+    self._setAttribute(attributeName, attributeValue,
+		       _ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID);
   };
 
   /**
-   * Returns if an association with the given GUID has the given namespaceURI.
-   *
    * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
    * null. <br/>
    * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
@@ -1153,20 +1088,14 @@ define([
    *
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {Object}   callback.result True if the association has the
-   *                    given namespaceURI, else false.
+   * @return {Boolean} True if an association with the given GUID has the given namespaceURI.
    *
    * @protected
    */
-  self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
+  self.hasAssociationNamespace = function (GUID, namespaceURI) {
     var self = this;
 
-    self._hasNamespace(GUID, namespaceURI, callback);
+    return self._hasNamespace(GUID, namespaceURI);
   };
 
   /**
@@ -1188,10 +1117,10 @@ define([
    *
    * @protected
    */
-  self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
+  self.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
     var self = this;
 
-    self._listAttributes(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
+    return self._listAttributes(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID);
   };
 
   /**
@@ -1215,10 +1144,10 @@ define([
    *
    * @protected
    */
-  self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
+  self.getAssociationNamespaceData = function (GUID, namespaceURI) {
     var self = this;
 
-    self._getNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, callback);
+    return self._getNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID);
   };
 
   /**
@@ -1240,10 +1169,10 @@ define([
    *
    * @protected
    */
-  self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
+  self.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
     var self = this;
 
-    self._setNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, data, callback);
+    self._setNamespaceData(_ASSOCIATION_NAMESPACE_DATA, namespaceURI, GUID, data);
   };
 
   /**
@@ -1255,14 +1184,13 @@ define([
    *
    * @protected
    */
-  self.toString = function (callback) {
-    XooMLUtil.checkCallback(callback);
+  self.toString = function () {
     var self = this, tmp;
 
     tmp = document.createElement("div");
     tmp.appendChild(self._document.firstChild.cloneNode(true));
 
-    callback(false, tmp.innerHTML);
+    return tmp.innerHTML;
   };
 
   /**
@@ -1428,14 +1356,14 @@ define([
    *
    * @return {Object} TODO
    */
-  self._getOrCreateElement = function (elementName, namespaceURI, GUID, callback) {
+  self._getOrCreateElement = function (elementName, namespaceURI, GUID) {
     if (!elementName) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if ((GUID && !XooMLUtil.isGUID(GUID))
       || (namespaceURI && !XooMLUtil.isString(namespaceURI))
       || !XooMLUtil.isString(elementName)) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this;
 
@@ -1484,7 +1412,7 @@ define([
       childNode = childNodes[i];
       if (childNode.getAttribute(_ASSOCIATION_GUID) === GUID) {
         if (!namespaceURI) {
-          return childNode
+          return childNode;
         }
 
         // figure out bug with getElementsByTagName, work this logic by finding the association first
@@ -1499,13 +1427,13 @@ define([
 
         return createIfNotExist
           ? self._createNewNamespaceData(documentNode, childNode, _ASSOCIATION_NAMESPACE_DATA, namespaceURI)
-          : null
+          : null;
       }
     }
 
     return createIfNotExist
       ? self._createNewAssociation(documentNode, GUID, namespaceURI)
-      : null
+      : null;
   };
 
   self._createNewNamespaceData = function (documentNode, commonNode, namespaceElementName, namespaceURI) {
@@ -1547,7 +1475,7 @@ define([
    * @return {String} Value of the given attributeName if the attributeName
    *                  exists, else null.
    */
-  self._getAttribute = function (attributeName, elementName, namespaceURI, GUID, callback) {
+  self._getAttribute = function (attributeName, elementName, namespaceURI, GUID) {
     var self = this;
 
     self._retrieveAttribute(attributeName,  elementName, namespaceURI, GUID, function (error, element) {
@@ -1555,7 +1483,7 @@ define([
         throw error;
       }
 
-      return callback(false, element.getAttribute(attributeName));
+      return element.getAttribute(attributeName);
     });
   };
 
@@ -1577,7 +1505,7 @@ define([
    * @param {String} namespaceURI   TODO
    * @param {String} GUID           TODO
    */
-  self._setAttribute = function (attributeName, attributeValue, elementName, namespaceURI, GUID, callback) {
+  self._setAttribute = function (attributeName, attributeValue, elementName, namespaceURI, GUID) {
     var self = this;
 
     self._retrieveAttribute(attributeName, elementName, namespaceURI, GUID, function (error, element) {
@@ -1588,11 +1516,10 @@ define([
 
       element.setAttribute(attributeName, attributeValue);
       self._updateFragment(self._document);
-      callback(false);
     });
   };
 
-  self._addAttribute = function (attributeName, elementName, namespaceURI, GUID, callback) {
+  self._addAttribute = function (attributeName, elementName, namespaceURI, GUID) {
     var self = this;
 
     self._retrieveAttribute(attributeName, elementName, namespaceURI, GUID, function (error, element) {
@@ -1600,90 +1527,83 @@ define([
         throw error;
       }
       if (element.getAttribute(attributeName)) {
-        return callback(XooMLExceptions.invalidState);
+        return XooMLExceptions.invalidState;
       }
 
       element.setAttribute(attributeName, _DEFAULT_VALUE_FOR_ADD_ATTRIBUTE);
       self._updateFragment(self._document);
-      callback(false);
     });
   };
 
-  self._removeAttribute = function (attributeName, elementName, namespaceURI, GUID, callback) {
+  self._removeAttribute = function (attributeName, elementName, namespaceURI, GUID) {
     var self = this;
 
     self._retrieveAttribute(attributeName, elementName, namespaceURI, GUID, function (error, element) {
       if (error) {
-        return callback(error);
+        throw error;
       }
       if (!element.getAttribute(attributeName)) {
-        return callback(XooMLExceptions.invalidState);
+        return XooMLExceptions.invalidState;
       }
 
       element.removeAttribute(attributeName);
       self._updateFragment(self._document);
-      callback(false);
     });
   };
 
 
-  self._retrieveAttribute = function (attributeName, elementName, namespaceURI, GUID, callback) {
-    XooMLUtil.checkCallback(callback);
+  self._retrieveAttribute = function (attributeName, elementName, namespaceURI, GUID) {
     if (!attributeName) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if (!XooMLUtil.isString(attributeName)) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this, element;
 
-    element = self._getOrCreateElement(elementName, namespaceURI, GUID, callback);
-    return callback(false, element);
+    element = self._getOrCreateElement(elementName, namespaceURI, GUID);
+    return element;
   };
 
-  self._listAttributes = function (elementName, namespaceURI, GUID, callback) {
-    XooMLUtil.checkCallback(callback);
+  self._listAttributes = function (elementName, namespaceURI, GUID) {
     var self = this, element, attributes, i, attrib;
 
-    element = self._getOrCreateElement(elementName, namespaceURI, GUID, callback);
+    element = self._getOrCreateElement(elementName, namespaceURI, GUID);
     attributes = [];
     for (i = 0; i < element.attributes.length; i += 1) {
       attrib = element.attributes[i];
       attributes.push(attrib.name);
     }
 
-    return callback(false, attributes);
+    return attributes;
   };
 
-  self._getNamespaceData = function (elementName, namespaceURI, GUID, callback) {
+  self._getNamespaceData = function (elementName, namespaceURI, GUID) {
     var self = this, element;
 
-    element = self._getOrCreateElement(elementName, namespaceURI, GUID, callback);
-    return callback(false, element.innerHTML);
+    element = self._getOrCreateElement(elementName, namespaceURI, GUID);
+    return element.innerHTML;
   };
 
-  self._setNamespaceData = function (elementName, namespaceURI, GUID, data, callback) {
-    XooMLUtil.checkCallback(callback);
+  self._setNamespaceData = function (elementName, namespaceURI, GUID, data) {
     if (!data) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if (!XooMLUtil.isString(data)) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this, element;
 
-    element = self._getOrCreateElement(elementName, namespaceURI, GUID, callback);
+    element = self._getOrCreateElement(elementName, namespaceURI, GUID);
     element.innerHTML = data;
-    callback(false);
   };
 
-  self._hasNamespace = function (GUID, namespaceURI, callback) {
-    XooMLUtil.checkCallback(callback);
+  self._hasNamespace = function (GUID, namespaceURI) {
     if (!namespaceURI) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if ((GUID && !XooMLUtil.isGUID(GUID))) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this, element, query;
 
@@ -1691,7 +1611,7 @@ define([
       ? self._getAssociation(self._document, GUID, namespaceURI, false)
       : self._getFragment(self._document, namespaceURI, false);
 
-    return callback(false, element !== null)
+    return element !== null;
   };
 
   return FragmentDriver;
