@@ -125,11 +125,12 @@ define([
 	}
 
 	var xooMLFragmentURI = PathDriver.join(self.groupingItemURI,"XooML2.xml");
-	self._itemDriver.checkExisted("xooMLFragmentURI", function(error, result) {
+	self._itemDriver.readItem("xooMLFragmentURI", function(error, content) {
 	  // If XooML file isn't present, then throw an error
 	  if (error) {
 	    return callback(error);
 	  } else {
+	    self._document = self._parseXML(content);
 	    return callback(false, self);
 	  }
 	});
