@@ -285,6 +285,47 @@ define([
     });
   };
 
+  /**
+   * Writes an Item
+   * @method writeItem
+   * @param {String} uri the path of the item
+   * @param {String} content the content of the item
+   * @param {Function} callback(content) Function to be called when self function is finished with it's operation.
+   *   @param {String} callback.error Any errors that occur from writing
+   *   @param {String} callback.content Content of item written
+   *
+   * @protected
+   */
+  self.writeItem = function (uri, fragment, callback) {
+    var self = this;
+
+    self._dropboxClient.writeFile(uri, fragment, function (error, stat) {
+      if (error) {
+        return self._showDropboxError(error, callback);
+      }
+      callback(false, stat);
+    });
+
+  /**
+   * Reads and returns an Item
+   * @method readItem
+   * @param {String} uri the path of the item
+   * @param {Function} callback(content) Function to be called when self function is finished with it's operation.
+   *   @param {String} callback.error Any errors that occur from reading
+   *   @param {String} callback.content Content of item written
+   * @protected
+   */
+  self.readItem = function (uri, callback) {
+    var self = this;
+
+    self._dropboxClient.readFile(uri, function (error, content) {
+      if (error) {
+        return self._showDropboxError(error, callback);
+      }
+      callback(false, content);
+    });
+  };
+
   self._showDropboxError = function (error, callback) {
     return callback(error.status);
   };
