@@ -120,7 +120,7 @@ define([
       return callback(false, self);
     // Case 3
     } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_3_OPTIONS, options)) {
-      self._itemDriver = new ItemDriver.ItemDriver(itemDriver.options, function (error, itemDriver) {
+      self._itemDriver = new ItemDriver.ItemDriver(self.itemDriver.options, function (error, itemDriver) {
 	if (error) {
 	  return callback(error, null);
 	}
@@ -140,7 +140,7 @@ define([
       return callback(XooMLExceptions.missingParameter);
     }
   }
-  self = FragmentDriver.prototype;
+  self = XooMLDriver.prototype;
 
   /**
    * Updates the ETag.
@@ -1249,9 +1249,9 @@ define([
       association = associations[i];
       GUID = XooMLUtil.generateGUID();
 
-      associatedXooMLFragment = association.getIsGroupingItem()
-        ? PathDriver.joinPath(association.getDisplayText(),
-        XooMLConfig.xooMLFragmentFileName)
+      associatedXooMLFragment = association.getIsGroupingItem() ?
+	PathDriver.joinPath(association.getDisplayText(),
+			    XooMLConfig.xooMLFragmentFileName)
         : null;
       self._createAssociation(GUID,
         associatedXooMLFragment,
@@ -1313,14 +1313,14 @@ define([
   };
 
   self._createAssociationLinkGrouping = function (GUID, options, callback) {
-    return callback(XooMLExceptions.notImplemented);
     var self = this;
+    return callback(XooMLExceptions.notImplemented);
 
-    if (!options.localItemRequested) {
-      // Case 4
-    } else {
-      // Case 5
-    }
+//    if (!options.localItemRequested) {
+//      // Case 4
+//    } else {
+//      // Case 5
+//    }
   };
 
   self._createAssociationCreate = function (GUID, options, callback) {
@@ -1361,9 +1361,9 @@ define([
     if (!elementName) {
       return XooMLExceptions.nullArgument;
     }
-    if ((GUID && !XooMLUtil.isGUID(GUID))
-      || (namespaceURI && !XooMLUtil.isString(namespaceURI))
-      || !XooMLUtil.isString(elementName)) {
+    if ((GUID && !XooMLUtil.isGUID(GUID))                   ||
+	(namespaceURI && !XooMLUtil.isString(namespaceURI)) ||
+	!XooMLUtil.isString(elementName)) {
       return XooMLExceptions.invalidType;
     }
     var self = this;
@@ -1420,20 +1420,19 @@ define([
         namespaceNodes = documentNode.getElementsByTagName(_ASSOCIATION_NAMESPACE_DATA);
         for (j = 0; j < namespaceNodes.length; j += 1) {
           namespaceNode = namespaceNodes[j];
-          if (namespaceNode.getAttribute(_NAMESPACE_ATTRIBUTE) === namespaceURI
-            && namespaceNode.parentNode.getAttribute(_ASSOCIATION_GUID) == GUID) {
+          if (namespaceNode.getAttribute(_NAMESPACE_ATTRIBUTE) === namespaceURI &&
+              namespaceNode.parentNode.getAttribute(_ASSOCIATION_GUID) == GUID) {
             return namespaceNode;
           }
         }
 
-        return createIfNotExist
-          ? self._createNewNamespaceData(documentNode, childNode, _ASSOCIATION_NAMESPACE_DATA, namespaceURI)
+        return createIfNotExist ? self._createNewNamespaceData(documentNode, childNode, _ASSOCIATION_NAMESPACE_DATA, namespaceURI)
           : null;
       }
     }
 
-    return createIfNotExist
-      ? self._createNewAssociation(documentNode, GUID, namespaceURI)
+    return createIfNotExist ?
+      self._createNewAssociation(documentNode, GUID, namespaceURI)
       : null;
   };
 
@@ -1457,8 +1456,8 @@ define([
     }
     documentNode.getElementsByTagName(_FRAGMENT)[0].appendChild(association);
 
-    return namespaceURI
-      ? associationNamespaceData
+    return namespaceURI ?
+      associationNamespaceData
       : association;
   };
 
@@ -1608,8 +1607,8 @@ define([
     }
     var self = this, element, query;
 
-    element = GUID
-      ? self._getAssociation(self._document, GUID, namespaceURI, false)
+    element = GUID ?
+      self._getAssociation(self._document, GUID, namespaceURI, false)
       : self._getFragment(self._document, namespaceURI, false);
 
     return element !== null;
