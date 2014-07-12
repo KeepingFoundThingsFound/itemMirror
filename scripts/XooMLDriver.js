@@ -54,7 +54,8 @@ define([
   XooMLConfig,
   XooMLUtil,
   PathDriver,
-  XooMLAssociation) {
+  XooMLAssociation,
+  ItemDriver) {
   "use strict";
 
   var
@@ -1614,5 +1615,5 @@ define([
     return element !== null;
   };
 
-  return FragmentDriver;
+  return XooMLDriver;
 });
