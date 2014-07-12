@@ -37,8 +37,6 @@
  *     dropbox client. Required if the given itemDriverURI uses
  *     dropbox. (Since dropbox is the only supported option now this
  *     should always be specified)
- * @param {Function}[callback] callback function
- *   @param {String} callback.error The error to the callback
  *
  * @protected
  **/
@@ -300,11 +298,11 @@ define([
    *
    * @protected
    */
-  self.setItemDriver = function (itemDriver, callback) {
+  self.setItemDriver = function (itemDriver) {
     var self = this;
 
     self._setAttribute(_FRAGMENT_ITEM_DRIVER, itemDriver, _FRAGMENT,
-      null, null, callback);
+		       null, null);
   };
 
   /**
@@ -316,11 +314,10 @@ define([
    *
    * @protected
    */
-  self.getSyncDriver = function (callback) {
+  self.getSyncDriver = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_SYNC_DRIVER, _FRAGMENT, null, null,
-      callback);
+    self._getAttribute(_FRAGMENT_SYNC_DRIVER, _FRAGMENT, null, null);
   };
 
   /**
@@ -335,11 +332,11 @@ define([
    *
    * @protected
    */
-  self.setSyncDriver = function (syncDriver, callback) {
+  self.setSyncDriver = function (syncDriver) {
     var self = this;
 
     self._setAttribute(_FRAGMENT_SYNC_DRIVER, syncDriver, _FRAGMENT,
-      null, null, callback);
+      null, null);
   };
 
   /**
@@ -351,11 +348,10 @@ define([
    *
    * @protected
    */
-  self.getXooMLDriver = function (callback) {
+  self.getXooMLDriver = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_XOOML_DRIVER, _FRAGMENT, null, null,
-      callback);
+    return self._getAttribute(_FRAGMENT_XOOML_DRIVER, _FRAGMENT, null, null);
   };
 
   /**
@@ -370,11 +366,11 @@ define([
    *
    * @protected
    */
-  self.setXooMLDriver = function (xooMlDriver, callback) {
+  self.setXooMLDriver = function (xooMlDriver) {
     var self = this;
 
     self._setAttribute(_FRAGMENT_XOOML_DRIVER, xooMlDriver, _FRAGMENT,
-      null, null, callback);
+		       null, null);
   };
 
   /**
@@ -386,10 +382,10 @@ define([
    *
    * @protected
    */
-  self.getGUIDGeneratedOnLastWrite = function (callback) {
+  self.getGUIDGeneratedOnLastWrite = function () {
     var self = this;
 
-    self._getAttribute(_FRAGMENT_GUID, _FRAGMENT, null, null, callback);
+    return self._getAttribute(_FRAGMENT_GUID, _FRAGMENT, null, null);
   };
 
   /**
@@ -874,13 +870,12 @@ define([
    *
    * @protected
    */
-  self.createAssociation = function (options, callback) {
-    XooMLUtil.checkCallback(callback);
+  self.createAssociation = function (options) {
     if (!options) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if (!XooMLUtil.isObject(options)) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this, GUID, isLinkNonGrouping, isSimple, isLinkGrouping, isCreate;
 
@@ -896,15 +891,15 @@ define([
       createAssociationCreate, options);
 
     if (isSimple) {
-      return self._createAssociation(GUID, null, options.displayText, null, null, null, callback);
+      return self._createAssociation(GUID, null, options.displayText, null, null, null);
     } else if (isLinkNonGrouping) {
-      return self._createAssociationLinkNonGrouping(GUID, options, callback);
+      return self._createAssociationLinkNonGrouping(GUID, options);
     } else if (isLinkGrouping) {
-      return self._createAssociationLinkGrouping(GUID, options, callback);
+      return self._createAssociationLinkGrouping(GUID, options);
     } else if (isCreate) {
-      return self._createAssociationCreate(GUID, options, callback);
+      return self._createAssociationCreate(GUID, options);
     } else {
-      return callback(XooMLExceptions.missingParameter);
+      return XooMLExceptions.missingParameter;
     }
   };
 
@@ -921,13 +916,12 @@ define([
    *
    * @protected
    */
-  self.deleteAssociation = function (GUID, callback) {
-    XooMLUtil.checkCallback(callback);
+  self.deleteAssociation = function (GUID) {
     if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
+      return XooMLExceptions.nullArgument;
     }
     if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
+      return XooMLExceptions.invalidType;
     }
     var self = this, association, associations, i;
 
@@ -936,12 +930,11 @@ define([
       association = associations[i];
       if (association.getAttribute(_ASSOCIATION_GUID) === GUID) {
         association.parentNode.removeChild(association);
-        return callback(false);
       }
     }
 
     //"Association with given GUID does not exist."
-    return callback(XooMLExceptions.invalidArgument);
+    return XooMLExceptions.invalidArgument;
   };
 
   /**
@@ -1279,7 +1272,7 @@ define([
    * @param {String} localItem TODO
    * @param {Object} fragment TODO
    */
-  self._createAssociation = function (GUID, associationXooMLFragment, displayText, associatedItem, localItem, fragment, callback) {
+  self._createAssociation = function (GUID, associationXooMLFragment, displayText, associatedItem, localItem, fragment) {
     var self = this, association, parent;
 
     parent = fragment || self._document.firstChild;
@@ -1296,25 +1289,21 @@ define([
     association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT, associationXooMLFragment);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER, ""); // TODO consider removal?
     parent.appendChild(association.cloneNode(true));
-
-    if (callback) {
-      return callback(false, GUID);
-    }
   };
 
-  self._createAssociationLinkNonGrouping = function (GUID, options, callback) {
+  self._createAssociationLinkNonGrouping = function (GUID, options) {
     var self = this;
 
     if (!options.localItemRequested) { // Case 2
-      return self._createAssociation(GUID, null, options.displayText, options.itemURI, null,  null, callback);
+      return self._createAssociation(GUID, null, options.displayText, options.itemURI, null,  null);
     } else { // Case 3
-      return callback(XooMLExceptions.notImplemented);
+      return XooMLExceptions.notImplemented;
     }
   };
 
-  self._createAssociationLinkGrouping = function (GUID, options, callback) {
+  self._createAssociationLinkGrouping = function (GUID, options) {
     var self = this;
-    return callback(XooMLExceptions.notImplemented);
+    return XooMLExceptions.notImplemented;
 
 //    if (!options.localItemRequested) {
 //      // Case 4
@@ -1323,13 +1312,13 @@ define([
 //    }
   };
 
-  self._createAssociationCreate = function (GUID, options, callback) {
+  self._createAssociationCreate = function (GUID, options) {
     var self = this;
 
     if (!options.isGroupingItem) { // Case 6
-      self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null, callback);
+      self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null);
     } else { // Case 7
-      self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null, callback);
+      self._createAssociation(GUID, null, options.displayText, options.itemName, options.itemName, null);
     }
   };
 
