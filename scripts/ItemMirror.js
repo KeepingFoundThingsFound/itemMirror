@@ -59,7 +59,6 @@ define([
   "./XooMLConfig.js",
   "./XooMLUtil.js",
   "./PathDriver.js",
-  "./FragmentDriver.js",
   "./ItemDriver.js",
   "./XooMLDriver.js",
   "./SyncDriver.js"
@@ -68,7 +67,6 @@ define([
   XooMLConfig,
   XooMLUtil,
   PathDriver,
-  FragmentDriver,
   ItemDriver,
   XooMLDriver,
   SyncDriver) {
@@ -113,7 +111,6 @@ define([
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
-    self._fragmentDriver = null;
     self._parent = options.parent;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
@@ -189,32 +186,22 @@ define([
    *
    * @method getSchemaVersion
    * @return {String} XooML schema version.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.schemaVersion XooML schema version.
    */
   self.getSchemaVersion = function (callback) {
     var self = this;
 
-    self._fragmentDriver.getSchemaVersion(callback);
+    return self._xooMLDriver.getSchemaVersion();
   };
 
   /**
    *
    * @method getSchemaLocation
    * @return {String} XooML schema location.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.schemaVersion XooML schema location.
    */
-  self.getSchemaLocation = function (callback) {
+  self.getSchemaLocation = function () {
     var self = this;
 
-    self._fragmentDriver.getSchemaLocation(callback);
+    return self._xooMLDriver.getSchemaLocation();
   };
 
   /**
@@ -227,18 +214,11 @@ define([
    * @return {String} A URI pointing to item described by the metadata
    * of a fragment if it exists, else returns null.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.itemDescribed A URI pointing to item
-   *                    described by the metadata of a fragment if it
-   *                    exists, else returns null.
    */
-  self.getItemDescribed = function (callback) {
+  self.getItemDescribed = function () {
     var self = this;
 
-    self._fragmentDriver.getItemDescribed(callback);
+    return self._xooMLDriver.getItemDescribed();
   };
 
   /**
@@ -250,32 +230,22 @@ define([
    *
    * @method getItemDriver
    * @return {String} The URI of the item driver.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.itemDriver A URI of the item driver.
    */
-  self.getItemDriver = function (callback) {
+  self.getItemDriver = function () {
     var self = this;
 
-    self._fragmentDriver.getItemDriver(callback);
+    return self._xooMLDriver.getItemDriver();
   };
 
   /**
    *
    * @method getSyncDriver
    * @return {String} Returns the sync driver URI.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.syncDriver A URI of the sync driver.
    */
-  self.getSyncDriver = function (callback) {
+  self.getSyncDriver = function () {
     var self = this;
 
-    self._fragmentDriver.getSyncDriver(callback);
+    return self._xooMLDriver.getSyncDriver();
   };
 
   /**
@@ -331,33 +301,22 @@ define([
    *
    * @method getXooMLDriver
    * @return {String} The XooML driver.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.xooMLDriver A URI of the XooML driver.
    */
-  self.getXooMLDriver = function (callback) {
+  self.getXooMLDriver = function () {
     var self = this;
 
-    self._fragmentDriver.getXooMLDriver(callback);
+    return self._xooMLDriver.getXooMLDriver();
   };
 
   /**
    *
    * @method getGUIDGeneratedOnLastWrite
    * @return {String} The GUID generated on the last modification to the file.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.GUIDGeneratedOnLastWrite Gets the GUID
-   *                    generated on last write of this XooML Fragment.
    */
-  self.getGUIDGeneratedOnLastWrite = function (callback) {
+  self.getGUIDGeneratedOnLastWrite = function () {
     var self = this;
 
-    self._fragmentDriver.getGUIDGeneratedOnLastWrite(callback);
+    return self._xooMLDriver.getGUIDGeneratedOnLastWrite();
   };
 
   /**
@@ -370,16 +329,11 @@ define([
    * @return {String} The display text for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.displayText The display text.
    */
-  self.getAssociationDisplayText = function (GUID, callback) {
+  self.getAssociationDisplayText = function (GUID) {
     var self = this;
 
-    self._fragmentDriver.getAssociationDisplayText(GUID, callback);
+    return self._xooMLDriver.getAssociationDisplayText(GUID);
   };
 
   /**
@@ -393,17 +347,11 @@ define([
    *
    * @param {String}   GUID        GUID of the association to set.
    * @param {String}   displayText Display text to be set.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.setAssociationDisplayText = function (GUID, displayText, callback) {
+  self.setAssociationDisplayText = function (GUID, displayText) {
     var self = this;
 
-    self._fragmentDriver.setAssociationDisplayText(GUID, displayText, function (error) {
-      self._handleSet(error, callback);
-    });
+    self._xooMLDriver.setAssociationDisplayText(GUID, displayText);
   };
 
   /**
@@ -415,17 +363,11 @@ define([
    *
    * @param {String} GUID GUID of the association to get.
    * @return {String} The XooML fragment for the association with the given GUID.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.associatedXooMLFragment The associated
-   *                    XooMLFragment.
    */
-  self.getAssociationAssociatedXooMLFragment = function (GUID, callback) {
+  self.getAssociationAssociatedXooMLFragment = function (GUID) {
     var self = this;
 
-    self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID, callback);
+    return self._xooMLDriver.getAssociationAssociatedXooMLFragment(GUID);
   };
 
   /**
@@ -437,17 +379,11 @@ define([
    * @return {String} The local item for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.localItem Local item of the association
-   *                    with the given GUID.
    */
-  self.getAssociationLocalItem = function (GUID, callback) {
+  self.getAssociationLocalItem = function (GUID) {
     var self = this;
 
-    self._fragmentDriver.getAssociationLocalItem(GUID, callback);
+    return self._xooMLDriver.getAssociationLocalItem(GUID);
   };
 
   /**
@@ -458,18 +394,12 @@ define([
    * @method getAssociationAssociatedItem
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.associatedItem Associated item of the
    *                    association with the given GUID.
    */
-  self.getAssociationAssociatedItem = function (GUID, callback) {
+  self.getAssociationAssociatedItem = function (GUID) {
     var self = this;
 
-    self._fragmentDriver.getAssociationAssociatedItem(GUID, callback);
+    return self._xooMLDriver.getAssociationAssociatedItem(GUID);
   };
 
   /**
@@ -485,18 +415,11 @@ define([
    * @param {String} namespaceURI Name of the namespace of the given
    *                               attributeName.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.fragmentNamespaceAttribute Value of the given
-   *                    attributeName within the given namespaceURI if the given
-   *                    attributeName exists, else returns null.
    */
-  self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.getFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
+    return self._xooMLDriver.getFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -522,10 +445,10 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.addFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
+    self._xooMLDriver.addFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -548,10 +471,10 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI, callback) {
+  self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.removeFragmentNamespaceAttribute(attributeName, namespaceURI, callback);
+    self._xooMLDriver.removeFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -568,17 +491,11 @@ define([
    *
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {Object}   callback.result True if the fragment has the
-   *                    given namespaceURI, else false.
    */
-  self.hasFragmentNamespace = function (namespaceURI, callback) {
+  self.hasFragmentNamespace = function (namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.hasFragmentNamespace(namespaceURI, callback);
+    return self._xooMLDriver.hasFragmentNamespace(namespaceURI);
   };
 
   /**
@@ -595,18 +512,12 @@ define([
    * @param {String} attributeValue Value of the attribute to be set.
    * @param {String} namespaceURI  Name of the namespace of the given
    *                                attributeName.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI, callback) {
+  self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.setFragmentNamespaceAttribute(attributeName,
-      attributeValue, namespaceURI, function (error) {
-        self._handleSet(error, callback);
-    });
+    self._xooMLDriver.setFragmentNamespaceAttribute(attributeName,
+      attributeValue, namespaceURI);
   };
 
   /**
@@ -620,18 +531,11 @@ define([
    * @param {String} namespaceURI  Name of the namespace of the given
    *                                attributeName.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String[]} callback.fragmentNamespaceAttributes Array of
-   *                    attributes within the fragmentNamespaceData with
-   *                    the given namespaceURI.
-   */
-  self.listFragmentNamespaceAttributes = function (namespaceURI, callback) {
+  */
+  self.listFragmentNamespaceAttributes = function (namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.listFragmentNamespaceAttributes(namespaceURI, callback);
+    return self._xooMLDriver.listFragmentNamespaceAttributes(namespaceURI);
   };
 
   /**
@@ -643,18 +547,11 @@ define([
    *
    * @param {String} namespaceURI URI of the namespace to be set.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.fragmentNamespaceData Fragment namespace
-   *                    data with the given namespaceURI. If a string is
-   *                    returned it will be valid fragmentNamespaceData.
    */
-  self.getFragmentNamespaceData = function (namespaceURI, callback) {
+  self.getFragmentNamespaceData = function (namespaceURI) {
     var self = this;
-
-    self._fragmentDriver.getFragmentNamespaceData(namespaceURI, callback);
+    
+    return self._xooMLDriver.getFragmentNamespaceData(namespaceURI);
   };
 
   /**
@@ -669,17 +566,11 @@ define([
    *                 namespaceData.
    * @param {String} namespaceURI URI of the namespace to be set.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.setFragmentNamespaceData = function (data, namespaceURI, callback) {
+  self.setFragmentNamespaceData = function (data, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.setFragmentNamespaceData(data, namespaceURI, function (error) {
-      self._handleSet(error, callback);
-    });
+    self._xooMLDriver.setFragmentNamespaceData(data, namespaceURI);
   };
 
   /**
@@ -697,13 +588,6 @@ define([
    * @param {String} GUID GUID of the association to create the ItemMirror
    *                 from.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {ItemMirror} callback.itemMirror ItemMirror from the groupingItem
-   *                      of the given GUID, null if the given GUID is not
-   *                      a grouping item.
    */
   self.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
     var self = this;
