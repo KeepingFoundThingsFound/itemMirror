@@ -296,10 +296,10 @@ define([
    *
    * @protected
    */
-  self.writeItem = function (uri, fragment, callback) {
+  self.writeItem = function (uri, content, callback) {
     var self = this;
 
-    self._dropboxClient.writeFile(uri, fragment, function (error, stat) {
+    self._dropboxClient.writeFile(uri, content, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
