@@ -1121,42 +1121,21 @@ define([
    *
    * @param GUID {String} GUID of the association to be to be checked.
    *
-   * @param {Function} callback Function to execute once finished.
-   *
-   *  @param {Object} callback.error Null if no error has occurred
-   *                  in executing this function, else an contains
-   *                  an object with the error that occurred.
-   *
-   *  @param {Boolean} callback.isGroupingItem True if the association
-   *                   with the given GUID is a grouping item, else
-   *                   false.
    */
-  self.isAssociatedItemGrouping = function (GUID, callback) {
-    var self = this;
+  self.isAssociatedItemGrouping = function (GUID) {
+    var self = this, associatedItem, xooMLFragment;
 
-    self._fragmentDriver.getAssociationAssociatedItem(GUID,
-      function (error, associatedItem) {
-      if (error) {
-        return callback(error);
-      }
-      if (!associatedItem || associatedItem === "") {
-        return callback(false, false);
-      }
+    associatedItem = self._xooMLDriver.getAssociationAssociatedItem(GUID);
+    if (!associatedItem || associatedItem === "") {
+      return false;
+    }
       
-      self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID,
-        function (error, XooMLFragment){
-          if(error){
-            return callback(error);
-          }
-          if (!XooMLFragment || XooMLFragment === "" || XooMLFragment === null) {
-            return callback(false, false);
-          }else{
-          return callback(false, true);
-          }
-        });
-      
-
-    });
+    xooMLFragment = self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID);
+    if (!xooMLFragment || xooMLFragment === "" || xooMLFragment === null) {
+      return false;
+    }else{
+      return false;
+    }
   };
 
   /**
