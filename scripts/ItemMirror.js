@@ -1419,35 +1419,22 @@ define([
    * @method toString
    * @return {String} String representation of self
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.toString String representation of self
-   *                    wrapper.
    */
-  self.toString = function (callback) {
+  self.toString = function () {
     var self = this;
 
-    self._fragmentDriver.toString(callback);
+    return self._xooMLDriver.toString();
   };
 
   /**
    * @method getParent
-   * @return {String} Perent ItemMirror if this ItemMirror has a paraent.
+   * @return {Object} Parent ItemMirror if this ItemMirror has a parent.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.parent Parent ItemMirror of this
-   *                    ItemMirror object if it has a parent, else
-   *                    null.
    */
-  self.getParent = function (callback) {
+  self.getParent = function () {
     var self = this;
 
-    return callback(false, self._parent);
+    return self._parent;
   };
 
   /**
