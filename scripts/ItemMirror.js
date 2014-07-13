@@ -1364,6 +1364,7 @@ define([
    * @method isCurrent
    * @return {Boolean} True if the local GUID matches the remote GUID,
    * else false.
+   * @async
    *
    * @param {Function} callback Function to execute once finished.
    *  @param {Object}   callback.error Null if no error has occurred
@@ -1375,26 +1376,15 @@ define([
   self.isCurrent = function (callback) {
     var self = this, inMemoryGUID, fileGUID, xooMLFragmentURI;
 
-    self.getGUIDGeneratedOnLastWrite(function(error,GUID){
+    inMemoryGUID = self.getGUIDGeneratedOnLastWrite();
+
+    // Constructs XooMLDriver with Case 3
+    new XooMLDriver({itemDriver: self._itemDriver, groupingItemURI: self._groupingItemURI}, function(error, xooMLDriver){
       if (error) {
         return callback(error);
       }
-      inMemoryGUID = GUID;
-      xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
-      self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function (error,content) {
-        if (error) {
-            return callback(error);
-          }
-        new FragmentDriver({ xooMLFragmentString: content }, function (error, tempDataWrapper) {
-        tempDataWrapper.getGUIDGeneratedOnLastWrite(function (error, GUID) {
-          if (error) {
-            return callback(error);
-          }
-          fileGUID = GUID;
-          callback(false, inMemoryGUID === fileGUID);
-        });
-      });
-    });
+      fileGUID = xooMLDriver.getGUIDGeneratedOnLastWrite();
+      callback(false, inMemoryGUID === fileGUID);
     });
   };
 

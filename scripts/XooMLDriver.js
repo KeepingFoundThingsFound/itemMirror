@@ -118,22 +118,17 @@ define([
       return callback(false, self);
     // Case 3
     } else if (XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_3_OPTIONS, options)) {
-      self._itemDriver = new ItemDriver.ItemDriver(self.itemDriver.options, function (error, itemDriver) {
+      var xooMLFragmentURI = PathDriver.join(options.groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+      options.itemDriver.readItem("xooMLFragmentURI", function(error, content) {
+	// If XooML file isn't present, then throw an error
 	if (error) {
-	  return callback(error, null);
+	  return callback(error);
+	} else {
+	  self._document = self._parseXML(content);
+	  return callback(false, self);
 	}
-
-	var xooMLFragmentURI = PathDriver.join(self.groupingItemURI,"XooML2.xml");
-	self._itemDriver.readItem("xooMLFragmentURI", function(error, content) {
-	  // If XooML file isn't present, then throw an error
-	  if (error) {
-	    return callback(error);
-	  } else {
-	    self._document = self._parseXML(content);
-	    return callback(false, self);
-	  }
-	});
       });
+
     } else {
       return callback(XooMLExceptions.missingParameter);
     }
