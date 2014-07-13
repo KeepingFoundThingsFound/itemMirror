@@ -1145,18 +1145,11 @@ define([
    *
    * @return {String[]} Array of the GUIDs of each association
    *                    of the given namespaceURI
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String[]} callback.GUIDs Array of each association GUID
-   *                    within given namespaceURI.
    */
-  self.listAssociations = function (callback) {
+  self.listAssociations = function () {
     var self = this;
 
-    self._fragmentDriver.listAssociations(callback);
+    return self._xooMLDriver.listAssociations();
   };
 
   /**
@@ -1176,19 +1169,11 @@ define([
    * @param {String} GUID          GUID of the association to return attribute from.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.associationNamespaceAttribute Value of
-   *                    association namespace attribute with the given
-   *                    attributeName and the given namespaceURI within the
-   *                    association with the given GUID.
    */
-  self.getAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
+  self.getAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
+    return self._xooMLDriver.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1208,16 +1193,11 @@ define([
    * @param {String} attributeName Name of the attribute.
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
+  self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
+    return self._xooMLDriver.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1238,15 +1218,11 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI, callback) {
+  self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI, callback);
+    self._xooMLDriver.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1264,17 +1240,11 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {Object}   callback.result True if the association has the
-   *                    given namespaceURI, else false.
    */
-  self.hasAssociationNamespace = function (GUID, namespaceURI, callback) {
+  self.hasAssociationNamespace = function (GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.hasAssociationNamespace(GUID, namespaceURI, callback);
+    return self._xooMLDriver.hasAssociationNamespace(GUID, namespaceURI);
   };
 
   /**
@@ -1294,17 +1264,12 @@ define([
    * @param {String} GUID           GUID of association to set attribute for.
    * @param {String} namespaceURI   URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI, callback) {
+  self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI, function (error) {
-      self._handleSet(error, callback);
-    });
+    self._xooMLDriver.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI);
+
   };
 
   /**
@@ -1321,19 +1286,11 @@ define([
    * @param {String} GUID          GUID of association to list attributes for.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @return
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String[]} Array of the attributes within the association namespace
-   *                    with the given namespaceURI.
    */
-  self.listAssociationNamespaceAttributes = function (GUID, namespaceURI, callback) {
+  self.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.listAssociationNamespaceAttributes(GUID, namespaceURI, callback);
+    return self._xooMLDriver.listAssociationNamespaceAttributes(GUID, namespaceURI);
   };
 
   /**
@@ -1350,20 +1307,11 @@ define([
    *                               returned.
    * @param {String} namespaceURI  URI of the namespace of the association
    *                               namespace data to returned.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.associationNamespaceData Association
-   *                    namespace data if the association namespace data
-   *                    exists, else returns null. If a string is returned
-   *                    it will be valid fragmentNamespaceData.
    */
-  self.getAssociationNamespaceData = function (GUID, namespaceURI, callback) {
+  self.getAssociationNamespaceData = function (GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.getAssociationNamespaceData(GUID, namespaceURI, callback);
+    return self._xooMLDriver.getAssociationNamespaceData(GUID, namespaceURI);
   };
 
   /**
@@ -1383,17 +1331,11 @@ define([
    * @param {String} namespaceURI  URI of the namespace of the association
    *                               namespace data to set.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  self.setAssociationNamespaceData = function (data, GUID, namespaceURI, callback) {
+  self.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.setAssociationNamespaceData(data, GUID, namespaceURI, function (error) {
-      self._handleSet(error, callback);
-    });
+    self._fragmentDriver.setAssociationNamespaceData(data, GUID, namespaceURI);
   };
 
   /**
