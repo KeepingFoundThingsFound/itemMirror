@@ -1227,12 +1227,14 @@ define([
   };
 
   /**
+   * Checks if an association's associatedItem is a grouping item, by means of storage service API.
+   *
    * Throws NullArgumentException if GUID, callback is null. <br/>
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not an function. <br/>
    *
    * @method isAssociatedItemGrouping
-   * @return {Boolean} True if the association with the given GUID is a grouping
+   * @return {Boolean} True if the association with the given GUID's associatedItem is a grouping
    * item, otherwise false.
    *
    * @param GUID {String} GUID of the association to be to be checked.
@@ -1259,6 +1261,54 @@ define([
         return callback(false, false);
       }
       
+  if (self._isURL(associatedItem)) {
+    return callback(false, false);
+  }
+  
+    var path;
+    path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
+  
+    self._itemDriver.isGroupingItem(path, function (error, result) {
+    if (error) {
+      return callback(error);
+    }
+    
+    return callback(false, result);
+  });
+      
+
+    });
+  };
+  
+  /**
+   * Checks if the Association is a grouping item, by checking if it has an Associated XooML Fragment.
+   *
+   * Throws NullArgumentException if GUID, callback is null. <br/>
+   * Throws InvalidTypeException if GUID is not a String, and if callback
+   * is not an function. <br/>
+   *
+   * @method isGroupingItem
+   * @return {Boolean} True if the association with the given GUID is a grouping
+   * item, otherwise false.
+   *
+   * @param GUID {String} GUID of the association to be to be checked.
+   *
+   * @param {Function} callback Function to execute once finished.
+   *
+   *  @param {Object} callback.error Null if no error has occurred
+   *                  in executing this function, else an contains
+   *                  an object with the error that occurred.
+   *
+   *  @param {Boolean} callback.isGroupingItem True if the association
+   *                   with the given GUID is a grouping item, else
+   *                   false.
+   */
+  self.isGroupingItem = function (GUID, callback) {
+    var self = this;
+      if (error) {
+        return callback(error);
+      }
+      
       self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID,
         function (error, XooMLFragment){
           if(error){
@@ -1271,8 +1321,6 @@ define([
           }
         });
       
-
-    });
   };
 
   /**
