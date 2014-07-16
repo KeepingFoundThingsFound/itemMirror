@@ -1305,9 +1305,6 @@ define([
    */
   self.isGroupingItem = function (GUID, callback) {
     var self = this;
-      if (error) {
-        return callback(error);
-      }
       
       self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID,
         function (error, XooMLFragment){
