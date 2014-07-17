@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', 'scripts/ItemMirror.js',
               'scripts/PathDriver.js', 'scripts/SyncDriver.js',
-	      'scripts/XooMLDriver.js'],
+	      'scripts/XooMLDriver.js', 'scrypts/FragmentEditor.js'],
       options: {
         // options listed http://www.jshint.com/docs/options
         globals: {

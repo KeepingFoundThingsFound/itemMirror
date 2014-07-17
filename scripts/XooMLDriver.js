@@ -53,7 +53,7 @@ define([
     } else {
       self._dropboxClient.authenticate(function (error, client) {
         if (error) {
-          return callback(XooMLExceptions.xooMLUException, null)
+          return callback(XooMLExceptions.xooMLUException, null);
         }
         return callback(false, self);
       });
