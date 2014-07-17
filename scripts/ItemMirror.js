@@ -59,6 +59,7 @@ define([
   "./XooMLConfig.js",
   "./XooMLUtil.js",
   "./PathDriver.js",
+  "./FragmentEditor.js",
   "./ItemDriver.js",
   "./XooMLDriver.js",
   "./SyncDriver.js"
@@ -111,6 +112,7 @@ define([
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
+    self._fragmentEditor = null;
     self._parent = options.parent;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
@@ -190,7 +192,7 @@ define([
   self.getSchemaVersion = function (callback) {
     var self = this;
 
-    return self._xooMLDriver.getSchemaVersion();
+    return self._fragmentEditor.getSchemaVersion();
   };
 
   /**
@@ -201,7 +203,7 @@ define([
   self.getSchemaLocation = function () {
     var self = this;
 
-    return self._xooMLDriver.getSchemaLocation();
+    return self._fragmentEditor.getSchemaLocation();
   };
 
   /**
@@ -218,7 +220,7 @@ define([
   self.getItemDescribed = function () {
     var self = this;
 
-    return self._xooMLDriver.getItemDescribed();
+    return self._fragmentEditor.getItemDescribed();
   };
 
   /**
@@ -234,7 +236,7 @@ define([
   self.getItemDriver = function () {
     var self = this;
 
-    return self._xooMLDriver.getItemDriver();
+    return self._fragmentEditor.getItemDriver();
   };
 
   /**
@@ -245,7 +247,7 @@ define([
   self.getSyncDriver = function () {
     var self = this;
 
-    return self._xooMLDriver.getSyncDriver();
+    return self._fragmentEditor.getSyncDriver();
   };
 
   /**
@@ -305,7 +307,7 @@ define([
   self.getXooMLDriver = function () {
     var self = this;
 
-    return self._xooMLDriver.getXooMLDriver();
+    return self._fragmentEditor.getXooMLDriver();
   };
 
   /**
@@ -316,7 +318,7 @@ define([
   self.getGUIDGeneratedOnLastWrite = function () {
     var self = this;
 
-    return self._xooMLDriver.getGUIDGeneratedOnLastWrite();
+    return self._fragmentEditor.getGUIDGeneratedOnLastWrite();
   };
 
   /**
@@ -333,7 +335,7 @@ define([
   self.getAssociationDisplayText = function (GUID) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationDisplayText(GUID);
+    return self._fragmentEditor.getAssociationDisplayText(GUID);
   };
 
   /**
@@ -351,7 +353,7 @@ define([
   self.setAssociationDisplayText = function (GUID, displayText) {
     var self = this;
 
-    self._xooMLDriver.setAssociationDisplayText(GUID, displayText);
+    self._fragmentEditor.setAssociationDisplayText(GUID, displayText);
   };
 
   /**
@@ -367,7 +369,7 @@ define([
   self.getAssociationAssociatedXooMLFragment = function (GUID) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationAssociatedXooMLFragment(GUID);
+    return self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID);
   };
 
   /**
@@ -383,7 +385,7 @@ define([
   self.getAssociationLocalItem = function (GUID) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationLocalItem(GUID);
+    return self._fragmentEditor.getAssociationLocalItem(GUID);
   };
 
   /**
@@ -399,7 +401,7 @@ define([
   self.getAssociationAssociatedItem = function (GUID) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationAssociatedItem(GUID);
+    return self._fragmentEditor.getAssociationAssociatedItem(GUID);
   };
 
   /**
@@ -419,7 +421,7 @@ define([
   self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.getFragmentNamespaceAttribute(attributeName, namespaceURI);
+    return self._fragmentEditor.getFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -448,7 +450,7 @@ define([
   self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.addFragmentNamespaceAttribute(attributeName, namespaceURI);
+    self._fragmentEditor.addFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -474,7 +476,7 @@ define([
   self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.removeFragmentNamespaceAttribute(attributeName, namespaceURI);
+    self._fragmentEditor.removeFragmentNamespaceAttribute(attributeName, namespaceURI);
   };
 
   /**
@@ -495,7 +497,7 @@ define([
   self.hasFragmentNamespace = function (namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.hasFragmentNamespace(namespaceURI);
+    return self._fragmentEditor.hasFragmentNamespace(namespaceURI);
   };
 
   /**
@@ -516,7 +518,7 @@ define([
   self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.setFragmentNamespaceAttribute(attributeName,
+    self._fragmentEditor.setFragmentNamespaceAttribute(attributeName,
       attributeValue, namespaceURI);
   };
 
@@ -535,7 +537,7 @@ define([
   self.listFragmentNamespaceAttributes = function (namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.listFragmentNamespaceAttributes(namespaceURI);
+    return self._fragmentEditor.listFragmentNamespaceAttributes(namespaceURI);
   };
 
   /**
@@ -551,7 +553,7 @@ define([
   self.getFragmentNamespaceData = function (namespaceURI) {
     var self = this;
     
-    return self._xooMLDriver.getFragmentNamespaceData(namespaceURI);
+    return self._fragmentEditor.getFragmentNamespaceData(namespaceURI);
   };
 
   /**
@@ -570,7 +572,7 @@ define([
   self.setFragmentNamespaceData = function (data, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.setFragmentNamespaceData(data, namespaceURI);
+    self._fragmentEditor.setFragmentNamespaceData(data, namespaceURI);
   };
 
   /**
@@ -1125,7 +1127,7 @@ define([
   self.isAssociatedItemGrouping = function (GUID) {
     var self = this, associatedItem, xooMLFragment;
 
-    associatedItem = self._xooMLDriver.getAssociationAssociatedItem(GUID);
+    associatedItem = self._fragmentEditor.getAssociationAssociatedItem(GUID);
     if (!associatedItem || associatedItem === "") {
       return false;
     }
@@ -1149,7 +1151,7 @@ define([
   self.listAssociations = function () {
     var self = this;
 
-    return self._xooMLDriver.listAssociations();
+    return self._fragmentEditor.listAssociations();
   };
 
   /**
@@ -1173,7 +1175,7 @@ define([
   self.getAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+    return self._fragmentEditor.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1197,7 +1199,7 @@ define([
   self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+    return self._fragmentEditor.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1222,7 +1224,7 @@ define([
   self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+    self._fragmentEditor.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
   };
 
   /**
@@ -1244,7 +1246,7 @@ define([
   self.hasAssociationNamespace = function (GUID, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.hasAssociationNamespace(GUID, namespaceURI);
+    return self._fragmentEditor.hasAssociationNamespace(GUID, namespaceURI);
   };
 
   /**
@@ -1268,7 +1270,7 @@ define([
   self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
     var self = this;
 
-    self._xooMLDriver.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI);
+    self._fragmentEditor.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI);
 
   };
 
@@ -1290,7 +1292,7 @@ define([
   self.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.listAssociationNamespaceAttributes(GUID, namespaceURI);
+    return self._fragmentEditor.listAssociationNamespaceAttributes(GUID, namespaceURI);
   };
 
   /**
@@ -1311,7 +1313,7 @@ define([
   self.getAssociationNamespaceData = function (GUID, namespaceURI) {
     var self = this;
 
-    return self._xooMLDriver.getAssociationNamespaceData(GUID, namespaceURI);
+    return self._fragmentEditor.getAssociationNamespaceData(GUID, namespaceURI);
   };
 
   /**
@@ -1378,13 +1380,14 @@ define([
 
     inMemoryGUID = self.getGUIDGeneratedOnLastWrite();
 
-    // Constructs XooMLDriver with Case 3
-    new XooMLDriver({itemDriver: self._itemDriver, groupingItemURI: self._groupingItemURI}, function(error, xooMLDriver){
+    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+    self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function (error,content) {
       if (error) {
         return callback(error);
       }
-      fileGUID = xooMLDriver.getGUIDGeneratedOnLastWrite();
-      callback(false, inMemoryGUID === fileGUID);
+      new FragmentEditor({ xooMLFragmentString: content }, function (error, tempDataWrapper) {
+	callback(false, inMemoryGUID === tempDataWrapper.getGUIDGeneratedOnLastWrite() );
+      });
     });
   };
 
@@ -1423,7 +1426,7 @@ define([
   self.toString = function () {
     var self = this;
 
-    return self._xooMLDriver.toString();
+    return self._fragmentEditor.toString();
   };
 
   /**
