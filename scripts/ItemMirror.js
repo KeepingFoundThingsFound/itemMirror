@@ -393,15 +393,15 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationAssociatedItem
+   * @method getAssociatedItemOfAssociation
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
    *                    association with the given GUID.
    */
-  self.getAssociationAssociatedItem = function (GUID) {
+  self.getAssociatedItemOfAssociation = function (GUID) {
     var self = this;
 
-    return self._fragmentEditor.getAssociationAssociatedItem(GUID);
+    return self._fragmentEditor.getAssociatedItemOfAssociation(GUID);
   };
 
   /**
@@ -602,7 +602,7 @@ define([
         return callback(false, null);
       }
 
-      self._fragmentEditor.getAssociationAssociatedItem(GUID, function (error, associatedItem) {
+      self._fragmentEditor.getAssociatedItemOfAssociation(GUID, function (error, associatedItem) {
         if (error) {
           return callback(error);
         }
@@ -879,7 +879,7 @@ define([
             options.displayText = displayText;
             
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
+            self.getAssociatedItemOfAssociation(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
@@ -942,7 +942,7 @@ define([
             }
             options.displayText = displayText;
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
+            self.getAssociatedItemOfAssociation(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
@@ -1129,7 +1129,7 @@ define([
   self.isAssociatedItemGrouping = function (GUID) {
     var self = this, associatedItem, xooMLFragment, path;
 
-    associatedItem = self._fragmentEditor.getAssociationAssociatedItem(GUID);
+    associatedItem = self._fragmentEditor.getAssociatedItemOfAssociation(GUID);
     if (!associatedItem || associatedItem === "") {
       return false;
     }
