@@ -147,21 +147,6 @@ define([
   self = ItemMirror.prototype;
 
   /**
-   * @method getGroupingItemURI
-   * @return {String} The grouping item URI.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.groupingItemURI Grouping item URI.
-   */
-  self.getGroupingItemURI = function (callback) {
-    var self = this;
-
-    return callback(false, self._groupingItemURI);
-  };
-
-  /**
    * @method getDisplayName
    * @return {String} The display name.
    * @param {Function} callback Function to execute once finished.
