@@ -602,7 +602,7 @@ define([
         return callback(false, null);
       }
 
-      self._fragmentDriver.getAssociationAssociatedItem(GUID, function (error, associatedItem) {
+      self._fragmentEditor.getAssociationAssociatedItem(GUID, function (error, associatedItem) {
         if (error) {
           return callback(error);
         }
@@ -610,7 +610,7 @@ define([
 
         associatedXooMLFragment = PathDriver.joinPath(associatedItem, XooMLConfig.xooMLFragmentFileName);
 
-        self._fragmentDriver.setAssociationAssociatedXooMLFragment(GUID, associatedXooMLFragment, function (error) {
+        self._fragmentEditor.setAssociationAssociatedXooMLFragment(GUID, associatedXooMLFragment, function (error) {
           if (error) {
             return callback(error);
           }
@@ -705,7 +705,7 @@ define([
     isLinkGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkGrouping, options);
     isCreate = XooMLUtil.hasOptions(XooMLConfig.createAssociationCreate, options);
 
-    self._fragmentDriver.createAssociation(options, function (error, GUID) {
+    self._fragmentEditor.createAssociation(options, function (error, GUID) {
       if (error) {
         return callback(error);
       }
@@ -955,7 +955,7 @@ define([
               return callback(error);
             }
             //delete the current phantom association
-            self._fragmentDriver.deleteAssociation(GUID, function (error) {
+            self._fragmentEditor.deleteAssociation(GUID, function (error) {
               if(error) {
                 return callback(error);
               }
@@ -1003,7 +1003,7 @@ define([
         return callback(error);
       }
 
-      self._fragmentDriver.deleteAssociation(GUID, function (error) {
+      self._fragmentEditor.deleteAssociation(GUID, function (error) {
         if (error) {
           return callback(error);
         }
@@ -1132,7 +1132,7 @@ define([
       return false;
     }
       
-    xooMLFragment = self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID);
+    xooMLFragment = self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID);
     if (!xooMLFragment || xooMLFragment === "" || xooMLFragment === null) {
       return false;
     }else{
@@ -1337,7 +1337,7 @@ define([
   self.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
     var self = this;
 
-    self._fragmentDriver.setAssociationNamespaceData(data, GUID, namespaceURI);
+    self._fragmentEditor.setAssociationNamespaceData(data, GUID, namespaceURI);
   };
 
   /**
@@ -1486,11 +1486,11 @@ define([
   self._setAssociationLocalItemAndAssociatedItem = function (GUID, itemURI, callback) {
     var self = this;
 
-    self._fragmentDriver.setAssociationLocalItem(GUID, itemURI, function (error) {
+    self._fragmentEditor.setAssociationLocalItem(GUID, itemURI, function (error) {
       if (error) {
         return callback(error);
       }
-      self._fragmentDriver.setAssociationAssociatedItem(GUID, itemURI, function (error) {
+      self._fragmentEditor.setAssociationAssociatedItem(GUID, itemURI, function (error) {
         if (error) {
           return callback(error);
         }
@@ -1542,12 +1542,12 @@ define([
   self._saveFragment = function (callback) {
     var self = this;
 
-    self._fragmentDriver.updateETag(function (error, GUID) {
+    self._fragmentEditor.updateETag(function (error, GUID) {
       if (error) {
         return callback(error);
       }
 
-      self._fragmentDriver.toString(function (error, toString) {
+      self._fragmentEditor.toString(function (error, toString) {
         if (error) {
           return callback(error);
         }
@@ -1634,14 +1634,14 @@ define([
         return callback(error, null);
       }
 
-      new FragmentDriver({
+      new FragmentEditor({
         xooMLFragmentString: content
       }, function (error, fragmentWrapper) {
         if (error) {
           return callback(error);
         }
 
-        self._fragmentDriver = fragmentWrapper;
+        self._fragmentEditor = fragmentWrapper;
         self._syncDriver = self._createSyncDriver();
 
         self.sync(function (error) {
@@ -1704,12 +1704,12 @@ define([
       groupingItemURI: options.groupingItemURI
     };
 
-    new FragmentDriver(fragmentWrapperOptions, function (error, fragmentWrapper) {
+    new FragmentEditor(fragmentWrapperOptions, function (error, fragmentWrapper) {
       if (error) {
         return callback(error, null);
       }
 
-      self._fragmentDriver = fragmentWrapper;
+      self._fragmentEditor = fragmentWrapper;
       self._syncDriver = self._createSyncDriver();
       self._saveFragment(callback);
     });
@@ -2069,7 +2069,7 @@ define([
   self._saveAssociationAssociatedXooMLFragment = function (GUID, options, callback) {
     var self = this;
 
-    self._fragmentDriver.setAssociationAssociatedXooMLFragment(GUID,
+    self._fragmentEditor.setAssociationAssociatedXooMLFragment(GUID,
       XooMLConfig.xooMLFragmentFileName, function (error) {
       if (error) {
         return callback(error);

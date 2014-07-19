@@ -29,7 +29,7 @@ define([
     var self = this;
 
     self._itemMirror = itemMirror;
-    self._fragmentDriver = itemMirror._fragmentDriver;
+    self._fragmentEditor = itemMirror._fragmentEditor;
     self._itemDriver = itemMirror._itemDriver;
   }
   self = SyncDriver.prototype;
@@ -51,7 +51,7 @@ define([
     var self = this, compXooML, compItem, compXooMLLocalItem = [];
 
     //Loading compXL
-    self._fragmentDriver.listAssociations(function (error, list){
+    self._fragmentEditor.listAssociations(function (error, list){
       if (error) {
         return callback(error);
       }
@@ -150,7 +150,7 @@ define([
       //Remove Not-existing
       if (found === 0) {
         console.log("Sync Remove: " + compXooMLLocalItem[i]);
-        self._fragmentDriver.deleteAssociation(compXooML[i],function(error){
+        self._fragmentEditor.deleteAssociation(compXooML[i],function(error){
           if (error) {
             return callback(error);
           }
@@ -210,7 +210,7 @@ define([
     } else {
       //Add New
       console.log("Sync Create: " + compItem[i].getDisplayText());
-      self._fragmentDriver.createAssociation({
+      self._fragmentEditor.createAssociation({
         "displayText":    compItem[i].getDisplayText(),
         "isGroupingItem": compItem[i].getIsGroupingItem(),
         //TODO: Temporary use associated item

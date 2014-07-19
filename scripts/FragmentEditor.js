@@ -12,7 +12,7 @@
  *
  * For ItemMirror core developers only. Enable protected to see.
  *
- * @class FragmentDriver
+ * @class FragmentEditor
  * @constructor
  * @async
  *
