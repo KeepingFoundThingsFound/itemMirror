@@ -361,22 +361,6 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationAssociatedXooMLFragment
-   *
-   * @param {String} GUID GUID of the association to get.
-   * @return {String} The XooML fragment for the association with the given GUID.
-   */
-  self.getAssociationAssociatedXooMLFragment = function (GUID) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID);
-  };
-
-  /**
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method getAssociationLocalItem
    * @return {String} The local item for the association with the given GUID.
    *
@@ -1168,7 +1152,7 @@ define([
   self.isGroupingItem = function (GUID, callback) {
     var self = this;
       
-      self._fragmentDriver.getAssociationAssociatedXooMLFragment(GUID,
+      self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID,
         function (error, XooMLFragment){
           if(error){
             return callback(error);
