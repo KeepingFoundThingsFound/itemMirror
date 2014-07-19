@@ -202,7 +202,7 @@ define([
    * of a fragment if it exists, else returns null.
    *
    */
-  self.getItemDescribed = function () {
+  self.getURIforItemDescribed = function () {
     var self = this;
 
     return self._fragmentEditor.getItemDescribed();
