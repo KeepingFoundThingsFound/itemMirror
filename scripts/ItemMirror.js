@@ -845,7 +845,7 @@ define([
    *
    * @method duplicateAssociation
    *
-   * @param {String} GUID GUID of the source item you wish to copy/duplicate
+   * @param {String} GUID GUID of the association you wish to copy/duplicate
    * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
    *
    * @param {Function} callback Function to execute once finished.
