@@ -1429,11 +1429,15 @@ define([
   };
 
   /**
-   * @method getParent
-   * @return {Object} Parent ItemMirror if this ItemMirror has a parent.
+   * @method getItemMirrorFromWhichThisWasCreated
+   *
+   * @return {Object} The itemMirror that created this current
+   * itemMirror, if it has one. Note that this isn't the same as
+   * asking for a 'parent,' since multiple itemMirrors can possibly
+   * link to the same one
    *
    */
-  self.getParent = function () {
+  self.getItemMirrorFromWhichThisWasCreated = function () {
     var self = this;
 
     return self._parent;
