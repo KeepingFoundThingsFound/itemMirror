@@ -361,15 +361,15 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationLocalItem
+   * @method getAssociationLocalItemName
    * @return {String} The local item for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
    */
-  self.getAssociationLocalItem = function (GUID) {
+  self.getAssociationLocalItemName = function (GUID) {
     var self = this;
 
-    return self._fragmentEditor.getAssociationLocalItem(GUID);
+    return self._fragmentEditor.getAssociationLocalItemName(GUID);
   };
 
   /**
@@ -848,7 +848,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
+    self.getAssociationLocalItemName(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -912,7 +912,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
+    self.getAssociationLocalItemName(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -982,7 +982,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
+    self.getAssociationLocalItemName(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -1084,7 +1084,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
+    self.getAssociationLocalItemName(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
