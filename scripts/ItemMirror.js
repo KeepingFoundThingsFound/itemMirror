@@ -296,17 +296,6 @@ define([
   };
 
   /**
-   *
-   * @method getGUIDGeneratedOnLastWrite
-   * @return {String} The GUID generated on the last modification to the file.
-   */
-  self.getGUIDGeneratedOnLastWrite = function () {
-    var self = this;
-
-    return self._fragmentEditor.getGUIDGeneratedOnLastWrite();
-  };
-
-  /**
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
@@ -1388,7 +1377,7 @@ define([
   self.isCurrent = function (callback) {
     var self = this, inMemoryGUID, fileGUID, xooMLFragmentURI;
 
-    inMemoryGUID = self.getGUIDGeneratedOnLastWrite();
+    inMemoryGUID = self._getguidgeneratedonlastwrite();
 
     xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
     self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function (error,content) {
@@ -1396,7 +1385,7 @@ define([
         return callback(error);
       }
       new FragmentEditor({ xooMLFragmentString: content }, function (error, tempDataWrapper) {
-	callback(false, inMemoryGUID === tempDataWrapper.getGUIDGeneratedOnLastWrite() );
+	callback(false, inMemoryGUID === tempDataWrapper._getguidgeneratedonlastwrite() );
       });
     });
   };
@@ -1478,6 +1467,18 @@ define([
       }
       self._setAssociationLocalItemAndAssociatedItem(GUID, subGroupingItemURI, callback);
     });
+  };
+
+  /**
+   *
+   * @method getGUIDGeneratedOnLastWrite
+   * @return {String} The GUID generated on the last modification to the file.
+   * @private
+   */
+  self._getGUIDGeneratedOnLastWrite = function () {
+    var self = this;
+
+    return self._fragmentEditor.getGUIDGeneratedOnLastWrite();
   };
 
   /**
