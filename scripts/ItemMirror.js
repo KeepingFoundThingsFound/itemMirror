@@ -70,6 +70,7 @@ define([
   PathDriver,
   ItemDriver,
   XooMLDriver,
+  FragmentEditor,
   SyncDriver) {
   "use strict";
 
@@ -235,55 +236,6 @@ define([
     return self._fragmentEditor.getSyncDriver();
   };
 
-  /**
-   * 
-   * @method getURLForAssociatedNonGroupingItem
-   * @return {String} A publicly available URL hosted at dropbox for an associated non-grouping item
-   * @param {String} GUID GUID of the association to get
-   * @param {Function} callback Function to execute once finished
-   *  @param {Object} callback.error Null if no error has occurred
-   *                  in executing this function, else an contains
-   *                  an object with the error that occurred.
-   *  @param {String} callback.publicURL Local item of the association
-   *                  with the given GUID.
-   */
-  self.getURLForAssociatedNonGroupingItem = function (GUID, callback) {
-    var self = this;
-    
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
-      var path;
-      if (error) {
-        return callback(error);
-      }
-      path = PathDriver.joinPath(self._groupingItemURI, localItem);
-      
-      self._itemDriver.checkExisted(path, function (error, result) {
-        if (error) {
-          return callback(error);
-        }
-        if (result === true) {
-          return self._itemDriver.getURL(path, function (error, publicURL) {
-            if (error) {
-              return callback(error);
-            }
-            return callback(false, publicURL);
-          });
-        }else {
-          //file that should exist does not
-          return callback(XooMLExceptions.invalidState);
-        }
-      });
-    });
-  };
-  
   /**
    *
    * @method getXooMLDriver
@@ -585,7 +537,7 @@ define([
               return callback(error);
             }
 
-            self.sync(function (error) {
+            self._sync(function (error) {
               if (error) {
                 throw error;
               }
@@ -681,117 +633,7 @@ define([
       }
     });
   };
-
-  /**
-   * Cuts (returns path to) the association represented by a given GUID
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
-   * @method cutAssociation
-   *
-   * @param {String} GUID GUID of the association to execute once finished.
-   *
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred
-   *                 in executing this function, else it contains
-   *                 an object with the error that occurred.
-   * @param {String} callback.ItemMirror path of the source ItemMirror
-   * @param {String} callback.GUID GUID of the association to execute once finished.
-   * @param {Boolean} callback.cut Whether or not to cut the item and remove the source association
-   */
-   self.cutAssociation = function (GUID, callback) {
-    var self = this;
-    
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    return callback(false, self, GUID, true);
-   };
    
-  /**
-   * Copies (returns path to) the association represented by a given GUID
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
-   * @method copyAssociation
-   *
-   * @param {String} GUID GUID of the association to execute once finished.
-   *
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred
-   *                 in executing this function, else it contains
-   *                 an object with the error that occurred.
-   * @param {String} callback.ItemMirror path of the source ItemMirror
-   * @param {String} callback.GUID GUID of the association to execute once finished.
-   * @param {Boolean} callback.cut Whether or not to cut the item and remove the source association
-   */
-   self.copyAssociation = function (GUID, callback) {
-    var self = this;
-    
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    return callback(false, self, GUID, false);
-   };
-   
-  /**
-   * Paste (inserts) a cut or copy association represented by a given GUID and source ItemMirror
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
-   * @method pasteAssociation
-   *
-   * @param {String} ItemMirror ItemMirror that contains the association you want moved or copied
-   * @param {String} GUID GUID of the association to move or copy
-   * @param {Boolean} Cut Cuts the item, deleting the source Association if set to true. Copies if false.
-   *
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred
-   *                 in executing this function, else it contains
-   *                 an object with the error that occurred.
-   */
-   self.pasteAssociation = function (ItemMirror, GUID, cut, callback) {
-    var self = this;
-    
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    if (cut) {
-      ItemMirror.moveAssociation(GUID, self, function(error){
-        if (error) {
-          return callback(error);
-        }
-        return callback(false);
-      });
-    }else{ //copy
-      ItemMirror.duplicateAssociation(GUID, self, function(error){
-        if (error) {
-          return callback(error);
-        }
-        return callback(false);
-      });
-    }
-    
-   };
-  
     
   /**
    * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
@@ -1039,7 +881,7 @@ define([
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not a function. <br/>
    *
-   * @method renameLocalItem
+   * @method renameLocalItemOfAssociation
    *
    * @param {String} GUID GUID of the association.
    * @param {String} String String Name you want to rename the file to (including file extension)
@@ -1048,7 +890,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.renameLocalItem = function (GUID, newName, callback) {
+  self.renameLocalItemOfAssociation = function (GUID, newName, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -1339,6 +1181,46 @@ define([
     self._fragmentEditor.setAssociationNamespaceData(data, GUID, namespaceURI);
   };
 
+
+
+  /**
+   * Reloads the XooML Fragment
+   *
+   * @method refresh
+   *
+   * @param {Function} callback Function to execute once finished.
+   *  @param {Object}   callback.error Null if no error has occurred
+   *                    in executing this function, else an contains
+   *                    an object with the error that occurred.
+   */
+  self.refresh = function (callback) {
+    var self = this, xooMLFragmentPath;
+
+    self._isCurrent(function (error, isCurrent) {
+      if (error) {
+        throw error;
+      }
+
+      if (isCurrent) {
+        return callback(false);
+      } else {
+        xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+        self._loadXooMLFragmentString(xooMLFragmentPath, callback);
+      }
+    });
+  };
+
+  /**
+   * @method getParent
+   * @return {Object} Parent ItemMirror if this ItemMirror has a parent.
+   *
+   */
+  self.getItemMirrorFromWhichThisWasCreated = function () {
+    var self = this;
+
+    return self._parent;
+  };
+
   /**
    * Uses the specified ItemDriver and SyncDriver to synchronize the
    * local ItemMirror object changes. This is an implmentation of Synchronization
@@ -1351,8 +1233,9 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   * @private
    */
-  self.sync = function (callback) {
+  self._sync = function (callback) {
     var self = this;
 
     self._syncDriver.sync(callback);
@@ -1362,7 +1245,7 @@ define([
    * Checks the local GUID and the remote GUID to see if the local fragment
    * is out of date with the remote fragment.
    *
-   * @method isCurrent
+   * @method _isCurrent
    * @return {Boolean} True if the local GUID matches the remote GUID,
    * else false.
    * @async
@@ -1371,10 +1254,11 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   *  @param {Boolean}  callback.isCurrent True if the local GUID matches
+   *  @param {Boolean}  callback._isCurrent True if the local GUID matches
    *                    the remote GUID, else false.
+   * @private
    */
-  self.isCurrent = function (callback) {
+  self._isCurrent = function (callback) {
     var self = this, inMemoryGUID, fileGUID, xooMLFragmentURI;
 
     inMemoryGUID = self._getguidgeneratedonlastwrite();
@@ -1391,6 +1275,7 @@ define([
   };
 
   /**
+<<<<<<< Updated upstream
    * Reloads the XooML Fragment
    *
    * @method refresh
@@ -1444,6 +1329,8 @@ define([
   };
 
   /**
+=======
+>>>>>>> Stashed changes
    * Given a GUID and displayText this will create a grouping item
    * based on the displayText for that item.
    *
@@ -1532,7 +1419,7 @@ define([
   self._save = function (callback) {
     var self = this;
 
-    self.isCurrent(function (error, isCurrent) {
+    self._isCurrent(function (error, isCurrent) {
       if (error) {
         return callback(error);
       }
@@ -1659,7 +1546,7 @@ define([
         self._fragmentEditor = fragmentWrapper;
         self._syncDriver = self._createSyncDriver();
 
-        self.sync(function (error) {
+        self._sync(function (error) {
           if (error) {
             throw error;
           }

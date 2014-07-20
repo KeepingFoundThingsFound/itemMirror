@@ -68,7 +68,7 @@ define([
         return callback(false, self);
       });
     }
-  }
+  };
   self = ItemDriver.prototype;
 
   // callback(false) on success
@@ -335,4 +335,5 @@ define([
   };
 
   return ItemDriver;
+  };
 });
