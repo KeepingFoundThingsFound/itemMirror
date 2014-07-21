@@ -315,7 +315,7 @@
             "extension_for": [],
             "file": "scripts\\SyncDriver.js",
             "line": 1,
-            "description": "A collection of methods that are used to synchronize XooML\nfragments across storage platforms. Synchronization may create or\ndelete associations depending on the situation\n\nFor ItemMirror core developers only. Enable protected to see.",
+            "description": "An implementation of SyncDriver which syncronizes the XooML so that\nit reflects the storage. This implementation ensures that only the\nXooML is modified, and that the user's storage is never modified,\nsafely protecting any data.\n\nFor ItemMirror core developers only. Enable protected to see.",
             "is_constructor": 1,
             "params": [
                 {
@@ -2348,7 +2348,7 @@
             "line": 638,
             "description": "Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)\n\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
-            "name": "duplicateAssociation",
+            "name": "copyAssociation",
             "params": [
                 {
                     "name": "GUID",
@@ -2780,40 +2780,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1186,
-            "description": "Reloads the XooML Fragment",
-            "itemtype": "method",
-            "name": "refresh",
-            "params": [
-                {
-                    "name": "callback",
-                    "description": "Function to execute once finished.",
-                    "type": "Function",
-                    "props": [
-                        {
-                            "name": "error",
-                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
-                            "type": "Object"
-                        }
-                    ]
-                }
-            ],
-            "class": "ItemMirror"
-        },
-        {
-            "file": "scripts\\ItemMirror.js",
-            "line": 1213,
-            "itemtype": "method",
-            "name": "getParent",
-            "return": {
-                "description": "Parent ItemMirror if this ItemMirror has a parent.",
-                "type": "Object"
-            },
-            "class": "ItemMirror"
-        },
-        {
-            "file": "scripts\\ItemMirror.js",
-            "line": 1224,
+            "line": 1184,
             "description": "Uses the specified ItemDriver and SyncDriver to synchronize the\nlocal ItemMirror object changes. This is an implmentation of Synchronization\nDriver which modifies the XooML Fragment according to the real structure\nunder the item described.",
             "itemtype": "method",
             "name": "sync",
@@ -2837,7 +2804,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1244,
+            "line": 1204,
             "description": "Checks the local GUID and the remote GUID to see if the local fragment\nis out of date with the remote fragment.",
             "itemtype": "method",
             "name": "_isCurrent",
@@ -2871,24 +2838,29 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1277,
-            "description": "<<<<<<< Updated upstream\n   * Reloads the XooML Fragment\n   *\n   * @method refresh\n   *\n   * @param {Function} callback Function to execute once finished.\n   *  @param {Object}   callback.error Null if no error has occurred\n   *                    in executing this function, else an contains\n   *                    an object with the error that occurred.",
-            "class": "ItemMirror"
-        },
-        {
-            "file": "scripts\\ItemMirror.js",
-            "line": 1305,
+            "line": 1237,
+            "description": "Reloads the XooML Fragment",
             "itemtype": "method",
-            "name": "toString",
-            "return": {
-                "description": "String representation of self",
-                "type": "String"
-            },
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
             "class": "ItemMirror"
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1316,
+            "line": 1264,
             "itemtype": "method",
             "name": "getItemMirrorFromWhichThisWasCreated",
             "return": {
@@ -2899,13 +2871,41 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1331,
-            "description": "=======\n>>>>>>> Stashed changes\n   * Given a GUID and displayText this will create a grouping item\n   * based on the displayText for that item.\n   *\n   * @method _setSubGroupingItemURIFromDisplayText\n   *\n   * @param {String} GUID\n   * @param {String} displayText\n   * @param {Function} callback Function to execute once finished.\n   *  @param {Object}   callback.error Null if no error has occurred\n   *                    in executing this function, else an contains\n   *                    an object with the error that occurred.\n   * @private",
+            "line": 1279,
+            "description": "Given a GUID and displayText this will create a grouping item\nbased on the displayText for that item.",
+            "itemtype": "method",
+            "name": "_setSubGroupingItemURIFromDisplayText",
+            "params": [
+                {
+                    "name": "GUID",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "displayText",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to execute once finished.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "error",
+                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "access": "private",
+            "tagname": "",
             "class": "ItemMirror"
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1363,
+            "line": 1309,
             "itemtype": "method",
             "name": "getGUIDGeneratedOnLastWrite",
             "return": {
@@ -2918,7 +2918,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1375,
+            "line": 1321,
             "description": "Sets the associated and local item for the association to the\nsame itemURI passed in.",
             "itemtype": "method",
             "name": "_setAssociationLocalItemAndAssociatedItem",
@@ -2950,7 +2950,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1404,
+            "line": 1350,
             "description": "Checks to see if the fragment is current, and if it isn't, then\nsave it.",
             "itemtype": "method",
             "name": "_save",
@@ -2984,7 +2984,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1433,
+            "line": 1379,
             "description": "Saves the fragment",
             "itemtype": "method",
             "name": "_saveFragment",
@@ -3008,7 +3008,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1471,
+            "line": 1412,
             "description": "Sets the item driver specified in the options for the XooMLFragment.",
             "itemtype": "method",
             "name": "_getItemU",
@@ -3042,7 +3042,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1506,
+            "line": 1447,
             "description": "Creates a sync driver",
             "itemtype": "method",
             "name": "_createSyncDriver",
@@ -3055,7 +3055,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1519,
+            "line": 1460,
             "description": "Sets the item driver specified in the options for the XooMLFragment.",
             "itemtype": "method",
             "name": "_loadXooMLFragmentString",
@@ -3084,7 +3084,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1560,
+            "line": 1501,
             "description": "Uses itemDriver to retrieve a list of items and creates\ncorresponding XooMLFragments for the retrieved items in the list",
             "itemtype": "method",
             "name": "getItemList",
@@ -3113,7 +3113,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1584,
+            "line": 1525,
             "description": "Given a list of associations this will create a new XooMLFragment\nwith all of the assocations in the given list. The fragment will\nalso be saved.",
             "itemtype": "method",
             "name": "_createXooMLFragment",
@@ -3147,7 +3147,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1620,
+            "line": 1561,
             "description": "Given an association, this will delete the association, whether\nit's a grouping item or isn't. The item is then saved.",
             "itemtype": "method",
             "name": "_handleExistingAssociationDelete",
@@ -3181,7 +3181,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1651,
+            "line": 1592,
             "description": "TODO: Document. Purpose and usage unknown as of 7/3/2014",
             "itemtype": "method",
             "name": "_handleExistingAssociationCopy",
@@ -3220,7 +3220,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1678,
+            "line": 1619,
             "description": "TODO: Document. Purpose and usage unknown as of 7/3/2014",
             "itemtype": "method",
             "name": "_handleExistingAssociationMove",
@@ -3259,7 +3259,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1705,
+            "line": 1646,
             "description": "TODO: Document. Purpose and usage unknown as of 7/3/2014",
             "itemtype": "method",
             "name": "_handleExistingAssociationRename",
@@ -3298,7 +3298,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1732,
+            "line": 1673,
             "description": "Removes a non grouping item based on it's assocation. Must pass\nin a non grouping item, or errors will be thrown.",
             "itemtype": "method",
             "name": "_removeNonGroupingItemThroughAssociation",
@@ -3332,7 +3332,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1755,
+            "line": 1696,
             "description": "Removes a grouping item based on it's assocation. Must pass\nin a grouping item, or errors will be thrown.",
             "itemtype": "method",
             "name": "_removeGroupingItemThroughAssociation",
@@ -3366,7 +3366,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1787,
+            "line": 1728,
             "description": "Retrieves a fallback constructor for XooML Driver",
             "itemtype": "method",
             "name": "_getItemUForFallbackConstructor",
@@ -3400,7 +3400,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1811,
+            "line": 1752,
             "description": "Creates new XooML Fragment for an already existing item. For\ninstance, in dropbox's case, it would look at a folder, and then\ncreate a new fragment, with the associations being all of the\nitems in that folder.",
             "itemtype": "method",
             "name": "_getItemUNewXooMLFragment",
@@ -3434,7 +3434,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1840,
+            "line": 1781,
             "description": "Takes care of case 1.",
             "itemtype": "method",
             "name": "_createAssociationSimple",
@@ -3468,7 +3468,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1861,
+            "line": 1802,
             "description": "Takes care of cases 2 and 3. Only case 2 appears to be implemented.",
             "itemtype": "method",
             "name": "_createAssociationLinkNonGrouping",
@@ -3502,7 +3502,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1887,
+            "line": 1828,
             "description": "Takes care of cases 4 and 5. Neither are implemented.",
             "itemtype": "method",
             "name": "_createAssociationLinkGrouping",
@@ -3536,7 +3536,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1911,
+            "line": 1852,
             "description": "Takes care of cases 6 and 7.",
             "itemtype": "method",
             "name": "_createAssociationLinkGrouping",
@@ -3570,7 +3570,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1933,
+            "line": 1874,
             "description": "Creates an association grouping item and then saves that association",
             "itemtype": "method",
             "name": "_createAssociationGroupingItem",
@@ -3604,7 +3604,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1959,
+            "line": 1900,
             "description": "Saves the association",
             "itemtype": "method",
             "name": "_saveAssociationAssociatedXooMLFragment",
@@ -3638,7 +3638,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 1986,
+            "line": 1927,
             "description": "Creates an association non grouping item and saves it.",
             "itemtype": "method",
             "name": "_createAssociationNonGroupingItem",
@@ -3672,7 +3672,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2014,
+            "line": 1955,
             "description": "Creates an association non grouping item based off of the name\nspecified in options and saves it.",
             "itemtype": "method",
             "name": "_createNonGroupingItemFromItemDescribed",
@@ -3706,7 +3706,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2043,
+            "line": 1984,
             "description": "Checks to see whether the given item exists based on the name\nprovided.",
             "itemtype": "method",
             "name": "_checkExistenceFromItemDescribed",
@@ -3735,7 +3735,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2069,
+            "line": 2010,
             "description": "Helps to handle whether assoiations should be deleted. Not\nentirely sure about the utility of this function, it looks like\nsomething that should be handled by the sync driver.",
             "itemtype": "method",
             "name": "_handleDataWrapperDeleteAssociation",
@@ -3774,7 +3774,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2106,
+            "line": 2047,
             "description": "Purpose unknown",
             "itemtype": "method",
             "name": "_handleDataWrapperCopyAssociation",
@@ -3818,7 +3818,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2142,
+            "line": 2083,
             "description": "Purpose unknown",
             "itemtype": "method",
             "name": "_handleDataWrapperMoveAssociation",
@@ -3862,7 +3862,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2178,
+            "line": 2119,
             "description": "Purpose unknown",
             "itemtype": "method",
             "name": "_handleDataWrapperRenameAssociation",
@@ -3906,7 +3906,7 @@
         },
         {
             "file": "scripts\\ItemMirror.js",
-            "line": 2214,
+            "line": 2155,
             "description": "Checks if the AssociatedItem String passed into it is a URL or not.",
             "itemtype": "method",
             "name": "_isURL",
@@ -4093,7 +4093,7 @@
         },
         {
             "file": "scripts\\SyncDriver.js",
-            "line": 38,
+            "line": 39,
             "description": "Synchonizes the itemMirror object.",
             "itemtype": "method",
             "name": "sync",
@@ -4112,138 +4112,6 @@
                 }
             ],
             "access": "protected",
-            "tagname": "",
-            "class": "SyncDriver"
-        },
-        {
-            "file": "scripts\\SyncDriver.js",
-            "line": 78,
-            "description": "A recursive method which removes non local items that it finds in\nthe associations until all of them are processed.",
-            "itemtype": "method",
-            "name": "_getLocalItems",
-            "params": [
-                {
-                    "name": "compXooML",
-                    "description": "Array of association GUIDs",
-                    "type": "String"
-                },
-                {
-                    "name": "compItem",
-                    "description": "Array of XooML associations",
-                    "type": "String"
-                },
-                {
-                    "name": "compXooMLLocaLItem",
-                    "description": "Array of XooML associations\nrecursively generated",
-                    "type": "String"
-                },
-                {
-                    "name": "i",
-                    "description": "index",
-                    "type": "Number"
-                },
-                {
-                    "name": "callback",
-                    "description": "Function to execute once finished.",
-                    "type": "Function",
-                    "props": [
-                        {
-                            "name": "error",
-                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
-                            "type": "Object"
-                        }
-                    ]
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "SyncDriver"
-        },
-        {
-            "file": "scripts\\SyncDriver.js",
-            "line": 118,
-            "description": "Contrary to the name, this function will both remove AND create\nlocal items depending on the situation.",
-            "itemtype": "method",
-            "name": "_removeNonLocalItems",
-            "params": [
-                {
-                    "name": "compXooML",
-                    "description": "Array of association GUIDs",
-                    "type": "String"
-                },
-                {
-                    "name": "compItem",
-                    "description": "Array of XooML associations",
-                    "type": "String"
-                },
-                {
-                    "name": "compXooMLLocaLItem",
-                    "description": "Array of XooML associations\nrecursively generated",
-                    "type": "String"
-                },
-                {
-                    "name": "i",
-                    "description": "index",
-                    "type": "Number"
-                },
-                {
-                    "name": "callback",
-                    "description": "Function to execute once finished.",
-                    "type": "Function",
-                    "props": [
-                        {
-                            "name": "error",
-                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
-                            "type": "Object"
-                        }
-                    ]
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "SyncDriver"
-        },
-        {
-            "file": "scripts\\SyncDriver.js",
-            "line": 187,
-            "description": "Creates new associations and saves those new associations. Also a\nrecursive function.",
-            "itemtype": "method",
-            "name": "_createNewLocalItems",
-            "params": [
-                {
-                    "name": "compXooML",
-                    "description": "Array of association GUIDs",
-                    "type": "String"
-                },
-                {
-                    "name": "compItem",
-                    "description": "Array of XooML associations",
-                    "type": "String"
-                },
-                {
-                    "name": "compXooMLLocaLItem",
-                    "description": "Array of XooML associations\nrecursively generated",
-                    "type": "String"
-                },
-                {
-                    "name": "i",
-                    "description": "index",
-                    "type": "Number"
-                },
-                {
-                    "name": "callback",
-                    "description": "Function to execute once finished.",
-                    "type": "Function",
-                    "props": [
-                        {
-                            "name": "error",
-                            "description": "Null if no error has occurred\n                   in executing this function, else an contains\n                   an object with the error that occurred.",
-                            "type": "Object"
-                        }
-                    ]
-                }
-            ],
-            "access": "private",
             "tagname": "",
             "class": "SyncDriver"
         },
@@ -4585,14 +4453,6 @@
         {
             "message": "Missing item type\nConstructs a ItemDriver for reading/writing Item Storage",
             "line": " scripts\\ItemDriver.js:40"
-        },
-        {
-            "message": "Missing item type\n<<<<<<< Updated upstream\n   * Reloads the XooML Fragment\n   *\n   * @method refresh\n   *\n   * @param {Function} callback Function to execute once finished.\n   *  @param {Object}   callback.error Null if no error has occurred\n   *                    in executing this function, else an contains\n   *                    an object with the error that occurred.",
-            "line": " scripts\\ItemMirror.js:1277"
-        },
-        {
-            "message": "Missing item type\n=======\n>>>>>>> Stashed changes\n   * Given a GUID and displayText this will create a grouping item\n   * based on the displayText for that item.\n   *\n   * @method _setSubGroupingItemURIFromDisplayText\n   *\n   * @param {String} GUID\n   * @param {String} displayText\n   * @param {Function} callback Function to execute once finished.\n   *  @param {Object}   callback.error Null if no error has occurred\n   *                    in executing this function, else an contains\n   *                    an object with the error that occurred.\n   * @private",
-            "line": " scripts\\ItemMirror.js:1331"
         },
         {
             "message": "Missing item type\nConstructs a XooMLDriver for reading/writing XooML fragment.",
