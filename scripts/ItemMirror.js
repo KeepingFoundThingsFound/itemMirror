@@ -643,7 +643,7 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method duplicateAssociation
+   * @method copyAssociation
    *
    * @param {String} GUID GUID of the association you wish to copy/duplicate
    * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
@@ -653,7 +653,7 @@ define([
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   self.duplicateAssociation = function (GUID, ItemMirror, callback) {
+   self.copyAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
     
     XooMLUtil.checkCallback(callback);
