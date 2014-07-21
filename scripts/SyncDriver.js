@@ -1,7 +1,8 @@
 /**
- * A collection of methods that are used to synchronize XooML
- * fragments across storage platforms. Synchronization may create or
- * delete associations depending on the situation
+ * An implementation of SyncDriver which syncronizes the XooML so that
+ * it reflects the storage. This implementation ensures that only the
+ * XooML is modified, and that the user's storage is never modified,
+ * safely protecting any data.
  *
  * For ItemMirror core developers only. Enable protected to see.
  *
@@ -16,7 +17,7 @@
 define([
   "./XooMLExceptions.js",
   "./XooMLConfig.js",
-  "./XooMLUtil.js"
+  "./XooMLUtil.js",
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -31,9 +32,9 @@ define([
     self._itemMirror = itemMirror;
     self._fragmentEditor = itemMirror._fragmentEditor;
     self._itemDriver = itemMirror._itemDriver;
+    self._xooMLDriver = itemMirror._xooMLDriver;
   }
   self = SyncDriver.prototype;
-
 
   /**
    * Synchonizes the itemMirror object.
@@ -48,186 +49,95 @@ define([
    * @protected
    */
   self.sync = function (callback) {
-    var self = this, compXooML, compItem, compXooMLLocalItem = [];
+    var self = this, items;
 
-    //Loading compXL
-    self._fragmentEditor.listAssociations(function (error, list){
-      if (error) {
-        return callback(error);
-      }
-      compXooML = list;
-      //Load compItem
-      self._itemMirror.getGroupingItemURI(function (error, groupingItemURI) {
-        if (error) {
-          return callback(error);
-        }
+    self._itemDriver.listItems(
+      self._itemMirror._groupingItemURI,
+      function (error, associations){
+	if (error) {
+	  return callback(error);
+	}
 
-        self._itemDriver.listItems(groupingItemURI, function (error,list){
-          if (error) {
-            return callback(error);
-          }
-          compItem = list;
+	var realAssociations = associations.map(
+	  function (assoc) {
+	    return { name: assoc.getDisplayText(),
+		     groupingItem: assoc.getIsGroupingItem() };
+	  }
+	);
 
-          //Load compXooMLLocalItem
-          self._getLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-        });
+	// Associations with both names and guids
+	// filters out any phatoms
+	var memoryAssociations = self._itemMirror.listAssociations()
+	  .map( function (guid) {
+	    return { guid: guid,
+		     name: self._itemMirror.getAssociationLocalItemName(guid) };
+	  })
+	  .filter( function (assoc) {
+	    return assoc.name !== null;
+	  });
+
+	// function for comparison of name key in an object
+	var nameCompare = function (a, b) {
+	  if (a.name > b.name) {
+	    return 1;
+	  }
+	  if (a.name < b.name) {
+	    return -1;
+	  }
+	  return 0;
+	};
+	
+	// No guarantee that the storage API sends results sorted
+	realAssociations.sort(nameCompare);
+	memoryAssociations.sort(nameCompare); 
+
+	// Gets the names a separate array, but in needed sorted order
+	var realNames = realAssociations.map( function (assoc) {return assoc.name;} );
+	var memoryNames = memoryAssociations.map( function (assoc) {return assoc.name;} );
+
+	var memoryIdx = 0;
+	var search;
+	
+	// Keeps track of whether there are any changes that need to be made
+	var sychronized = true; 
+	
+	realNames.forEach( function (name, realIdx) {
+	  search = memoryNames.indexOf(name, memoryIdx);
+	  // Create association
+	  if (search === -1) {
+	    sychronized = false;
+	    // Case 6/7
+	    self._fragmentEditor.createAssociation({
+	      displayText: name,
+	      itemName: name,
+	      isGroupingItem: realAssociations[realIdx].isGroupingItem
+	    });
+	  } else {
+	    // Deletes any extraneous associations
+	    memoryAssociations
+	      .slice(memoryIdx, search)
+	      .forEach( function (assoc) {
+		sychronized = false;
+		self._fragmentEditor.deleteAssociation(assoc.guid);
+	      });
+
+	    memoryIdx = search;
+	  }
+	});
+
+	// Any remaining associations need to be deleted because they don't exist
+	memoryAssociations
+	  .slice(memoryIdx, memoryNames.length)
+	  .forEach( function (assoc) {
+	    sychronized = false;
+	    self._fragmentEditor.deleteAssociation(assoc.guid);
+	  });
+
+	// Only save fragment if needed
+	if (!sychronized) {
+	  self._itemMirror._saveFragment(callback);
+	}
       });
-    });
-  };
-
-  /**
-   * A recursive method which removes non local items that it finds in
-   * the associations until all of them are processed.
-   *
-   * @method _getLocalItems
-   *
-   * @param {String} compXooML Array of association GUIDs
-   * @param {String} compItem Array of XooML associations
-   * @param {String} compXooMLLocaLItem Array of XooML associations
-   * recursively generated
-   * @param {Number} i index
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
-   * @private
-   */
-  self._getLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback){
-    var self = this;
-
-    if(compXooML.length === 0)
-      self._removeNonLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-    else {
-      self._itemMirror.getAssociationLocalItem(compXooML[i],function(error,item){
-        if (error) {
-          return callback(error);
-        }
-        compXooMLLocalItem.push(item);
-        i++;
-        if(i < compXooML.length) {
-          self._getLocalItems(compXooML, compItem, compXooMLLocalItem, i, callback);
-        }
-        else{
-          self._removeNonLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-        }
-      });
-    }
-  };
-
-  /**
-   * Contrary to the name, this function will both remove AND create
-   * local items depending on the situation.
-   *
-   * @method _removeNonLocalItems
-   *
-   * @param {String} compXooML Array of association GUIDs
-   * @param {String} compItem Array of XooML associations
-   * @param {String} compXooMLLocaLItem Array of XooML associations
-   * recursively generated
-   * @param {Number} i index
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
-   * @private
-   */
-  self._removeNonLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback) {
-    var self = this;
-
-    if (compXooMLLocalItem[i] !== undefined && compXooMLLocalItem[i] !== null && compXooMLLocalItem[i] !== "") {
-      var found = 0;
-
-      for (var j = 0; j < compItem.length; j++) {
-        if (compXooMLLocalItem[i] === compItem[j].getDisplayText()) {
-          compItem.splice(j, 1);
-          found = 1;
-          break;
-        }
-      }
-
-      //Remove Not-existing
-      if (found === 0) {
-        console.log("Sync Remove: " + compXooMLLocalItem[i]);
-        self._fragmentEditor.deleteAssociation(compXooML[i],function(error){
-          if (error) {
-            return callback(error);
-          }
-          i++;
-          if(i < compXooMLLocalItem.length) {
-            self._removeNonLocalItems(compXooML, compItem, compXooMLLocalItem, i, callback);
-          }
-          else{
-            self._createNewLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-          }
-        });
-      }
-      else{
-        i++;
-        if(i < compXooMLLocalItem.length) {
-          self._removeNonLocalItems(compXooML, compItem, compXooMLLocalItem, i, callback);
-        }
-        else{
-          self._createNewLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-        }
-      }
-    }
-    else {
-      i++;
-      if(i < compXooMLLocalItem.length) {
-        self._removeNonLocalItems(compXooML, compItem, compXooMLLocalItem, i, callback);
-      }
-      else{
-        self._createNewLocalItems(compXooML, compItem, compXooMLLocalItem, 0, callback);
-      }
-    }
-  };
-
-  /**
-   * Creates new associations and saves those new associations. Also a
-   * recursive function.
-   *
-   * @method _createNewLocalItems
-   *
-   * @param {String} compXooML Array of association GUIDs
-   * @param {String} compItem Array of XooML associations
-   * @param {String} compXooMLLocaLItem Array of XooML associations
-   * recursively generated
-   * @param {Number} i index
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *
-   * @private
-   */
-  self._createNewLocalItems = function (compXooML, compItem, compXooMLLocalItem, i, callback){
-    var self = this;
-
-    if (compItem.length === 0) {
-      self._itemMirror._save(callback);
-    } else {
-      //Add New
-      console.log("Sync Create: " + compItem[i].getDisplayText());
-      self._fragmentEditor.createAssociation({
-        "displayText":    compItem[i].getDisplayText(),
-        "isGroupingItem": compItem[i].getIsGroupingItem(),
-        //TODO: Temporary use associated item
-        "itemName":       compItem[i].getDisplayText()
-      },function(error,GUID){
-        if (error) {
-          return callback(error);
-        }
-        i++;
-        if(i < compItem.length) {
-          self._createNewLocalItems(compXooML, compItem, compXooMLLocalItem, i, callback);
-        }
-        else{
-          self._itemMirror._save(callback);
-        }
-      });
-    }
   };
 
   return SyncDriver;

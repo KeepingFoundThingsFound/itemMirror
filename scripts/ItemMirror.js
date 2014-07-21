@@ -1388,29 +1388,24 @@ define([
    * @private
    */
   self._saveFragment = function (callback) {
-    var self = this;
+    var self = this, toString;
 
-    self._fragmentEditor.updateETag(function (error, GUID) {
-      if (error) {
-        return callback(error);
-      }
+    self._fragmentEditor.updateEtag();
 
-      self._fragmentEditor.toString(function (error, toString) {
+    toString = self._fragmentEditor.toString();
+
+    var xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI,
+						XooMLConfig.xooMLFragmentFileName);
+
+    self._xooMLDriver.setXooMLFragment(
+      xooMLFragmentPath,
+      toString,
+      function (error) {
         if (error) {
           return callback(error);
         }
-        var xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI,
-          XooMLConfig.xooMLFragmentFileName);
 
-        self._xooMLDriver.setXooMLFragment(xooMLFragmentPath, toString,
-          function (error) {
-            if (error) {
-              return callback(error);
-            }
-
-            callback(false);
-          });
-      });
+        callback(false);
     });
   };
 
