@@ -1181,46 +1181,6 @@ define([
     self._fragmentEditor.setAssociationNamespaceData(data, GUID, namespaceURI);
   };
 
-
-
-  /**
-   * Reloads the XooML Fragment
-   *
-   * @method refresh
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   */
-  self.refresh = function (callback) {
-    var self = this, xooMLFragmentPath;
-
-    self._isCurrent(function (error, isCurrent) {
-      if (error) {
-        throw error;
-      }
-
-      if (isCurrent) {
-        return callback(false);
-      } else {
-        xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
-        self._loadXooMLFragmentString(xooMLFragmentPath, callback);
-      }
-    });
-  };
-
-  /**
-   * @method getParent
-   * @return {Object} Parent ItemMirror if this ItemMirror has a parent.
-   *
-   */
-  self.getItemMirrorFromWhichThisWasCreated = function () {
-    var self = this;
-
-    return self._parent;
-  };
-
   /**
    * Uses the specified ItemDriver and SyncDriver to synchronize the
    * local ItemMirror object changes. This is an implmentation of Synchronization
@@ -1275,7 +1235,6 @@ define([
   };
 
   /**
-<<<<<<< Updated upstream
    * Reloads the XooML Fragment
    *
    * @method refresh
@@ -1303,17 +1262,6 @@ define([
   };
 
   /**
-   * @method toString
-   * @return {String} String representation of self
-   *
-   */
-  self.toString = function () {
-    var self = this;
-
-    return self._fragmentEditor.toString();
-  };
-
-  /**
    * @method getItemMirrorFromWhichThisWasCreated
    *
    * @return {Object} The itemMirror that created this current
@@ -1329,8 +1277,6 @@ define([
   };
 
   /**
-=======
->>>>>>> Stashed changes
    * Given a GUID and displayText this will create a grouping item
    * based on the displayText for that item.
    *
