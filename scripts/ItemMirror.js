@@ -1271,35 +1271,6 @@ define([
   };
 
   /**
-   * Checks to see if the fragment is current, and if it isn't, then
-   * save it.
-   *
-   * @method _save
-   * 
-   *
-   * @param {String} GUID
-   * @param {String} itemURI
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   * @private
-   */
-  self._save = function (callback) {
-    var self = this;
-
-    self._isCurrent(function (error, isCurrent) {
-      if (error) {
-        return callback(error);
-      }
-      if (!isCurrent) {
-        return callback(XooMLExceptions.itemMirrorNotCurrent);
-      }
-      self._saveFragment(callback);
-    });
-  };
-
-  /**
    * Saves the fragment
    *
    * @method _saveFragment
