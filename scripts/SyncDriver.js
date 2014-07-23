@@ -28,12 +28,29 @@ define([
 
   function SyncDriver(itemMirror) {
     var self = this;
-
     self._itemMirror = itemMirror;
     self._fragmentEditor = itemMirror._fragmentEditor;
     self._itemDriver = itemMirror._itemDriver;
     self._xooMLDriver = itemMirror._xooMLDriver;
+
+   /**
+    * Helper method that allows for sorting of objects by the name key
+    *
+    * @method _nameCompare
+    * @private
+    * @protected
+    */
+    function _nameCompare(a, b) {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    };
   }
+
   self = SyncDriver.prototype;
 
   /**
@@ -45,11 +62,19 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
-   * 
+   *
    * @protected
    */
-  self.sync = function (callback) {
-    var self = this, items;
+  self.sync = function(callback) {
+    var self = this,
+        items,
+        realAssociations,
+        memoryAssociations,
+        realNames,
+        memoryNames,
+        memoryIdx,
+	search,
+        sychronized;
 
     self._itemDriver.listItems(
       self._itemMirror._groupingItemURI,
@@ -58,8 +83,8 @@ define([
 	  return callback(error);
 	}
 
-	var realAssociations = associations.map(
-	  function (assoc) {
+	realAssociations = associations.map(
+	  function(assoc) {
 	    return { name: assoc.getDisplayText(),
 		     groupingItem: assoc.getIsGroupingItem() };
 	  }
@@ -67,41 +92,30 @@ define([
 
 	// Associations with both names and guids
 	// filters out any phatoms
-	var memoryAssociations = self._itemMirror.listAssociations()
-	  .map( function (guid) {
+	memoryAssociations = self._itemMirror.listAssociations()
+	  .map( function(guid) {
 	    return { guid: guid,
 		     name: self._itemMirror.getAssociationLocalItemName(guid) };
 	  })
-	  .filter( function (assoc) {
+	  .filter( function(assoc) {
 	    return assoc.name !== null;
 	  });
 
-	// function for comparison of name key in an object
-	var nameCompare = function (a, b) {
-	  if (a.name > b.name) {
-	    return 1;
-	  }
-	  if (a.name < b.name) {
-	    return -1;
-	  }
-	  return 0;
-	};
-	
 	// No guarantee that the storage API sends results sorted
-	realAssociations.sort(nameCompare);
-	memoryAssociations.sort(nameCompare); 
+	realAssociations.sort(self._nameCompare);
+	memoryAssociations.sort(self._nameCompare);
 
 	// Gets the names a separate array, but in needed sorted order
-	var realNames = realAssociations.map( function (assoc) {return assoc.name;} );
-	var memoryNames = memoryAssociations.map( function (assoc) {return assoc.name;} );
+	realNames = realAssociations.map( function (assoc) {return assoc.name;} );
+	memoryNames = memoryAssociations.map( function (assoc) {return assoc.name;} );
 
-	var memoryIdx = 0;
-	var search;
-	
+        // Keeps track of the index in the memoryassociations so that
+        // we don't waste time searching from the beginning
+	memoryIdx = 0;
 	// Keeps track of whether there are any changes that need to be made
-	var sychronized = true; 
-	
-	realNames.forEach( function (name, realIdx) {
+	sychronized = true;
+
+	realNames.forEach( function(name, realIdx) {
 	  search = memoryNames.indexOf(name, memoryIdx);
 	  // Create association
 	  if (search === -1) {
@@ -116,7 +130,7 @@ define([
 	    // Deletes any extraneous associations
 	    memoryAssociations
 	      .slice(memoryIdx, search)
-	      .forEach( function (assoc) {
+	      .forEach( function(assoc) {
 		sychronized = false;
 		self._fragmentEditor.deleteAssociation(assoc.guid);
 	      });
@@ -128,7 +142,7 @@ define([
 	// Any remaining associations need to be deleted because they don't exist
 	memoryAssociations
 	  .slice(memoryIdx, memoryNames.length)
-	  .forEach( function (assoc) {
+	  .forEach( function(assoc) {
 	    sychronized = false;
 	    self._fragmentEditor.deleteAssociation(assoc.guid);
 	  });
@@ -137,6 +151,8 @@ define([
 	if (!sychronized) {
 	  self._itemMirror._saveFragment(callback);
 	}
+
+        return callback;
       });
   };
 
