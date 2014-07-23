@@ -210,44 +210,6 @@ define([
   };
 
   /**
-   * An item driver supports HTML5 filesystem API. self driver must
-   * work hand in glove with SyncU. There is no exclusive control over
-   * items as stored in the dataStore so need to view and synchronize.
-   * Invoked directly to Open and Close. Delete, create. Invoked
-   * indirectly via UI.
-   *
-   * @method getItemDriver
-   * @return {String} The URI of the item driver.
-   */
-  self.getItemDriver = function () {
-    var self = this;
-
-    return self._fragmentEditor.getItemDriver();
-  };
-
-  /**
-   *
-   * @method getSyncDriver
-   * @return {String} Returns the sync driver URI.
-   */
-  self.getSyncDriver = function () {
-    var self = this;
-
-    return self._fragmentEditor.getSyncDriver();
-  };
-
-  /**
-   *
-   * @method getXooMLDriver
-   * @return {String} The XooML driver.
-   */
-  self.getXooMLDriver = function () {
-    var self = this;
-
-    return self._fragmentEditor.getXooMLDriver();
-  };
-
-  /**
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
@@ -256,7 +218,7 @@ define([
    * @method getAssociationDisplayText
    * @return {String} The display text for the association with the given GUID.
    *
-   * @param {String} GUID GUID of the association to get.
+   * @param {String} GUID GUID representing the desired association.
    */
   self.getAssociationDisplayText = function (GUID) {
     var self = this;
@@ -287,15 +249,15 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationLocalItemName
+   * @method getAssociationLocalItem
    * @return {String} The local item for the association with the given GUID.
    *
    * @param {String} GUID GUID of the association to get.
    */
-  self.getAssociationLocalItemName = function (GUID) {
+  self.getAssociationLocalItem = function (GUID) {
     var self = this;
 
-    return self._fragmentEditor.getAssociationLocalItemName(GUID);
+    return self._fragmentEditor.getAssociationLocalItem(GUID);
   };
 
   /**
@@ -303,15 +265,14 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociatedItemOfAssociation
+   * @method getAssociationAssociatedItem
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
-   *                    association with the given GUID.
    */
-  self.getAssociatedItemOfAssociation = function (GUID) {
+  self.getAssociationAssociatedItem = function (GUID) {
     var self = this;
 
-    return self._fragmentEditor.getAssociatedItemOfAssociation(GUID);
+    return self._fragmentEditor.getAssociationAssociatedItem(GUID);
   };
 
   /**
@@ -504,7 +465,7 @@ define([
   self.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
     var self = this;
 
-    self.isAssociatedItemGrouping(GUID, function (error, isGrouping) {
+    self.isAssociationAssociatedItemGrouping(GUID, function (error, isGrouping) {
       if (error) {
         return callback(error);
       }
@@ -512,7 +473,7 @@ define([
         return callback(false, null);
       }
 
-      self._fragmentEditor.getAssociatedItemOfAssociation(GUID, function (error, associatedItem) {
+      self._fragmentEditor.getAssociationAssociatedItem(GUID, function (error, associatedItem) {
         if (error) {
           return callback(error);
         }
@@ -664,7 +625,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItemName(GUID, function (error, localItem) {
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -679,7 +640,7 @@ define([
             options.displayText = displayText;
             
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociatedItemOfAssociation(GUID, function(error, associatedItem){
+            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
@@ -728,7 +689,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItemName(GUID, function (error, localItem) {
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -742,7 +703,7 @@ define([
             }
             options.displayText = displayText;
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociatedItemOfAssociation(GUID, function(error, associatedItem){
+            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
@@ -798,7 +759,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    self.getAssociationLocalItemName(GUID, function (error, localItem) {
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -881,7 +842,7 @@ define([
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not a function. <br/>
    *
-   * @method renameLocalItemOfAssociation
+   * @method renameAssocationLocalItem
    *
    * @param {String} GUID GUID of the association.
    * @param {String} String String Name you want to rename the file to (including file extension)
@@ -890,7 +851,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.renameLocalItemOfAssociation = function (GUID, newName, callback) {
+  self.renameAssocationLocalItem = function (GUID, newName, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -900,7 +861,7 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
     
-    self.getAssociationLocalItemName(GUID, function (error, localItem) {
+    self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
       }
@@ -919,17 +880,17 @@ define([
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not an function. <br/>
    *
-   * @method isAssociatedItemGrouping
+   * @method isAssociationAssociatedItemGrouping
    * @return {Boolean} True if the association with the given GUID's associatedItem is a grouping
    * item, otherwise false.
    *
    * @param GUID {String} GUID of the association to be to be checked.
    *
    */
-  self.isAssociatedItemGrouping = function (GUID) {
+  self.isAssociationAssociatedItemGrouping = function (GUID) {
     var self = this, associatedItem, xooMLFragment, path;
 
-    associatedItem = self._fragmentEditor.getAssociatedItemOfAssociation(GUID);
+    associatedItem = self._fragmentEditor.getAssociationAssociatedItem(GUID);
     if (!associatedItem || associatedItem === "") {
       return false;
     }
@@ -940,45 +901,6 @@ define([
     }else{
       return false;
     }
-  };
-  
-  /**
-   * Checks if the Association is a grouping item, by checking if it has an Associated XooML Fragment.
-   *
-   * Throws NullArgumentException if GUID, callback is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String, and if callback
-   * is not an function. <br/>
-   *
-   * @method isGroupingItem
-   * @return {Boolean} True if the association with the given GUID is a grouping
-   * item, otherwise false.
-   *
-   * @param GUID {String} GUID of the association to be to be checked.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *
-   *  @param {Object} callback.error Null if no error has occurred
-   *                  in executing this function, else an contains
-   *                  an object with the error that occurred.
-   *
-   *  @param {Boolean} callback.isGroupingItem True if the association
-   *                   with the given GUID is a grouping item, else
-   *                   false.
-   */
-  self.isGroupingItem = function (GUID, callback) {
-    var self = this;
-      
-      self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID,
-        function (error, XooMLFragment){
-          if(error){
-            return callback(error);
-          }
-          if (!XooMLFragment || XooMLFragment === "" || XooMLFragment === null) {
-            return callback(false, false);
-          }else{
-          return callback(false, true);
-          }
-        });
   };
 
   /**
@@ -1330,6 +1252,7 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   * @private
    */
   self._setAssociationLocalItemAndAssociatedItem = function (GUID, itemURI, callback) {
     var self = this;

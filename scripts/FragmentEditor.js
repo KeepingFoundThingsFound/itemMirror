@@ -67,7 +67,7 @@ define([
     _ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT = "associatedXooMLFragment",
     _ASSOCIATION_ASSOCIATED_XOOML_DRIVER = "associatedXooMLDriver",
     _ASSOCIATION_ASSOCIATED_ITEM = "associatedItem",
-    _ASSOCIATION_LOCAL_ITEM_NAME = "localItem",
+    _ASSOCIATION_LOCAL_ITEM = "localItem",
     _XML_XSI_URI = "http://www.w3.org/2001/XMLSchema-instance",
 
     _DEFAULT_VALUE_FOR_ADD_ATTRIBUTE = "",
@@ -508,7 +508,7 @@ define([
    * Throws InvalidTypeException if GUID is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method getAssociationLocalItemName
+   * @method getAssociationLocalItem
    *
    * @param {String} GUID GUID of the association to get.
    *
@@ -516,10 +516,10 @@ define([
    *
    * @protected
    */
-  self.getAssociationLocalItemName = function (GUID) {
+  self.getAssociationLocalItem = function (GUID) {
     var self = this;
 
-    return self._getAttribute(_ASSOCIATION_LOCAL_ITEM_NAME, _ASSOCIATION, null,
+    return self._getAttribute(_ASSOCIATION_LOCAL_ITEM, _ASSOCIATION, null,
 			      GUID);
   };
 
@@ -540,7 +540,7 @@ define([
   self.setAssociationLocalItem = function (GUID, localItem) {
     var self = this;
 
-    self._setAttribute(_ASSOCIATION_LOCAL_ITEM_NAME, localItem,
+    self._setAttribute(_ASSOCIATION_LOCAL_ITEM, localItem,
 		       _ASSOCIATION_GUID, null, GUID);
   };
 
@@ -1254,7 +1254,7 @@ define([
     association.setAttribute(_ASSOCIATION_GUID, GUID);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_ITEM, associatedItem);
     association.setAttribute(_ASSOCIATION_DISPLAY_TEXT, displayText);
-    association.setAttribute(_ASSOCIATION_LOCAL_ITEM_NAME, localItem);
+    association.setAttribute(_ASSOCIATION_LOCAL_ITEM, localItem);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT, associationXooMLFragment);
     association.setAttribute(_ASSOCIATION_ASSOCIATED_XOOML_DRIVER, ""); // TODO consider removal?
     parent.appendChild(association.cloneNode(true));
