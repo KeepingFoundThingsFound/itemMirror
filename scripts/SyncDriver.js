@@ -48,7 +48,7 @@ define([
         return -1;
       }
       return 0;
-    };
+    }
   }
 
   self = SyncDriver.prototype;
