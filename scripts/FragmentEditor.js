@@ -39,7 +39,7 @@ define([
   "./XooMLConfig.js",
   "./XooMLUtil.js",
   "./PathDriver.js",
-  "./XooMLAssociation.js"
+  "./AssociationEditor.js"
 ], function(
   XooMLExceptions,
   XooMLConfig,

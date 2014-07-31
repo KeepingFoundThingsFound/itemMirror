@@ -18,7 +18,7 @@ define([
   "./XooMLExceptions.js",
   "./XooMLConfig.js",
   "./XooMLUtil.js",
-  "./XooMLAssociation.js"
+  "./AssociationEditor.js"
 ], function(
   XooMLExceptions,
   XooMLConfig,
