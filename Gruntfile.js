@@ -6,7 +6,7 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js', 'scripts/ItemMirror.js',
               'scripts/PathDriver.js', 'scripts/SyncDriver.js',
 	      'scripts/XooMLDriver.js', 'scripts/FragmentEditor.js',
-              'scripts/SyncDriver.js'],
+              'scripts/SyncDriver.js', 'scripts/AssociationEditor.js'],
       options: {
         // options listed http://www.jshint.com/docs/options
         globals: {
@@ -80,9 +80,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('document', ['jshint', 'yuidoc']);
-  
+
   grunt.registerTask('default', ['jshint', 'yuidoc', 'requirejs', 'uglify']);
-  
+
   grunt.registerTask('build', ['jshint', 'requirejs', 'uglify']);
 
 };
