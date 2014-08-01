@@ -38,6 +38,7 @@
  * @param {String} groupingItemURI URI of the grouping item that the
  * association is in
  *
+ * @param {String} namespace The namespace of the association
  * @protected
  */
 define([
@@ -67,7 +68,7 @@ define([
                            _ASSOCIATED_ITEM_ATTR,
                            _LOCAL_ITEM_ATTR];
 
-  function AssociationEditor(commonData, groupingItemURI) {
+  function AssociationEditor(commonData, groupingItemURI, namespace) {
     if (!commonData) {
       throw XooMLExceptions.nullArgument;
     }
@@ -75,9 +76,16 @@ define([
     // Properties from the common data
     this.commonData = commonData;
     // Generate and set a GUID for the common data
-    this.commonData.attributes[_GUID_ATTR] = XooMLUtil.generateGUID();
+    this.commonData[_GUID_ATTR] = XooMLUtil.generateGUID();
+
     // Don't forget the groupingItemURI
     this.groupingItemURI = groupingItemURI;
+
+    this.namespace = {
+      uri: namespace,
+      attributes: {},
+      otherNSElements: []
+    };
   }
 
   /**
@@ -93,23 +101,27 @@ define([
     var self = this, dataElems, nsElem, i;
     // Sets all common data attributes
     _COMMON_DATA_ATTRS.forEach( function(attributeName) {
-      self[attributeName] = element.getAttribute(attributeName);
+      self.commonData[attributeName] = element.getAttribute(attributeName);
     });
 
-    dataElems = nsElem.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
+    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
     for (i = 0; i < dataElems.length; i += 1) {
       if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems.children[i];
+        nsElem = dataElems[i];
       } else {
-        self.otherNSElements.push(dataElems.children[i]);
+        self.namespace.otherNSElements.push(dataElems.children[i]);
       }
     }
 
-    // Inner HTML is currently experimental, and isn't supported in
-    // older browsers
-    self.namespace.data = nsElem.innerHTML();
-    for (i = 0; i < nsElem.attributes.length; i += 1) {
-      self.namespace.attributes[nsElem.attributes[i]] = nsElem.getAttributeNS(namespace, nsElem.atributes[i]);
+    // There may not BE any data for a namespace
+    if (nsElem) {
+      // Inner HTML is currently experimental, and isn't supported in
+      self.namespace.data = nsElem.innerHTML;
+
+      for (i = 0; i < nsElem.attributes.length; i += 1) {
+        self.namespace.attributes[ nsElem.attributes[i].name ] =
+          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+      }
     }
   };
 
@@ -125,21 +137,24 @@ define([
    * @protected
    */
   AssociationEditor.prototype.toElement = function () {
-    var associationElem = document.createElement(_ELEMENT_NAME),
+    var self = this,
+        associationElem = document.createElement(_ELEMENT_NAME),
         appNSElem;     // The namespace element specific for the app
     // common data
-    this.commonData.keys().forEach( function(key) {
-      associationElem.setAttribute(key, this.commonData[key]);
+    Object.keys(self.commonData).forEach( function(key) {
+      associationElem.setAttribute(key, self.commonData[key]);
     });
 
     // namespace data
-    appNSElem = document.createElementNS(this.namespace, _NAMESPACE_ELEMENT_NAME);
-    this.namespace.attributes.keys().forEach( function(key) {
-      appNSElem.setAttributeNS(this.namespace, key);
+    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
+    Object.keys(self.namespace.attributes).forEach( function(key) {
+      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
     });
 
     associationElem.appendChild(appNSElem);
-    this.otherNSElements.forEach( function(element) {
+
+    appNSElem.innerHTML = self.namespace.data;
+    self.namespace.otherNSElements.forEach( function(element) {
       associationElem.appendChild(element);
     });
 
