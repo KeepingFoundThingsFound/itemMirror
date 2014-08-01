@@ -47,4 +47,5 @@ define({
     "displayText": true,
     "itemName": true,
     "isGroupingItem": true
-  });
+  }
+});

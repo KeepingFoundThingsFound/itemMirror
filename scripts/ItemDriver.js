@@ -15,10 +15,10 @@
  * @protected
  */
 define([
-  "./XooMLExceptions.js",
-  "./XooMLConfig.js",
-  "./XooMLUtil.js",
-  "./AssociationEditor.js"
+  "./XooMLExceptions",
+  "./XooMLConfig",
+  "./XooMLUtil",
+  "./AssociationEditor"
 ], function(
   XooMLExceptions,
   XooMLConfig,

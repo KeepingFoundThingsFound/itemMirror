@@ -35,11 +35,11 @@
  * @protected
  **/
 define([
-  "./XooMLExceptions.js",
-  "./XooMLConfig.js",
-  "./XooMLUtil.js",
-  "./PathDriver.js",
-  "./AssociationEditor.js"
+  "./XooMLExceptions",
+  "./XooMLConfig",
+  "./XooMLUtil",
+  "./PathDriver",
+  "./AssociationEditor"
 ], function(
   XooMLExceptions,
   XooMLConfig,

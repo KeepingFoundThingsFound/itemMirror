@@ -55,14 +55,14 @@
  *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
  */
 define([
-  "./XooMLExceptions.js",
-  "./XooMLConfig.js",
-  "./XooMLUtil.js",
-  "./PathDriver.js",
-  "./FragmentEditor.js",
-  "./ItemDriver.js",
-  "./XooMLDriver.js",
-  "./SyncDriver.js"
+  "./XooMLExceptions",
+  "./XooMLConfig",
+  "./XooMLUtil",
+  "./PathDriver",
+  "./FragmentEditor",
+  "./ItemDriver",
+  "./XooMLDriver",
+  "./SyncDriver"
 ], function(
   XooMLExceptions,
   XooMLConfig,

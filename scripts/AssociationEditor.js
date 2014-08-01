@@ -41,12 +41,10 @@
  * @protected
  */
 define([
-  "./XooMLExceptions.js",
-  "./XooMLConfig.js",
-  "./XooMLUtil.js"
+  "./XooMLExceptions",
+  "./XooMLUtil"
 ], function(
   XooMLExceptions,
-  XooMLConfig,
   XooMLUtil) {
   "use strict";
 

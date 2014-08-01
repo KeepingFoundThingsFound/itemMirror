@@ -15,9 +15,9 @@
  * @protected
  */
 define([
-  "./XooMLExceptions.js",
-  "./XooMLConfig.js",
-  "./XooMLUtil.js"
+  "./XooMLExceptions",
+  "./XooMLConfig",
+  "./XooMLUtil"
 ], function(
   XooMLExceptions,
   XooMLConfig,
