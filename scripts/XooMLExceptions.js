@@ -8,10 +8,7 @@
  *
  * @protected
  */
-define(function() {
-  "use strict";
-
-  return {
+define({
     /**
      * Thrown when a method is not yet implemented.
      *
@@ -113,5 +110,4 @@ define(function() {
      * @protected
      */
     itemMirrorNotCurrent: "ItemMirrorNotCurrent"
-  };
 });
