@@ -38,7 +38,8 @@
  * @param {String} groupingItemURI URI of the grouping item that the
  * association is in
  *
- * @param {String} namespace The namespace of the association
+ * @param {String} namespace The namespace URI of the association <br/>
+ * __optional__
  * @protected
  */
 define([
@@ -74,17 +75,119 @@ define([
     }
 
     // Properties from the common data
-    this.commonData = commonData;
-    // Generate and set a GUID for the common data
-    this.commonData[_GUID_ATTR] = XooMLUtil.generateGUID();
+    /**
+     * Common Data of the association that is accessible to all applications
+     * @property commonData
+     * @type Object
+     */
+    this.commonData = {
+      /**
+       * Text that describes the association
+       * @property commonData.displayText
+       * @type String
+       */
+      displayText: commonData.displayText || "",
 
+      /**
+       * The associated XooML fragment of the association
+       * @property commonData.associatedXooMLFragment
+       * @type String
+       */
+      associatedXooMLFragment: commonData.associatedXooMLFragment || "",
+
+      /**
+       * The associated XooML driver of the association
+       * @property commonData.associatedXooMLDriver
+       * @type String
+       */
+      associatedXooMLDriver: commonData.associatedXooMLDriver || "",
+
+      /**
+       * The associated sync driver of the association
+       * @property commonData.associatedSyncDriver
+       * @type String
+       */
+      associatedSyncDriver: commonData.associatedSyncDriver || "",
+
+      /**
+       * The associated item driver of the association
+       * @property commonData.associatedItemDriver
+       * @type String
+       */
+      associatedItemDriver: commonData.associatedItemDriver || "",
+
+      /**
+       * The associated item of the association
+       * @property commonData.associatedItem
+       * @type String
+       */
+      associatedItem: commonData.associatedItemDriver || "",
+
+      /**
+       * The local item of the association
+       * @property commonData.localItem
+       * @type String
+       */
+      localItem: commonData.localItem || "",
+
+      /**
+       * The GUID of the association
+       * @property commonData.ID
+       * @type String
+       */
+      // GUID is generated upon construction
+      ID: XooMLUtil.generateGUID()
+    };
+
+    /**
+     * The grouping item URI for the association. This is basically
+     * the 'folder' that the association lies in
+     * @property commonData.groupingItemURI
+     * @type String
+     */
     // Don't forget the groupingItemURI
-    this.groupingItemURI = groupingItemURI;
+    this.groupingItemURI = groupingItemURI || "";
 
+    /**
+     * Data for the _current_ namespace being accessed. The namespace
+     * is specified during construction.
+     * @property namespace
+     * @type Object
+     */
     this.namespace = {
+      /**
+       * The URI of the current namespace. Each app should use only
+       * one namespace.
+       * @property namespace.uri
+       * @type String
+       */
       uri: namespace,
+
+      /**
+       * The attributes of the current namespace, with each attribute
+       * having a corresponding value.
+       * @property namespace.attributes
+       * @type Object
+       */
       attributes: {},
-      otherNSElements: []
+
+      /**
+       * The data for all of the other namespaces. These are DOM
+       * elements, not strings, and only used for converting the
+       * association back into an XML element
+       * @property namespace.otherNSElements
+       * @type Element[]
+       */
+      otherNSElements: [],
+
+      /**
+       * This is the namespace data stored within the namespace
+       * element. Anything can be put here, and it will be stored as
+       * HTML.
+       * @property namespace.data
+       * @type String
+       */
+      data: null
     };
   }
 
