@@ -7,39 +7,25 @@
  * Note that upon construction, this doesn't actually create an
  * association, merely a /representation/ of an association.
  *
- * Throws NullArgumentException when commonData is missing
+ * There are two ways to construct an AssociationEditor:
+ * 1. Through a valid Association XML Element
+ * 2. By specifying all data through an object
  *
  * For ItemMirror core developers only. Enable protected to see.
  *
  * @class AssociationEditor
  * @constructor
  *
- * @param {Object} commonData Common data that is used by the
- * itemMirror library, and is app agnostic
- *  @param {String} commonData.displayText Display text for the
- *  association
- *  @param {String} commonData.associatedXooMLFragment URI of the
- *  associated XooML fragment for the association
- *  @param {String} commonData.associatedItem URI of the associated item
- *  @param {String} commonData.associatedXooMLDriver The associated
- *  XooML driver for the association
- *  @param {String} commonData.associatedItemDriver The associated
- *  item driver for the association
- *  @param {String} commonData.associatedSyncDriver The associated
- *  sync driver of the association
- *  @param {String} commonData.localItem The name/id of the
- *  association
- *  @param {Boolean} comnmonData.isGrouping Whether or not the
- *  association is a grouping item
- *  @param {String} commonData.readOnlyURLtoXooMLfragment Used in
- *  cases where the owner wishes for the XooML fragment representing
- *  an item to be public
+ * @param {Object} options The options specified for the constructor
+ *  @param {Element} options.element A DOM element that correctly
+ *  represents an association as specified by the XooML schema.
+ *  @param {Object} options.commonData An object that specifies the
+ *  data for an association. Look at the private constructor
+ *  `_fromOptions` for more details
+ *  @param {String} options.namespace The namespace URI of the association
+ *  <br/>
+ *  __optional__
  *
- * @param {String} groupingItemURI URI of the grouping item that the
- * association is in
- *
- * @param {String} namespace The namespace URI of the association <br/>
- * __optional__
  * @protected
  */
 define([
@@ -69,7 +55,130 @@ define([
                            _ASSOCIATED_ITEM_ATTR,
                            _LOCAL_ITEM_ATTR];
 
-  function AssociationEditor(commonData, groupingItemURI, namespace) {
+  function AssociationEditor(options) {
+    var self = this;
+
+    if (options.element) {
+      _fromElement(options.element, options.namespace, self);
+    } else if (options.commonData) {
+      _fromOptions(options.commonData, options.namespace, self);
+    } else {
+      console.log(XooMLExceptions.missingParameter);
+    }
+  }
+
+  /**
+   * Converts the object into an association element, which can then
+   * be converted to a string or added to the DOM.
+   *
+   * @method toElement
+   *
+   * @returns {Element} A DOM element that can be further manipulated
+   * with DOM methods
+   *
+   * @protected
+   */
+  AssociationEditor.prototype.toElement = function() {
+    var self = this,
+        associationElem = document.createElement(_ELEMENT_NAME),
+        appNSElem;     // The namespace element specific for the app
+    // common data
+    Object.keys(self.commonData).forEach( function(key) {
+      associationElem.setAttribute(key, self.commonData[key]);
+    });
+
+    // namespace data
+    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
+    Object.keys(self.namespace.attributes).forEach( function(key) {
+      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
+    });
+
+    associationElem.appendChild(appNSElem);
+
+    appNSElem.innerHTML = self.namespace.data;
+    self.namespace.otherNSElements.forEach( function(element) {
+      associationElem.appendChild(element);
+    });
+
+    return associationElem;
+  };
+
+  /**
+   * Takes an association element in XML and then converts that into
+   * an AssociationEditor object. Intended to be one of the ways the
+   * object is constructed
+   *
+   * @method fromElement
+   *
+   * @param {Element} element The XML element that represents an association.
+   * @param {String} namespace The namespace URI, used to load any app-specific data.
+   */
+  function _fromElement(element, namespace, self) {
+    var dataElems, nsElem, i;
+    // Sets all common data attributes
+    self.commonData = {};
+    _COMMON_DATA_ATTRS.forEach( function(attributeName) {
+      self.commonData[attributeName] = element.getAttribute(attributeName);
+    });
+
+    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
+    for (i = 0; i < dataElems.length; i += 1) {
+      if (dataElems[i].namespaceURI === namespace) {
+        nsElem = dataElems[i];
+      } else {
+        self.namespace.otherNSElements.push(dataElems.children[i]);
+      }
+    }
+
+    self.namespace = {
+      uri: namespace,
+      data: "",
+      attributes: {},
+      otherNSElements: []
+    };
+    // There may not BE any data for a namespace
+    if (nsElem) {
+      // Inner HTML is currently experimental, and isn't supported in
+      self.namespace.data = nsElem.innerHTML;
+
+      for (i = 0; i < nsElem.attributes.length; i += 1) {
+        self.namespace.attributes[ nsElem.attributes[i].name ] =
+          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+      }
+    }
+  }
+
+  /**
+   * Constructs an association with data from an object
+   * @method _fromOptions
+   *
+   * @param {Object} commonData Common data that is used by the
+   * itemMirror library, and is app agnostic
+   *  @param {String} commonData.displayText Display text for the
+   *  association
+   *  @param {String} commonData.associatedXooMLFragment URI of the
+   *  associated XooML fragment for the association
+   *  @param {String} commonData.associatedItem URI of the associated item
+   *  @param {String} commonData.associatedXooMLDriver The associated
+   *  XooML driver for the association
+   *  @param {String} commonData.associatedItemDriver The associated
+   *  item driver for the association
+   *  @param {String} commonData.associatedSyncDriver The associated
+   *  sync driver of the association
+   *  @param {String} commonData.localItem The name/id of the
+   *  association
+   *  @param {Boolean} comnmonData.isGrouping Whether or not the
+   *  association is a grouping item
+   *  @param {String} commonData.readOnlyURLtoXooMLfragment Used in
+   *  cases where the owner wishes for the XooML fragment representing
+   *  an item to be public
+   *
+   * @param {String} namespace The namespace URI of the association <br/>
+   * __optional__
+   * @protected
+   * @private
+   */
+  function _fromOptions(commonData, namespace, self) {
     if (!commonData) {
       throw XooMLExceptions.nullArgument;
     }
@@ -80,7 +189,7 @@ define([
      * @property commonData
      * @type Object
      */
-    this.commonData = {
+    self.commonData = {
       /**
        * Text that describes the association
        * @property commonData.displayText
@@ -140,21 +249,12 @@ define([
     };
 
     /**
-     * The grouping item URI for the association. This is basically
-     * the 'folder' that the association lies in
-     * @property commonData.groupingItemURI
-     * @type String
-     */
-    // Don't forget the groupingItemURI
-    this.groupingItemURI = groupingItemURI || "";
-
-    /**
      * Data for the _current_ namespace being accessed. The namespace
      * is specified during construction.
      * @property namespace
      * @type Object
      */
-    this.namespace = {
+    self.namespace = {
       /**
        * The URI of the current namespace. Each app should use only
        * one namespace.
@@ -190,79 +290,6 @@ define([
       data: null
     };
   }
-
-  /**
-   * Takes an association element in XML and then converts that into
-   * an AssociationEditor object
-   *
-   * @method fromElement
-   *
-   * @param {Element} element The XML element that represents an association.
-   * @param {String} namespace The namespace URI, used to load any app-specific data.
-   */
-  AssociationEditor.prototype.fromElement = function (element, namespace) {
-    var self = this, dataElems, nsElem, i;
-    // Sets all common data attributes
-    _COMMON_DATA_ATTRS.forEach( function(attributeName) {
-      self.commonData[attributeName] = element.getAttribute(attributeName);
-    });
-
-    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
-    for (i = 0; i < dataElems.length; i += 1) {
-      if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems[i];
-      } else {
-        self.namespace.otherNSElements.push(dataElems.children[i]);
-      }
-    }
-
-    // There may not BE any data for a namespace
-    if (nsElem) {
-      // Inner HTML is currently experimental, and isn't supported in
-      self.namespace.data = nsElem.innerHTML;
-
-      for (i = 0; i < nsElem.attributes.length; i += 1) {
-        self.namespace.attributes[ nsElem.attributes[i].name ] =
-          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
-      }
-    }
-  };
-
-  /**
-   * Converts the object into an association element, which can then
-   * be converted to a string or added to the DOM.
-   *
-   * @method toElement
-   *
-   * @returns {Element} A DOM element that can be further manipulated
-   * with DOM methods
-   *
-   * @protected
-   */
-  AssociationEditor.prototype.toElement = function () {
-    var self = this,
-        associationElem = document.createElement(_ELEMENT_NAME),
-        appNSElem;     // The namespace element specific for the app
-    // common data
-    Object.keys(self.commonData).forEach( function(key) {
-      associationElem.setAttribute(key, self.commonData[key]);
-    });
-
-    // namespace data
-    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
-    Object.keys(self.namespace.attributes).forEach( function(key) {
-      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
-    });
-
-    associationElem.appendChild(appNSElem);
-
-    appNSElem.innerHTML = self.namespace.data;
-    self.namespace.otherNSElements.forEach( function(element) {
-      associationElem.appendChild(element);
-    });
-
-    return associationElem;
-  };
 
   return AssociationEditor;
 });
