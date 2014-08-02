@@ -1,36 +1,33 @@
 /**
  * Constructs a FragmentWrapper for a XooML fragment. In the following cases.
  *
- * Case 1: xooMLFragmentString is given and is used as the XooMLFragment. <br/>
- * Case 2: associations, xooMLUtilityURI, itemUtilityURI, syncUtilityURI,
+ * 1. XooMLFragment Element is passed in and is used as the XooMLFragment.
+ * 2. Associations, XooMLDriver, ItemDriver, SyncDriver,
  * groupingItemURI are given and used to create a new XooMLFragment with
  * the given data.
  *
- * Throws NullArgumentException when options is null. <br/>
- * Throws MissingParameterException when options is not null and does not have
- * the necessary arguments for any given case. <br/>
+ * The FragmentWrapper is merely a representation of a XooML fragment,
+ * and is used by an itemMirror that actually handles the details of
+ * creating deleting and modifying associations.
  *
  * For ItemMirror core developers only. Enable protected to see.
  *
  * @class FragmentEditor
  * @constructor
- * @async
  *
  * @param {Object} options Data to construct a new FragmentWrapper with
- *   @param {String} options.xooMLFragmentString XML string representing a XooML2
+ *  @param {Element} options.element XML Element representing a XooML
  *                   fragment. Required for case 1.
- *   @param {XooMLAssociation[]} options.associations List of associations for
- *          the newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.xooMLUtilityURI URI for the XooMLUtility for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.itemUtilityURI URI for the ItemUtility for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.syncUtilityURI URI for the SyncUtility for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
- *   @param {String} options.groupingItemURI URI for the Grouping Item for the
- *          newly constructed XooMLFragment in case 2. Required in Case 2.
- * @param {Function}[callback] callback function
- *  @param {String} callback.error The error to the callback
+ *  @param {AssociationEditor[]} options.associations List of associations for
+ *          the newly constructed XooMLFragment in case 2. <br/>__optional__
+ *  @param {Object} options.commonData Common data for the
+ *  fragment. Look at the constructor for more details. Required for case 2
+ *  @param {String} options.groupingItemURI The URI for the grouping
+ *  item of the fragment. Required for case 2.
+ *  @param {String} options.namespace The namespace URI. Used to
+ *  access namespace specific data so apps can have their own set of
+ *  data that they manipulate with worry of conflicts. <br/>
+ *  __optional__
  *
  * @protected
  **/
@@ -45,7 +42,7 @@ define([
   XooMLConfig,
   XooMLUtil,
   PathDriver,
-  XooMLAssociation) {
+  AssociationEditor) {
   "use strict";
 
   var
