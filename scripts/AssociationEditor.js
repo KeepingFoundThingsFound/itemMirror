@@ -108,7 +108,7 @@ define([
    * an AssociationEditor object. Intended to be one of the ways the
    * object is constructed
    *
-   * @method fromElement
+   * @method _fromElement
    *
    * @param {Element} element The XML element that represents an association.
    * @param {String} namespace The namespace URI, used to load any app-specific data.
