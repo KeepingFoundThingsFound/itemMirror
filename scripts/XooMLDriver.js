@@ -102,14 +102,18 @@ define([
   };
 
   /**
-   * Check if the XooML fragment is existed
-   * @method checkExisted
+   * Check if the XooML fragment exists
+   * @method checkExists
    * @param {String} uri the location of the XooML fragment
-   * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
+   * @param {Function} callback Function to be called when
+   * self function is finished with it's operation.
+   *  @param {String} callback.error Dropbox error if there is one
+   *  @param {Boolean} callback.result True if the fragment exists and
+   *  false otherwis
    *
    * @protected
    */
-  self.checkExisted = function (uri, callback) {
+  self.checkExists = function (uri, callback) {
     var self = this, result;
 
     self._dropboxClient.stat(uri, function (error, stat) {
