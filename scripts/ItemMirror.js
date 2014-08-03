@@ -106,7 +106,7 @@ define([
       !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
       return callback(XooMLExceptions.missingParameter);
     }
-    var self = this, xooMLFragmentURI;
+    var self = this, xooMLFragmentURI, displayName;
 
     // private variables
     self._xooMLDriver = null;
@@ -117,10 +117,19 @@ define([
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
 
+    // displayName for the fragment
+    if (PathDriver.isRoot(self._groupingItemURI)) {
+      displayName = "";
+    } else {
+      displayName = PathDriver.formatPath(self._groupingItemURI);
+      displayName = PathDriver.splitPath(displayName);
+      displayName = displayName[displayName.length - 1];
+    }
+
     xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
 
-    new XooMLDriver(options.xooMLDriver, function (error, xooMLU) {
-      self._xooMLDriver = xooMLU;
+    new XooMLDriver(options.xooMLDriver, function (error, driver) {
+      self._xooMLDriver = driver;
       self._getItemU(xooMLFragmentURI, options, function (error) {
         if (error) {
           return callback(error);
@@ -147,25 +156,10 @@ define([
 
   /**
    * @method getDisplayName
-   * @return {String} The display name.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   *  @param {String}   callback.displayName Display name.
+   * @return {String} The display name of the fragment.
    */
-  ItemMirror.prototype.getDisplayName = function(callback) {
-    var self = this, displayName;
-
-    if (PathDriver.isRoot(self._groupingItemURI)) {
-      displayName = "";
-    } else {
-      displayName = PathDriver.formatPath(self._groupingItemURI);
-      displayName = PathDriver.splitPath(displayName);
-      displayName = displayName[displayName.length - 1];
-    }
-
-    return callback(false, displayName);
+  ItemMirror.prototype.getDisplayName = function() {
+    return this._fragment.commonData.displayName;
   };
 
   /**
