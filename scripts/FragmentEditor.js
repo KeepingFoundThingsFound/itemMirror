@@ -45,42 +45,24 @@ define([
   AssociationEditor) {
   "use strict";
 
-  var
-    _NAMESPACE_ATTRIBUTE = "xmlns",
-    _FRAGMENT = "fragment",
-    _FRAGMENT_NAMESPACE_DATA = "fragmentNamespaceData",
-    _FRAGMENT_SCHEMA_VERSION = "schemaVersion",
-    _FRAGMENT_SCHEMA_LOCATION = "schemaLocation",
-    _FRAGMENT_ITEM_DESCRIBED = "itemDescribed",
-    _ITEM_DESCRIBED = ".",
-    _FRAGMENT_ITEM_DRIVER = "itemDriver",
-    _FRAGMENT_SYNC_DRIVER = "syncDriver",
-    _FRAGMENT_XOOML_DRIVER = "xooMLDriver",
-    _FRAGMENT_GUID = "GUIDGeneratedOnLastWrite",
-    _ASSOCIATION = "association",
-    _ASSOCIATION_NAMESPACE_DATA = "associationNamespaceData",
-    _ASSOCIATION_GUID = "ID",
-    _ASSOCIATION_DISPLAY_TEXT = "displayText",
-    _ASSOCIATION_ASSOCIATED_XOOML_FRAGMENT = "associatedXooMLFragment",
-    _ASSOCIATION_ASSOCIATED_XOOML_DRIVER = "associatedXooMLDriver",
-    _ASSOCIATION_ASSOCIATED_ITEM = "associatedItem",
-    _ASSOCIATION_LOCAL_ITEM = "localItem",
-    _XML_XSI_URI = "http://www.w3.org/2001/XMLSchema-instance",
-
-    _DEFAULT_VALUE_FOR_ADD_ATTRIBUTE = "",
-
-    _CONSTRUCTOR_CASE_1_OPTIONS = {
-      "xooMLFragmentString": true
-    },
-    _CONSTRUCTOR_CASE_2_OPTIONS = {
-      "associations": true,
-      "xooMLUtilityURI": true,
-      "itemUtilityURI": true,
-      "syncUtilityURI": true,
-      "groupingItemURI": true
-    },
-
-    self;
+  var _ELEMENT_NAME = "fragment",
+      _NAMESPACE_ELEMENT_NAME = "fragmentNamespaceElement",
+      _SCHEMA_VERSION_ATTR = "schemaVersion",
+      _SCHEMA_LOCATION_ATTR = "schemaLocation",
+      _ITEM_DESCRIBED_ATTR = "itemDescribed",
+      _DISPLAY_NAME_ATTR = "displayName",
+      _ITEM_DRIVER_ATTR = "itemDriver",
+      _SYNC_DRIVER_ATTR = "syncDriver",
+      _XOOML_DRIVER_ATTR = "xooMLDriver",
+      _GUID_ATTR = "GUIDGeneratedOnLastWrite",
+      _COMMON_DATA_ATTRS = [_SCHEMA_LOCATION_ATTR,
+                            _SCHEMA_VERSION_ATTR,
+                            _ITEM_DESCRIBED_ATTR,
+                            _DISPLAY_NAME_ATTR,
+                            _ITEM_DRIVER_ATTR,
+                            _SYNC_DRIVER_ATTR,
+                            _XOOML_DRIVER_ATTR,
+                            _GUID_ATTR];
 
   function FragmentEditor(options) {
     var self = this;
@@ -358,9 +340,9 @@ define([
   }
 
   /**
-   * Takes an association element in XML and then converts that into
-   * an AssociationEditor object. Intended to be one of the ways the
-   * object is constructed
+   * Takes a fragment element in XML and then converts that into a
+   * FragmentEditor object. Intended to be one of the ways the object
+   * is constructed
    *
    * @method _fromElement
    *
@@ -370,6 +352,38 @@ define([
    * @private
    */
   function _fromElement(element, namespace, self) {
+    var dataElems, nsElem, i;
+    // Sets all common data attributes
+    self.commonData = {};
+    _COMMON_DATA_ATTRS.forEach( function(attributeName) {
+      self.commonData[attributeName] = element.getAttribute(attributeName);
+    });
+
+    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
+    for (i = 0; i < dataElems.length; i += 1) {
+      if (dataElems[i].namespaceURI === namespace) {
+        nsElem = dataElems[i];
+      } else {
+        self.namespace.otherNSElements.push(dataElems.children[i]);
+      }
+    }
+
+    self.namespace = {
+      uri: namespace,
+      data: "",
+      attributes: {},
+      otherNSElements: []
+    };
+    // There may not BE any data for a namespace
+    if (nsElem) {
+      // Inner HTML is currently experimental, and isn't supported in
+      self.namespace.data = nsElem.innerHTML;
+
+      for (i = 0; i < nsElem.attributes.length; i += 1) {
+        self.namespace.attributes[ nsElem.attributes[i].name ] =
+          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+      }
+    }
 
   }
 
