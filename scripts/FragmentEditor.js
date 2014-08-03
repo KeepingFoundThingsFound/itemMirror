@@ -327,7 +327,7 @@ define([
        * @property commonData.GUIDGeneratedOnLastWrite
        * @type String
        */
-      GUIDGeneratedOnLastWrite: XooMLUtil.generateGUI()
+      GUIDGeneratedOnLastWrite: XooMLUtil.generateGUID()
     };
 
     /**
@@ -337,7 +337,14 @@ define([
      * @property associations
      * @type Object
      */
-    self.associations = associations || {};
+    // Takes the association array and turns it into an associative
+    // array accessed by the GUID of an association
+    self.associations = {};
+    associations.forEach( function(assoc) {
+      var guid = assoc.commonData.ID;
+      self.associations[guid] = assoc;
+    });
+
 
     /**
      * The namespace data of the fragment. Holds both the URI as well
@@ -399,21 +406,22 @@ define([
       self.commonData[attributeName] = element.getAttribute(attributeName);
     });
 
-    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
-    for (i = 0; i < dataElems.length; i += 1) {
-      if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems[i];
-      } else {
-        self.namespace.otherNSElements.push(dataElems.children[i]);
-      }
-    }
-
     self.namespace = {
       uri: namespace,
       data: "",
       attributes: {},
       otherNSElements: []
     };
+    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
+    for (i = 0; i < dataElems.length; i += 1) {
+      if (dataElems[i].namespaceURI === namespace) {
+        nsElem = dataElems[i];
+      } else {
+        console.log(dataElems);
+        self.namespace.otherNSElements.push(dataElems[i]);
+      }
+    }
+
     // There may not BE any data for a namespace
     if (nsElem) {
       // Inner HTML is currently experimental, and isn't supported in
