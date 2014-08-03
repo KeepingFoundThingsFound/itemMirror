@@ -177,9 +177,7 @@ define([
    * @return {String} XooML schema location.
    */
   ItemMirror.prototype.getSchemaLocation = function () {
-    var self = this;
-
-    return self._fragmentEditor.getSchemaLocation();
+    return self._fragment.commonData.schemaLocation;
   };
 
   /**
