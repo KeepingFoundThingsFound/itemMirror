@@ -167,7 +167,7 @@ define([
    * @method getSchemaVersion
    * @return {String} XooML schema version.
    */
-  ItemMirror.prototype.getSchemaVersion = function (callback) {
+  ItemMirror.prototype.getSchemaVersion = function(callback) {
     return this._fragment.commonData.schemaVersion;
   };
 
@@ -176,7 +176,7 @@ define([
    * @method getSchemaLocation
    * @return {String} XooML schema location.
    */
-  ItemMirror.prototype.getSchemaLocation = function () {
+  ItemMirror.prototype.getSchemaLocation = function() {
     return this._fragment.commonData.schemaLocation;
   };
 
@@ -191,7 +191,7 @@ define([
    * of a fragment if it exists, else returns null.
    *
    */
-    ItemMirror.prototype.getURIforItemDescribed = function () {
+    ItemMirror.prototype.getURIforItemDescribed = function() {
     return this._fragment.commonData.itemDescribed;
   };
 
@@ -206,7 +206,7 @@ define([
    *
    * @param {String} GUID GUID representing the desired association.
    */
-    ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
+    ItemMirror.prototype.getAssociationDisplayText = function(GUID) {
     return this._fragment.associations[GUID].commonData.displayText;
   };
 
@@ -222,10 +222,8 @@ define([
    * @param {String}   GUID        GUID of the association to set.
    * @param {String}   displayText Display text to be set.
    */
-    ItemMirror.prototype.setAssociationDisplayText = function (GUID, displayText) {
-    var self = this;
-
-    self._fragmentEditor.setAssociationDisplayText(GUID, displayText);
+    ItemMirror.prototype.setAssociationDisplayText = function(GUID, displayText) {
+    this._fragment.associations[GUID].commonData.displayText = displayText;
   };
 
   /**
@@ -238,10 +236,8 @@ define([
    *
    * @param {String} GUID GUID of the association to get.
    */
-    ItemMirror.prototype.getAssociationLocalItem = function (GUID) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationLocalItem(GUID);
+    ItemMirror.prototype.getAssociationLocalItem = function(GUID) {
+    return this._fragment.associations[GUID].commonData.localItem;
   };
 
   /**
@@ -253,59 +249,36 @@ define([
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
    */
-    ItemMirror.prototype.getAssociationAssociatedItem = function (GUID) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationAssociatedItem(GUID);
+    ItemMirror.prototype.getAssociationAssociatedItem = function(GUID) {
+    return this._fragment.associations[GUID].commonData.associationAssociatedItem;
   };
 
   /**
-   * Throws NullArgumentException if attributeName or namespaceURI is null. <br/>
-   * Throws InvalidTypeException if attributeName or namespaceURI is not a
-   * String. <br/>
-   *
    * @method getFragmentNamespaceAttribute
    * @return {String} Returns the value of the given attributeName for the
    * fragmentNamespaceData with the given namespaceURI.
-   
    * @param {String} attributeName Name of the attribute to be returned.
-   * @param {String} namespaceURI Name of the namespace of the given
-   *                               attributeName.
    *
    */
-  self.getFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.getFragmentNamespaceAttribute(attributeName, namespaceURI);
+  ItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName) {
+    return this._fragment.namespace.attributes[attributeName];
   };
 
   /**
-   * Adds the given attributeName to the association with the given GUID and
-   * namespaceURI.
+   * Adds the given attributeName to the fragment's current namespace
    *
-   * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   * Throws an InvalidStateException when the given attributeName has already
-   * been added. <br/>
+   * Throws an InvalidStateException when the attribute already exists
    *
    * @method addFragmentNamespaceAttribute
    *
    * @param {String} attributeName Name of the attribute.
-   * @param {String} GUID          GUID of the association.
-   * @param {String} namespaceURI  URI of the namespace for the association.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.addFragmentNamespaceAttribute(attributeName, namespaceURI);
+  // TODO: Possibly remove? Why not just get and set
+  ItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName) {
+    if (this._fragment.namespace.attributes[attributeName]) {
+      throw XooMLExceptions.invalidState;
+    }
+    this.setFragmentNamespaceAttribute(attributeName);
   };
 
   /**
@@ -323,24 +296,17 @@ define([
    * @param {String} attributeName Name of the attribute.
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.removeFragmentNamespaceAttribute(attributeName, namespaceURI);
+  ItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName) {
+    this._setFragmentNamespaceAttribute(attributeName, null);
   };
 
   /**
    * Checks if the fragment has the given namespaceURI.
    *
-   * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. <br/>
+   * Currently cannot find a way to list the namespaces (no DOM
+   * standard method for doing so). So this fuction will ALWAYS RETURN
+   * FALSE for now.
    *
    * @method hasFragmentNamespace
    * @return {Boolean} True if the fragment has the given
@@ -350,9 +316,7 @@ define([
    *
    */
   ItemMirror.prototype.hasFragmentNamespace = function (namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.hasFragmentNamespace(namespaceURI);
+    return false;
   };
 
   /**
@@ -367,67 +331,40 @@ define([
    * @method setFragmentNamespaceAttribute
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set.
-   * @param {String} namespaceURI  Name of the namespace of the given
-   *                                attributeName.
    */
-  ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.setFragmentNamespaceAttribute(attributeName,
-      attributeValue, namespaceURI);
+  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue) {
+    this._fragment.namespace.attributes[attributeName] = attributeValue;
   };
 
   /**
-   * Throws NullArgumentException if namespaceURI is null. <br/>
-   * Throws InvalidTypeException if namespaceURI is not a String. <br/>
-   *
    * @method listFragmentNamespaceAttributes
    * @return {String[]} An array of the attributes within the
    * fragmentNamespaceData with the given namespaceURI.
    *
-   * @param {String} namespaceURI  Name of the namespace of the given
-   *                                attributeName.
-   *
   */
-  ItemMirror.prototype.listFragmentNamespaceAttributes = function (namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.listFragmentNamespaceAttributes(namespaceURI);
+  ItemMirror.prototype.listFragmentNamespaceAttributes = function() {
+    return Object.keys(this._fragment.namespace.attributes);
   };
 
   /**
-   * Throws NullArgumentException if namespaceURI is null. <br/>
-   * Throws InvalidTypeException if namespaceURI is not a String. <br/>
-   *
    * @method getFragmentNamespaceData
    * @return {String} The fragment namespace data with the given namespaceURI.
-   *
-   * @param {String} namespaceURI URI of the namespace to be set.
-   *
    */
-  ItemMirror.prototype.getFragmentNamespaceData = function (namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.getFragmentNamespaceData(namespaceURI);
+  ItemMirror.prototype.getFragmentNamespaceData = function() {
+    return this._fragment.namespace.data;
   };
 
   /**
    * Sets the fragment namespace data with the given namespaceURI.
-   *
-   * Throws NullArgumentException if namespaceURI or data is null. <br/>
-   * Throws InvalidTypeException if namespaceURI or data is not a String. <br/>
    *
    * @method setFragmentNamespaceData
    *
    * @param {String} data Fragment namespace data to be set. Must be valid
    *                 namespaceData.
    * @param {String} namespaceURI URI of the namespace to be set.
-   *
    */
-  ItemMirror.prototype.setFragmentNamespaceData = function (data, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.setFragmentNamespaceData(data, namespaceURI);
+  ItemMirror.prototype.setFragmentNamespaceData = function (data) {
+    this._fragment.namespace.data = data;
   };
 
   /**
@@ -870,20 +807,8 @@ define([
    * @param GUID {String} GUID of the association to be to be checked.
    *
    */
-  self.isAssociationAssociatedItemGrouping = function (GUID) {
-    var self = this, associatedItem, xooMLFragment, path;
-
-    associatedItem = self._fragmentEditor.getAssociationAssociatedItem(GUID);
-    if (!associatedItem || associatedItem === "") {
-      return false;
-    }
-
-    xooMLFragment = self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID);
-    if (!xooMLFragment || xooMLFragment === "" || xooMLFragment === null) {
-      return false;
-    }else{
-      return false;
-    }
+  self.isAssociationAssociatedItemGrouping = function(GUID) {
+    return this._fragment.associations[GUID].commonData.isGrouping;
   };
 
   /**
@@ -894,10 +819,8 @@ define([
    * @return {String[]} Array of the GUIDs of each association
    *                    of the given namespaceURI
    */
-  ItemMirror.prototype.listAssociations = function () {
-    var self = this;
-
-    return self._fragmentEditor.listAssociations();
+  ItemMirror.prototype.listAssociations = function() {
+    return Object.keys(this._fragment.associations);
   };
 
   /**
@@ -915,13 +838,10 @@ define([
    *
    * @param {String} attributeName Name of the attribute to be returned.
    * @param {String} GUID          GUID of the association to return attribute from.
-   * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  self.getAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+  self.getAssociationNamespaceAttribute = function(attributeName, GUID) {
+    return this._fragment.associations[GUID].namespace.attributes[attributeName];
   };
 
   /**
@@ -940,12 +860,12 @@ define([
    *
    * @param {String} attributeName Name of the attribute.
    * @param {String} GUID          GUID of the association.
-   * @param {String} namespaceURI  URI of the namespace for the association.
    */
-  ItemMirror.prototype.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+  ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID) {
+    if (this._fragment.assocation[GUID].namespace[attributeName]) {
+      throw XooMLExceptions.invalidState;
+    }
+    this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID);
   };
 
   /**
@@ -964,22 +884,14 @@ define([
    *
    * @param {String} attributeName Name of the attribute.
    * @param {String} GUID          GUID of the association.
-   * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
+  ItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID) {
+    this.setAssociationNamespaceAttribute(attributeName, null, GUID);
   };
 
   /**
-   *
-   * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   * Currently cannot list namespaces, so ALWAYS RETURNS FALSE. Need to fix.
    *
    * @method hasAssociationNamespace
    * @return {Boolean} True if the association has the given
@@ -989,10 +901,8 @@ define([
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.hasAssociationNamespace = function (GUID, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.hasAssociationNamespace(GUID, namespaceURI);
+  ItemMirror.prototype.hasAssociationNamespace = function(GUID) {
+    return false;
   };
 
   /**
@@ -1010,14 +920,10 @@ define([
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set
    * @param {String} GUID           GUID of association to set attribute for.
-   * @param {String} namespaceURI   URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI);
-
+  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID) {
+    this._fragment.associations[GUID].namespace.attributes[attributeName] = attributeValue;
   };
 
   /**
@@ -1032,34 +938,24 @@ define([
    * namespaceURI within the association with the given GUID.
    *
    * @param {String} GUID          GUID of association to list attributes for.
-   * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.listAssociationNamespaceAttributes(GUID, namespaceURI);
+  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID) {
+    return Object.keys(this._fragment.associations[GUID].namespace.attributes);
   };
 
   /**
-   *
-   * Throws NullArgumentException if GUID, namespaceURI is null. <br/>
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
    * @method getAssociationNamespaceData
    * @return {String} The association namespace data for an
    * association with the given GUID and the given namespaceURI.
    *
-   * @param {String} GUID          GUID of the association namespace data to
-   *                               returned.
-   * @param {String} namespaceURI  URI of the namespace of the association
-   *                               namespace data to returned.
+   * @param {String} GUID GUID of the association namespace data to
+   * returned.
    */
-  self.getAssociationNamespaceData = function (GUID, namespaceURI) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationNamespaceData(GUID, namespaceURI);
+  self.getAssociationNamespaceData = function (GUID) {
+    return this._fragment.associations[GUID].namespace.data;
   };
 
   /**
@@ -1076,14 +972,9 @@ define([
    * @param {String} data          Association namespace data to set. Must be
    *                               valid fragmentNamespaceData.
    * @param {String} GUID          GUID of the association namespace data to set.
-   * @param {String} namespaceURI  URI of the namespace of the association
-   *                               namespace data to set.
-   *
    */
-  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
-    var self = this;
-
-    self._fragmentEditor.setAssociationNamespaceData(data, GUID, namespaceURI);
+  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID) {
+    this._fragment.assocations[GUID].namespace.data = data;
   };
 
   /**
