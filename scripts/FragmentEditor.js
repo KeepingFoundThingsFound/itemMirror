@@ -1,7 +1,8 @@
 /**
  * Constructs a FragmentWrapper for a XooML fragment. In the following cases.
  *
- * 1. XooMLFragment Element is passed in and is used as the XooMLFragment.
+ * 1. XooMLFragment String is passed in and is used as the XooMLFragment
+ * 2. XooMLFragment Element is passed in and is used as the XooMLFragment.
  * 2. Associations, XooMLDriver, ItemDriver, SyncDriver,
  * groupingItemURI are given and used to create a new XooMLFragment with
  * the given data.
@@ -16,6 +17,8 @@
  * @constructor
  *
  * @param {Object} options Data to construct a new FragmentWrapper with
+ *  @param {String} options.text Unparsed XML directly from a storage
+ *  platform.
  *  @param {Element} options.element XML Element representing a XooML
  *                   fragment. Required for case 1.
  *  @param {AssociationEditor[]} options.associations List of associations for
@@ -69,7 +72,9 @@ define([
   function FragmentEditor(options) {
     var self = this;
 
-    if (options.element) {
+    if (options.text) {
+      _fromString(options.text, options.namespace, self);
+    } else if (options.element) {
       _fromElement(options.element, options.namespace, self);
     } else if (options.commonData) {
       _fromOptions(options.commonData, options.associations, options.namespace, self);
@@ -399,6 +404,25 @@ define([
   }
 
   /**
+   * Takes a fragment in the form of a string and then parses that
+   * into XML. From there it converts that element into an object
+   * using the _fromElement method
+   *
+   * @param {String} text The text representing the fragment. Should
+   * be obtained directly from a storage platform like dropbox or a
+   * local filesystem
+   * @param {String} namespace The URI of the namespace that will
+   * initially be used for the fragment when handling any namespace
+   * data
+   * @param {FragmentEditor} self
+   */
+  function _fromString(text, namespace, self) {
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(text, "application/xml");
+    _fromElement(doc.children[0], namespace, self);
+  };
+
+  /**
    * Takes a fragment element in XML and then converts that into a
    * FragmentEditor object. Intended to be one of the ways the object
    * is constructed
@@ -429,7 +453,6 @@ define([
       if (dataElems[i].namespaceURI === namespace) {
         nsElem = dataElems[i];
       } else {
-        console.log(dataElems);
         self.namespace.otherNSElements.push(dataElems[i]);
       }
     }
