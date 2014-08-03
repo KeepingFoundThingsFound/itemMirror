@@ -92,8 +92,7 @@ define([
     _UPGRADE_ASSOCIATION_OPTIONS = {
       "GUID": true,
       "localItemURI": false
-    },
-    self;
+    };
 
   function ItemMirror(options, callback) {
     XooMLUtil.checkCallback(callback);
@@ -145,7 +144,6 @@ define([
       });
     });
   }
-  self = ItemMirror.prototype;
 
   /**
    * @method getDisplayName
@@ -156,7 +154,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.displayName Display name.
    */
-  self.getDisplayName = function (callback) {
+  ItemMirror.prototype.getDisplayName = function(callback) {
     var self = this, displayName;
 
     if (PathDriver.isRoot(self._groupingItemURI)) {
@@ -175,7 +173,7 @@ define([
    * @method getSchemaVersion
    * @return {String} XooML schema version.
    */
-  self.getSchemaVersion = function (callback) {
+  ItemMirror.prototype.getSchemaVersion = function (callback) {
     var self = this;
 
     return self._fragmentEditor.getSchemaVersion();
@@ -186,7 +184,7 @@ define([
    * @method getSchemaLocation
    * @return {String} XooML schema location.
    */
-  self.getSchemaLocation = function () {
+  ItemMirror.prototype.getSchemaLocation = function () {
     var self = this;
 
     return self._fragmentEditor.getSchemaLocation();
@@ -203,7 +201,7 @@ define([
    * of a fragment if it exists, else returns null.
    *
    */
-  self.getURIforItemDescribed = function () {
+    ItemMirror.prototype.getURIforItemDescribed = function () {
     var self = this;
 
     return self._fragmentEditor.getItemDescribed();
@@ -220,7 +218,7 @@ define([
    *
    * @param {String} GUID GUID representing the desired association.
    */
-  self.getAssociationDisplayText = function (GUID) {
+    ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
     var self = this;
 
     return self._fragmentEditor.getAssociationDisplayText(GUID);
@@ -238,7 +236,7 @@ define([
    * @param {String}   GUID        GUID of the association to set.
    * @param {String}   displayText Display text to be set.
    */
-  self.setAssociationDisplayText = function (GUID, displayText) {
+    ItemMirror.prototype.setAssociationDisplayText = function (GUID, displayText) {
     var self = this;
 
     self._fragmentEditor.setAssociationDisplayText(GUID, displayText);
@@ -254,7 +252,7 @@ define([
    *
    * @param {String} GUID GUID of the association to get.
    */
-  self.getAssociationLocalItem = function (GUID) {
+    ItemMirror.prototype.getAssociationLocalItem = function (GUID) {
     var self = this;
 
     return self._fragmentEditor.getAssociationLocalItem(GUID);
@@ -269,7 +267,7 @@ define([
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
    */
-  self.getAssociationAssociatedItem = function (GUID) {
+    ItemMirror.prototype.getAssociationAssociatedItem = function (GUID) {
     var self = this;
 
     return self._fragmentEditor.getAssociationAssociatedItem(GUID);
@@ -318,7 +316,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
+  ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.addFragmentNamespaceAttribute(attributeName, namespaceURI);
@@ -344,7 +342,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
+  ItemMirror.prototype.removeFragmentNamespaceAttribute = function (attributeName, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.removeFragmentNamespaceAttribute(attributeName, namespaceURI);
@@ -365,7 +363,7 @@ define([
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  self.hasFragmentNamespace = function (namespaceURI) {
+  ItemMirror.prototype.hasFragmentNamespace = function (namespaceURI) {
     var self = this;
 
     return self._fragmentEditor.hasFragmentNamespace(namespaceURI);
@@ -386,7 +384,7 @@ define([
    * @param {String} namespaceURI  Name of the namespace of the given
    *                                attributeName.
    */
-  self.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
+  ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, attributeValue, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.setFragmentNamespaceAttribute(attributeName,
@@ -405,7 +403,7 @@ define([
    *                                attributeName.
    *
   */
-  self.listFragmentNamespaceAttributes = function (namespaceURI) {
+  ItemMirror.prototype.listFragmentNamespaceAttributes = function (namespaceURI) {
     var self = this;
 
     return self._fragmentEditor.listFragmentNamespaceAttributes(namespaceURI);
@@ -421,9 +419,9 @@ define([
    * @param {String} namespaceURI URI of the namespace to be set.
    *
    */
-  self.getFragmentNamespaceData = function (namespaceURI) {
+  ItemMirror.prototype.getFragmentNamespaceData = function (namespaceURI) {
     var self = this;
-    
+
     return self._fragmentEditor.getFragmentNamespaceData(namespaceURI);
   };
 
@@ -440,7 +438,7 @@ define([
    * @param {String} namespaceURI URI of the namespace to be set.
    *
    */
-  self.setFragmentNamespaceData = function (data, namespaceURI) {
+  ItemMirror.prototype.setFragmentNamespaceData = function (data, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.setFragmentNamespaceData(data, namespaceURI);
@@ -462,7 +460,7 @@ define([
    *                 from.
    *
    */
-  self.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
+  ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
     var self = this;
 
     self.isAssociationAssociatedItemGrouping(GUID, function (error, isGrouping) {
@@ -561,7 +559,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID of the association created.
    */
-  self.createAssociation = function (options, callback) {
+  ItemMirror.prototype.createAssociation = function (options, callback) {
     var self = this, isSimple, isLinkNonGrouping, isLinkGrouping, isCreate;
 
     if (!XooMLUtil.isFunction(callback)) {
@@ -594,8 +592,7 @@ define([
       }
     });
   };
-   
-    
+
   /**
    * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
    *
@@ -614,9 +611,9 @@ define([
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   self.copyAssociation = function (GUID, ItemMirror, callback) {
+   ItemMirror.prototype.copyAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
-    
+
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
       return callback(XooMLExceptions.nullArgument);
@@ -624,7 +621,7 @@ define([
     if (!XooMLUtil.isGUID(GUID)) {
       return callback(XooMLExceptions.invalidType);
     }
-    
+
     self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
@@ -638,13 +635,13 @@ define([
               return callback(error);
             }
             options.displayText = displayText;
-            
+
             //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
             self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
               if (error) {
                 return callback(error);
               }
-              options.itemURI = associatedItem; 
+              options.itemURI = associatedItem;
             });
           });
           //create a new phantom association in destItemMirror
@@ -655,11 +652,11 @@ define([
           });
           return ItemMirror._save(callback);
         }
-        
+
         self._handleDataWrapperCopyAssociation(GUID, localItem, ItemMirror, error, callback);
-      
+
     });
-    
+
    };
   /**
    * Moves an association to another ItemMirror Object (representing a grouping item)
@@ -679,7 +676,7 @@ define([
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   self.moveAssociation = function (GUID, ItemMirror, callback) {
+   ItemMirror.prototype.moveAssociation = function (GUID, ItemMirror, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -688,7 +685,7 @@ define([
     if (!XooMLUtil.isGUID(GUID)) {
       return callback(XooMLExceptions.invalidType);
     }
-    
+
     self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
@@ -725,13 +722,13 @@ define([
             return ItemMirror._save(callback);
           });
         }
-        
+
         self._handleDataWrapperMoveAssociation(GUID, localItem, ItemMirror, error, callback);
-      
+
     });
-    
+
    };
-  
+
   /**
    * Deletes the association represented by the given GUID.
    *
@@ -748,7 +745,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.deleteAssociation = function (GUID, callback) {
+  ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
     var self = this;
 
     XooMLUtil.checkCallback(callback);
@@ -811,7 +808,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.upgradeAssociation = function (options, callback) {
+  ItemMirror.prototype.upgradeAssociation = function (options, callback) {
     var self = this, localItemURI;
     XooMLUtil.checkCallback(callback);
     if (!XooMLUtil.hasOptions(_UPGRADE_ASSOCIATION_OPTIONS, options)) {
@@ -851,7 +848,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.renameAssocationLocalItem = function (GUID, newName, callback) {
+  ItemMirror.prototype.renameAssocationLocalItem = function (GUID, newName, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -860,7 +857,7 @@ define([
     if (!XooMLUtil.isGUID(GUID)) {
       return callback(XooMLExceptions.invalidType);
     }
-    
+
     self.getAssociationLocalItem(GUID, function (error, localItem) {
       if (error) {
         return callback(error);
@@ -894,7 +891,7 @@ define([
     if (!associatedItem || associatedItem === "") {
       return false;
     }
-      
+
     xooMLFragment = self._fragmentEditor.getAssociationAssociatedXooMLFragment(GUID);
     if (!xooMLFragment || xooMLFragment === "" || xooMLFragment === null) {
       return false;
@@ -911,7 +908,7 @@ define([
    * @return {String[]} Array of the GUIDs of each association
    *                    of the given namespaceURI
    */
-  self.listAssociations = function () {
+  ItemMirror.prototype.listAssociations = function () {
     var self = this;
 
     return self._fragmentEditor.listAssociations();
@@ -959,7 +956,7 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} namespaceURI  URI of the namespace for the association.
    */
-  self.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
+  ItemMirror.prototype.addAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
     return self._fragmentEditor.addAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
@@ -984,7 +981,7 @@ define([
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  self.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
+  ItemMirror.prototype.removeAssociationNamespaceAttribute = function (attributeName, GUID, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.removeAssociationNamespaceAttribute(attributeName, GUID, namespaceURI);
@@ -1006,7 +1003,7 @@ define([
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  self.hasAssociationNamespace = function (GUID, namespaceURI) {
+  ItemMirror.prototype.hasAssociationNamespace = function (GUID, namespaceURI) {
     var self = this;
 
     return self._fragmentEditor.hasAssociationNamespace(GUID, namespaceURI);
@@ -1030,7 +1027,7 @@ define([
    * @param {String} namespaceURI   URI of the namespace for the association.
    *
    */
-  self.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
+  ItemMirror.prototype.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, namespaceURI);
@@ -1052,7 +1049,7 @@ define([
    * @param {String} namespaceURI  URI of the namespace for the association.
    *
    */
-  self.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
+  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, namespaceURI) {
     var self = this;
 
     return self._fragmentEditor.listAssociationNamespaceAttributes(GUID, namespaceURI);
@@ -1097,7 +1094,7 @@ define([
    *                               namespace data to set.
    *
    */
-  self.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
+  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, namespaceURI) {
     var self = this;
 
     self._fragmentEditor.setAssociationNamespaceData(data, GUID, namespaceURI);
