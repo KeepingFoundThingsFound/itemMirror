@@ -246,6 +246,18 @@ define([
   };
 
   /**
+   * Returns the XML of a fragment as a string, _not_ the string
+   * version of the object. This is used for persisting the fragment
+   * across multiple platforms
+   * @method toString
+   * @return {String} Fragment XML
+   */
+  FragmentEditor.prototype.toString = function() {
+    var serializer = new XMLSerializer();
+    return serializer.serializeToString( this.toElement() );
+  };
+
+  /**
    * Constructs a fragmentEditor based on data passed into the
    * parameters
    *
