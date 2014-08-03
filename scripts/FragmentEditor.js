@@ -208,6 +208,44 @@ define([
   };
 
   /**
+   * Converts a FragmentEditor object into an XML element, which can
+   * then be serialized and saved as a string, or further manipulated
+   * with DOM methods
+   * @method toElement
+   * @return {Element} The XooML fragment as an XML element
+   * @protected
+   */
+  FragmentEditor.prototype.toElement = function() {
+    var self = this,
+        fragmentElem = document.createElement(_ELEMENT_NAME),
+        appNSElem;     // The namespace element specific for the app
+    // common data
+    Object.keys(self.commonData).forEach( function(key) {
+      fragmentElem.setAttribute(key, self.commonData[key]);
+    });
+
+    // namespace data
+    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
+    Object.keys(self.namespace.attributes).forEach( function(key) {
+      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
+    });
+
+    fragmentElem.appendChild(appNSElem);
+
+    appNSElem.innerHTML = self.namespace.data;
+    self.namespace.otherNSElements.forEach( function(element) {
+      fragmentElem.appendChild(element);
+    });
+
+    // associations
+    Object.keys(self.associations).forEach( function(id) {
+      fragmentElem.appendChild( self.associations[id].toElement() );
+    });
+
+    return fragmentElem;
+  };
+
+  /**
    * Constructs a fragmentEditor based on data passed into the
    * parameters
    *
