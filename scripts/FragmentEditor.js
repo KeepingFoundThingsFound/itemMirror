@@ -46,6 +46,8 @@ define([
   "use strict";
 
   var _ELEMENT_NAME = "fragment",
+      _ASSOCIATION_ELEMENT_NAME = "association",
+      _ASSOCIATION_ID_ATTR = "ID",
       _NAMESPACE_ELEMENT_NAME = "fragmentNamespaceElement",
       _SCHEMA_VERSION_ATTR = "schemaVersion",
       _SCHEMA_LOCATION_ATTR = "schemaLocation",
@@ -352,7 +354,7 @@ define([
    * @private
    */
   function _fromElement(element, namespace, self) {
-    var dataElems, nsElem, i;
+    var dataElems, nsElem, i, associationElems, guid;
     // Sets all common data attributes
     self.commonData = {};
     _COMMON_DATA_ATTRS.forEach( function(attributeName) {
@@ -385,6 +387,16 @@ define([
       }
     }
 
+    // associations
+    self.associations = {};
+    associationElems = element.getElementsByTagName(_ASSOCIATION_ELEMENT_NAME);
+    for (i = 0; i < associationElems.length; i += 1) {
+      guid = associationElems[i].getAttribute(_ASSOCIATION_ID_ATTR);
+      self.associations[guid] = new AssociationEditor({
+        element: associationElems[i],
+        namespace: namespace
+      });
+    }
   }
 
   return FragmentEditor;
