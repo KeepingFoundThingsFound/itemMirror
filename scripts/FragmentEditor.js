@@ -234,7 +234,7 @@ define([
    *  @param {String} commonData.schemaLocation The location of the schema
    *  @param {String} commonData.itemDescribed URI pointing to item for which the
    *  XooML fragment is metadata.
-   *  @param {String} commonData.displayName Display name of an association
+   *  @param {String} commonData.displayName Display name of the fragment
    *  @param {String} commonData.itemDriver The URI of the item driver for the fragment
    *  @param {String} commonData.syncDriver The URI of the sync driver for the fragment
    *  @param {String} commonData.xooMLDriver The URI of the XooML driver for the fragment
@@ -246,8 +246,116 @@ define([
    * @private
    */
   function _fromOptions(commonData, associations, namespace, self) {
+    if (!commonData) {
+      throw XooMLExceptions.nullArgument;
+    }
 
-  };
+    // Properties from the common data
+    /**
+     * Common Data of the association that is accessible to all applications
+     * @property commonData
+     * @type Object
+     */
+    self.commonData = {
+      /**
+       * Text that describes the fragment
+       * @property commonData.displayName
+       * @type String
+       */
+      displayName: commonData.displayName || "",
+
+      /**
+       * The schema location for the fragment
+       * @property commonData.schemaLocation
+       * @type String
+       */
+      schemaLocation: commonData.schemaLocation || "",
+
+      /**
+       * The schema version for the fragment
+       * @property commonData.schemaVersion
+       * @type String
+       */
+      schemaVersion: commonData.schemaVersion || "",
+
+      /**
+       * The item driver URI for the fragment
+       * @property commonData.itemDriver
+       * @type String
+       */
+      itemDriver: commonData.itemDriver || "",
+
+      /**
+       * The sync driver URI for the fragment
+       * @property commonData.syncDriver
+       * @type String
+       */
+      syncDriver: commonData.syncDriver || "",
+
+      /**
+       * The XooML driver URI for the fragment
+       * @property commonData.xooMLDriver
+       * @type String
+       */
+      xooMLDriver: commonData.xooMLDriver || "",
+
+      /**
+       * The unique GUID for the fragment that is updated after every
+       * write
+       * @property commonData.GUIDGeneratedOnLastWrite
+       * @type String
+       */
+      GUIDGeneratedOnLastWrite: XooMLUtil.generateGUI()
+    };
+
+    /**
+     * The associations of the fragment. Each association is accessed
+     * by referencing it's ID, which then gives the corresponding
+     * AssociationEditor object for manipulating that association.
+     * @property associations
+     * @type Object
+     */
+    self.associations = associations || {};
+
+    /**
+     * The namespace data of the fragment. Holds both the URI as well
+     * as the namespace specific data for the fragment
+     * @property namespace
+     * @type Object
+     */
+    self.namespace = {
+      /**
+       * The namespace URI for the fragment. Used to set namespace data
+       * for both the fragment and it's associations
+       * @property namespace.uri
+       * @type String
+       */
+      uri: namespace || null,
+
+      /**
+       * The attributes of the namespace. This is app specific data
+       * that is set for the fragment. Each key pair in the object
+       * represents an attribute name and it's corresponding value
+       * @property namespace.attributes
+       * @type Object
+       */
+      attributes: {},
+
+      /**
+       * The data specific for an app. This is also app specific.
+       * @property namespace.data
+       * @type String
+       */
+      data: "",
+
+      /**
+       * The other namespace elements for the fragment
+       * @property otherNSElements
+       * @type Element[]
+       */
+      otherNSElements: []
+    };
+  }
 
   /**
    * Takes an association element in XML and then converts that into
@@ -263,7 +371,7 @@ define([
    */
   function _fromElement(element, namespace, self) {
 
-  };
+  }
 
   return FragmentEditor;
 });
