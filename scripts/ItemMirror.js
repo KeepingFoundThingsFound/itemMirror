@@ -168,7 +168,7 @@ define([
    * @return {String} XooML schema version.
    */
   ItemMirror.prototype.getSchemaVersion = function (callback) {
-    return self._fragment.commonData.schemaVersion;
+    return this._fragment.commonData.schemaVersion;
   };
 
   /**
@@ -177,7 +177,7 @@ define([
    * @return {String} XooML schema location.
    */
   ItemMirror.prototype.getSchemaLocation = function () {
-    return self._fragment.commonData.schemaLocation;
+    return this._fragment.commonData.schemaLocation;
   };
 
   /**
@@ -192,7 +192,7 @@ define([
    *
    */
     ItemMirror.prototype.getURIforItemDescribed = function () {
-    return self._fragment.commonData.itemDescribed;
+    return this._fragment.commonData.itemDescribed;
   };
 
   /**
@@ -207,9 +207,7 @@ define([
    * @param {String} GUID GUID representing the desired association.
    */
     ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
-    var self = this;
-
-    return self._fragmentEditor.getAssociationDisplayText(GUID);
+    return this._fragment.associations[GUID].commonData.displayText;
   };
 
   /**
