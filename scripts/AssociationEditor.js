@@ -121,21 +121,21 @@ define([
       self.commonData[attributeName] = element.getAttribute(attributeName);
     });
 
-    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
-    for (i = 0; i < dataElems.length; i += 1) {
-      if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems[i];
-      } else {
-        self.namespace.otherNSElements.push(dataElems.children[i]);
-      }
-    }
-
     self.namespace = {
       uri: namespace,
       data: "",
       attributes: {},
       otherNSElements: []
     };
+    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
+    for (i = 0; i < dataElems.length; i += 1) {
+      if (dataElems[i].namespaceURI === namespace) {
+        nsElem = dataElems[i];
+      } else {
+        self.namespace.otherNSElements.push(dataElems[i]);
+      }
+    }
+
     // There may not BE any data for a namespace
     if (nsElem) {
       // Inner HTML is currently experimental, and isn't supported in
