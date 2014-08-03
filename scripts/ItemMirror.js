@@ -168,9 +168,7 @@ define([
    * @return {String} XooML schema version.
    */
   ItemMirror.prototype.getSchemaVersion = function (callback) {
-    var self = this;
-
-    return self._fragmentEditor.getSchemaVersion();
+    return self._fragment.commonData.schemaVersion;
   };
 
   /**
