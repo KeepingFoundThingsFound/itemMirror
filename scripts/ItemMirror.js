@@ -192,9 +192,7 @@ define([
    *
    */
     ItemMirror.prototype.getURIforItemDescribed = function () {
-    var self = this;
-
-    return self._fragmentEditor.getItemDescribed();
+    return self._fragment.commonData.itemDescribed;
   };
 
   /**
