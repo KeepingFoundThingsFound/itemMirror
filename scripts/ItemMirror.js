@@ -5,10 +5,8 @@
  * given arguments.
  *
  * 1. XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
- * 2. The XooMLFragment is created from an existing groupingItemURI.
- * Given a groupingItemURI, saveLocationURI. Optionally a itemDriver,
- * syncDriver, and a xooMLDriver can be supplied for the XooMLFragment.
- * 3. Try case 1, and then fallback on case 2.
+ * 2. The XooMLFragment is created from an existing groupingItemURI (e.g., a dropbox folder).
+ * Given a groupingItemURI, itemDriver, and a xooMLDriver a new itemMirror will be constructed for given groupingItemURI.
  *
  * Throws NullArgumentException when options is null.
  *
@@ -24,7 +22,7 @@
  *                  for all cases.
  *
  *  @param {String} options.itemDriver Data for the ItemDriver to
- *                  construct ItemMirror with. Required for all cases.
+ *                  construct ItemMirror with. Required for cases 2 & 3
  *                  Can contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.itemDriver.driverURI URI of the driver.
@@ -78,15 +76,13 @@ define([
     _CONSTRUCTOR_CASE_1_OPTIONS = {
       "groupingItemURI":  true,
       "xooMLDriver":      true,
-      "itemDriver":       true,
       "parent":           false
     },
-    _CONSTRUCTOR_CASE_2_AND_3_OPTIONS = {
+    _CONSTRUCTOR_CASE_2_OPTIONS = {
       "groupingItemURI": true,
       "xooMLDriver":     true,
       "itemDriver":      true,
       "syncDriver":      true,
-      "readIfExists":    true,
       "parent":          false
     },
     _UPGRADE_ASSOCIATION_OPTIONS = {
@@ -102,7 +98,7 @@ define([
     if (!XooMLUtil.isObject(options)) {
       return callback(XooMLExceptions.invalidType);
     }
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_AND_3_OPTIONS, options) &&
+    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options) &&
       !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
       return callback(XooMLExceptions.missingParameter);
     }
@@ -128,30 +124,63 @@ define([
 
     xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
 
-    new XooMLDriver(options.xooMLDriver, function (error, driver) {
-      self._xooMLDriver = driver;
-      self._getItemU(xooMLFragmentURI, options, function (error) {
-        if (error) {
-          return callback(error);
+    function loadXooMLDriver(error, driver) {
+      var syncDriverURI, itemDriverURI;
+      if (error) return callback(error);
+
+      self._xooMLDriver = driver; // actually sets the XooMLDriver
+
+      self._xooMLDriver.checkExists(function check(error, exists) {
+        if (error) return callback(error);
+
+        // Case 1: It already exists, and so all of the information
+        // can be constructed from the saved fragment
+        if (exists) {
+          self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function load(error, fragmentString) {
+            self._fragment = new FragmentEditor({text: fragmentString});
+            // Need to load other stuff from the fragment now
+            syncDriverURI = self._fragment.commonData.syncDriver;
+            itemDriverURI = self._fragment.commonData.itemDriver;
+
+            new ItemDriver(options.itemDriver, function(error, driver) {
+              if (error) return callback(error);
+
+              self._itemDriver = driver;
+            });
+          });
+        } else { // Case 2: Since the fragment doesn't exist, we need
+                 // to construct that by using the itemDriver
+          new ItemDriver(options.itemDriver, function loadItemDriver(error, driver) {
+            self._itemDriver = driver;
+
+            self._itemDriver.listItems(self._groupingItemURI, function buildFragment(associations){
+              self._fragment = new FragmentEditor({
+                commonData: {
+                  itemDescribed: self._groupingItemURI,
+                  displayName: displayName,
+                  itemDriver: "dropboxItemDriver",
+                  xooMLDriver: "dropboxXooMLDriver",
+                  syncDriver: "itemMirrorSyncUtility"
+                },
+                namespace: self._namespace,
+                associations: [associations]
+              });
+            });
+          });
         }
-
-        self._save(function (error) {
-          if (error) {
-            return callback(error);
-          }
-
-          // change options here, after they have been used
-          if (!self._newItemMirrorOptions.hasOwnProperty("syncDriver")) {
-            self._newItemMirrorOptions.syncDriver = {
-              utilityURI: "MirrorSyncUtility"
-            };
-          }
-          self._newItemMirrorOptions.groupingItemURI = null;
-
-          return callback(false, self);
-        });
       });
-    });
+    }
+
+
+    // First load the XooML Driver
+    new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
+
+    // Then load the ItemDriver
+
+    // Finally load the SyncDriver, which for now doesn't really do anything
+    self._syncDriver = new SyncDriver(self);
+
+    return self;
   }
 
   /**
