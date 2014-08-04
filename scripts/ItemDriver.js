@@ -23,7 +23,7 @@ define([
   XooMLExceptions,
   XooMLConfig,
   XooMLUtil,
-  XooMLAssociation) {
+  AssociationEditor) {
   "use strict";
 
   var
@@ -236,7 +236,7 @@ define([
    * Lists the items under the grouping item
    * @method listItems
    * @param {String} path the path to the grouping item
-   * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of XooMLAssociations.
+   * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of AssociationEditors.
    *
    * @protected
    */
@@ -253,10 +253,12 @@ define([
 
       for (i = 0; i < listStat.length; i += 1) {
         if (listStat[i].name !== XooMLConfig.xooMLFragmentFileName) {
-          output.push(new XooMLAssociation(
-            listStat[i].mimeType === _DIRECTORY_STAT,
-            listStat[i].name
-          ));
+          output.push(new AssociationEditor({
+            commonData: { displayText: listStat[i].name,
+                          isGroupingItem: listStat[i].mimeType === _DIRECTORY_STAT,
+                          localItem: listStat[i].name
+                        }
+          }));
         }
       }
       return callback(false, output);
