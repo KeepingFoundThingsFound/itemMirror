@@ -46,6 +46,7 @@ define([
      _ASSOCIATED_ITEM_DRIVER_ATTR = "associatedItemDriver",
      _ASSOCIATED_ITEM_ATTR = "associatedItem",
      _LOCAL_ITEM_ATTR = "localItem",
+     _IS_GROUPING_ATTR = "isGrouping",
      _COMMON_DATA_ATTRS = [_GUID_ATTR,
                            _DISPLAY_TEXT_ATTR,
                            _ASSOCIATED_XOOML_FRAGMENT_ATTR,
@@ -53,7 +54,8 @@ define([
                            _ASSOCIATED_SYNC_DRIVER_ATTR,
                            _ASSOCIATED_ITEM_DRIVER_ATTR,
                            _ASSOCIATED_ITEM_ATTR,
-                           _LOCAL_ITEM_ATTR];
+                           _LOCAL_ITEM_ATTR,
+                          _IS_GROUPING_ATTR];
 
   function AssociationEditor(options) {
     var self = this;
@@ -117,6 +119,7 @@ define([
     var dataElems, nsElem, i;
     // Sets all common data attributes
     self.commonData = {};
+
     _COMMON_DATA_ATTRS.forEach( function(attributeName) {
       self.commonData[attributeName] = element.getAttribute(attributeName);
     });
@@ -238,6 +241,13 @@ define([
        * @type String
        */
       localItem: commonData.localItem || "",
+
+      /**
+       * Whether or not the item is a grouping item
+       * @property commonData.isGrouping
+       * @type Boolean
+       */
+      isGrouping: commonData.isGrouping || false,
 
       /**
        * The GUID of the association
