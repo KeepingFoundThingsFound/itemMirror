@@ -420,7 +420,7 @@ define([
     var parser = new DOMParser();
     var doc = parser.parseFromString(text, "application/xml");
     _fromElement(doc.children[0], namespace, self);
-  };
+  }
 
   /**
    * Takes a fragment element in XML and then converts that into a
