@@ -137,15 +137,19 @@ define([
         // can be constructed from the saved fragment
         if (exists) {
           self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function load(error, fragmentString) {
+            if (error) return callback(error);
+
             self._fragment = new FragmentEditor({text: fragmentString});
+
             // Need to load other stuff from the fragment now
             syncDriverURI = self._fragment.commonData.syncDriver;
             itemDriverURI = self._fragment.commonData.itemDriver;
 
             new ItemDriver(options.itemDriver, function(error, driver) {
               if (error) return callback(error);
-
               self._itemDriver = driver;
+
+              return callback(false, self);
             });
           });
         } else { // Case 2: Since the fragment doesn't exist, we need
@@ -153,7 +157,9 @@ define([
           new ItemDriver(options.itemDriver, function loadItemDriver(error, driver) {
             self._itemDriver = driver;
 
-            self._itemDriver.listItems(self._groupingItemURI, function buildFragment(associations){
+            self._itemDriver.listItems(self._groupingItemURI, function buildFragment(error, associations){
+              if (error) return callback(error);
+
               self._fragment = new FragmentEditor({
                 commonData: {
                   itemDescribed: self._groupingItemURI,
@@ -165,6 +171,8 @@ define([
                 namespace: self._namespace,
                 associations: [associations]
               });
+
+              return callback(false, self);
             });
           });
         }
@@ -178,8 +186,6 @@ define([
 
     // Finally load the SyncDriver, which for now doesn't really do anything
     self._syncDriver = new SyncDriver(self);
-
-    return self;
   }
 
   /**
@@ -835,7 +841,7 @@ define([
    * @param GUID {String} GUID of the association to be to be checked.
    *
    */
-  self.isAssociationAssociatedItemGrouping = function(GUID) {
+  ItemMirror.prototype.isAssociationAssociatedItemGrouping = function(GUID) {
     return this._fragment.associations[GUID].commonData.isGrouping;
   };
 
