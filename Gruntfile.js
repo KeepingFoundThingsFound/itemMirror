@@ -7,7 +7,7 @@ module.exports = function(grunt) {
               'scripts/PathDriver.js', 'scripts/SyncDriver.js',
 	      'scripts/XooMLDriver.js', 'scripts/FragmentEditor.js',
               'scripts/SyncDriver.js', 'scripts/AssociationEditor.js',
-              'scripts/XooMLExceptions.js'],
+              'scripts/XooMLExceptions.js', 'scripts/ItemDriver.js'],
       options: {
         // options listed http://www.jshint.com/docs/options
         globals: {

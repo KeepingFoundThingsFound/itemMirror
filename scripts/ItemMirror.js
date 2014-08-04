@@ -53,23 +53,23 @@
  *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
  */
 define([
-  "./XooMLExceptions",
-  "./XooMLConfig",
-  "./XooMLUtil",
-  "./PathDriver",
-  "./FragmentEditor",
-  "./ItemDriver",
-  "./XooMLDriver",
-  "./SyncDriver"
-], function(
+  './XooMLExceptions',
+  './XooMLConfig',
+  './XooMLUtil',
+  './PathDriver',
+  './ItemDriver',
+  './XooMLDriver',
+  './SyncDriver',
+  './FragmentEditor']
+, function(
   XooMLExceptions,
   XooMLConfig,
   XooMLUtil,
   PathDriver,
   ItemDriver,
   XooMLDriver,
-  FragmentEditor,
-  SyncDriver) {
+  SyncDriver,
+  FragmentEditor) {
   "use strict";
 
   var
@@ -130,7 +130,7 @@ define([
 
       self._xooMLDriver = driver; // actually sets the XooMLDriver
 
-      self._xooMLDriver.checkExists(function check(error, exists) {
+      self._xooMLDriver.checkExists(xooMLFragmentURI, function check(error, exists) {
         if (error) return callback(error);
 
         // Case 1: It already exists, and so all of the information
@@ -170,7 +170,6 @@ define([
         }
       });
     }
-
 
     // First load the XooML Driver
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
