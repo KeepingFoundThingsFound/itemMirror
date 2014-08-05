@@ -256,7 +256,7 @@ define([
         if (listStat[i].name !== XooMLConfig.xooMLFragmentFileName) {
           output.push(new AssociationEditor({
             commonData: { displayText: listStat[i].name,
-                          isGroupingItem: listStat[i].mimeType === _DIRECTORY_STAT,
+                          isGrouping: listStat[i].isFolder,
                           localItem: listStat[i].name
                         }
           }));
