@@ -45,8 +45,8 @@ define([
       if (!checkedOptions || !options) {
         throw XooMLExceptions.nullArgument;
       }
-      if (!XooMLUtil.isObject(checkedOptions)
-        || !XooMLUtil.isObject(options)) {
+      if (!XooMLUtil.isObject(checkedOptions) ||
+          !XooMLUtil.isObject(options)) {
         throw XooMLExceptions.invalidType;
       }
       var checkedOption, isRequiredOption, missingOptionalParamCount;
@@ -182,12 +182,11 @@ define([
     },
 
     getType: function (obj) {
-      if (obj == null) {
+      if (obj === null) {
         return String(obj);
       }
       return typeof obj === "object" ||
-        typeof obj === "function" ? _TYPES[obj.toString()]
-        || "object" : typeof obj;
+        typeof obj === "function" ? _TYPES[obj.toString()] || "object" : typeof obj;
     },
 
     endsWith: function (string, suffix) {
@@ -196,19 +195,20 @@ define([
 
     // http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
     clone: function (obj) {
+      var copy;
       // Handle the 3 simple types, and null or undefined
-      if (null == obj || "object" != typeof obj) return obj;
+      if (null === obj || "object" != typeof obj) return obj;
 
       // Handle Date
       if (obj instanceof Date) {
-        var copy = new Date();
+        copy = new Date();
         copy.setTime(obj.getTime());
         return copy;
       }
 
       // Handle Array
       if (obj instanceof Array) {
-        var copy = [];
+        copy = [];
         for (var i = 0, len = obj.length; i < len; i++) {
           copy[i] = XooMLUtil.clone(obj[i]);
         }
@@ -217,7 +217,7 @@ define([
 
       // Handle Object
       if (obj instanceof Object) {
-        var copy = {};
+        copy = {};
         for (var attr in obj) {
           if (obj.hasOwnProperty(attr)) copy[attr] = XooMLUtil.clone(obj[attr]);
         }

@@ -3,11 +3,17 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
-      files: ['Gruntfile.js', 'scripts/ItemMirror.js',
-              'scripts/PathDriver.js', 'scripts/SyncDriver.js',
-	      'scripts/XooMLDriver.js', 'scripts/FragmentEditor.js',
-              'scripts/SyncDriver.js', 'scripts/AssociationEditor.js',
-              'scripts/XooMLExceptions.js', 'scripts/ItemDriver.js'],
+      files: ['Gruntfile.js',
+              'scripts/ItemMirror.js',
+              'scripts/PathDriver.js',
+              'scripts/SyncDriver.js',
+	      'scripts/XooMLDriver.js',
+              'scripts/FragmentEditor.js',
+              'scripts/SyncDriver.js',
+              'scripts/AssociationEditor.js',
+              'scripts/XooMLExceptions.js',
+              'scripts/ItemDriver.js',
+              'scripts/XooMLUtil.js'],
       options: {
         // options listed http://www.jshint.com/docs/options
         globals: {
