@@ -1118,21 +1118,30 @@ define([
   ItemMirror.prototype.save = function(callback) {
     var self = this;
 
-    self._sync( function(error) {
-      if (error) return callback(error);
-      self._xooMLDriver.getFragment(function(error, content){
-        if (error) return callback(error);
+    self._xooMLDriver.checkExists( function(error, exists){
+      // Syncing needs to occur only if the file exists to begin with
+      if (exists) {
+        self._sync( function(error) {
+          if (error) return callback(error);
+          self._xooMLDriver.getFragment(function(error, content){
+            if (error) return callback(error);
 
-        var tmpFragment = new FragmentEditor({text: content});
-        if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
-            self._fragmentEditor.commonData.GUIDGeneratedOnLastWrite) {
-          callback(XooMLExceptions.itemMirrorNotCurrent);
-        }
+            var tmpFragment = new FragmentEditor({text: content});
+            if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
+                self._fragmentEditor.commonData.GUIDGeneratedOnLastWrite) {
+              callback(XooMLExceptions.itemMirrorNotCurrent);
+            }
 
-        self._xooMLDriver.setFragment(self._fragmentEditor.toString(), function(callback) {
+            self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
+              if (error) callback(error);
+            });
+          });
+        });
+      } else {// Otherwise we can just write the file
+        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
           if (error) callback(error);
         });
-      });
+      }
     });
   };
 
