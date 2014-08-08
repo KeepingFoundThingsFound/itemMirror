@@ -1118,7 +1118,7 @@ define([
   ItemMirror.prototype.save = function(callback) {
     var self = this;
 
-    self.sync( function(error){
+    self._sync( function(error) {
       if (error) return callback(error);
       self._xooMLDriver.getFragment(function(error, content){
         if (error) return callback(error);
