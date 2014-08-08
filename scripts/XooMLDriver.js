@@ -27,9 +27,9 @@ define([
   var
     _CONSTRUCTOR_OPTIONS = {
       driverURI:   true,
-      dropboxClient: true
-    },
-    self;
+      dropboxClient: true,
+      groupingItemURI: true
+    };
 
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
@@ -47,6 +47,7 @@ define([
     var self = this;
 
     self._dropboxClient = options.dropboxClient;
+    self._groupingItemURI = options.groupingItemURI;
 
     if (self._checkDropboxAuthenticated(self._dropboxClient)) {
       return callback(false, self);
@@ -68,10 +69,10 @@ define([
    *
    * @protected
    */
-  XooMLDriver.prototype.getXooMLFragment = function (uri, callback) {
+  XooMLDriver.prototype.getXooMLFragment = function (callback) {
     var self = this;
 
-    self._dropboxClient.readFile(uri, function (error, content) {
+    self._dropboxClient.readFile(self._groupingItemURI, function (error, content) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
@@ -88,10 +89,10 @@ define([
    *
    * @protected
    */
-  XooMLDriver.prototype.setXooMLFragment = function (uri, fragment, callback) {
+  XooMLDriver.prototype.setXooMLFragment = function (fragment, callback) {
     var self = this;
 
-    self._dropboxClient.writeFile(uri, fragment, function (error, stat) {
+    self._dropboxClient.writeFile(self._groupingItemURI, fragment, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
@@ -112,10 +113,10 @@ define([
    *
    * @protected
    */
-  XooMLDriver.prototype.checkExists = function (uri, callback) {
+  XooMLDriver.prototype.checkExists = function (callback) {
     var self = this, result;
 
-    self._dropboxClient.stat(uri, function (error, stat) {
+    self._dropboxClient.stat(self._groupingItemURI, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
