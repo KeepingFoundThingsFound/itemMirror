@@ -437,10 +437,18 @@ define([
   function _fromElement(element, namespace, self) {
     var dataElems, nsElem, i, associationElems, guid;
     // Sets all common data attributes
-    self.commonData = {};
-    _COMMON_DATA_ATTRS.forEach( function(attributeName) {
-      self.commonData[attributeName] = element.getAttribute(attributeName);
-    });
+    self.commonData = {
+      ID: element.getAttribute("id"),
+      fragmentNamespaceElement: element.getAttribute("fragmentnamespaceelement"),
+      schemaVersion: element.getAttribute("schemaversion"),
+      schemaLocation: element.getAttribute("schemalocation"),
+      itemDescribed: element.getAttribute("itemdescribed"),
+      displayName: element.getAttribute("displayname"),
+      itemDriver: element.getAttribute("itemdriver"),
+      syncDriver: element.getAttribute("syncdriver"),
+      xooMLDriver: element.getAttribute("xoomldriver"),
+      GUIDGeneratedOnLastWrite: element.getAttribute("guidgenerateronlastwrite")
+    };
 
     self.namespace = {
       uri: namespace,
@@ -472,7 +480,7 @@ define([
     self.associations = {};
     associationElems = element.getElementsByTagName(_ASSOCIATION_ELEMENT_NAME);
     for (i = 0; i < associationElems.length; i += 1) {
-      guid = associationElems[i].getAttribute(_ASSOCIATION_ID_ATTR);
+      guid = associationElems[i].getAttribute("id");
       self.associations[guid] = new AssociationEditor({
         element: associationElems[i],
         namespace: namespace

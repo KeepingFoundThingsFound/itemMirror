@@ -118,11 +118,17 @@ define([
   function _fromElement(element, namespace, self) {
     var dataElems, nsElem, i;
     // Sets all common data attributes
-    self.commonData = {};
-
-    _COMMON_DATA_ATTRS.forEach( function(attributeName) {
-      self.commonData[attributeName] = element.getAttribute(attributeName);
-    });
+    self.commonData = {
+      ID: element.getAttribute("id"),
+      displayText: element.getAttribute("displaytext"),
+      associatedXooMLFragment: element.getAttribute("associatedxoomlfragment"),
+      associatedXooMLDriver: element.getAttribute("associatedxoomldriver"),
+      associatedSyncDriver: element.getAttribute("associatedsyncdriver"),
+      associatedItemDriver: element.getAttribute("associateditemdriver"),
+      associatedItem: element.getAttribute("associateditem"),
+      localItem: element.getAttribute("localitem"),
+      isGrouping: element.getAttribute("isgrouping")
+    };
 
     self.namespace = {
       uri: namespace,
