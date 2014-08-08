@@ -438,7 +438,6 @@ define([
     var dataElems, nsElem, i, associationElems, guid;
     // Sets all common data attributes
     self.commonData = {
-      ID: element.getAttribute("id"),
       fragmentNamespaceElement: element.getAttribute("fragmentnamespaceelement"),
       schemaVersion: element.getAttribute("schemaversion"),
       schemaLocation: element.getAttribute("schemalocation"),
