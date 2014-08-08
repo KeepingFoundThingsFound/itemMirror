@@ -9,7 +9,7 @@
  * @constructor
  *
  * @param {Object} options Data to construct a new XooMLU with
- * @param {String} options.groupingItemURI The URI of the folder that
+ * @param {String} options.fragmentURI The URI of fragment
  * contains the XooML
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
@@ -30,7 +30,7 @@ define([
     _CONSTRUCTOR_OPTIONS = {
       driverURI:   true,
       dropboxClient: true,
-      groupingItemURI: true
+      fragmentURI: true
     };
 
   /**
@@ -49,7 +49,7 @@ define([
     var self = this;
 
     self._dropboxClient = options.dropboxClient;
-    self._groupingItemURI = options.groupingItemURI;
+    self._fragmentURI = options.fragmentURI;
 
     if (self._checkDropboxAuthenticated(self._dropboxClient)) {
       return callback(false, self);
@@ -73,7 +73,7 @@ define([
   XooMLDriver.prototype.getXooMLFragment = function (callback) {
     var self = this;
 
-    self._dropboxClient.readFile(self._groupingItemURI, function (error, content) {
+    self._dropboxClient.readFile(self._fragmentURI, function (error, content) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
@@ -93,7 +93,7 @@ define([
   XooMLDriver.prototype.setXooMLFragment = function (fragment, callback) {
     var self = this;
 
-    self._dropboxClient.writeFile(self._groupingItemURI, fragment, function (error, stat) {
+    self._dropboxClient.writeFile(self._fragmentURI, fragment, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
@@ -116,7 +116,7 @@ define([
   XooMLDriver.prototype.checkExists = function (callback) {
     var self = this, result;
 
-    self._dropboxClient.stat(self._groupingItemURI, function (error, stat) {
+    self._dropboxClient.stat(self._fragmentURI, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }

@@ -121,8 +121,6 @@ define([
       displayName = displayName[displayName.length - 1];
     }
 
-    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
-
     function loadXooMLDriver(error, driver) {
       var syncDriverURI, itemDriverURI;
       if (error) return callback(error);
@@ -168,6 +166,7 @@ define([
                 namespace: self._namespace,
                 associations: associations
               });
+
               return callback(false, self);
             });
           });
@@ -175,6 +174,8 @@ define([
       });
     }
 
+    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+    options.xooMLDriver.fragmentURI = xooMLFragmentURI;
     // First load the XooML Driver
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
 
