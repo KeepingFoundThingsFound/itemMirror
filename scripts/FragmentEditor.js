@@ -41,6 +41,7 @@ define([
   "./PathDriver",
   "./AssociationEditor"
 ], function(
+  XooMLDriver,
   XooMLExceptions,
   XooMLConfig,
   XooMLUtil,
