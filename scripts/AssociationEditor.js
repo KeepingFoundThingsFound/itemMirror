@@ -127,7 +127,7 @@ define([
       associatedItemDriver: element.getAttribute("associateditemdriver"),
       associatedItem: element.getAttribute("associateditem"),
       localItem: element.getAttribute("localitem"),
-      isGrouping: element.getAttribute("isgrouping")
+      isGrouping: JSON.parse(element.getAttribute("isgrouping"))
     };
 
     self.namespace = {
