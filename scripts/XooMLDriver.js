@@ -9,6 +9,8 @@
  * @constructor
  *
  * @param {Object} options Data to construct a new XooMLU with
+ * @param {String} options.groupingItemURI The URI of the folder that
+ * contains the XooML
  * @param {String} options.utilityURI URI of the utility
  * @param {Object} options.dropboxClient Authenticated dropbox client
  *
@@ -64,7 +66,6 @@ define([
   /**
    * Reads and returns a XooML fragment
    * @method getXooMLFragment
-   * @param {String} uri the location of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
    *
    * @protected
@@ -104,7 +105,6 @@ define([
   /**
    * Check if the XooML fragment exists
    * @method checkExists
-   * @param {String} uri the location of the XooML fragment
    * @param {Function} callback Function to be called when
    * self function is finished with it's operation.
    *  @param {String} callback.error Dropbox error if there is one
@@ -130,11 +130,11 @@ define([
     });
   };
 
-  self._showDropboxError = function (error, callback) {
+  XooMLDriver.prototype._showDropboxError = function (error, callback) {
     return callback(error.status);
   };
 
-  self._checkDropboxAuthenticated = function (dropboxClient) {
+  XooMLDriver.prototype._checkDropboxAuthenticated = function (dropboxClient) {
     return dropboxClient.authState === 4;
   };
 

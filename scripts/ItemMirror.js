@@ -129,13 +129,13 @@ define([
 
       self._xooMLDriver = driver; // actually sets the XooMLDriver
 
-      self._xooMLDriver.checkExists(xooMLFragmentURI, function check(error, exists) {
+      self._xooMLDriver.checkExists(function check(error, exists) {
         if (error) return callback(error);
 
         // Case 1: It already exists, and so all of the information
         // can be constructed from the saved fragment
         if (exists) {
-          self._xooMLDriver.getXooMLFragment(xooMLFragmentURI, function load(error, fragmentString) {
+          self._xooMLDriver.getXooMLFragment(function load(error, fragmentString) {
             if (error) return callback(error);
 
             self._fragment = new FragmentEditor({text: fragmentString});
