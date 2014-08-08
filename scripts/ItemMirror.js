@@ -60,8 +60,8 @@ define([
   './ItemDriver',
   './XooMLDriver',
   './SyncDriver',
-  './FragmentEditor']
-, function(
+  './FragmentEditor'
+], function(
   XooMLExceptions,
   XooMLConfig,
   XooMLUtil,
@@ -108,7 +108,6 @@ define([
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
-    self._fragmentEditor = null;
     self._parent = options.parent;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
@@ -148,7 +147,6 @@ define([
             new ItemDriver(options.itemDriver, function(error, driver) {
               if (error) return callback(error);
               self._itemDriver = driver;
-
               return callback(false, self);
             });
           });
@@ -159,7 +157,6 @@ define([
 
             self._itemDriver.listItems(self._groupingItemURI, function buildFragment(error, associations){
               if (error) return callback(error);
-
               self._fragment = new FragmentEditor({
                 commonData: {
                   itemDescribed: self._groupingItemURI,
@@ -169,9 +166,8 @@ define([
                   syncDriver: "itemMirrorSyncUtility"
                 },
                 namespace: self._namespace,
-                associations: [associations]
+                associations: associations
               });
-
               return callback(false, self);
             });
           });
@@ -1025,7 +1021,7 @@ define([
    *                    an object with the error that occurred.
    * @private
    */
-  self._sync = function (callback) {
+  ItemMirror.prototype._sync = function (callback) {
     var self = this;
 
     self._syncDriver.sync(callback);
@@ -1166,38 +1162,6 @@ define([
     });
   };
 
-  /**
-   * Saves the fragment
-   *
-   * @method _saveFragment
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
-   * @private
-   */
-  self._saveFragment = function (callback) {
-    var self = this, toString;
-
-    self._fragmentEditor.updateEtag();
-
-    toString = self._fragmentEditor.toString();
-
-    var xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI,
-						XooMLConfig.xooMLFragmentFileName);
-
-    self._xooMLDriver.setXooMLFragment(
-      xooMLFragmentPath,
-      toString,
-      function (error) {
-        if (error) {
-          return callback(error);
-        }
-
-        callback(false);
-    });
-  };
 
   /**
    * Given an association, this will delete the association, whether
