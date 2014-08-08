@@ -52,8 +52,6 @@ define([
     }
   }
 
-  self = SyncDriver.prototype;
-
   /**
    * Synchonizes the itemMirror object.
    *
@@ -66,7 +64,7 @@ define([
    *
    * @protected
    */
-  self.sync = function(callback) {
+  SyncDriver.prototype.sync = function(callback) {
     var self = this,
         items,
         itemAssociations,
@@ -161,8 +159,10 @@ define([
 	    if (!sychronized) {
               self._fragmentEditor.updateID(); // generate a new guid for GUIDGeneratedOnLastWrite;
               // Writes out the fragment
-              self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString());
-              callback(XooMLExceptions.itemMirrorNotCurrent);
+              self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString(), function(error) {
+                if (error) callback(error);
+                else callback(XooMLExceptions.itemMirrorNotCurrent);
+              });
 	    } else
               callback(false);
           });
