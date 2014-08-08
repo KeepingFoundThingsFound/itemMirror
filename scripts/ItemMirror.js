@@ -1102,6 +1102,39 @@ define([
     return self._parent;
   };
 
+
+  /**
+   * Saves the itemMirror object, writing it out to the
+   * fragment. Fails if the GUID generated on last write for the
+   * itemMirror and the XooML fragment don't match.
+   *
+   * @method save
+   *
+   * @param callback
+   *  @param callback.error Returns false if everything went ok,
+   *  otherwise returns the error
+   */
+  ItemMirror.prototype.save = function(callback) {
+    var self = this;
+
+    self.sync( function(error){
+      if (error) return callback(error);
+      self._xooMLDriver.getFragment(function(error, content){
+        if (error) return callback(error);
+
+        var tmpFragment = new FragmentEditor({text: content});
+        if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
+            self._fragmentEditor.commonData.GUIDGeneratedOnLastWrite) {
+          callback(XooMLExceptions.itemMirrorNotCurrent);
+        }
+
+        self._xooMLDriver.setFragment(self._fragmentEditor.toString(), function(callback) {
+          if (error) callback(error);
+        });
+      });
+    });
+  };
+
   /**
    * Given a GUID and displayText this will create a grouping item
    * based on the displayText for that item.
