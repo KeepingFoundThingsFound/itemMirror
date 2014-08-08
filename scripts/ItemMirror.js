@@ -167,6 +167,9 @@ define([
                 associations: associations
               });
 
+              // Finally load the SyncDriver, which for now doesn't really do anything
+              self._syncDriver = new SyncDriver(self);
+
               return callback(false, self);
             });
           });
@@ -180,9 +183,6 @@ define([
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
 
     // Then load the ItemDriver
-
-    // Finally load the SyncDriver, which for now doesn't really do anything
-    self._syncDriver = new SyncDriver(self);
   }
 
   /**
