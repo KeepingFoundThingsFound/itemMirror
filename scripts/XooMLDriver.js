@@ -59,7 +59,6 @@ define([
       });
     }
   }
-  self = XooMLDriver.prototype;
 
   /**
    * Reads and returns a XooML fragment
@@ -69,7 +68,7 @@ define([
    *
    * @protected
    */
-  self.getXooMLFragment = function (uri, callback) {
+  XooMLDriver.prototype.getXooMLFragment = function (uri, callback) {
     var self = this;
 
     self._dropboxClient.readFile(uri, function (error, content) {
@@ -89,7 +88,7 @@ define([
    *
    * @protected
    */
-  self.setXooMLFragment = function (uri, fragment, callback) {
+  XooMLDriver.prototype.setXooMLFragment = function (uri, fragment, callback) {
     var self = this;
 
     self._dropboxClient.writeFile(uri, fragment, function (error, stat) {
@@ -113,7 +112,7 @@ define([
    *
    * @protected
    */
-  self.checkExists = function (uri, callback) {
+  XooMLDriver.prototype.checkExists = function (uri, callback) {
     var self = this, result;
 
     self._dropboxClient.stat(uri, function (error, stat) {
