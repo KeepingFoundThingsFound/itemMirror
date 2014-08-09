@@ -1074,20 +1074,21 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  self.refresh = function (callback) {
-    var self = this, xooMLFragmentPath;
+  ItemMirror.prototype.refresh = function(callback) {
+    var self = this;
 
-    self.isCurrent(function (error, isCurrent) {
-      if (error) {
-        throw error;
-      }
+    self._sync( function(error) {
+      // This error means that sync changed the fragment
+      // We then will reload the fragment based on the XooML
+      if (error === XooMLExceptions.itemMirrorNotCurrent) {
+        self._xooMLDriver.getXooMLFragment(function(error, content){
+          if (error) return callback(error);
 
-      if (isCurrent) {
-        return callback(false);
-      } else {
-        xooMLFragmentPath = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
-        self._loadXooMLFragmentString(xooMLFragmentPath, callback);
+          self._fragment = new FragmentEditor({text: content});
+          return callback(false);
+        });
       }
+      return callback(false);
     });
   };
 
