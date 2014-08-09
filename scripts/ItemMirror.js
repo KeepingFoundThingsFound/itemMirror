@@ -145,6 +145,9 @@ define([
             new ItemDriver(options.itemDriver, function(error, driver) {
               if (error) return callback(error);
               self._itemDriver = driver;
+
+              self._syncDriver = new SyncDriver(self);
+                            self._syncDriver = new SyncDriver(self);
               return callback(false, self);
             });
           });
@@ -1123,12 +1126,12 @@ define([
       if (exists) {
         self._sync( function(error) {
           if (error) return callback(error);
-          self._xooMLDriver.getFragment(function(error, content){
+          self._xooMLDriver.getXooMLFragment(function(error, content){
             if (error) return callback(error);
 
             var tmpFragment = new FragmentEditor({text: content});
             if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
-                self._fragmentEditor.commonData.GUIDGeneratedOnLastWrite) {
+                self._fragment.commonData.GUIDGeneratedOnLastWrite) {
               callback(XooMLExceptions.itemMirrorNotCurrent);
             }
 
