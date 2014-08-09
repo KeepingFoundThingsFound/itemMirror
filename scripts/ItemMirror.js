@@ -1133,11 +1133,12 @@ define([
             if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
                 self._fragment.commonData.GUIDGeneratedOnLastWrite) {
               callback(XooMLExceptions.itemMirrorNotCurrent);
+            } else {
+              self._fragment.updateID();
+              self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
+                if (error) callback(error);
+              });
             }
-
-            self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
-              if (error) callback(error);
-            });
           });
         });
       } else {// Otherwise we can just write the file
