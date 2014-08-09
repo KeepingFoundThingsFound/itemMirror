@@ -143,7 +143,7 @@ define([
 		    sychronized = false;
                     delete self._fragmentEditor.associations[assoc.guid];
 	          });
-	        xooMLIdx = search;
+	        xooMLIdx = search + 1;
 	      }
 	    });
 
