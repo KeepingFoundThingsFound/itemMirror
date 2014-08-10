@@ -1136,8 +1136,9 @@ define([
               callback(XooMLExceptions.itemMirrorNotCurrent);
             } else {
               self._fragment.updateID();
-              self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
+              self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
                 if (error) callback(error);
+                return callback(false);
               });
             }
           });
