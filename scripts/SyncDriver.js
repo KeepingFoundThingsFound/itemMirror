@@ -91,9 +91,9 @@ define([
 
         self._xooMLDriver.getXooMLFragment(
           function(error, xooMLContent) {
-            if (error) callback(error);
+            if (error) return callback(error);
 
-           self._fragmentEditor = new FragmentEditor({text: xooMLContent});
+            self._fragmentEditor = new FragmentEditor({text: xooMLContent});
 
 	    // Associations with both names and guids
 	    // filters out any phatoms
