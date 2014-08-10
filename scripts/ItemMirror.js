@@ -60,7 +60,8 @@ define([
   './ItemDriver',
   './XooMLDriver',
   './SyncDriver',
-  './FragmentEditor'
+  './FragmentEditor',
+  './AssociationEditor'
 ], function(
   XooMLExceptions,
   XooMLConfig,
@@ -69,7 +70,8 @@ define([
   ItemDriver,
   XooMLDriver,
   SyncDriver,
-  FragmentEditor) {
+  FragmentEditor,
+  AssociationEditor) {
   "use strict";
 
   var
@@ -517,7 +519,7 @@ define([
    *  @param {String}   callback.GUID GUID of the association created.
    */
   ItemMirror.prototype.createAssociation = function (options, callback) {
-    var self = this, isSimple, isLinkNonGrouping, isLinkGrouping, isCreate;
+    var self = this, isSimple, isLinkNonGrouping, isLinkGrouping, isCreate, guid, association;
 
     if (!XooMLUtil.isFunction(callback)) {
       throw XooMLExceptions.invalidType;
@@ -526,28 +528,44 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    isSimple = XooMLUtil.hasOptions(XooMLConfig.createAssociationSimple, options);
     isLinkNonGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkNonGrouping, options);
     isLinkGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkGrouping, options);
     isCreate = XooMLUtil.hasOptions(XooMLConfig.createAssociationCreate, options);
 
-    self._fragmentEditor.createAssociation(options, function (error, GUID) {
-      if (error) {
-        return callback(error);
-      }
+    // Case 1
+    if (options.displayText) {
+      association = new AssociationEditor({
+        commonData: {
+          displayText: options.displayText,
+          isGrouping: false
+        }
+      });
+    }
 
-      if (isSimple) {
-        self._createAssociationSimple(GUID, options, callback);
-      } else if (isLinkNonGrouping) {
-        return self._createAssociationLinkNonGrouping(GUID, options, callback);
-      } else if (isLinkGrouping) {
-        return self._createAssociationLinkGrouping(GUID, options, callback);
-      } else if (isCreate) {
-        return self._createAssociationCreate(GUID, options, callback);
-      } else {
-        return callback(XooMLExceptions.missingParameter);
-      }
-    });
+    guid = association.commonData.ID;
+    // adds the association to the fragment
+    self._fragment.associations[guid] = association;
+
+    // Save changes out the actual XooML Fragment
+    self.save( function(error){ callback(error, guid); });
+
+    // self._fragmentEditor.createAssociation(options, function (error, GUID) {
+    //   if (error) {
+    //     return callback(error);
+    //   }
+
+    //   if (isSimple) {
+    //     self._createAssociationSimple(GUID, options, callback);
+    //   } else if (isLinkNonGrouping) {
+    //     return self._createAssociationLinkNonGrouping(GUID, options, callback);
+    //   } else if (isLinkGrouping) {
+    //     return self._createAssociationLinkGrouping(GUID, options, callback);
+    //   } else if (isCreate) {
+    //     return self._createAssociationCreate(GUID, options, callback);
+    //   } else {
+    //     return callback(XooMLExceptions.missingParameter);
+    //   }
+    // });
   };
 
   /**
@@ -1393,8 +1411,7 @@ define([
    */
   self._createAssociationSimple = function (GUID, options, callback) {
     var self = this;
-    
-    // Case 1
+
     return self._save(function (error) {
       return callback(error, GUID);
     });
