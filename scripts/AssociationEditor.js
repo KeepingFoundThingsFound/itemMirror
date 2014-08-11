@@ -246,7 +246,7 @@ define([
        * @property commonData.associatedItem
        * @type String
        */
-      associatedItem: commonData.associatedItemDriver || null,
+      associatedItem: commonData.associatedItem || null,
 
       /**
        * The local item of the association

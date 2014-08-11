@@ -296,7 +296,7 @@ define([
    * @param {String} GUID GUID of the association to get.
    */
     ItemMirror.prototype.getAssociationAssociatedItem = function(GUID) {
-    return this._fragment.associations[GUID].commonData.associationAssociatedItem;
+    return this._fragment.associations[GUID].commonData.associatedItem;
   };
 
   /**
@@ -592,6 +592,13 @@ define([
     // });
   };
 
+  /**
+   * @method isAssociation
+   * @method
+   *
+   *
+   */
+   
   /**
    * @method isAssociationPhantom
    * @param {String} guid
