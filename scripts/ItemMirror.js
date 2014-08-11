@@ -547,7 +547,9 @@ define([
     self._fragment.associations[guid] = association;
 
     // Save changes out the actual XooML Fragment
-    self.save( function(error){ callback(error, guid); });
+    self.save( function(error){
+      return callback(error, guid);
+    });
 
     // self._fragmentEditor.createAssociation(options, function (error, GUID) {
     //   if (error) {
@@ -1151,7 +1153,7 @@ define([
             var tmpFragment = new FragmentEditor({text: content});
             if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
                 self._fragment.commonData.GUIDGeneratedOnLastWrite) {
-              callback(XooMLExceptions.itemMirrorNotCurrent);
+              return callback(XooMLExceptions.itemMirrorNotCurrent);
             } else {
               self._fragment.updateID();
               self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
@@ -1163,7 +1165,9 @@ define([
         });
       } else {// Otherwise we can just write the file
         self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
-          if (error) callback(error);
+          if (error) return callback(error);
+
+          return callback(false);
         });
       }
     });

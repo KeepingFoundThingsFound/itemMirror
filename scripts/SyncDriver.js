@@ -160,11 +160,12 @@ define([
               self._fragmentEditor.updateID(); // generate a new guid for GUIDGeneratedOnLastWrite;
               // Writes out the fragment
               self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString(), function(error) {
-                if (error) callback(error);
-                else callback(XooMLExceptions.itemMirrorNotCurrent);
+                if (error) return callback(error);
+
+                return callback(XooMLExceptions.itemMirrorNotCurrent);
               });
 	    } else
-              callback(false);
+              return callback(false);
           });
       });
   };
