@@ -223,10 +223,15 @@ define([
   FragmentEditor.prototype.toElement = function() {
     var self = this,
         fragmentElem = document.createElement(_ELEMENT_NAME),
-        appNSElem;     // The namespace element specific for the app
+        appNSElem,     // The namespace element specific for the app
+        keyValue;
+
     // common data
     Object.keys(self.commonData).forEach( function(key) {
-      fragmentElem.setAttribute(key, self.commonData[key]);
+      keyValue = self.commonData[key];
+      if (keyValue) { // Don't set null attributes
+        fragmentElem.setAttribute(key, self.commonData[key]);
+      }
     });
 
     // namespace data
@@ -301,42 +306,42 @@ define([
        * @property commonData.displayName
        * @type String
        */
-      displayName: commonData.displayName || "",
+      displayName: commonData.displayName || null,
 
       /**
        * The schema location for the fragment
        * @property commonData.schemaLocation
        * @type String
        */
-      schemaLocation: commonData.schemaLocation || "",
+      schemaLocation: commonData.schemaLocation || null,
 
       /**
        * The schema version for the fragment
        * @property commonData.schemaVersion
        * @type String
        */
-      schemaVersion: commonData.schemaVersion || "",
+      schemaVersion: commonData.schemaVersion || null,
 
       /**
        * The item driver URI for the fragment
        * @property commonData.itemDriver
        * @type String
        */
-      itemDriver: commonData.itemDriver || "",
+      itemDriver: commonData.itemDriver || null,
 
       /**
        * The sync driver URI for the fragment
        * @property commonData.syncDriver
        * @type String
        */
-      syncDriver: commonData.syncDriver || "",
+      syncDriver: commonData.syncDriver || null,
 
       /**
        * The XooML driver URI for the fragment
        * @property commonData.xooMLDriver
        * @type String
        */
-      xooMLDriver: commonData.xooMLDriver || "",
+      xooMLDriver: commonData.xooMLDriver || null,
 
       /**
        * The unique GUID for the fragment that is updated after every
@@ -470,8 +475,10 @@ define([
       self.namespace.data = nsElem.innerHTML;
 
       for (i = 0; i < nsElem.attributes.length; i += 1) {
-        self.namespace.attributes[ nsElem.attributes[i].name ] =
-          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+        if (nsElem.attributes[i].name !== "xmlns") { // special namespace attribute
+          self.namespace.attributes[ nsElem.attributes[i].name ] =
+            nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+        }
       }
     }
 

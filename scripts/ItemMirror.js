@@ -76,11 +76,13 @@ define([
 
   var
     _CONSTRUCTOR_CASE_1_OPTIONS = {
+      "namespace":        true,
       "groupingItemURI":  true,
       "xooMLDriver":      true,
       "parent":           false
     },
     _CONSTRUCTOR_CASE_2_OPTIONS = {
+      "namespace":       true,
       "groupingItemURI": true,
       "xooMLDriver":     true,
       "itemDriver":      true,
@@ -110,6 +112,7 @@ define([
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
+    self._namespace = options.namespace;
     self._parent = options.parent;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
@@ -138,7 +141,8 @@ define([
           self._xooMLDriver.getXooMLFragment(function load(error, fragmentString) {
             if (error) return callback(error);
 
-            self._fragment = new FragmentEditor({text: fragmentString});
+            self._fragment = new FragmentEditor({text: fragmentString,
+                                                 namespace: options.namespace});
 
             // Need to load other stuff from the fragment now
             syncDriverURI = self._fragment.commonData.syncDriver;
@@ -160,6 +164,12 @@ define([
 
             self._itemDriver.listItems(self._groupingItemURI, function buildFragment(error, associations){
               if (error) return callback(error);
+
+              // Set the namespace for all of the associations to the current app
+              associations.forEach( function(assoc) {
+                assoc.namespace.uri = options.namespace;
+              });
+
               self._fragment = new FragmentEditor({
                 commonData: {
                   itemDescribed: self._groupingItemURI,
@@ -168,7 +178,7 @@ define([
                   xooMLDriver: "dropboxXooMLDriver",
                   syncDriver: "itemMirrorSyncUtility"
                 },
-                namespace: self._namespace,
+                namespace: options.namespace,
                 associations: associations
               });
 
@@ -538,7 +548,8 @@ define([
         commonData: {
           displayText: options.displayText,
           isGrouping: false
-        }
+        },
+        namespace: self._fragment.namespace.uri
       });
     }
 
@@ -1164,7 +1175,8 @@ define([
           });
         });
       } else {// Otherwise we can just write the file
-        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(callback) {
+        console.log("Console: " + self._fragment.namespace.uri);
+        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
           if (error) return callback(error);
 
           return callback(false);

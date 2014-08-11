@@ -83,10 +83,15 @@ define([
   AssociationEditor.prototype.toElement = function() {
     var self = this,
         associationElem = document.createElement(_ELEMENT_NAME),
-        appNSElem;     // The namespace element specific for the app
+        appNSElem,     // The namespace element specific for the app
+        keyValue;
+
     // common data
     Object.keys(self.commonData).forEach( function(key) {
-      associationElem.setAttribute(key, self.commonData[key]);
+      keyValue = self.commonData[key];
+      if (keyValue) {// Don't set null attributes
+        associationElem.setAttribute(key, self.commonData[key]);
+      }
     });
 
     // namespace data
@@ -151,8 +156,10 @@ define([
       self.namespace.data = nsElem.innerHTML;
 
       for (i = 0; i < nsElem.attributes.length; i += 1) {
-        self.namespace.attributes[ nsElem.attributes[i].name ] =
-          nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+        if (nsElem.attributes[i].name !== "xmlns") {
+          self.namespace.attributes[ nsElem.attributes[i].name ] =
+            nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+        }
       }
     }
   }
@@ -204,49 +211,49 @@ define([
        * @property commonData.displayText
        * @type String
        */
-      displayText: commonData.displayText || "",
+      displayText: commonData.displayText || null,
 
       /**
        * The associated XooML fragment of the association
        * @property commonData.associatedXooMLFragment
        * @type String
        */
-      associatedXooMLFragment: commonData.associatedXooMLFragment || "",
+      associatedXooMLFragment: commonData.associatedXooMLFragment || null,
 
       /**
        * The associated XooML driver of the association
        * @property commonData.associatedXooMLDriver
        * @type String
        */
-      associatedXooMLDriver: commonData.associatedXooMLDriver || "",
+      associatedXooMLDriver: commonData.associatedXooMLDriver || null,
 
       /**
        * The associated sync driver of the association
        * @property commonData.associatedSyncDriver
        * @type String
        */
-      associatedSyncDriver: commonData.associatedSyncDriver || "",
+      associatedSyncDriver: commonData.associatedSyncDriver || null,
 
       /**
        * The associated item driver of the association
        * @property commonData.associatedItemDriver
        * @type String
        */
-      associatedItemDriver: commonData.associatedItemDriver || "",
+      associatedItemDriver: commonData.associatedItemDriver || null,
 
       /**
        * The associated item of the association
        * @property commonData.associatedItem
        * @type String
        */
-      associatedItem: commonData.associatedItemDriver || "",
+      associatedItem: commonData.associatedItemDriver || null,
 
       /**
        * The local item of the association
        * @property commonData.localItem
        * @type String
        */
-      localItem: commonData.localItem || "",
+      localItem: commonData.localItem || null,
 
       /**
        * Whether or not the item is a grouping item
