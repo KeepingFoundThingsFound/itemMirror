@@ -593,6 +593,17 @@ define([
   };
 
   /**
+   * @method isAssociationPhantom
+   * @param {String} guid
+   * @return {Boolean} True if the association of the given GUID is a
+   * phantom association. False otherwise.
+   */
+  ItemMirror.prototype.isAssociationPhantom = function(guid) {
+    var data = this._fragment.associations[guid].commonData;
+    return !(data.isGrouping || data.localItem);
+  };
+
+  /**
    * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
    *
    *
