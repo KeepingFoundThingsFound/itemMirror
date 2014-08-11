@@ -96,7 +96,7 @@ define([
     var self = this, guid;
 
     guid = XooMLUtil.generateGUID();
-    this.commonData.ID = guid;
+    this.commonData.GUIDGeneratedOnLastWrite = guid;
     return guid;
   };
 
@@ -451,7 +451,7 @@ define([
       itemDriver: element.getAttribute("itemdriver"),
       syncDriver: element.getAttribute("syncdriver"),
       xooMLDriver: element.getAttribute("xoomldriver"),
-      GUIDGeneratedOnLastWrite: element.getAttribute("guidgenerateronlastwrite")
+      GUIDGeneratedOnLastWrite: element.getAttribute("guidgeneratedonlastwrite")
     };
 
     self.namespace = {
