@@ -542,8 +542,19 @@ define([
     isLinkGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkGrouping, options);
     isCreate = XooMLUtil.hasOptions(XooMLConfig.createAssociationCreate, options);
 
+    // Case 2
+    if (options.displayText && options.itemURI) {
+      association = new AssociationEditor({
+        commonData: {
+          displayText: options.displayText,
+          associatedItem: options.itemURI,
+          isGrouping: false
+        },
+        namespace: self._fragment.namespace.uri
+      });
+    }
     // Case 1
-    if (options.displayText) {
+    else if (options.displayText) {
       association = new AssociationEditor({
         commonData: {
           displayText: options.displayText,
@@ -1164,6 +1175,8 @@ define([
             var tmpFragment = new FragmentEditor({text: content});
             if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
                 self._fragment.commonData.GUIDGeneratedOnLastWrite) {
+              console.log("FILE GUID: " + tmpFragment.commonData.GUIDGeneratedOnLastWrite);
+              console.log("MEMORY GUID: " + self._fragment.commonData.GUIDGeneratedOnLastWrite);
               return callback(XooMLExceptions.itemMirrorNotCurrent);
             } else {
               self._fragment.updateID();
