@@ -516,7 +516,7 @@ define([
    *  @param {String}  options.xooMLDriverURI URI of the XooML driver for the
    *                   association. Required for cases 4 & 5.
    *
-   *  @param {String}  options.itemName URI of the new local
+   *  @param {String}  options.localItem URI of the new local
    *                   non-grouping/grouping item. Required for cases 6 & 7.
    *
    *  @param {String}  options.isGroupingItem True if the item is a grouping
@@ -529,7 +529,21 @@ define([
    *  @param {String}   callback.GUID GUID of the association created.
    */
   ItemMirror.prototype.createAssociation = function (options, callback) {
-    var self = this, isSimple, isLinkNonGrouping, isLinkGrouping, isCreate, guid, association;
+    var self = this,
+        association,
+        path,
+        saveOutFragment;
+
+    saveOutFragment = function(association){
+      var guid = association.commonData.ID;
+      // adds the association to the fragment
+      self._fragment.associations[guid] = association;
+
+      // Save changes out the actual XooML Fragment
+      self.save( function(error){
+        return callback(error, guid);
+      });
+    };
 
     if (!XooMLUtil.isFunction(callback)) {
       throw XooMLExceptions.invalidType;
@@ -538,12 +552,26 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    isLinkNonGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkNonGrouping, options);
-    isLinkGrouping = XooMLUtil.hasOptions(XooMLConfig.createAssociationLinkGrouping, options);
-    isCreate = XooMLUtil.hasOptions(XooMLConfig.createAssociationCreate, options);
+    // Case 7
+    if (options.displayText && options.localItem && options.isGroupingItem) {
+      association = new AssociationEditor({
+        commonData: {
+          displayText: options.displayText,
+          isGrouping: true,
+          localItem: options.localItem
+        }
+      });
 
+      // Now we use the itemDriver to actually create the folder
+      path = PathDriver.joinPath(self._groupingItemURI, association.commonData.localItem);
+      self._itemDriver.createGroupingItem(path, function(error){
+        if (error) return error;
+
+        saveOutFragment(association);
+      });
+    }
     // Case 2
-    if (options.displayText && options.itemURI) {
+    else if (options.displayText && options.itemURI) {
       association = new AssociationEditor({
         commonData: {
           displayText: options.displayText,
@@ -564,32 +592,7 @@ define([
       });
     }
 
-    guid = association.commonData.ID;
-    // adds the association to the fragment
-    self._fragment.associations[guid] = association;
-
-    // Save changes out the actual XooML Fragment
-    self.save( function(error){
-      return callback(error, guid);
-    });
-
-    // self._fragmentEditor.createAssociation(options, function (error, GUID) {
-    //   if (error) {
-    //     return callback(error);
-    //   }
-
-    //   if (isSimple) {
-    //     self._createAssociationSimple(GUID, options, callback);
-    //   } else if (isLinkNonGrouping) {
-    //     return self._createAssociationLinkNonGrouping(GUID, options, callback);
-    //   } else if (isLinkGrouping) {
-    //     return self._createAssociationLinkGrouping(GUID, options, callback);
-    //   } else if (isCreate) {
-    //     return self._createAssociationCreate(GUID, options, callback);
-    //   } else {
-    //     return callback(XooMLExceptions.missingParameter);
-    //   }
-    // });
+    saveOutFragment(association);
   };
 
   /**
