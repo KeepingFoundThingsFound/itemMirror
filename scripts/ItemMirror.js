@@ -76,13 +76,11 @@ define([
 
   var
     _CONSTRUCTOR_CASE_1_OPTIONS = {
-      "namespace":        true,
       "groupingItemURI":  true,
       "xooMLDriver":      true,
       "parent":           false
     },
     _CONSTRUCTOR_CASE_2_OPTIONS = {
-      "namespace":       true,
       "groupingItemURI": true,
       "xooMLDriver":     true,
       "itemDriver":      true,
@@ -112,7 +110,6 @@ define([
     self._xooMLDriver = null;
     self._itemDriver = null;
     self._syncDriver = null;
-    self._namespace = options.namespace;
     self._creator = options.creator || null;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
@@ -141,8 +138,7 @@ define([
           self._xooMLDriver.getXooMLFragment(function load(error, fragmentString) {
             if (error) return callback(error);
 
-            self._fragment = new FragmentEditor({text: fragmentString,
-                                                 namespace: options.namespace});
+            self._fragment = new FragmentEditor({text: fragmentString});
 
             // Need to load other stuff from the fragment now
             syncDriverURI = self._fragment.commonData.syncDriver;
@@ -164,11 +160,6 @@ define([
             self._itemDriver.listItems(self._groupingItemURI, function buildFragment(error, associations){
               if (error) return callback(error);
 
-              // Set the namespace for all of the associations to the current app
-              associations.forEach( function(assoc) {
-                assoc.namespace.uri = options.namespace;
-              });
-
               self._fragment = new FragmentEditor({
                 commonData: {
                   itemDescribed: self._groupingItemURI,
@@ -177,7 +168,6 @@ define([
                   xooMLDriver: "dropboxXooMLDriver",
                   syncDriver: "itemMirrorSyncUtility"
                 },
-                namespace: options.namespace,
                 associations: associations
               });
 
@@ -303,10 +293,10 @@ define([
    * @return {String} Returns the value of the given attributeName for the
    * fragmentNamespaceData with the given namespaceURI.
    * @param {String} attributeName Name of the attribute to be returned.
-   *
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName) {
-    return this._fragment.namespace.attributes[attributeName];
+  ItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName, uri) {
+    return this._fragment.namespace[uri].attributes[attributeName];
   };
 
   /**
@@ -317,13 +307,14 @@ define([
    * @method addFragmentNamespaceAttribute
    *
    * @param {String} attributeName Name of the attribute.
+   * @param {String} uri Namespace URI
    */
   // TODO: Possibly remove? Why not just get and set
-  ItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName) {
-    if (this._fragment.namespace.attributes[attributeName]) {
+  ItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName, uri) {
+    if (this._fragment.namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
-    this.setFragmentNamespaceAttribute(attributeName);
+    this.setFragmentNamespaceAttribute(attributeName, uri);
   };
 
   /**
@@ -337,13 +328,12 @@ define([
    * attribute. <br/>
    *
    * @method removeFragmentNamespaceAttribute
-   *
    * @param {String} attributeName Name of the attribute.
-   * @param {String} namespaceURI  URI of the namespace for the association.
+   * @param {String} uri  Namespace URI
    *
    */
-  ItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName) {
-    this._setFragmentNamespaceAttribute(attributeName, null);
+  ItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName, uri) {
+    delete this._fragment.namespace[uri].attribute[attributeName];
   };
 
   /**
@@ -357,11 +347,14 @@ define([
    * @return {Boolean} True if the fragment has the given
    * namespaceURI, otherwise false.
    *
-   * @param {String} namespaceURI  URI of the namespace for the association.
+   * @param {String} uri URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.hasFragmentNamespace = function (namespaceURI) {
-    return false;
+  ItemMirror.prototype.hasFragmentNamespace = function (uri) {
+    var namespaces = Object.keys(this._fragment.namespace);
+    return namespaces.some( function(ns) {
+      return ns === uri;
+    });
   };
 
   /**
@@ -376,27 +369,30 @@ define([
    * @method setFragmentNamespaceAttribute
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set.
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue) {
-    this._fragment.namespace.attributes[attributeName] = attributeValue;
+  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue, uri) {
+    this._fragment.namespace[uri].attributes[attributeName] = attributeValue;
   };
 
   /**
    * @method listFragmentNamespaceAttributes
    * @return {String[]} An array of the attributes within the
    * fragmentNamespaceData with the given namespaceURI.
+   * @param {String} uri Namespace URI
    *
   */
-  ItemMirror.prototype.listFragmentNamespaceAttributes = function() {
-    return Object.keys(this._fragment.namespace.attributes);
+  ItemMirror.prototype.listFragmentNamespaceAttributes = function(uri) {
+    return Object.keys(this._fragment.namespace[uri].attributes);
   };
 
   /**
    * @method getFragmentNamespaceData
-   * @return {String} The fragment namespace data with the given namespaceURI.
+   * @return {String} The fragment namespace data with the given namespace URI.
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.getFragmentNamespaceData = function() {
-    return this._fragment.namespace.data;
+  ItemMirror.prototype.getFragmentNamespaceData = function(uri) {
+    return this._fragment.namespace[uri].data;
   };
 
   /**
@@ -404,12 +400,11 @@ define([
    *
    * @method setFragmentNamespaceData
    *
-   * @param {String} data Fragment namespace data to be set. Must be valid
-   *                 namespaceData.
-   * @param {String} namespaceURI URI of the namespace to be set.
+   * @param {String} data Fragment namespace data to be set.
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.setFragmentNamespaceData = function (data) {
-    this._fragment.namespace.data = data;
+  ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
+    this._fragment.namespace[uri].data = data;
   };
 
   /**
@@ -464,13 +459,12 @@ define([
        xooMLDriver: xooMLOptions,
        itemDriver: itemOptions,
        syncDriver: syncOptions,
-       namespace: self._namespace,
        creator: self
       },
       function (error, itemMirror) {
         return callback(error, itemMirror);
       }
-    )
+    );
   };
 
   /**
@@ -572,8 +566,7 @@ define([
           displayText: options.displayText,
           associatedItem: options.itemURI,
           isGrouping: false
-        },
-        namespace: self._fragment.namespace.uri
+        }
       });
     }
     // Case 1
@@ -582,8 +575,7 @@ define([
         commonData: {
           displayText: options.displayText,
           isGrouping: false
-        },
-        namespace: self._fragment.namespace.uri
+        }
       });
     }
 
@@ -909,7 +901,6 @@ define([
    * @method listAssociations
    *
    * @return {String[]} Array of the GUIDs of each association
-   *                    of the given namespaceURI
    */
   ItemMirror.prototype.listAssociations = function() {
     return Object.keys(this._fragment.associations);
@@ -930,10 +921,11 @@ define([
    *
    * @param {String} attributeName Name of the attribute to be returned.
    * @param {String} GUID          GUID of the association to return attribute from.
+   * @param {String} uri Namspace URI
    *
    */
-  self.getAssociationNamespaceAttribute = function(attributeName, GUID) {
-    return this._fragment.associations[GUID].namespace.attributes[attributeName];
+  self.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+    return this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
   };
 
   /**
@@ -951,13 +943,15 @@ define([
    * @method addAssociationNamespaceAttribute
    *
    * @param {String} attributeName Name of the attribute.
+   * @param {String} attributeValue Value of the attribe to be set
    * @param {String} GUID          GUID of the association.
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID) {
-    if (this._fragment.assocation[GUID].namespace[attributeName]) {
+  ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+    if (this._fragment.assocation[GUID].namespace[uri][attributeName]) {
       throw XooMLExceptions.invalidState;
     }
-    this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID);
+    this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, uri);
   };
 
   /**
@@ -976,25 +970,26 @@ define([
    *
    * @param {String} attributeName Name of the attribute.
    * @param {String} GUID          GUID of the association.
-   *
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID) {
-    this.setAssociationNamespaceAttribute(attributeName, null, GUID);
+  ItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+    delete this._fragment.associations[GUID].namespace[uri][attributeName];
   };
 
   /**
-   * Currently cannot list namespaces, so ALWAYS RETURNS FALSE. Need to fix.
-   *
    * @method hasAssociationNamespace
    * @return {Boolean} True if the association has the given
    * namespaceURI, else false.
    *
    * @param {String} GUID          GUID of the association.
-   * @param {String} namespaceURI  URI of the namespace for the association.
+   * @param {String} uri  Namespace URI
    *
    */
-  ItemMirror.prototype.hasAssociationNamespace = function(GUID) {
-    return false;
+  ItemMirror.prototype.hasAssociationNamespace = function(GUID, uri) {
+    var namespaces = Object.keys(this._fragment.associations[GUID].namespace[uri]);
+    return namespaces.some( function(ns) {
+      return ns === uri;
+    });
   };
 
   /**
@@ -1012,10 +1007,11 @@ define([
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set
    * @param {String} GUID           GUID of association to set attribute for.
+   * @param {String} uri Namespace URI
    *
    */
-  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID) {
-    this._fragment.associations[GUID].namespace.attributes[attributeName] = attributeValue;
+  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+    this._fragment.associations[GUID].namespace[uri].attributes[attributeName] = attributeValue;
   };
 
   /**
@@ -1030,10 +1026,10 @@ define([
    * namespaceURI within the association with the given GUID.
    *
    * @param {String} GUID          GUID of association to list attributes for.
-   *
+   * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID) {
-    return Object.keys(this._fragment.associations[GUID].namespace.attributes);
+  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
+    return Object.keys(this._fragment.associations[GUID].namespace[uri].attributes);
   };
 
   /**
@@ -1045,9 +1041,10 @@ define([
    *
    * @param {String} GUID GUID of the association namespace data to
    * returned.
+   * @param {String} uri Namespace URI
    */
-  self.getAssociationNamespaceData = function (GUID) {
-    return this._fragment.associations[GUID].namespace.data;
+  self.getAssociationNamespaceData = function (GUID, uri) {
+    return this._fragment.associations[GUID].namespace[uri].data;
   };
 
   /**
@@ -1065,8 +1062,8 @@ define([
    *                               valid fragmentNamespaceData.
    * @param {String} GUID          GUID of the association namespace data to set.
    */
-  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID) {
-    this._fragment.assocations[GUID].namespace.data = data;
+  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
+    this._fragment.assocations[GUID].namespace[uri].data = data;
   };
 
   /**
@@ -1202,7 +1199,6 @@ define([
           });
         });
       } else {// Otherwise we can just write the file
-        console.log("Console: " + self._fragment.namespace.uri);
         self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
           if (error) return callback(error);
 
