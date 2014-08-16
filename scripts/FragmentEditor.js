@@ -27,10 +27,6 @@
  *  fragment. Look at the constructor for more details. Required for case 2
  *  @param {String} options.groupingItemURI The URI for the grouping
  *  item of the fragment. Required for case 2.
- *  @param {String} options.namespace The namespace URI. Used to
- *  access namespace specific data so apps can have their own set of
- *  data that they manipulate with worry of conflicts. <br/>
- *  __optional__
  *
  * @protected
  **/
@@ -60,24 +56,17 @@ define([
       _SYNC_DRIVER_ATTR = "syncDriver",
       _XOOML_DRIVER_ATTR = "xooMLDriver",
       _GUID_ATTR = "GUIDGeneratedOnLastWrite",
-      _COMMON_DATA_ATTRS = [_SCHEMA_LOCATION_ATTR,
-                            _SCHEMA_VERSION_ATTR,
-                            _ITEM_DESCRIBED_ATTR,
-                            _DISPLAY_NAME_ATTR,
-                            _ITEM_DRIVER_ATTR,
-                            _SYNC_DRIVER_ATTR,
-                            _XOOML_DRIVER_ATTR,
-                            _GUID_ATTR];
+      _ITEM_MIRROR_NS = "http://kftf.ischool.washington.edu/xmlns/xooml";
 
   function FragmentEditor(options) {
     var self = this;
 
     if (options.text) {
-      _fromString(options.text, options.namespace, self);
+      _fromString(options.text, self);
     } else if (options.element) {
-      _fromElement(options.element, options.namespace, self);
+      _fromElement(options.element, self);
     } else if (options.commonData) {
-      _fromOptions(options.commonData, options.associations, options.namespace, self);
+      _fromOptions(options.commonData, options.associations, self);
     } else {
       console.log(XooMLExceptions.missingParameter);
     }
@@ -86,10 +75,9 @@ define([
   /**
    * Updates the GUID of the Fragment
    *
-   * @method updateETag
+   * @method updateID
    * @return {String} The new GUID of the fragment
-   * @private updateETag
-   *
+   * @private
    * @protected
    */
   FragmentEditor.prototype.updateID = function() {
@@ -222,29 +210,27 @@ define([
    */
   FragmentEditor.prototype.toElement = function() {
     var self = this,
-        fragmentElem = document.createElement(_ELEMENT_NAME),
-        appNSElem,     // The namespace element specific for the app
-        keyValue;
+        fragmentElem = document.createElementNS(_ITEM_MIRROR_NS, _ELEMENT_NAME);
 
     // common data
-    Object.keys(self.commonData).forEach( function(key) {
-      keyValue = self.commonData[key];
-      if (keyValue) { // Don't set null attributes
-        fragmentElem.setAttribute(key, self.commonData[key]);
+    Object.keys(self.commonData).forEach( function(attrName) {
+      var attrValue = self.commonData[attrName];
+      if (attrValue) { // Don't set null attributes
+        fragmentElem.setAttribute(attrName, attrValue);
       }
     });
 
     // namespace data
-    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
-    Object.keys(self.namespace.attributes).forEach( function(key) {
-      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
-    });
+    Object.keys(self.namespace).forEach( function(uri) {
+      var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME);
+      // Attributes
+      Object.keys(self.namespace.uri.attributes).forEach( function(attrName) {
+        nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ]);
+      });
 
-    fragmentElem.appendChild(appNSElem);
+      nsElem.textContent = self.namespace[ uri ].data;
 
-    appNSElem.innerHTML = self.namespace.data;
-    self.namespace.otherNSElements.forEach( function(element) {
-      fragmentElem.appendChild(element);
+      fragmentElem.appendChild(nsElem);
     });
 
     // associations
@@ -289,7 +275,7 @@ define([
    *
    * @private
    */
-  function _fromOptions(commonData, associations, namespace, self) {
+  function _fromOptions(commonData, associations, self) {
     if (!commonData) {
       throw XooMLExceptions.nullArgument;
     }
@@ -374,14 +360,13 @@ define([
      * @property namespace
      * @type Object
      */
-    self.namespace = {
+    self.namespace = {};
       /**
        * The namespace URI for the fragment. Used to set namespace data
        * for both the fragment and it's associations
        * @property namespace.uri
        * @type String
        */
-      uri: namespace || null,
 
       /**
        * The attributes of the namespace. This is app specific data
@@ -390,22 +375,6 @@ define([
        * @property namespace.attributes
        * @type Object
        */
-      attributes: {},
-
-      /**
-       * The data specific for an app. This is also app specific.
-       * @property namespace.data
-       * @type String
-       */
-      data: "",
-
-      /**
-       * The other namespace elements for the fragment
-       * @property otherNSElements
-       * @type Element[]
-       */
-      otherNSElements: []
-    };
   }
 
   /**
@@ -435,61 +404,82 @@ define([
    * @method _fromElement
    *
    * @param {Element} element The XML element that represents an association.
-   * @param {String} namespace The namespace URI, used to load any app-specific data.
    * @param {FragmentEditor} self
    * @private
    */
-  function _fromElement(element, namespace, self) {
-    var dataElems, nsElem, i, associationElems, guid;
+  function _fromElement(element, self) {
+    var dataElems, nsElem, i, associationElems, guid, elem, uri;
     // Sets all common data attributes
     self.commonData = {
-      fragmentNamespaceElement: element.getAttribute("fragmentnamespaceelement"),
-      schemaVersion: element.getAttribute("schemaversion"),
-      schemaLocation: element.getAttribute("schemalocation"),
-      itemDescribed: element.getAttribute("itemdescribed"),
-      displayName: element.getAttribute("displayname"),
-      itemDriver: element.getAttribute("itemdriver"),
-      syncDriver: element.getAttribute("syncdriver"),
-      xooMLDriver: element.getAttribute("xoomldriver"),
-      GUIDGeneratedOnLastWrite: element.getAttribute("guidgeneratedonlastwrite")
+      fragmentNamespaceElement: element.getAttribute(_NAMESPACE_ELEMENT_NAME),
+      schemaVersion: element.getAttribute(_SCHEMA_VERSION_ATTR),
+      schemaLocation: element.getAttribute(_SCHEMA_LOCATION_ATTR),
+      itemDescribed: element.getAttribute(_ITEM_DESCRIBED_ATTR),
+      displayName: element.getAttribute(_DISPLAY_NAME_ATTR),
+      itemDriver: element.getAttribute(_ITEM_DRIVER_ATTR),
+      syncDriver: element.getAttribute(_SYNC_DRIVER_ATTR),
+      xooMLDriver: element.getAttribute(_XOOML_DRIVER_ATTR),
+      GUIDGeneratedOnLastWrite: element.getAttribute(_GUID_ATTR)
     };
 
-    self.namespace = {
-      uri: namespace,
-      data: "",
-      attributes: {},
-      otherNSElements: []
-    };
+    /**
+     * The namespace object is an associated array with each key being
+     * a namespace URI. These can thene be used to modify fragment
+     * namespace attributes and data
+     * @property namespace
+     * @type Object
+     */
+    self.namespace = {};
+
     dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
     for (i = 0; i < dataElems.length; i += 1) {
-      if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems[i];
-      } else {
-        self.namespace.otherNSElements.push(dataElems[i]);
-      }
-    }
+      elem = dataElems[i];
+      uri = elem.namespaceURI;
 
-    // There may not BE any data for a namespace
-    if (nsElem) {
-      // Inner HTML is currently experimental, and isn't supported in
-      self.namespace.data = nsElem.innerHTML;
+      /**
+       * The information for a given namespace. Includes both the
+       * data, and the attributes. Namespaces URIs must be unique or
+       * they will overwrite data from another namespace
+       * @property namespace.URI
+       * @type Object
+       */
+      self.namespace[ uri ] = {};
 
-      for (i = 0; i < nsElem.attributes.length; i += 1) {
-        if (nsElem.attributes[i].name !== "xmlns") { // special namespace attribute
-          self.namespace.attributes[ nsElem.attributes[i].name ] =
-            nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+      for (i = 0; i < elem.attributes.length; i += 1) {
+        // We have to filter out the special namespace attribute We
+        // let the namespace methods handle the namespace, and we
+        // don't deal with it
+        if (elem.attributes[i].name !== "xmlns") {
+          /**
+           * The attributes of the current namespace, with each attribute
+           * having a corresponding value.
+           * @property namespace.URI.attributes
+           * @type Object
+           */
+          self.namespace[ uri ][ elem.attributes[i].name ] =
+            elem.getAttributeNS(uri, elem.attributes[i].name);
         }
       }
+
+    /**
+     * This is the namespace data stored within the namespace
+     * element. Anything can be put here, and it will be stored as a
+     * string. ItemMirror will not do anything with the data here and
+     * doesn't interact with it at all. It is the responsibility of
+     * other applications to properly store information here.
+     * @property namespace.URI.data
+     * @type String
+     */
+      self.namespace[ uri ].data = elem.textContent;
     }
 
     // associations
     self.associations = {};
     associationElems = element.getElementsByTagName(_ASSOCIATION_ELEMENT_NAME);
     for (i = 0; i < associationElems.length; i += 1) {
-      guid = associationElems[i].getAttribute("id");
+      guid = associationElems[i].getAttribute(_ASSOCIATION_ID_ATTR);
       self.associations[guid] = new AssociationEditor({
-        element: associationElems[i],
-        namespace: namespace
+        element: associationElems[i]
       });
     }
   }
