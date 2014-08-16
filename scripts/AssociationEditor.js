@@ -22,23 +22,18 @@
  *  @param {Object} options.commonData An object that specifies the
  *  data for an association. Look at the private constructor
  *  `_fromOptions` for more details
- *  @param {String} options.namespace The namespace URI of the association
- *  <br/>
- *  __optional__
  *
  * @protected
  */
 define([
   "./XooMLExceptions",
   "./XooMLUtil"
-], function(
-  XooMLExceptions,
-  XooMLUtil) {
+], function(XooMLExceptions, XooMLUtil) {
   "use strict";
 
  var _ELEMENT_NAME = "association",
      _NAMESPACE_ELEMENT_NAME = "associationNamespaceElement",
-     _GUID_ATTR = "ID",
+     _ID_ATTR = "ID",
      _DISPLAY_TEXT_ATTR = "displayText",
      _ASSOCIATED_XOOML_FRAGMENT_ATTR = "associatedXooMLFragment",
      _ASSOCIATED_XOOML_DRIVER_ATTR = "associatedXooMLDriver",
@@ -46,24 +41,15 @@ define([
      _ASSOCIATED_ITEM_DRIVER_ATTR = "associatedItemDriver",
      _ASSOCIATED_ITEM_ATTR = "associatedItem",
      _LOCAL_ITEM_ATTR = "localItem",
-     _IS_GROUPING_ATTR = "isGrouping",
-     _COMMON_DATA_ATTRS = [_GUID_ATTR,
-                           _DISPLAY_TEXT_ATTR,
-                           _ASSOCIATED_XOOML_FRAGMENT_ATTR,
-                           _ASSOCIATED_XOOML_DRIVER_ATTR,
-                           _ASSOCIATED_SYNC_DRIVER_ATTR,
-                           _ASSOCIATED_ITEM_DRIVER_ATTR,
-                           _ASSOCIATED_ITEM_ATTR,
-                           _LOCAL_ITEM_ATTR,
-                          _IS_GROUPING_ATTR];
+     _IS_GROUPING_ATTR = "isGrouping";
 
   function AssociationEditor(options) {
     var self = this;
 
     if (options.element) {
-      _fromElement(options.element, options.namespace, self);
+      _fromElement(options.element, self);
     } else if (options.commonData) {
-      _fromOptions(options.commonData, options.namespace, self);
+      _fromOptions(options.commonData, self);
     } else {
       console.log(XooMLExceptions.missingParameter);
     }
@@ -82,29 +68,29 @@ define([
    */
   AssociationEditor.prototype.toElement = function() {
     var self = this,
-        associationElem = document.createElement(_ELEMENT_NAME),
-        appNSElem,     // The namespace element specific for the app
-        keyValue;
+        // The We use a null namespace to leave it blank, otherwise it
+        // sets it as XHTML and won't serialize attribute names properly.
+        // The namespace will be inherited by the fragment it resides in.
+        associationElem = document.createElementNS(null, _ELEMENT_NAME);
 
     // common data
     Object.keys(self.commonData).forEach( function(key) {
-      keyValue = self.commonData[key];
-      if (keyValue) {// Don't set null attributes
+      if ( self.commonData[key] ) {// Don't set null attributes
         associationElem.setAttribute(key, self.commonData[key]);
       }
     });
 
     // namespace data
-    appNSElem = document.createElementNS(self.namespace.uri, _NAMESPACE_ELEMENT_NAME);
-    Object.keys(self.namespace.attributes).forEach( function(key) {
-      appNSElem.setAttributeNS(self.namespace.uri, key, self.namespace.attributes[key]);
-    });
+    Object.keys(self.namespace).forEach( function(uri) {
+      var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME);
+      // Attributes
+      Object.keys(self.namespace.uri.attributes).forEach( function(attrName) {
+        nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ]);
+      });
+      // Data
+      nsElem.textContent = self.namespace[ uri ].data;
 
-    associationElem.appendChild(appNSElem);
-
-    appNSElem.innerHTML = self.namespace.data;
-    self.namespace.otherNSElements.forEach( function(element) {
-      associationElem.appendChild(element);
+      associationElem.appendChild(nsElem);
     });
 
     return associationElem;
@@ -118,49 +104,65 @@ define([
    * @method _fromElement
    *
    * @param {Element} element The XML element that represents an association.
-   * @param {String} namespace The namespace URI, used to load any app-specific data.
    */
-  function _fromElement(element, namespace, self) {
-    var dataElems, nsElem, i;
+  function _fromElement(element, self) {
+    var dataElems, i, uri, elem;
     // Sets all common data attributes
     self.commonData = {
-      ID: element.getAttribute("id"),
-      displayText: element.getAttribute("displaytext"),
-      associatedXooMLFragment: element.getAttribute("associatedxoomlfragment"),
-      associatedXooMLDriver: element.getAttribute("associatedxoomldriver"),
-      associatedSyncDriver: element.getAttribute("associatedsyncdriver"),
-      associatedItemDriver: element.getAttribute("associateditemdriver"),
-      associatedItem: element.getAttribute("associateditem"),
-      localItem: element.getAttribute("localitem"),
-      isGrouping: JSON.parse(element.getAttribute("isgrouping"))
+      ID: element.getAttribute(_ID_ATTR),
+      displayText: element.getAttribute(_DISPLAY_TEXT_ATTR),
+      associatedXooMLFragment: element.getAttribute(_ASSOCIATED_XOOML_FRAGMENT_ATTR),
+      associatedXooMLDriver: element.getAttribute(_ASSOCIATED_XOOML_DRIVER_ATTR),
+      associatedSyncDriver: element.getAttribute(_ASSOCIATED_SYNC_DRIVER_ATTR),
+      associatedItemDriver: element.getAttribute(_ASSOCIATED_ITEM_DRIVER_ATTR),
+      associatedItem: element.getAttribute(_ASSOCIATED_ITEM_ATTR),
+      localItem: element.getAttribute(_LOCAL_ITEM_ATTR),
+      // We use JSON.parse to get the value as a boolean, not as a string
+      isGrouping: JSON.parse(element.getAttribute(_IS_GROUPING_ATTR))
     };
 
-    self.namespace = {
-      uri: namespace,
-      data: "",
-      attributes: {},
-      otherNSElements: []
-    };
+    self.namespace = {};
+
     dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
     for (i = 0; i < dataElems.length; i += 1) {
-      if (dataElems[i].namespaceURI === namespace) {
-        nsElem = dataElems[i];
-      } else {
-        self.namespace.otherNSElements.push(dataElems[i]);
-      }
-    }
+      elem = dataElems[i];
+      uri = elem.namespaceURI;
 
-    // There may not BE any data for a namespace
-    if (nsElem) {
-      // Inner HTML is currently experimental, and isn't supported in
-      self.namespace.data = nsElem.innerHTML;
+      /**
+       * The information for a given namespace. Includes both the
+       * data, and the attributes. Namespaces URIs must be unique or
+       * they will overwrite data from another namespace
+       * @property namespace.URI
+       * @type Object
+       */
+      self.namespace[ uri ] = {};
 
-      for (i = 0; i < nsElem.attributes.length; i += 1) {
-        if (nsElem.attributes[i].name !== "xmlns") {
-          self.namespace.attributes[ nsElem.attributes[i].name ] =
-            nsElem.getAttributeNS(namespace, nsElem.attributes[i].name);
+      for (i = 0; i < elem.attributes.length; i += 1) {
+        // We have to filter out the special namespace attribute We
+        // let the namespace methods handle the namespace, and we
+        // don't deal with it
+        if (elem.attributes[i].name !== "xmlns") {
+          /**
+           * The attributes of the current namespace, with each attribute
+           * having a corresponding value.
+           * @property namespace.URI.attributes
+           * @type Object
+           */
+          self.namespace[ uri ][ elem.attributes[i].name ] =
+            elem.getAttributeNS(uri, elem.attributes[i].name);
         }
       }
+
+    /**
+     * This is the namespace data stored within the namespace
+     * element. Anything can be put here, and it will be stored as a
+     * string. ItemMirror will not do anything with the data here and
+     * doesn't interact with it at all. It is the responsibility of
+     * other applications to properly store information here.
+     * @property namespace.URI.data
+     * @type String
+     */
+      self.namespace[ uri ].data = elem.textContent;
     }
   }
 
@@ -188,13 +190,10 @@ define([
    *  @param {String} commonData.readOnlyURLtoXooMLfragment Used in
    *  cases where the owner wishes for the XooML fragment representing
    *  an item to be public
-   *
-   * @param {String} namespace The namespace URI of the association <br/>
-   * __optional__
    * @protected
    * @private
    */
-  function _fromOptions(commonData, namespace, self) {
+  function _fromOptions(commonData, self) {
     if (!commonData) {
       throw XooMLExceptions.nullArgument;
     }
@@ -272,46 +271,31 @@ define([
     };
 
     /**
-     * Data for the _current_ namespace being accessed. The namespace
-     * is specified during construction.
+     * Data for the namespaces. Stored as a key pair value, with each
+     * namespace referencing the namespace association element for the
+     * corresponding namespace.
+     *
      * @property namespace
      * @type Object
      */
-    self.namespace = {
-      /**
-       * The URI of the current namespace. Each app should use only
-       * one namespace.
-       * @property namespace.uri
-       * @type String
-       */
-      uri: namespace,
+    self.namespace = {};
+    /**
+     * The attributes of the current namespace, with each attribute
+     * having a corresponding value.
+     * @property namespace.URI.attributes
+     * @type Object
+     */
 
-      /**
-       * The attributes of the current namespace, with each attribute
-       * having a corresponding value.
-       * @property namespace.attributes
-       * @type Object
-       */
-      attributes: {},
-
-      /**
-       * The data for all of the other namespaces. These are DOM
-       * elements, not strings, and only used for converting the
-       * association back into an XML element
-       * @property namespace.otherNSElements
-       * @type Element[]
-       */
-      otherNSElements: [],
-
-      /**
-       * This is the namespace data stored within the namespace
-       * element. Anything can be put here, and it will be stored as
-       * HTML.
-       * @property namespace.data
-       * @type String
-       */
-      data: null
-    };
+    /**
+     * This is the namespace data stored within the namespace
+     * element. Anything can be put here, and it will be stored as a
+     * string. ItemMirror will not do anything with the data here and
+     * doesn't interact with it at all. It is the responsibility of
+     * other applications to properly store information here.
+     *
+     * @property namespace.URI.data
+     * @type String
+     */
   }
 
   return AssociationEditor;
