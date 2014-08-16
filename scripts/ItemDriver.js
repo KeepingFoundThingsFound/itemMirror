@@ -257,7 +257,8 @@ define([
           output.push(new AssociationEditor({
             commonData: { displayText: listStat[i].name,
                           isGrouping: listStat[i].isFolder,
-                          localItem: listStat[i].name
+                          localItem: listStat[i].name,
+                          associatedItem: listStat[i].isFolder ? listStat[i].path : null
                         }
           }));
         }
