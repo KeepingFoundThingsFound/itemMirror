@@ -43,8 +43,8 @@
  *                   should create an ItemMirror if it does not exist,
  *                   else false. Required for Case 2 & 3.
  *
- *  @param {ItemMirror} options.parent Parent ItemMirror of the ItemMirror
- *                      to be constructed. Optional.
+ *  @param {ItemMirror} options.creator If being created from another
+ *  itemMirror, specifies that itemMirror which it comes from.
  *
  * @param {Function} callback Function to execute once finished.
  *  @param {Object}   callback.error Null if no error has occurred
@@ -102,10 +102,10 @@ define([
     if (!XooMLUtil.isObject(options)) {
       return callback(XooMLExceptions.invalidType);
     }
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options) &&
-      !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
-      return callback(XooMLExceptions.missingParameter);
-    }
+    // if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options) &&
+    //   !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
+    //   return callback(XooMLExceptions.missingParameter);
+    // }
     var self = this, xooMLFragmentURI, displayName;
 
     // private variables
@@ -113,7 +113,7 @@ define([
     self._itemDriver = null;
     self._syncDriver = null;
     self._namespace = options.namespace;
-    self._parent = options.parent;
+    self._creator = options.creator || null;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
     self._newItemMirrorOptions = options;
 
@@ -153,7 +153,6 @@ define([
               self._itemDriver = driver;
 
               self._syncDriver = new SyncDriver(self);
-                            self._syncDriver = new SyncDriver(self);
               return callback(false, self);
             });
           });
@@ -430,52 +429,48 @@ define([
    *
    */
   ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
-    var self = this;
+    var self = this,
+        isGrouping,
+        xooMLOptions,
+        itemOptions,
+        syncOptions,
+        uri;
 
-    self.isAssociationAssociatedItemGrouping(GUID, function (error, isGrouping) {
-      if (error) {
-        return callback(error);
+    // Need to change this so that it instead points to the fragmentURI field
+    uri = PathDriver.joinPath(self.getAssociationAssociatedItem(GUID), "XooML2.xml");
+
+    itemOptions = {
+      driverURI: "DropboxItemUtility",
+      dropboxClient: self._xooMLDriver._dropboxClient
+    };
+    xooMLOptions = {
+      fragmentURI: uri,
+      driverURI: "DropboxXooMLUtility",
+      dropboxClient: self._xooMLDriver._dropboxClient
+    };
+    syncOptions = {
+      utilityURI: "MirrorSyncUtility"
+    };
+
+
+    isGrouping = self.isAssociationAssociatedItemGrouping(GUID);
+    if (!isGrouping) {
+      // Need to return a more descriptive error
+      return callback(false, null);
+    }
+
+    new ItemMirror(
+      {groupingItemURI: self.getAssociationAssociatedItem(GUID),
+       xooMLDriver: xooMLOptions,
+       itemDriver: itemOptions,
+       syncDriver: syncOptions,
+       namespace: self._namespace,
+       creator: self
+      },
+      function (error, itemMirror) {
+        return callback(error, itemMirror);
       }
-      if (!isGrouping) {
-        return callback(false, null);
-      }
-
-      self._fragmentEditor.getAssociationAssociatedItem(GUID, function (error, associatedItem) {
-        if (error) {
-          return callback(error);
-        }
-        var associatedXooMLFragment;
-
-        associatedXooMLFragment = PathDriver.joinPath(associatedItem, XooMLConfig.xooMLFragmentFileName);
-
-        self._fragmentEditor.setAssociationAssociatedXooMLFragment(GUID, associatedXooMLFragment, function (error) {
-          if (error) {
-            return callback(error);
-          }
-          var path, itemMirrorOptions;
-
-          path = PathDriver.joinPath(self._groupingItemURI, associatedItem);
-          itemMirrorOptions = self._newItemMirrorOptions;
-          itemMirrorOptions.groupingItemURI = path;
-          itemMirrorOptions.readIfExists = true;
-          itemMirrorOptions.parent = self;
-
-          new ItemMirror(itemMirrorOptions, function (error, itemMirror) {
-            if (error) {
-              return callback(error);
-            }
-
-            self._sync(function (error) {
-              if (error) {
-                throw error;
-              }
-
-              return callback(false, itemMirror);
-            });
-          });
-        });
-      });
-    });
+    )
   };
 
   /**
@@ -1156,7 +1151,7 @@ define([
   };
 
   /**
-   * @method getItemMirrorFromWhichThisWasCreated
+   * @method getCreator
    *
    * @return {Object} The itemMirror that created this current
    * itemMirror, if it has one. Note that this isn't the same as
@@ -1164,10 +1159,8 @@ define([
    * link to the same one
    *
    */
-  self.getItemMirrorFromWhichThisWasCreated = function () {
-    var self = this;
-
-    return self._parent;
+  ItemMirror.prototype.getCreator = function () {
+    return this._creator;
   };
 
 
