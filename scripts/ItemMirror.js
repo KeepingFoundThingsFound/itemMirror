@@ -1148,7 +1148,7 @@ define([
       } else if (error) {
         callback(error);
       } else {
-        callback(false);
+        self._xooMLDriver.getXooMLFragment(resetFragment);
       }
     });
 
