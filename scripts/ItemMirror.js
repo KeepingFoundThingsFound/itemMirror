@@ -776,24 +776,39 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
-      if (error) {
-        return callback(error);
+    // Save to ensure that the fragment is up to date
+    self.save(deleteContent);
+
+    function deleteContent(error) {
+      if (error) return callback(error);
+
+      var isPhantom = self.isAssociationPhantom(GUID),
+          isGrouping = self.isAssociationAssociatedItemGrouping(GUID),
+          localItem = self.getAssociationLocalItem(GUID),
+          path = PathDriver.joinPath(self._groupingItemURI, localItem);
+
+      delete self._fragment.associations[GUID];
+
+      if (!isPhantom) {
+        if (isGrouping) {
+          self._itemDriver.deleteGroupingItem(path, postDelete);
+        } else {
+          self._itemDriver.deleteNonGroupingItem(path, postDelete);
+        }
+      } else {
+        return callback(false);
       }
+    }
 
-      self._fragmentEditor.deleteAssociation(GUID, function (error) {
-        if (error) {
-          return callback(error);
-        }
-        if (!localItem) {
-          // Phantom case
-          return self._save(callback);
-        }
+    // Now do a refresh since actual files were removed.
+    function postDelete(error) {
+      if (error) return callback(error);
 
-        self._handleDataWrapperDeleteAssociation(GUID, localItem, error, callback);
+      self.refresh(function() {
+        if (error) return callback(error);
+        return callback(error);
       });
-    });
-
+    }
   };
 
   /**
