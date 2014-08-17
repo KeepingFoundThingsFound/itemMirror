@@ -100,11 +100,8 @@ define([
     if (!XooMLUtil.isObject(options)) {
       return callback(XooMLExceptions.invalidType);
     }
-    // if (!XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_2_OPTIONS, options) &&
-    //   !XooMLUtil.hasOptions(_CONSTRUCTOR_CASE_1_OPTIONS, options)) {
-    //   return callback(XooMLExceptions.missingParameter);
-    // }
-    var self = this, xooMLFragmentURI, displayName;
+
+   var self = this, xooMLFragmentURI, displayName;
 
     // private variables
     self._xooMLDriver = null;
@@ -123,70 +120,76 @@ define([
       displayName = displayName[displayName.length - 1];
     }
 
+    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+    options.xooMLDriver.fragmentURI = xooMLFragmentURI;
+    // First load the XooML Driver
+    new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
+
     function loadXooMLDriver(error, driver) {
       var syncDriverURI, itemDriverURI;
       if (error) return callback(error);
 
       self._xooMLDriver = driver; // actually sets the XooMLDriver
 
-      self._xooMLDriver.checkExists(function check(error, exists) {
+      self._xooMLDriver.checkExists(processXooML);
+    }
+
+    function processXooML(error, exists) {
+      if (error) return callback(error);
+
+      // Case 1: It already exists, and so all of the information
+      // can be constructed from the saved fragment
+      if (exists) self._xooMLDriver.getXooMLFragment(createFromXML);
+      // Case 2: Since the fragment doesn't exist, we need
+      // to construct it by using the itemDriver
+      else {
+        new ItemDriver(options.itemDriver, createFromItemDriver);
+      }
+    }
+
+    function createFromXML(error, fragmentString) {
+      if (error) return callback(error);
+
+      self._fragment = new FragmentEditor({text: fragmentString});
+
+      // Need to load other stuff from the fragment now
+      var syncDriverURI = self._fragment.commonData.syncDriver,
+          itemDriverURI = self._fragment.commonData.itemDriver;
+
+      new ItemDriver(options.itemDriver, function(error, driver) {
         if (error) return callback(error);
+        self._itemDriver = driver;
 
-        // Case 1: It already exists, and so all of the information
-        // can be constructed from the saved fragment
-        if (exists) {
-          self._xooMLDriver.getXooMLFragment(function load(error, fragmentString) {
-            if (error) return callback(error);
-
-            self._fragment = new FragmentEditor({text: fragmentString});
-
-            // Need to load other stuff from the fragment now
-            syncDriverURI = self._fragment.commonData.syncDriver;
-            itemDriverURI = self._fragment.commonData.itemDriver;
-
-            new ItemDriver(options.itemDriver, function(error, driver) {
-              if (error) return callback(error);
-              self._itemDriver = driver;
-
-              self._syncDriver = new SyncDriver(self);
-              return callback(false, self);
-            });
-          });
-        } else { // Case 2: Since the fragment doesn't exist, we need
-                 // to construct that by using the itemDriver
-          new ItemDriver(options.itemDriver, function loadItemDriver(error, driver) {
-            self._itemDriver = driver;
-
-            self._itemDriver.listItems(self._groupingItemURI, function buildFragment(error, associations){
-              if (error) return callback(error);
-
-              self._fragment = new FragmentEditor({
-                commonData: {
-                  itemDescribed: self._groupingItemURI,
-                  displayName: displayName,
-                  itemDriver: "dropboxItemDriver",
-                  xooMLDriver: "dropboxXooMLDriver",
-                  syncDriver: "itemMirrorSyncUtility"
-                },
-                associations: associations
-              });
-
-              // Finally load the SyncDriver, which for now doesn't really do anything
-              self._syncDriver = new SyncDriver(self);
-
-              return callback(false, self);
-            });
-          });
-        }
+        self._syncDriver = new SyncDriver(self);
+        return callback(false, self);
       });
     }
 
-    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
-    options.xooMLDriver.fragmentURI = xooMLFragmentURI;
-    // First load the XooML Driver
-    new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
+    function createFromItemDriver(error, driver) {
+      self._itemDriver = driver;
 
-    // Then load the ItemDriver
+      self._itemDriver.listItems(self._groupingItemURI, buildFragment);
+    }
+
+    function buildFragment(error, associations){
+        if (error) return callback(error);
+
+        self._fragment = new FragmentEditor({
+          commonData: {
+            itemDescribed: self._groupingItemURI,
+            displayName: displayName,
+            itemDriver: "dropboxItemDriver",
+            xooMLDriver: "dropboxXooMLDriver",
+            syncDriver: "itemMirrorSyncUtility"
+          },
+          associations: associations
+        });
+
+        // Finally load the SyncDriver, which for now doesn't really do anything
+        self._syncDriver = new SyncDriver(self);
+
+        return callback(false, self);
+      }
   }
 
   /**
