@@ -39,15 +39,15 @@ define([
     self._xooMLDriver = itemMirror._xooMLDriver;
 
    /**
-    * Helper method that allows for sorting of objects by the name key
+    * Helper method that allows for sorting of objects by the localItem
     *
     * @method _nameCompare
     * @private
     * @protected
     */
-    function _nameCompare(a, b) {
-      if (a.name > b.name) return 1;
-      else if (a.name < b.name) return -1;
+    function _localItemCompare(a, b) {
+      if (a.commonData.localItem > b.commonData.localItem) return 1;
+      else if (a.commonData.localItem < b.commonData.localItem) return -1;
       else return 0;
     }
   }
@@ -74,13 +74,7 @@ define([
     function processItems(error, associations){
       if (error) return callback(error);
 
-      itemAssociations = associations.map(
-	function(assoc) {
-	  return { name: assoc.commonData.localItem,
-		   groupingItem: assoc.commonData.isGrouping };
-	}
-      );
-
+      itemAssociations = associations;
       self._xooMLDriver.getXooMLFragment(processXooML);
     }
 
@@ -106,40 +100,31 @@ define([
 
       self._fragmentEditor = new FragmentEditor({text: xooMLContent});
 
-      // Associations with both names and guids
-      // filters out any phatoms
       xooMLAssociations = Object.keys(self._fragmentEditor.associations)
-	.map( function(guid) {
-	  return { guid: guid,
-		   name: self._itemMirror.getAssociationLocalItem(guid),
-                   groupingItem: self._itemMirror.isAssociationAssociatedItemGrouping(guid) };
-	})
+      // Turns the associative array into a regular array for iteration
+        .map( function(guid) {
+          return self._fragmentEditor.associations[guid];
+        })
+      // filters out any phantoms
 	.filter( function(assoc) {
-	  return assoc.name !== null;
+	  return assoc.commonData.localItem !== null;
 	});
 
       // No guarantee that the storage API sends results sorted
-      itemAssociations.sort(self._nameCompare);
-      xooMLAssociations.sort(self._nameCompare);
+      itemAssociations.sort(self._localItemCompare);
+      xooMLAssociations.sort(self._localItemCompare);
 
-      // Gets the names a separate array, but in needed sorted order
-      var itemNames = itemAssociations.map( function (assoc) {return assoc.name;} );
-      var xooMLNames = xooMLAssociations.map( function (assoc) {return assoc.name;} );
+      // Gets the localItems in a separate array, but in needed sorted order
+      var itemLocals = itemAssociations.map( function (assoc) {return assoc.commonData.localItem;} );
+      var xooMLLocals = xooMLAssociations.map( function (assoc) {return assoc.commonData.localItem;} );
 
-
-      itemNames.forEach( function(name, itemIdx) {
-	var search = xooMLNames.indexOf(name, xooMLIdx);
+      itemLocals.forEach( function(localItem, itemIdx) {
+	var search = xooMLLocals.indexOf(localItem, xooMLIdx);
 	// Create association
 	if (search === -1) {
 	  synchronized = false;
 	  // Case 6/7 only, other cases won't be handled
-          var association = new AssociationEditor({
-            commonData: {
-	      displayText: name,
-	      localItem: name,
-	      isGroupingItem: itemAssociations[itemIdx].groupingItem
-            }
-          });
+          var association = itemAssociations[itemIdx];
           self._fragmentEditor.associations[association.commonData.ID] = association;
 	} else {
 	  // Deletes any extraneous associations
@@ -155,10 +140,10 @@ define([
 
       // Any remaining associations need to be deleted because they don't exist
       xooMLAssociations
-	.slice(xooMLIdx, xooMLNames.length)
+	.slice(xooMLIdx, xooMLLocals.length)
 	.forEach( function(assoc) {
 	  synchronized = false;
-          delete self._fragmentEditor.associations[assoc.guid];
+          delete self._fragmentEditor.associations[assoc.commonData.ID];
 	});
 
       // Only save fragment if needed
