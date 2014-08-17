@@ -66,108 +66,104 @@ define([
    */
   SyncDriver.prototype.sync = function(callback) {
     var self = this,
-        items,
-        itemAssociations,
-        xooMLAssociations,
-        itemNames,
-        xooMLNames,
-        xooMLIdx,
-	search,
-        sychronized;
+        itemAssociations;
 
-    self._itemDriver.listItems(
-      self._itemMirror._groupingItemURI,
-      function (error, associations){
-	if (error) {
-	  return callback(error);
+    self._itemDriver.listItems(self._itemMirror._groupingItemURI,
+                               processItems);
+
+    function processItems(error, associations){
+      if (error) {
+	return callback(error);
+      }
+
+      itemAssociations = associations.map(
+	function(assoc) {
+	  return { name: assoc.commonData.localItem,
+		   groupingItem: assoc.commonData.isGrouping };
 	}
+      );
 
-	itemAssociations = associations.map(
-	  function(assoc) {
-	    return { name: assoc.commonData.localItem,
-		     groupingItem: assoc.commonData.isGrouping };
-	  }
-	);
+      self._xooMLDriver.getXooMLFragment(processXooML);
+    }
 
-        self._xooMLDriver.getXooMLFragment(
-          function(error, xooMLContent) {
-            if (error) return callback(error);
+    function processXooML(error, xooMLContent) {
+      if (error) return callback(error);
 
-            self._fragmentEditor = new FragmentEditor({text: xooMLContent});
+      // Keeps track of the index in the xooMLassociations so that
+      // we don't waste time searching from the beginning
+      var xooMLIdx = 0;
+      // Keeps track of whether there are any changes that need to be made
+      var synchronized = true;
+      var xooMLAssociations;
 
-	    // Associations with both names and guids
-	    // filters out any phatoms
-	    xooMLAssociations = Object.keys(self._fragmentEditor.associations)
-	      .map( function(guid) {
-	        return { guid: guid,
-		         name: self._itemMirror.getAssociationLocalItem(guid),
-                         groupingItem: self._itemMirror.isAssociationAssociatedItemGrouping(guid) };
-	      })
-	      .filter( function(assoc) {
-	        return assoc.name !== null;
-	      });
+      self._fragmentEditor = new FragmentEditor({text: xooMLContent});
 
-	    // No guarantee that the storage API sends results sorted
-	    itemAssociations.sort(self._nameCompare);
-	    xooMLAssociations.sort(self._nameCompare);
+      // Associations with both names and guids
+      // filters out any phatoms
+      xooMLAssociations = Object.keys(self._fragmentEditor.associations)
+	.map( function(guid) {
+	  return { guid: guid,
+		   name: self._itemMirror.getAssociationLocalItem(guid),
+                   groupingItem: self._itemMirror.isAssociationAssociatedItemGrouping(guid) };
+	})
+	.filter( function(assoc) {
+	  return assoc.name !== null;
+	});
 
-	    // Gets the names a separate array, but in needed sorted order
-	    itemNames = itemAssociations.map( function (assoc) {return assoc.name;} );
-	    xooMLNames = xooMLAssociations.map( function (assoc) {return assoc.name;} );
+      // No guarantee that the storage API sends results sorted
+      itemAssociations.sort(self._nameCompare);
+      xooMLAssociations.sort(self._nameCompare);
 
-            // Keeps track of the index in the xooMLassociations so that
-            // we don't waste time searching from the beginning
-	    xooMLIdx = 0;
-	    // Keeps track of whether there are any changes that need to be made
-	    sychronized = true;
+      // Gets the names a separate array, but in needed sorted order
+      var itemNames = itemAssociations.map( function (assoc) {return assoc.name;} );
+      var xooMLNames = xooMLAssociations.map( function (assoc) {return assoc.name;} );
 
-	    itemNames.forEach( function(name, itemIdx) {
-	      search = xooMLNames.indexOf(name, xooMLIdx);
-	      // Create association
-	      if (search === -1) {
-	        sychronized = false;
-	        // Case 6/7 only, other cases won't be handled
-                var association = new AssociationEditor({
-                  commonData: {
-	            displayText: name,
-	            localItem: name,
-	            isGroupingItem: itemAssociations[itemIdx].groupingItem
-                  }
-                });
-                self._fragmentEditor.associations[association.commonData.ID] = association;
-	      } else {
-	        // Deletes any extraneous associations
-	        xooMLAssociations
-	          .slice(xooMLIdx, search)
-	          .forEach( function(assoc) {
-		    sychronized = false;
-                    delete self._fragmentEditor.associations[assoc.guid];
-	          });
-	        xooMLIdx = search + 1;
-	      }
-	    });
 
-	    // Any remaining associations need to be deleted because they don't exist
-	    xooMLAssociations
-	      .slice(xooMLIdx, xooMLNames.length)
-	      .forEach( function(assoc) {
-	        sychronized = false;
-                delete self._fragmentEditor.associations[assoc.guid];
-	      });
-
-	    // Only save fragment if needed
-	    if (!sychronized) {
-              self._fragmentEditor.updateID(); // generate a new guid for GUIDGeneratedOnLastWrite;
-              // Writes out the fragment
-              self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString(), function(error) {
-                if (error) return callback(error);
-
-                return callback(XooMLExceptions.itemMirrorNotCurrent);
-              });
-	    } else
-              return callback(false);
+      itemNames.forEach( function(name, itemIdx) {
+	var search = xooMLNames.indexOf(name, xooMLIdx);
+	// Create association
+	if (search === -1) {
+	  synchronized = false;
+	  // Case 6/7 only, other cases won't be handled
+          var association = new AssociationEditor({
+            commonData: {
+	      displayText: name,
+	      localItem: name,
+	      isGroupingItem: itemAssociations[itemIdx].groupingItem
+            }
           });
+          self._fragmentEditor.associations[association.commonData.ID] = association;
+	} else {
+	  // Deletes any extraneous associations
+	  xooMLAssociations
+	    .slice(xooMLIdx, search)
+	    .forEach( function(assoc) {
+	      synchronized = false;
+              delete self._fragmentEditor.associations[assoc.guid];
+	    });
+	  xooMLIdx = search + 1;
+	}
       });
+
+      // Any remaining associations need to be deleted because they don't exist
+      xooMLAssociations
+	.slice(xooMLIdx, xooMLNames.length)
+	.forEach( function(assoc) {
+	  synchronized = false;
+          delete self._fragmentEditor.associations[assoc.guid];
+	});
+
+      // Only save fragment if needed
+      if (!synchronized) {
+        self._fragmentEditor.updateID(); // generate a new guid for GUIDGeneratedOnLastWrite;
+        // Writes out the fragment
+        self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString(), function(error) {
+          if (error) return callback(error);
+
+          return callback(XooMLExceptions.itemMirrorNotCurrent);
+        });
+      } else return callback(false);
+    }
   };
 
   return SyncDriver;
