@@ -172,24 +172,29 @@ define([
     }
 
     function buildFragment(error, associations){
-        if (error) return callback(error);
+      if (error) return callback(error);
 
-        self._fragment = new FragmentEditor({
-          commonData: {
-            itemDescribed: self._groupingItemURI,
-            displayName: displayName,
-            itemDriver: "dropboxItemDriver",
-            xooMLDriver: "dropboxXooMLDriver",
-            syncDriver: "itemMirrorSyncUtility"
-          },
-          associations: associations
-        });
+      self._fragment = new FragmentEditor({
+        commonData: {
+          itemDescribed: self._groupingItemURI,
+          displayName: displayName,
+          itemDriver: "dropboxItemDriver",
+          xooMLDriver: "dropboxXooMLDriver",
+          syncDriver: "itemMirrorSyncUtility"
+        },
+        associations: associations
+      });
 
-        // Finally load the SyncDriver, which for now doesn't really do anything
-        self._syncDriver = new SyncDriver(self);
+      self._syncDriver = new SyncDriver(self);
 
-        return callback(false, self);
-      }
+      // Because the fragment is being built from scratch, it's safe
+      // to save it directly via the driver.
+      self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
+        if (error) console.log(error);
+      });
+
+      return callback(false, self);
+    }
   }
 
   /**
