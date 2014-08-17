@@ -1188,20 +1188,7 @@ define([
   ItemMirror.prototype.save = function(callback) {
     var self = this;
 
-    self._xooMLDriver.checkExists(syncFragment);
-
-    function syncFragment(error, exists){
-      // Syncing needs to occur only if the file exists to begin with
-      if (exists) {
-        self._sync(loadFragment);
-      } else {// Otherwise we can just write the file
-        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-          if (error) return callback(error);
-
-          return callback(false);
-        });
-      }
-    }
+    self._sync(loadFragment);
 
     function loadFragment(error) {
       if (error) return callback(error);
@@ -1214,8 +1201,6 @@ define([
       var tmpFragment = new FragmentEditor({text: content});
       if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
           self._fragment.commonData.GUIDGeneratedOnLastWrite) {
-        console.log("FILE GUID: " + tmpFragment.commonData.GUIDGeneratedOnLastWrite);
-        console.log("MEMORY GUID: " + self._fragment.commonData.GUIDGeneratedOnLastWrite);
         return callback(XooMLExceptions.itemMirrorNotCurrent);
       } else {
         self._fragment.updateID();
