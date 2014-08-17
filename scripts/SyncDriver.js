@@ -38,18 +38,20 @@ define([
     self._itemDriver = itemMirror._itemDriver;
     self._xooMLDriver = itemMirror._xooMLDriver;
 
-   /**
-    * Helper method that allows for sorting of objects by the localItem
-    *
-    * @method _nameCompare
-    * @private
-    * @protected
-    */
-    function _localItemCompare(a, b) {
-      if (a.commonData.localItem > b.commonData.localItem) return 1;
-      else if (a.commonData.localItem < b.commonData.localItem) return -1;
-      else return 0;
-    }
+
+  }
+
+  /**
+   * Helper method that allows for sorting of objects by the localItem
+   *
+   * @method _nameCompare
+   * @private
+   * @protected
+   */
+  function _localItemCompare(a, b) {
+    if (a.commonData.localItem > b.commonData.localItem) return 1;
+    else if (a.commonData.localItem < b.commonData.localItem) return -1;
+    else return 0;
   }
 
   /**
@@ -111,15 +113,15 @@ define([
 	});
 
       // No guarantee that the storage API sends results sorted
-      itemAssociations.sort(self._localItemCompare);
-      xooMLAssociations.sort(self._localItemCompare);
+      itemAssociations.sort(_localItemCompare);
+      xooMLAssociations.sort(_localItemCompare);
 
       // Gets the localItems in a separate array, but in needed sorted order
       var itemLocals = itemAssociations.map( function (assoc) {return assoc.commonData.localItem;} );
       var xooMLLocals = xooMLAssociations.map( function (assoc) {return assoc.commonData.localItem;} );
 
       itemLocals.forEach( function(localItem, itemIdx) {
-	var search = xooMLLocals.indexOf(localItem, xooMLIdx);
+	var search = xooMLLocals.lastIndexOf(localItem, xooMLIdx);
 	// Create association
 	if (search === -1) {
 	  synchronized = false;
@@ -137,7 +139,6 @@ define([
 	  xooMLIdx = search + 1;
 	}
       });
-
       // Any remaining associations need to be deleted because they don't exist
       xooMLAssociations
 	.slice(xooMLIdx, xooMLLocals.length)
