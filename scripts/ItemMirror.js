@@ -161,7 +161,12 @@ define([
         self._itemDriver = driver;
 
         self._syncDriver = new SyncDriver(self);
-        return callback(false, self);
+
+        // Do a refresh in case something has been added or deleted in
+        // the directory since the last write
+        self.refresh(function(error) {
+          return callback(false, self);
+        });
       });
     }
 
