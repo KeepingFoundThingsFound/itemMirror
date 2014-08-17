@@ -567,7 +567,7 @@ define([
       // Now we use the itemDriver to actually create the folder
       path = PathDriver.joinPath(self._groupingItemURI, association.commonData.localItem);
       self._itemDriver.createGroupingItem(path, function(error){
-        if (error) return error;
+        if (error) return callback(error);
 
         saveOutFragment(association);
       });
