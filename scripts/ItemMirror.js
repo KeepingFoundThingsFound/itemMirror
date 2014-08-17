@@ -1137,17 +1137,22 @@ define([
 
     self._sync( function(error) {
       // This error means that sync changed the fragment
-      // We then will reload the fragment based on the XooML
+      // We then will reload the fragment based on the new XooML
       if (error === XooMLExceptions.itemMirrorNotCurrent) {
-        self._xooMLDriver.getXooMLFragment(function(error, content){
-          if (error) return callback(error);
-
-          self._fragment = new FragmentEditor({text: content});
-          return callback(false);
-        });
+        self._xooMLDriver.getXooMLFragment(resetFragment);
+      } else if (error) {
+        callback(error);
+      } else {
+        callback(false);
       }
-      return callback(false);
     });
+
+    function resetFragment(error, content){
+      if (error) return callback(error);
+
+      self._fragment = new FragmentEditor({text: content});
+      return callback(false);
+    }
   };
 
   /**

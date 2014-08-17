@@ -72,9 +72,7 @@ define([
                                processItems);
 
     function processItems(error, associations){
-      if (error) {
-	return callback(error);
-      }
+      if (error) return callback(error);
 
       itemAssociations = associations.map(
 	function(assoc) {
@@ -87,7 +85,17 @@ define([
     }
 
     function processXooML(error, xooMLContent) {
-      if (error) return callback(error);
+      // A 404 error is dropbox telling us that the file doesn't
+      // exist. In that case we just write the file
+      if (error === 404) {
+        var fragmentString = self._itemMirror._fragment.toString();
+        return self._xooMLDriver.setXooMLFragment( fragmentString, function(error) {
+          if (error) callback(error);
+          else callback(false);
+        });
+      } else if (error) {
+        return callback(error);
+      }
 
       // Keeps track of the index in the xooMLassociations so that
       // we don't waste time searching from the beginning
