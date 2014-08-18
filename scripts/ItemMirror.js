@@ -874,7 +874,7 @@ define([
    * Throws InvalidTypeException if GUID is not a String, and if callback
    * is not a function. <br/>
    *
-   * @method renameAssocationLocalItem
+   * @method renameAssocaitionLocalItem
    *
    * @param {String} GUID GUID of the association.
    * @param {String} String String Name you want to rename the file to (including file extension)
@@ -882,8 +882,9 @@ define([
    *  @param {Object}   callback.error Null if no error has occurred
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
+   * @param {String} callback.GUID The GUID of the association that was updated.
    */
-  ItemMirror.prototype.renameAssocationLocalItem = function (GUID, newName, callback) {
+  ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -893,16 +894,63 @@ define([
       return callback(XooMLExceptions.invalidType);
     }
 
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
-      if (error) {
-        return callback(error);
+    self.save(postSave);
+
+    function postSave(error) {
+      if (error) return callback(error);
+
+      var localItem = self.getAssociationLocalItem(GUID),
+          oldPath = PathDriver.joinPath(self.groupingItemURI, localItem),
+          newPath = PathDriver.joinPath(self.groupingItemURI, newName);
+
+      self._itemDriver.moveItem(oldPath, newPath, postMove);
+    }
+
+    function postMove(error) {
+      self._fragment.associations[GUID].commonData.localItem = newName;
+
+      self._unsafeWrite(postWrite);
+    }
+
+    function postWrite(error) {
+      if (error) return callback(error);
+
+      self.refresh(postRefresh);
+    }
+
+    function postRefresh(error) {
+      return callback(error, self._fragment.associations[GUID].commonData.ID);
+    }
+  };
+
+  /**
+   * A special method that is used for certain file operations where
+   * calling a sync won't work. Essentially it is the save function,
+   * sans syncing. This should __never__ be called be an application.
+   * @method _unsafeWrite
+   * @param callback
+   * @param calback.error
+   */
+  ItemMirror.prototype._unsafeWrite = function(callback) {
+    var self = this;
+
+    self._xooMLDriver.getXooMLFragment(compareGUIDs);
+
+    function compareGUIDs(error, content){
+      if (error) return callback(error);
+
+      var tmpFragment = new FragmentEditor({text: content});
+      if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
+          self._fragment.commonData.GUIDGeneratedOnLastWrite) {
+        return callback(XooMLExceptions.itemMirrorNotCurrent);
+      } else {
+        self._fragment.updateID();
+        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
+          if (error) return callback(error);
+          return callback(false);
+        });
       }
-        //phantom case
-        if (!localItem) {
-          return callback(error);
-        }
-        self._handleDataWrapperRenameAssociation(GUID, localItem, newName, error, callback);
-    });
+    }
   };
 
   /**
@@ -1175,27 +1223,16 @@ define([
   ItemMirror.prototype.save = function(callback) {
     var self = this;
 
-    self._sync(loadFragment);
+    self._sync(postSync);
 
-    function loadFragment(error) {
+    function postSync(error) {
       if (error) return callback(error);
-      self._xooMLDriver.getXooMLFragment(compareGUIDs);
+
+      self._unsafeWrite(postWrite);
     }
 
-    function compareGUIDs(error, content){
-      if (error) return callback(error);
-
-      var tmpFragment = new FragmentEditor({text: content});
-      if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
-          self._fragment.commonData.GUIDGeneratedOnLastWrite) {
-        return callback(XooMLExceptions.itemMirrorNotCurrent);
-      } else {
-        self._fragment.updateID();
-        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-          if (error) return callback(error);
-          return callback(false);
-        });
-      }
+    function postWrite(error) {
+      return callback(error);
     }
   };
 
