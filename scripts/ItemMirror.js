@@ -126,30 +126,28 @@ define([
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
 
     function loadXooMLDriver(error, driver) {
-      var syncDriverURI, itemDriverURI;
       if (error) return callback(error);
 
       self._xooMLDriver = driver; // actually sets the XooMLDriver
 
-      self._xooMLDriver.checkExists(processXooML);
+      self._xooMLDriver.getXooMLFragment(processXooML);
     }
 
-    function processXooML(error, exists) {
-      if (error) return callback(error);
+    function processXooML(error, fragmentString) {
+      // Case 2: Since the fragment doesn't exist, we need
+      // to construct it by using the itemDriver
+      if (error === 404) new ItemDriver(options.itemDriver, createFromItemDriver);
+      else if (error) return callback(error);
 
       // Case 1: It already exists, and so all of the information
       // can be constructed from the saved fragment
-      if (exists) self._xooMLDriver.getXooMLFragment(createFromXML);
-      // Case 2: Since the fragment doesn't exist, we need
-      // to construct it by using the itemDriver
       else {
-        new ItemDriver(options.itemDriver, createFromItemDriver);
+        createFromXML(fragmentString);
       }
     }
 
-    function createFromXML(error, fragmentString) {
-      if (error) return callback(error);
-
+    function createFromXML(fragmentString) {
+      console.log("Constructing from XML");
       self._fragment = new FragmentEditor({text: fragmentString});
 
       // Need to load other stuff from the fragment now
