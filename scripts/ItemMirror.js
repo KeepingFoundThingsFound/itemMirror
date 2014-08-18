@@ -898,8 +898,8 @@ define([
       if (error) return callback(error);
 
       var localItem = self.getAssociationLocalItem(GUID),
-          oldPath = PathDriver.joinPath(self.groupingItemURI, localItem),
-          newPath = PathDriver.joinPath(self.groupingItemURI, newName);
+          oldPath = PathDriver.joinPath(self._groupingItemURI, localItem),
+          newPath = PathDriver.joinPath(self._groupingItemURI, newName);
 
       self._itemDriver.moveItem(oldPath, newPath, postMove);
     }
