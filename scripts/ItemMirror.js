@@ -1022,7 +1022,7 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
-    if (this._fragment.assocation[GUID].namespace[uri].attributes[attributeName]) {
+    if (this._fragment.association[GUID].namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
     this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, uri);
@@ -1137,7 +1137,7 @@ define([
    * @param {String} GUID          GUID of the association namespace data to set.
    */
   ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
-    this._fragment.assocations[GUID].namespace[uri].data = data;
+    this._fragment.associations[GUID].namespace[uri].data = data;
   };
 
   /**
