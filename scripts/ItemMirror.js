@@ -998,7 +998,7 @@ define([
    * @param {String} uri Namspace URI
    *
    */
-  self.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+  ItemMirror.prototype.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
     return this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
   };
 
