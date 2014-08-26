@@ -999,6 +999,12 @@ define([
    *
    */
   ItemMirror.prototype.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
+    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
+      assocNamespace = {}; // Define an empty object and then add the attributes
+      assocNamespace.attributes = {};
+    }
+
     return this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
   };
 
@@ -1022,6 +1028,11 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
+    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
+      assocNamespace = {}; // Define an empty object and then add the attributes
+      assocNamespace.attributes = {};
+    }
     if (this._fragment.association[GUID].namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
@@ -1085,6 +1096,12 @@ define([
    *
    */
   ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
+    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
+      assocNamespace = {}; // Define an empty object and then add the attributes
+      assocNamespace.attributes = {};
+    }
+
     this._fragment.associations[GUID].namespace[uri].attributes[attributeName] = attributeValue;
   };
 
@@ -1118,6 +1135,12 @@ define([
    * @param {String} uri Namespace URI
    */
   self.getAssociationNamespaceData = function (GUID, uri) {
+    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
+    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
+      assocNamespace = {}; // Define an empty object and then add the attributes
+      assocNamespace.attributes = {};
+    }
+
     return this._fragment.associations[GUID].namespace[uri].data;
   };
 
@@ -1137,6 +1160,12 @@ define([
    * @param {String} GUID          GUID of the association namespace data to set.
    */
   ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
+    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
+    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
+      assocNamespace = {}; // Define an empty object and then add the attributes
+      assocNamespace.attributes = {};
+    }
+
     this._fragment.associations[GUID].namespace[uri].data = data;
   };
 
