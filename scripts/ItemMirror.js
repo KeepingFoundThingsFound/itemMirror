@@ -344,7 +344,7 @@ define([
    *
    */
   ItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName, uri) {
-    delete this._fragment.namespace[uri].attribute[attributeName];
+    delete this._fragment.namespace[uri].attributes[attributeName];
   };
 
   /**
@@ -1022,7 +1022,7 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
-    if (this._fragment.assocation[GUID].namespace[uri][attributeName]) {
+    if (this._fragment.assocation[GUID].namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
     this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, uri);
@@ -1047,7 +1047,7 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
-    delete this._fragment.associations[GUID].namespace[uri][attributeName];
+    delete this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
   };
 
   /**
