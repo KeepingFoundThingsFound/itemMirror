@@ -84,7 +84,7 @@ define([
     Object.keys(self.namespace).forEach( function(uri) {
       var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME);
       // Attributes
-      Object.keys(self.namespace.uri.attributes).forEach( function(attrName) {
+      Object.keys(self.namespace[uri].attributes).forEach( function(attrName) {
         nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ]);
       });
       // Data
@@ -136,6 +136,7 @@ define([
        * @type Object
        */
       self.namespace[ uri ] = {};
+      self.namespace[ uri ].attributes = {};
 
       for (i = 0; i < elem.attributes.length; i += 1) {
         // We have to filter out the special namespace attribute We
@@ -148,8 +149,8 @@ define([
            * @property namespace.URI.attributes
            * @type Object
            */
-          self.namespace[ uri ][ elem.attributes[i].name ] =
-            elem.getAttributeNS(uri, elem.attributes[i].name);
+          self.namespace[ uri ].attributes[ elem.attributes[i].localName ] =
+            elem.getAttributeNS(uri, elem.attributes[i].localName );
         }
       }
 

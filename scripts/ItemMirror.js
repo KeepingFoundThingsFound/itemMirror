@@ -458,7 +458,6 @@ define([
       utilityURI: "MirrorSyncUtility"
     };
 
-
     isGrouping = self.isAssociationAssociatedItemGrouping(GUID);
     if (!isGrouping) {
       // Need to return a more descriptive error
@@ -999,13 +998,37 @@ define([
    *
    */
   ItemMirror.prototype.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
-    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
-    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
-      assocNamespace = {}; // Define an empty object and then add the attributes
-      assocNamespace.attributes = {};
-    }
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
 
     return this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
+  };
+
+  /**
+   * Sets the association namespace attribute with the given attributeName
+   * and the given namespaceURI within the association with the given GUID.
+   *
+   * Throws NullArgumentException if attributeName, attributeValue, GUID, or
+   * namespaceURI is null. <br/>
+   * Throws InvalidTypeException if attributeName, attributeValue, GUID, or
+   * namespaceURI is not a String. <br/>
+   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
+   *
+   * @method setAssociationNamespaceAttribute
+   *
+   * @param {String} attributeName  Name of the attribute to be set.
+   * @param {String} attributeValue Value of the attribute to be set
+   * @param {String} GUID           GUID of association to set attribute for.
+   * @param {String} uri Namespace URI
+   *
+   */
+  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
+    this._fragment.associations[GUID].namespace[uri].attributes[attributeName] = attributeValue;
   };
 
   /**
@@ -1028,11 +1051,10 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
-    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
-    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
-      assocNamespace = {}; // Define an empty object and then add the attributes
-      assocNamespace.attributes = {};
-    }
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
     if (this._fragment.association[GUID].namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
@@ -1071,38 +1093,9 @@ define([
    *
    */
   ItemMirror.prototype.hasAssociationNamespace = function(GUID, uri) {
-    var namespaces = Object.keys(this._fragment.associations[GUID].namespace[uri]);
-    return namespaces.some( function(ns) {
-      return ns === uri;
-    });
-  };
-
-  /**
-   * Sets the association namespace attribute with the given attributeName
-   * and the given namespaceURI within the association with the given GUID.
-   *
-   * Throws NullArgumentException if attributeName, attributeValue, GUID, or
-   * namespaceURI is null. <br/>
-   * Throws InvalidTypeException if attributeName, attributeValue, GUID, or
-   * namespaceURI is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
-   * @method setAssociationNamespaceAttribute
-   *
-   * @param {String} attributeName  Name of the attribute to be set.
-   * @param {String} attributeValue Value of the attribute to be set
-   * @param {String} GUID           GUID of association to set attribute for.
-   * @param {String} uri Namespace URI
-   *
-   */
-  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
-    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
-    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
-      assocNamespace = {}; // Define an empty object and then add the attributes
-      assocNamespace.attributes = {};
-    }
-
-    this._fragment.associations[GUID].namespace[uri].attributes[attributeName] = attributeValue;
+    var namespace = this._fragment.associations[GUID].namespace[uri];
+    if (namespace) { return true; }
+    else { return false; }
   };
 
   /**
@@ -1120,6 +1113,10 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
     return Object.keys(this._fragment.associations[GUID].namespace[uri].attributes);
   };
 
@@ -1135,11 +1132,9 @@ define([
    * @param {String} uri Namespace URI
    */
   self.getAssociationNamespaceData = function (GUID, uri) {
-    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
-    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
-      assocNamespace = {}; // Define an empty object and then add the attributes
-      assocNamespace.attributes = {};
-    }
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
 
     return this._fragment.associations[GUID].namespace[uri].data;
   };
@@ -1160,11 +1155,9 @@ define([
    * @param {String} GUID          GUID of the association namespace data to set.
    */
   ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
-    var assocNamespace = this._fragment.associations[GUID].namespace[uri];
-    if (!assocNamespace) {// if this is the first time the namespace has been accessed...
-      assocNamespace = {}; // Define an empty object and then add the attributes
-      assocNamespace.attributes = {};
-    }
+    var ns = this._fragment.associations[GUID].namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
 
     this._fragment.associations[GUID].namespace[uri].data = data;
   };
