@@ -209,6 +209,14 @@ define([
   };
 
   /**
+   * @method setDisplayName
+   * @param {String} name The display text to set for the fragment
+   */
+  ItemMirror.prototype.setDisplayName = function(name) {
+    this._fragment.commonData.displayName = name;
+  };
+
+  /**
    *
    * @method getSchemaVersion
    * @return {String} XooML schema version.
