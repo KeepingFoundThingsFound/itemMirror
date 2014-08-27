@@ -103,6 +103,7 @@ define([
     // common data
     Object.keys(self.commonData).forEach( function(attrName) {
       var attrValue = self.commonData[attrName];
+      console.log("Saving: " + attrName + " as " + attrValue);
       if (attrValue) { // Don't set null attributes
         fragmentElem.setAttribute(attrName, attrValue);
       }
@@ -202,6 +203,14 @@ define([
        * @type String
        */
       itemDriver: commonData.itemDriver || null,
+
+      /**
+       * The item described for the fragment. This is a URI that
+       * points to grouping item from wich the itemMirror was created
+       * @property commonData.
+       * @type String
+       */
+      itemDescribed: commonData.itemDescribed || null,
 
       /**
        * The sync driver URI for the fragment

@@ -113,7 +113,9 @@ define([
 
     // displayName for the fragment
     if (PathDriver.isRoot(self._groupingItemURI)) {
-      displayName = "";
+      // This obviously will need to be changed when multiple driver
+      // support is implemented
+      displayName = "Dropbox";
     } else {
       displayName = PathDriver.formatPath(self._groupingItemURI);
       displayName = PathDriver.splitPath(displayName);
@@ -240,12 +242,12 @@ define([
    * item. For example: a conventional file system folder or a “tag as
    * supported by any of several applications.
    *
-   * @method getItemDescribed
+   * @method getURIforItemDescribed
    * @return {String} A URI pointing to item described by the metadata
    * of a fragment if it exists, else returns null.
    *
    */
-    ItemMirror.prototype.getURIforItemDescribed = function() {
+  ItemMirror.prototype.getURIforItemDescribed = function() {
     return this._fragment.commonData.itemDescribed;
   };
 
@@ -482,8 +484,8 @@ define([
 
     isGrouping = self.isAssociationAssociatedItemGrouping(GUID);
     if (!isGrouping) {
-      // Need to return a more descriptive error
-      return callback(false, null);
+      // Need to standardize this error
+      return callback("Association not grouping, cannot continue");
     }
 
     new ItemMirror(
@@ -494,6 +496,7 @@ define([
        creator: self
       },
       function (error, itemMirror) {
+        console.log(error);
         return callback(error, itemMirror);
       }
     );
