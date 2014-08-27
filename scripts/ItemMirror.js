@@ -315,7 +315,33 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName, uri) {
+    var ns = this._fragment.namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
     return this._fragment.namespace[uri].attributes[attributeName];
+  };
+
+  /**
+   * Sets the value of the given attributeName with the given attributeValue
+   * for the fragmentNamespaceData with the given namespaceURI.
+   *
+   * Throws NullArgumentException if attributeName, attributeValue, or
+   * namespaceURI is null. <br/>
+   * Throws InvalidTypeException if attributeName, attributeValue, or
+   * namespaceURI is not a String. <br/>
+   *
+   * @method setFragmentNamespaceAttribute
+   * @param {String} attributeName  Name of the attribute to be set.
+   * @param {String} attributeValue Value of the attribute to be set.
+   * @param {String} uri Namespace URI
+   */
+  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue, uri) {
+    var ns = this._fragment.namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
+    this._fragment.namespace[uri].attributes[attributeName] = attributeValue;
   };
 
   /**
@@ -330,6 +356,10 @@ define([
    */
   // TODO: Possibly remove? Why not just get and set
   ItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName, uri) {
+    var ns = this._fragment.namespace;
+    ns[uri] = ns[uri] || {};
+    ns[uri].attributes = ns[uri].attributes || {};
+
     if (this._fragment.namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
@@ -370,28 +400,9 @@ define([
    *
    */
   ItemMirror.prototype.hasFragmentNamespace = function (uri) {
-    var namespaces = Object.keys(this._fragment.namespace);
-    return namespaces.some( function(ns) {
-      return ns === uri;
-    });
-  };
-
-  /**
-   * Sets the value of the given attributeName with the given attributeValue
-   * for the fragmentNamespaceData with the given namespaceURI.
-   *
-   * Throws NullArgumentException if attributeName, attributeValue, or
-   * namespaceURI is null. <br/>
-   * Throws InvalidTypeException if attributeName, attributeValue, or
-   * namespaceURI is not a String. <br/>
-   *
-   * @method setFragmentNamespaceAttribute
-   * @param {String} attributeName  Name of the attribute to be set.
-   * @param {String} attributeValue Value of the attribute to be set.
-   * @param {String} uri Namespace URI
-   */
-  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue, uri) {
-    this._fragment.namespace[uri].attributes[attributeName] = attributeValue;
+    var namespace = this._fragment.namespace[uri];
+    if (namespace) { return true; }
+    else { return false; }
   };
 
   /**
@@ -423,6 +434,9 @@ define([
    * @param {String} uri Namespace URI
    */
   ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
+    var ns = this._fragment.namespace;
+    ns[uri] = ns[uri] || {};
+
     this._fragment.namespace[uri].data = data;
   };
 
