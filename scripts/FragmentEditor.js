@@ -103,7 +103,6 @@ define([
     // common data
     Object.keys(self.commonData).forEach( function(attrName) {
       var attrValue = self.commonData[attrName];
-      console.log("Saving: " + attrName + " as " + attrValue);
       if (attrValue) { // Don't set null attributes
         fragmentElem.setAttribute(attrName, attrValue);
       }
