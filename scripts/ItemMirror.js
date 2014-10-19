@@ -1080,7 +1080,7 @@ define([
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
 
-    if (this._fragment.association[GUID].namespace[uri].attributes[attributeName]) {
+    if (this._fragment.associations[GUID].namespace[uri].attributes[attributeName]) {
       throw XooMLExceptions.invalidState;
     }
     this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, uri);
