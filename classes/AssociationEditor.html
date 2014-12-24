@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>FragmentEditor - ItemMirror</title>
+    <title>AssociationEditor - ItemMirror</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -100,7 +100,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>FragmentEditor Class</h1>
+                        <h1>AssociationEditor Class</h1>
 <div class="box meta">
     
 
@@ -108,7 +108,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/scripts_FragmentEditor.js.html#l1"><code>scripts&#x2F;FragmentEditor.js:1</code></a>
+            Defined in: <a href="../files/scripts_AssociationEditor.js.html#l1"><code>scripts&#x2F;AssociationEditor.js:1</code></a>
         </div>
     
 
@@ -120,17 +120,17 @@
 
 
 <div class="box intro">
-    <p>Constructs a FragmentWrapper for a XooML fragment. In the following cases.</p>
+    <p>AssociationEditor is a minimal interface to represent a XooML2
+association. This object is used together with FragmentEditor to
+fully reprsent a XooML fragment as javascript object. It can be
+converted seamlessly between an object and XML.</p>
+<p>Note that upon construction, this doesn&#39;t actually create an
+association, merely a /representation/ of an association.</p>
+<p>There are two ways to construct an AssociationEditor:</p>
 <ol>
-<li>XooMLFragment String is passed in and is used as the XooMLFragment</li>
-<li>XooMLFragment Element is passed in and is used as the XooMLFragment.</li>
-<li>Associations, XooMLDriver, ItemDriver, SyncDriver,
-groupingItemURI are given and used to create a new XooMLFragment with
-the given data.</li>
+<li>Through a valid Association XML Element</li>
+<li>By specifying all data through an object</li>
 </ol>
-<p>The FragmentWrapper is merely a representation of a XooML fragment,
-and is used by an itemMirror that actually handles the details of
-creating deleting and modifying associations.</p>
 <p>For ItemMirror core developers only. Enable protected to see.</p>
 
 </div>
@@ -138,8 +138,8 @@ creating deleting and modifying associations.</p>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_FragmentEditor" class="method item protected">
-    <h3 class="name"><code>FragmentEditor</code></h3>
+        <div id="method_AssociationEditor" class="method item protected">
+    <h3 class="name"><code>AssociationEditor</code></h3>
 
     
         <div class="args">
@@ -182,7 +182,7 @@ creating deleting and modifying associations.</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l1"><code>scripts&#x2F;FragmentEditor.js:1</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l1"><code>scripts&#x2F;AssociationEditor.js:1</code></a>
         
         </p>
 
@@ -211,7 +211,7 @@ creating deleting and modifying associations.</p>
                     
 
                     <div class="param-description">
-                        <p>Data to construct a new FragmentWrapper with</p>
+                        <p>The options specified for the constructor</p>
 
                     </div>
 
@@ -220,43 +220,13 @@ creating deleting and modifying associations.</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">text</code>
-                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                                
-
-                                <div class="param-description">
-                                    <p>Unparsed XML directly from a storage
- platform.</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
                                     <code class="param-name">element</code>
                                     <span class="type">Element</span>
                                 
 
                                 <div class="param-description">
-                                    <p>XML Element representing a XooML
-                  fragment. Required for case 1.</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">associations</code>
-                                    <span class="type"><a href="../classes/AssociationEditor.html" class="crosslink">AssociationEditor[]</a></span>
-                                
-
-                                <div class="param-description">
-                                    <p>List of associations for
-         the newly constructed XooMLFragment in case 2. <br/><strong>optional</strong></p>
+                                    <p>A DOM element that correctly
+ represents an association as specified by the XooML schema.</p>
 
                                 </div>
 
@@ -270,23 +240,9 @@ creating deleting and modifying associations.</p>
                                 
 
                                 <div class="param-description">
-                                    <p>Common data for the
- fragment. Look at the constructor for more details. Required for case 2</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">groupingItemURI</code>
-                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                                
-
-                                <div class="param-description">
-                                    <p>The URI for the grouping
- item of the fragment. Required for case 2.</p>
+                                    <p>An object that specifies the
+ data for an association. Look at the private constructor
+ <code>_fromOptions</code> for more details</p>
 
                                 </div>
 
@@ -333,7 +289,7 @@ creating deleting and modifying associations.</p>
 
                     <ul class="index-list methods">
                         
-                            <li class="index-item method private">
+                            <li class="index-item method">
                                 <a href="#method__fromElement">_fromElement</a>
 
                                 
@@ -354,20 +310,6 @@ creating deleting and modifying associations.</p>
                                 
                             </li>
                         
-                            <li class="index-item method">
-                                <a href="#method_toString">toString</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method protected">
-                                <a href="#method_updateID">updateID</a>
-
-                                
-                                
-                            </li>
-                        
                     </ul>
                 </div>
             
@@ -379,13 +321,6 @@ creating deleting and modifying associations.</p>
                     <ul class="index-list properties">
                         
                             <li class="index-item property">
-                                <a href="#property_associations">associations</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
                                 <a href="#property_commonData">commonData</a>
 
                                 
@@ -393,56 +328,63 @@ creating deleting and modifying associations.</p>
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.">commonData.</a>
+                                <a href="#property_commonData.associatedItem">commonData.associatedItem</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.displayName">commonData.displayName</a>
+                                <a href="#property_commonData.associatedItemDriver">commonData.associatedItemDriver</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.GUIDGeneratedOnLastWrite">commonData.GUIDGeneratedOnLastWrite</a>
+                                <a href="#property_commonData.associatedSyncDriver">commonData.associatedSyncDriver</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.itemDriver">commonData.itemDriver</a>
+                                <a href="#property_commonData.associatedXooMLDriver">commonData.associatedXooMLDriver</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.schemaLocation">commonData.schemaLocation</a>
+                                <a href="#property_commonData.associatedXooMLFragment">commonData.associatedXooMLFragment</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.schemaVersion">commonData.schemaVersion</a>
+                                <a href="#property_commonData.displayText">commonData.displayText</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.syncDriver">commonData.syncDriver</a>
+                                <a href="#property_commonData.ID">commonData.ID</a>
 
                                 
                                 
                             </li>
                         
                             <li class="index-item property">
-                                <a href="#property_commonData.xooMLDriver">commonData.xooMLDriver</a>
+                                <a href="#property_commonData.isGrouping">commonData.isGrouping</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_commonData.localItem">commonData.localItem</a>
 
                                 
                                 
@@ -450,27 +392,6 @@ creating deleting and modifying associations.</p>
                         
                             <li class="index-item property">
                                 <a href="#property_namespace">namespace</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_namespace">namespace</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_namespace.attributes">namespace.attributes</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item property">
-                                <a href="#property_namespace.uri">namespace.uri</a>
 
                                 
                                 
@@ -485,6 +406,20 @@ creating deleting and modifying associations.</p>
                         
                             <li class="index-item property">
                                 <a href="#property_namespace.URI.attributes">namespace.URI.attributes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_namespace.URI.attributes">namespace.URI.attributes</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item property">
+                                <a href="#property_namespace.URI.data">namespace.URI.data</a>
 
                                 
                                 
@@ -511,7 +446,7 @@ creating deleting and modifying associations.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__fromElement" class="method item private">
+                    <div id="method__fromElement" class="method item">
     <h3 class="name"><code>_fromElement</code></h3>
 
     
@@ -524,12 +459,6 @@ creating deleting and modifying associations.</p>
                     
                 </li>
             
-                <li class="arg">
-                    
-                        <code>self</code>
-                    
-                </li>
-            
             </ul><span class="paren">)</span>
         </div>
     
@@ -538,8 +467,6 @@ creating deleting and modifying associations.</p>
 
     
 
-    
-        <span class="flag private">private</span>
     
 
     
@@ -561,7 +488,7 @@ creating deleting and modifying associations.</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l295"><code>scripts&#x2F;FragmentEditor.js:295</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l99"><code>scripts&#x2F;AssociationEditor.js:99</code></a>
         
         </p>
 
@@ -572,9 +499,9 @@ creating deleting and modifying associations.</p>
     </div>
 
     <div class="description">
-        <p>Takes a fragment element in XML and then converts that into a
-FragmentEditor object. Intended to be one of the ways the object
-is constructed</p>
+        <p>Takes an association element in XML and then converts that into
+an AssociationEditor object. Intended to be one of the ways the
+object is constructed</p>
 
     </div>
 
@@ -595,21 +522,6 @@ is constructed</p>
                     <div class="param-description">
                         <p>The XML element that represents an association.</p>
 
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">self</code>
-                        <span class="type"><a href="../classes/FragmentEditor.html" class="crosslink">FragmentEditor</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     
@@ -640,19 +552,7 @@ is constructed</p>
             
                 <li class="arg">
                     
-                        <code>associations</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>namespace</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>self</code>
+                        <code>comnmonData.isGrouping</code>
                     
                 </li>
             
@@ -687,7 +587,7 @@ is constructed</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l144"><code>scripts&#x2F;FragmentEditor.js:144</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l170"><code>scripts&#x2F;AssociationEditor.js:170</code></a>
         
         </p>
 
@@ -698,8 +598,7 @@ is constructed</p>
     </div>
 
     <div class="description">
-        <p>Constructs a fragmentEditor based on data passed into the
-parameters</p>
+        <p>Constructs an association with data from an object</p>
 
     </div>
 
@@ -718,7 +617,8 @@ parameters</p>
                     
 
                     <div class="param-description">
-                        <p>An object containing common data for the association</p>
+                        <p>Common data that is used by the
+itemMirror library, and is app agnostic</p>
 
                     </div>
 
@@ -727,12 +627,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">schemaVersion</code>
+                                    <code class="param-name">displayText</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The version of the schema <br/> <strong>required</strong></p>
+                                    <p>Display text for the
+ association</p>
 
                                 </div>
 
@@ -741,12 +642,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">schemaLocation</code>
+                                    <code class="param-name">associatedXooMLFragment</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The location of the schema</p>
+                                    <p>URI of the
+ associated XooML fragment for the association</p>
 
                                 </div>
 
@@ -755,13 +657,12 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">itemDescribed</code>
+                                    <code class="param-name">associatedItem</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>URI pointing to item for which the
- XooML fragment is metadata.</p>
+                                    <p>URI of the associated item</p>
 
                                 </div>
 
@@ -770,12 +671,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">displayName</code>
+                                    <code class="param-name">associatedXooMLDriver</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>Display name of the fragment</p>
+                                    <p>The associated
+ XooML driver for the association</p>
 
                                 </div>
 
@@ -784,12 +686,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">itemDriver</code>
+                                    <code class="param-name">associatedItemDriver</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The URI of the item driver for the fragment</p>
+                                    <p>The associated
+ item driver for the association</p>
 
                                 </div>
 
@@ -798,12 +701,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">syncDriver</code>
+                                    <code class="param-name">associatedSyncDriver</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The URI of the sync driver for the fragment</p>
+                                    <p>The associated
+ sync driver of the association</p>
 
                                 </div>
 
@@ -812,12 +716,13 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">xooMLDriver</code>
+                                    <code class="param-name">localItem</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The URI of the XooML driver for the fragment</p>
+                                    <p>The name/id of the
+ association</p>
 
                                 </div>
 
@@ -826,12 +731,14 @@ parameters</p>
                             
                             <li class="param">
                                 
-                                    <code class="param-name">GUIDGeneratedOnLastWrite</code>
+                                    <code class="param-name">readOnlyURLtoXooMLfragment</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                 
 
                                 <div class="param-description">
-                                    <p>The GUID generated the last time the fragment was written</p>
+                                    <p>Used in
+ cases where the owner wishes for the XooML fragment representing
+ an item to be public</p>
 
                                 </div>
 
@@ -844,46 +751,16 @@ parameters</p>
             
                 <li class="param">
                     
-                        <code class="param-name">associations</code>
-                        <span class="type"><a href="../classes/AssociationEditor.html" class="crosslink">AssociationEditor[]</a></span>
+                        <code class="param-name">comnmonData.isGrouping</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>An array of associations that the fragment has</p>
+                        <p>Whether or not the
+ association is a grouping item</p>
 
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">namespace</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The namespace URI that an app will use for it&#39;s own private data</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">self</code>
-                        <span class="type"><a href="../classes/FragmentEditor.html" class="crosslink">FragmentEditor</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                         
                     </div>
 
                     
@@ -937,7 +814,7 @@ parameters</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l91"><code>scripts&#x2F;FragmentEditor.js:91</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l58"><code>scripts&#x2F;AssociationEditor.js:58</code></a>
         
         </p>
 
@@ -948,9 +825,8 @@ parameters</p>
     </div>
 
     <div class="description">
-        <p>Converts a FragmentEditor object into an XML element, which can
-then be serialized and saved as a string, or further manipulated
-with DOM methods</p>
+        <p>Converts the object into an association element, which can then
+be converted to a string or added to the DOM.</p>
 
     </div>
 
@@ -965,157 +841,8 @@ with DOM methods</p>
                     
                         <span class="type">Element</span>:
                     
-                    <p>The XooML fragment as an XML element</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_toString" class="method item">
-    <h3 class="name"><code>toString</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l132"><code>scripts&#x2F;FragmentEditor.js:132</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Returns the XML of a fragment as a string, <em>not</em> the string
-version of the object. This is used for persisting the fragment
-across multiple platforms</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
-                    
-                    <p>Fragment XML</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_updateID" class="method item protected">
-    <h3 class="name"><code>updateID</code></h3>
-
-    
-        <span class="paren">()</span>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag protected">protected</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l75"><code>scripts&#x2F;FragmentEditor.js:75</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Updates the GUID of the Fragment</p>
-
-    </div>
-
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>:
-                    
-                    <p>The new GUID of the fragment</p>
+                    <p>A DOM element that can be further manipulated
+with DOM methods</p>
 
                 
             </div>
@@ -1132,53 +859,6 @@ across multiple platforms</p>
         
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
-
-                
-                    <div id="property_associations" class="property item">
-    <h3 class="name"><code>associations</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l237"><code>scripts&#x2F;FragmentEditor.js:237</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The associations of the fragment. Each association is accessed
-by referencing it&#39;s ID, which then gives the corresponding
-AssociationEditor object for manipulating that association.</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
 
                 
                     <div id="property_commonData" class="property item">
@@ -1204,7 +884,7 @@ AssociationEditor object for manipulating that association.</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l172"><code>scripts&#x2F;FragmentEditor.js:172</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l203"><code>scripts&#x2F;AssociationEditor.js:203</code></a>
         
         </p>
 
@@ -1226,8 +906,8 @@ AssociationEditor object for manipulating that association.</p>
 </div>
 
                 
-                    <div id="property_commonData." class="property item">
-    <h3 class="name"><code>commonData.</code></h3>
+                    <div id="property_commonData.associatedItem" class="property item">
+    <h3 class="name"><code>commonData.associatedItem</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1249,7 +929,7 @@ AssociationEditor object for manipulating that association.</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l206"><code>scripts&#x2F;FragmentEditor.js:206</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l244"><code>scripts&#x2F;AssociationEditor.js:244</code></a>
         
         </p>
 
@@ -1259,8 +939,7 @@ AssociationEditor object for manipulating that association.</p>
     </div>
 
     <div class="description">
-        <p>The item described for the fragment. This is a URI that
-points to grouping item from wich the itemMirror was created</p>
+        <p>The associated item of the association</p>
 
     </div>
 
@@ -1272,8 +951,8 @@ points to grouping item from wich the itemMirror was created</p>
 </div>
 
                 
-                    <div id="property_commonData.displayName" class="property item">
-    <h3 class="name"><code>commonData.displayName</code></h3>
+                    <div id="property_commonData.associatedItemDriver" class="property item">
+    <h3 class="name"><code>commonData.associatedItemDriver</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1295,7 +974,7 @@ points to grouping item from wich the itemMirror was created</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l178"><code>scripts&#x2F;FragmentEditor.js:178</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l237"><code>scripts&#x2F;AssociationEditor.js:237</code></a>
         
         </p>
 
@@ -1305,7 +984,7 @@ points to grouping item from wich the itemMirror was created</p>
     </div>
 
     <div class="description">
-        <p>Text that describes the fragment</p>
+        <p>The associated item driver of the association</p>
 
     </div>
 
@@ -1317,8 +996,8 @@ points to grouping item from wich the itemMirror was created</p>
 </div>
 
                 
-                    <div id="property_commonData.GUIDGeneratedOnLastWrite" class="property item">
-    <h3 class="name"><code>commonData.GUIDGeneratedOnLastWrite</code></h3>
+                    <div id="property_commonData.associatedSyncDriver" class="property item">
+    <h3 class="name"><code>commonData.associatedSyncDriver</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1340,7 +1019,7 @@ points to grouping item from wich the itemMirror was created</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l228"><code>scripts&#x2F;FragmentEditor.js:228</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l230"><code>scripts&#x2F;AssociationEditor.js:230</code></a>
         
         </p>
 
@@ -1350,8 +1029,7 @@ points to grouping item from wich the itemMirror was created</p>
     </div>
 
     <div class="description">
-        <p>The unique GUID for the fragment that is updated after every
-write</p>
+        <p>The associated sync driver of the association</p>
 
     </div>
 
@@ -1363,8 +1041,8 @@ write</p>
 </div>
 
                 
-                    <div id="property_commonData.itemDriver" class="property item">
-    <h3 class="name"><code>commonData.itemDriver</code></h3>
+                    <div id="property_commonData.associatedXooMLDriver" class="property item">
+    <h3 class="name"><code>commonData.associatedXooMLDriver</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1386,7 +1064,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l199"><code>scripts&#x2F;FragmentEditor.js:199</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l223"><code>scripts&#x2F;AssociationEditor.js:223</code></a>
         
         </p>
 
@@ -1396,7 +1074,7 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The item driver URI for the fragment</p>
+        <p>The associated XooML driver of the association</p>
 
     </div>
 
@@ -1408,8 +1086,8 @@ write</p>
 </div>
 
                 
-                    <div id="property_commonData.schemaLocation" class="property item">
-    <h3 class="name"><code>commonData.schemaLocation</code></h3>
+                    <div id="property_commonData.associatedXooMLFragment" class="property item">
+    <h3 class="name"><code>commonData.associatedXooMLFragment</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1431,7 +1109,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l185"><code>scripts&#x2F;FragmentEditor.js:185</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l216"><code>scripts&#x2F;AssociationEditor.js:216</code></a>
         
         </p>
 
@@ -1441,7 +1119,7 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The schema location for the fragment</p>
+        <p>The associated XooML fragment of the association</p>
 
     </div>
 
@@ -1453,8 +1131,8 @@ write</p>
 </div>
 
                 
-                    <div id="property_commonData.schemaVersion" class="property item">
-    <h3 class="name"><code>commonData.schemaVersion</code></h3>
+                    <div id="property_commonData.displayText" class="property item">
+    <h3 class="name"><code>commonData.displayText</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1476,7 +1154,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l192"><code>scripts&#x2F;FragmentEditor.js:192</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l209"><code>scripts&#x2F;AssociationEditor.js:209</code></a>
         
         </p>
 
@@ -1486,7 +1164,7 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The schema version for the fragment</p>
+        <p>Text that describes the association</p>
 
     </div>
 
@@ -1498,8 +1176,8 @@ write</p>
 </div>
 
                 
-                    <div id="property_commonData.syncDriver" class="property item">
-    <h3 class="name"><code>commonData.syncDriver</code></h3>
+                    <div id="property_commonData.ID" class="property item">
+    <h3 class="name"><code>commonData.ID</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1521,7 +1199,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l214"><code>scripts&#x2F;FragmentEditor.js:214</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l265"><code>scripts&#x2F;AssociationEditor.js:265</code></a>
         
         </p>
 
@@ -1531,7 +1209,7 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The sync driver URI for the fragment</p>
+        <p>The GUID of the association</p>
 
     </div>
 
@@ -1543,8 +1221,53 @@ write</p>
 </div>
 
                 
-                    <div id="property_commonData.xooMLDriver" class="property item">
-    <h3 class="name"><code>commonData.xooMLDriver</code></h3>
+                    <div id="property_commonData.isGrouping" class="property item">
+    <h3 class="name"><code>commonData.isGrouping</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/scripts_AssociationEditor.js.html#l258"><code>scripts&#x2F;AssociationEditor.js:258</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Whether or not the item is a grouping item</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_commonData.localItem" class="property item">
+    <h3 class="name"><code>commonData.localItem</code></h3>
     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
 
     
@@ -1566,7 +1289,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l221"><code>scripts&#x2F;FragmentEditor.js:221</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l251"><code>scripts&#x2F;AssociationEditor.js:251</code></a>
         
         </p>
 
@@ -1576,7 +1299,7 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The XooML driver URI for the fragment</p>
+        <p>The local item of the association</p>
 
     </div>
 
@@ -1611,7 +1334,7 @@ write</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l253"><code>scripts&#x2F;FragmentEditor.js:253</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l274"><code>scripts&#x2F;AssociationEditor.js:274</code></a>
         
         </p>
 
@@ -1621,148 +1344,9 @@ write</p>
     </div>
 
     <div class="description">
-        <p>The namespace data of the fragment. Holds both the URI as well
-as the namespace specific data for the fragment</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_namespace" class="property item">
-    <h3 class="name"><code>namespace</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l321"><code>scripts&#x2F;FragmentEditor.js:321</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The namespace object is an associated array with each key being
-a namespace URI. These can thene be used to modify fragment
-namespace attributes and data</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_namespace.attributes" class="property item">
-    <h3 class="name"><code>namespace.attributes</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l267"><code>scripts&#x2F;FragmentEditor.js:267</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The attributes of the namespace. This is app specific data
-that is set for the fragment. Each key pair in the object
-represents an attribute name and it&#39;s corresponding value</p>
-
-    </div>
-
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="property_namespace.uri" class="property item">
-    <h3 class="name"><code>namespace.uri</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/scripts_FragmentEditor.js.html#l260"><code>scripts&#x2F;FragmentEditor.js:260</code></a>
-        
-        </p>
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>The namespace URI for the fragment. Used to set namespace data
-for both the fragment and it&#39;s associations</p>
+        <p>Data for the namespaces. Stored as a key pair value, with each
+namespace referencing the namespace association element for the
+corresponding namespace.</p>
 
     </div>
 
@@ -1797,7 +1381,7 @@ for both the fragment and it&#39;s associations</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l335"><code>scripts&#x2F;FragmentEditor.js:335</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l131"><code>scripts&#x2F;AssociationEditor.js:131</code></a>
         
         </p>
 
@@ -1844,7 +1428,53 @@ they will overwrite data from another namespace</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l350"><code>scripts&#x2F;FragmentEditor.js:350</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l146"><code>scripts&#x2F;AssociationEditor.js:146</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>The attributes of the current namespace, with each attribute
+having a corresponding value.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_namespace.URI.attributes" class="property item">
+    <h3 class="name"><code>namespace.URI.attributes</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/scripts_AssociationEditor.js.html#l283"><code>scripts&#x2F;AssociationEditor.js:283</code></a>
         
         </p>
 
@@ -1890,7 +1520,56 @@ having a corresponding value.</p>
             
         
         
-        <a href="../files/scripts_FragmentEditor.js.html#l361"><code>scripts&#x2F;FragmentEditor.js:361</code></a>
+        <a href="../files/scripts_AssociationEditor.js.html#l157"><code>scripts&#x2F;AssociationEditor.js:157</code></a>
+        
+        </p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>This is the namespace data stored within the namespace
+element. Anything can be put here, and it will be stored as a
+string. ItemMirror will not do anything with the data here and
+doesn&#39;t interact with it at all. It is the responsibility of
+other applications to properly store information here.</p>
+
+    </div>
+
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="property_namespace.URI.data" class="property item">
+    <h3 class="name"><code>namespace.URI.data</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/scripts_AssociationEditor.js.html#l290"><code>scripts&#x2F;AssociationEditor.js:290</code></a>
         
         </p>
 
