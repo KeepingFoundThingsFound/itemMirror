@@ -78,6 +78,17 @@ module.exports = function(grunt) {
           './build/ItemMirror.min.js': ['./build/ItemMirror.dev.js']
         }
       }
+    },
+
+    // Used for publishing the documentation onto gh-pages. This is
+    // the free hosting that github gives to all projects. Placing the
+    // YUIDoc generated documentation there makes the itemMirror API
+    // public for all to view
+    'gh-pages': {
+      options: {
+      base: './documentation'
+      },
+      src: '**/*'
     }
   });
 
@@ -85,6 +96,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-gh-pages');
 
   grunt.registerTask('document', ['jshint', 'yuidoc']);
 
