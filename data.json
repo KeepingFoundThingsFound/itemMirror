@@ -1599,13 +1599,6 @@
             "file": "scripts/ItemMirror.js",
             "line": 620,
             "itemtype": "method",
-            "name": "",
-            "class": "ItemMirror"
-        },
-        {
-            "file": "scripts/ItemMirror.js",
-            "line": 627,
-            "itemtype": "method",
             "name": "isAssociationPhantom",
             "params": [
                 {
@@ -1622,7 +1615,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 638,
+            "line": 631,
             "description": "Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)\n\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "copyAssociation",
@@ -1654,7 +1647,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 703,
+            "line": 696,
             "description": "Moves an association to another ItemMirror Object (representing a grouping item)\n\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "moveAssociation",
@@ -1686,7 +1679,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 774,
+            "line": 767,
             "description": "Deletes the association represented by the given GUID.\n\nThrows NullArgumentException if GUID is null. <br/>\nThrows InvalidTypeException if GUID is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "deleteAssociation",
@@ -1713,7 +1706,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 836,
+            "line": 829,
             "description": "Upgrades a given association without a local item. Local item is named\nby a truncated form of the display name of this ItemMirror if the\nlocalItemURI is not given, else uses given localItemURI. Always\ntruncated to 50 characters.\n\nONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM\n\nThrows NullArgumentException when options is null. <br/>\nThrows MissingParameterException when options is not null and a required\nargument is missing.<br/>\nThrows InvalidTypeException if GUID is not a string, and if callback\nis not a function. <br/>\nThrows InvalidState if the association with the given GUID cannot be\nupgraded. <br/>",
             "itemtype": "method",
             "name": "upgradeAssociation",
@@ -1752,7 +1745,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 892,
+            "line": 885,
             "description": "Renames the local item for the association with the given GUID.\n\nThrows NullArgumentException if GUID, callback is null. <br/>\nThrows InvalidTypeException if GUID is not a String, and if callback\nis not a function. <br/>",
             "itemtype": "method",
             "name": "renameAssocaitionLocalItem",
@@ -1789,7 +1782,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 948,
+            "line": 941,
             "description": "A special method that is used for certain file operations where\ncalling a sync won't work. Essentially it is the save function,\nsans syncing. This should __never__ be called be an application.",
             "itemtype": "method",
             "name": "_unsafeWrite",
@@ -1807,7 +1800,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 978,
+            "line": 971,
             "description": "Checks if an association's associatedItem is a grouping item\n\nThrows NullArgumentException if GUID, callback is null. <br/>\nThrows InvalidTypeException if GUID is not a String, and if callback\nis not an function. <br/>",
             "itemtype": "method",
             "name": "isAssociationAssociatedItemGrouping",
@@ -1826,7 +1819,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 996,
+            "line": 989,
             "description": "Lists the GUIDs of each association.",
             "itemtype": "method",
             "name": "listAssociations",
@@ -1838,7 +1831,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1007,
+            "line": 1000,
             "description": "Throws NullArgumentException if attributeName, GUID, or namespaceURI is\n null. <br/>\n Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not\n a String. <br/>\n Throws InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "getAssociationNamespaceAttribute",
@@ -1867,7 +1860,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1033,
+            "line": 1026,
             "description": "Sets the association namespace attribute with the given attributeName\nand the given namespaceURI within the association with the given GUID.\n\nThrows NullArgumentException if attributeName, attributeValue, GUID, or\nnamespaceURI is null. <br/>\nThrows InvalidTypeException if attributeName, attributeValue, GUID, or\nnamespaceURI is not a String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "setAssociationNamespaceAttribute",
@@ -1897,7 +1890,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1059,
+            "line": 1052,
             "description": "Adds the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName has already\nbeen added. <br/>",
             "itemtype": "method",
             "name": "addAssociationNamespaceAttribute",
@@ -1927,7 +1920,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1089,
+            "line": 1082,
             "description": "Removes the given attributeName to the association with the given GUID and\nnamespaceURI.\n\nThrows NullArgumentException if attributeName, GUID, or namespaceURI is\nnull. <br/>\nThrows InvalidTypeException if attributeName, GUID, or namespaceURI is not\na String. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>\nThrows an InvalidStateException when the given attributeName is not an\nattribute. <br/>",
             "itemtype": "method",
             "name": "removeAssociationNamespaceAttribute",
@@ -1952,7 +1945,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1111,
+            "line": 1104,
             "itemtype": "method",
             "name": "hasAssociationNamespace",
             "return": {
@@ -1975,7 +1968,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1126,
+            "line": 1119,
             "description": "Throws NullArgumentException if GUID, namespaceURI is null. <br/>\n Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>\n Throws InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "listAssociationNamespaceAttributes",
@@ -1999,7 +1992,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1148,
+            "line": 1141,
             "description": "Throws InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "getAssociationNamespaceData",
@@ -2023,7 +2016,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1167,
+            "line": 1160,
             "description": "Sets the association namespace data for an association with the given GUID\nand given namespaceURI using the given data.\n\nThrows NullArgumentException if data, GUID, or namespaceURI is null. <br/>\nThrows InvalidTypeException if data, GUID, or namespaceURI is not a\nString. <br/>\nThrows InvalidGUIDException if GUID is not a valid GUID. <br/>",
             "itemtype": "method",
             "name": "setAssociationNamespaceData",
@@ -2043,7 +2036,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1190,
+            "line": 1183,
             "description": "Uses the specified ItemDriver and SyncDriver to synchronize the\nlocal ItemMirror object changes. This is an implmentation of Synchronization\nDriver which modifies the XooML Fragment according to the real structure\nunder the item described.",
             "itemtype": "method",
             "name": "sync",
@@ -2067,7 +2060,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1210,
+            "line": 1203,
             "description": "Reloads the XooML Fragment",
             "itemtype": "method",
             "name": "refresh",
@@ -2089,7 +2082,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1243,
+            "line": 1236,
             "itemtype": "method",
             "name": "getCreator",
             "return": {
@@ -2100,7 +2093,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1257,
+            "line": 1250,
             "description": "Saves the itemMirror object, writing it out to the\nfragment. Fails if the GUID generated on last write for the\nitemMirror and the XooML fragment don't match.",
             "itemtype": "method",
             "name": "save",
@@ -2120,7 +2113,7 @@
         },
         {
             "file": "scripts/ItemMirror.js",
-            "line": 1284,
+            "line": 1277,
             "description": "Checks if the AssociatedItem String passed into it is a URL or not.",
             "itemtype": "method",
             "name": "_isURL",
