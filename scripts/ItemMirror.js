@@ -618,13 +618,6 @@ define([
   };
 
   /**
-   * @method isAssociation
-   * @method
-   *
-   *
-   */
-   
-  /**
    * @method isAssociationPhantom
    * @param {String} guid
    * @return {Boolean} True if the association of the given GUID is a
