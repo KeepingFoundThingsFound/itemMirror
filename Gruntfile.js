@@ -32,7 +32,9 @@ module.exports = function(grunt) {
       compile: {
         options: {
           baseUrl: "./scripts",
-          name: "ItemMirror",
+          name: "../node_modules/almond/almond",
+          include: "ItemMirror",
+          insertRequire: ["ItemMirror"],
           out: "item-mirror.js",
           optimize: "none",
           useStrict: true,

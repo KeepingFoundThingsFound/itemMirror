@@ -12,6 +12,7 @@
     "grunt-contrib-yuidoc": "~0.5.2",
     "jshint": "~2.5.1",
     "yuidocjs": "~0.3.50",
-    "grunt-gh-pages": "~0.9.1"
+    "grunt-gh-pages": "~0.9.1",
+    "almond": "~0.3.0"
   }
 }
