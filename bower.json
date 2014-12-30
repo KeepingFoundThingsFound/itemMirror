@@ -1,0 +1,27 @@
+{
+  "name": "item-mirror",
+  "version": "0.8.3",
+  "homepage": "https://github.com/KeepingFoundThingsFound/itemMirror",
+  "authors": [
+    "Caleb Thorsteinson <caleb@thorsteinson.me>"
+  ],
+  "description": "A library that abstracts and unifies cloud storage platforms",
+  "main": "item-mirror.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "dropbox",
+    "cloud"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ]
+}

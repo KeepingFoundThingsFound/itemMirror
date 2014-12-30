@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  var version = '0.8.3';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -32,7 +33,7 @@ module.exports = function(grunt) {
         options: {
           baseUrl: "./scripts",
           name: "ItemMirror",
-          out: "./build/ItemMirror.dev.js",
+          out: "item-mirror.js",
           optimize: "none",
           useStrict: true,
           enforceDefine: true,
@@ -54,10 +55,10 @@ module.exports = function(grunt) {
 
     yuidoc: {
       compile: {
-        "name": "ItemMirror",
+        "name": "item-mirror",
         "description": "ItemMirror: a library for working with XooML to promote open cross platform tool usage",
-        "version": "0.8.2",
-        "url": "https://github.com/KeepingFoundThingsFound/itemMirrorWebClient",
+        "version": version,
+        "url": "https://github.com/KeepingFoundThingsFound/itemMirror",
         "options": {
           "linkNatives": "true",
           "attributesEmit": "true",
@@ -75,7 +76,7 @@ module.exports = function(grunt) {
           mangle: false
         },
         files: {
-          './build/ItemMirror.min.js': ['./build/ItemMirror.dev.js']
+          'item-mirror.min.js': ['item-mirror.js']
         }
       }
     },

@@ -1,6 +1,6 @@
 {
-  "name": "ItemMirror",
-  "version": "0.8.1",
+  "name": "item-mirror",
+  "version": "0.8.3",
   "dependencies": {
     "requirejs": "~2.1.14"
   },
