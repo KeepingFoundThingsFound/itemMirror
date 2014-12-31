@@ -17,6 +17,20 @@
  SOFTWARE. For commercial permissions, contact williampauljones@gmail.com
 */
 
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        //Allow using this built library as an AMD module
+        //in another project. That other project will only
+        //see this AMD call, not the internal modules in
+        //the closure below.
+        define([], factory);
+    } else {
+        //Browser globals case. Just assign the
+        //result to a property on the global.
+        root.ItemMirror = factory();
+    }
+}(this, function () {
 /**
  * @license almond 0.3.0 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -3631,5 +3645,5 @@ define('ItemMirror',[
   return ItemMirror;
 });
 
-
-require(["ItemMirror"]);
+    return require('ItemMirror');
+}));

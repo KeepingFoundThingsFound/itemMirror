@@ -34,13 +34,14 @@ module.exports = function(grunt) {
           baseUrl: "./scripts",
           name: "../node_modules/almond/almond",
           include: "ItemMirror",
-          insertRequire: ["ItemMirror"],
+//          insertRequire: ["ItemMirror"],
           out: "item-mirror.js",
           optimize: "none",
           useStrict: true,
           enforceDefine: true,
           wrap: {
-            startFile: ["./LICENSE"]
+            startFile: ["./LICENSE", "start.frag"],
+            endFile: "end.frag"
           },
           //Introduced in 2.1.3: Some situations do not throw and stop the optimizer
           //when an error occurs. However, you may want to have the optimizer stop
