@@ -582,7 +582,8 @@ define([
         commonData: {
           displayText: options.displayText,
           isGrouping: true,
-          localItem: options.localItem
+          localItem: options.localItem,
+          associatedItem: PathDriver.joinPath(self.getURIforItemDescribed(), options.localItem)
         }
       });
 
@@ -797,20 +798,21 @@ define([
     function deleteContent(error) {
       if (error) return callback(error);
 
-      var isPhantom = self.isAssociationPhantom(GUID),
-          isGrouping = self.isAssociationAssociatedItemGrouping(GUID),
-          localItem = self.getAssociationLocalItem(GUID),
-          path = PathDriver.joinPath(self._groupingItemURI, localItem);
-
-      delete self._fragment.associations[GUID];
+      var isPhantom = self.isAssociationPhantom(GUID);
 
       if (!isPhantom) {
+        var isGrouping = self.isAssociationAssociatedItemGrouping(GUID),
+            localItem = self.getAssociationLocalItem(GUID),
+            path = PathDriver.joinPath(self._groupingItemURI, localItem);
+
+        delete self._fragment.associations[GUID];
         if (isGrouping) {
           self._itemDriver.deleteGroupingItem(path, postDelete);
         } else {
           self._itemDriver.deleteNonGroupingItem(path, postDelete);
         }
       } else {
+        delete self._fragment.associations[GUID];
         return callback(false);
       }
     }
