@@ -592,30 +592,33 @@ define([
       self._itemDriver.createGroupingItem(path, function(error){
         if (error) return callback(error);
 
-        saveOutFragment(association);
+        return saveOutFragment(association);
       });
     }
-    // Case 2
-    else if (options.displayText && options.itemURI) {
-      association = new AssociationEditor({
-        commonData: {
-          displayText: options.displayText,
-          associatedItem: options.itemURI,
-          isGrouping: false
-        }
-      });
-    }
-    // Case 1
-    else if (options.displayText) {
-      association = new AssociationEditor({
-        commonData: {
-          displayText: options.displayText,
-          isGrouping: false
-        }
-      });
-    }
+    // Synchronous cases
+    else {
+      // Case 2
+      if (options.displayText && options.itemURI) {
+        association = new AssociationEditor({
+          commonData: {
+            displayText: options.displayText,
+            associatedItem: options.itemURI,
+            isGrouping: false
+          }
+        });
+      }
+      // Case 1
+      else if (options.displayText) {
+        association = new AssociationEditor({
+          commonData: {
+            displayText: options.displayText,
+            isGrouping: false
+          }
+        });
+      }
 
-    saveOutFragment(association);
+      return saveOutFragment(association);
+    }
   };
 
   /**
@@ -1268,10 +1271,6 @@ define([
     function postSync(error) {
       if (error) return callback(error);
 
-      self._unsafeWrite(postWrite);
-    }
-
-    function postWrite(error) {
       return callback(error);
     }
   };

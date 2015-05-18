@@ -154,7 +154,7 @@ define([
         self._xooMLDriver.setXooMLFragment(self._fragmentEditor.toString(), function(error) {
           if (error) return callback(error);
 
-          return callback(XooMLExceptions.itemMirrorNotCurrent);
+          return callback(false);
         });
       } else return callback(false);
     }
