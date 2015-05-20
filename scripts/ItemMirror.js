@@ -954,22 +954,17 @@ define([
   ItemMirror.prototype._unsafeWrite = function(callback) {
     var self = this;
 
-    self._xooMLDriver.getXooMLFragment(compareGUIDs);
+    self._xooMLDriver.getXooMLFragment(afterXooML);
 
-    function compareGUIDs(error, content){
+    function afterXooML(error, content){
       if (error) return callback(error);
 
       var tmpFragment = new FragmentEditor({text: content});
-      if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
-          self._fragment.commonData.GUIDGeneratedOnLastWrite) {
-        return callback(XooMLExceptions.itemMirrorNotCurrent);
-      } else {
-        self._fragment.updateID();
-        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-          if (error) return callback(error);
-          return callback(false);
-        });
-      }
+      self._fragment.updateID();
+      return self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
+        if (error) return callback(error);
+        return callback(false);
+      });
     }
   };
 
@@ -1271,6 +1266,10 @@ define([
     function postSync(error) {
       if (error) return callback(error);
 
+      return self._unsafeWrite(postWrite);
+    }
+
+    function postWrite(error) {
       return callback(error);
     }
   };

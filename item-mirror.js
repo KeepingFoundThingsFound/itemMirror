@@ -1,21 +1,36 @@
 /*
- ItemMirror - Version 0.8.0
+ itemMirror - Version 2.0
 
- Copyright 2013, William Paul Jones and the Keeping Found Things Found team.
+ Copyright 2015, Keeping Found Things Found, LLC.
+All rights reserved.
 
- Permission is hereby granted, free of charge, to any person obtaining a copy of
+Permission is hereby granted, free of charge, to any person obtaining a copy of
  this software and associated documentation files (the "Software"), to copy,
  distribute, run, display, perform, and modify the Software for purposes of
- academic, research, and personal use, subject to the following conditions: The
- above copyright notice and this permission notice shall be included in all copies
- or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS",
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
- WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
- OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE. For commercial permissions, contact williampauljones@gmail.com
+ academic, research, and personal use, subject to the following conditions:
+1. The  above copyright notice and this permission notice shall be included in all copies
+ or substantial portions of the Software.
+2. All advertising materials mentioning features or use of this software
+   must display the following acknowledgement:
+   This product includes software developed by Keeping Found Things Found.
+3. Neither the name of the Keeping Found Things Found nor the
+   names of its contributors may be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY Keeping Found Things Found , LLC, ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+. For commercial permissions, contact williampauljones@gmail.com
 */
+
 
 
 (function (root, factory) {
@@ -3310,22 +3325,17 @@ define('ItemMirror',[
   ItemMirror.prototype._unsafeWrite = function(callback) {
     var self = this;
 
-    self._xooMLDriver.getXooMLFragment(compareGUIDs);
+    self._xooMLDriver.getXooMLFragment(afterXooML);
 
-    function compareGUIDs(error, content){
+    function afterXooML(error, content){
       if (error) return callback(error);
 
       var tmpFragment = new FragmentEditor({text: content});
-      if (tmpFragment.commonData.GUIDGeneratedOnLastWrite !==
-          self._fragment.commonData.GUIDGeneratedOnLastWrite) {
-        return callback(XooMLExceptions.itemMirrorNotCurrent);
-      } else {
-        self._fragment.updateID();
-        self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-          if (error) return callback(error);
-          return callback(false);
-        });
-      }
+      self._fragment.updateID();
+      return self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
+        if (error) return callback(error);
+        return callback(false);
+      });
     }
   };
 
@@ -3627,6 +3637,10 @@ define('ItemMirror',[
     function postSync(error) {
       if (error) return callback(error);
 
+      return self._unsafeWrite(postWrite);
+    }
+
+    function postWrite(error) {
       return callback(error);
     }
   };
