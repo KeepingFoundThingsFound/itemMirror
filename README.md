@@ -1,7 +1,7 @@
 itemMirror
 ==========
 
-code associated with iteMirror, including JavaScript code and drivers for interaction with Dropbox and the use of the itemMirror schema.
+code associated with iteMirror, including JavaScript code and drivers for interaction with Dropbox and the use of [the itemMirror API](http://keepingfoundthingsfound.github.io/itemMirror/classes/ItemMirror.html).
 
 License
 ==========
