@@ -93,11 +93,17 @@ define([
   XooMLDriver.prototype.setXooMLFragment = function (fragment, callback) {
     var self = this;
 
+    // We manually subistitue newlines with the proper XML
+    // representation for them because XMLSerializer doesn't seem to
+    // be DOM compliant.
+    // See: http://stackoverflow.com/questions/2004386/how-to-save-newlines-in-xml-attribute
+    fragment = fragment.replace(/\n/g, "&#10;");
+
     self._dropboxClient.writeFile(self._fragmentURI, fragment, function (error, stat) {
       if (error) {
         return self._showDropboxError(error, callback);
       }
-      callback(false, stat);
+      return callback(false, stat);
     });
 
   };
