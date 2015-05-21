@@ -3173,7 +3173,7 @@ define('ItemMirror',[
     }
 
     // Save to ensure that the fragment is up to date
-    self.save(deleteContent);
+    return self.save(deleteContent);
 
     function deleteContent(error) {
       if (error) return callback(error);
@@ -3187,13 +3187,20 @@ define('ItemMirror',[
 
         delete self._fragment.associations[GUID];
         if (isGrouping) {
-          self._itemDriver.deleteGroupingItem(path, postDelete);
+          return self._itemDriver.deleteGroupingItem(path, postDelete);
         } else {
-          self._itemDriver.deleteNonGroupingItem(path, postDelete);
+          return self._itemDriver.deleteNonGroupingItem(path, postDelete);
         }
       } else {
         delete self._fragment.associations[GUID];
-        return callback(false);
+
+        // Now do an unsafe_write to commit the XML. It's okay because
+        // save means that everything is synced, and this operation
+        // was extremely quick
+        return self._unsafeWrite(function(error) {
+          if (error) return callback(error);
+          else return callback();
+        });
       }
     }
 
@@ -3201,11 +3208,12 @@ define('ItemMirror',[
     function postDelete(error) {
       if (error) return callback(error);
 
-      self.refresh(function() {
+      return self.refresh(function(error) {
         if (error) return callback(error);
         return callback(error);
       });
     }
+
   };
 
   /**
