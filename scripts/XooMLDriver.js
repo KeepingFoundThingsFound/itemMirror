@@ -21,7 +21,6 @@
 define([
   "./XooMLExceptions",
   "./XooMLConfig",
-  "./XooMLUtil"
 ], function(
   XooMLExceptions,
   XooMLConfig) {
