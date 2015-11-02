@@ -3,6 +3,8 @@
  * reading and writing XooML fragments. This is an implementation of XooML utility
  * using Dropbox as the storage.
  *
+ * This specific version is for google drive
+ *
  * For ItemMirror core developers only. Enable protected to see.
  *
  * @class XooMLDriver
@@ -22,15 +24,21 @@ define([
   "./XooMLUtil"
 ], function(
   XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil) {
+  XooMLConfig) {
   "use strict";
 
-  var
-    _CONSTRUCTOR_OPTIONS = {
-      driverURI:   true,
-      dropboxClient: true,
-      fragmentURI: true
+  var _CONSTRUCTOR_OPTIONS = {
+      // This is the location of the driver
+      // Not currently used, but will eventually be specified
+      driverURI: true,
+      // This is the location of the fragment (XooML2.xml) for a given
+      // interface. In the case of google drive it's just the first result of
+      // the root folder with a search for the exact file XooML2.xml. While
+      // there's a more specific ID for the file itself, we can't really
+      // use that because there's no pointer to that initial file.
+
+      // This means that if there are two XooML2.xml files in the root
+      // directory, it's then possible that one will get ignored
     };
 
   /**
@@ -39,28 +47,83 @@ define([
    * @protected
    */
   function XooMLDriver(options, callback) {
-    XooMLUtil.checkCallback(callback);
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR_OPTIONS, options)) {
-      return callback(XooMLExceptions.missingParameter);
-    }
-    if (!XooMLUtil.isObject(options)) {
-      return callback(XooMLExceptions.invalidType);
-    }
     var self = this;
 
-    self._dropboxClient = options.dropboxClient;
-    self._fragmentURI = options.fragmentURI;
+    if (!options.clientInterface) {
+      throw new Error('Missing client interface in options!')
+    }
 
-    if (self._checkDropboxAuthenticated(self._dropboxClient)) {
-      return callback(false, self);
-    } else {
-      self._dropboxClient.authenticate(function (error, client) {
-        if (error) {
-          return callback(XooMLExceptions.xooMLUException, null);
-        }
-        return callback(false, self);
+    // Client Interface is whatever object that a given client hands back
+    // after the authorization step. We use it to make sending and recieving
+    // requests extremely simple.
+
+    // Note: This does assume that the client has already been authenticated
+    // If not it could lead to potential errors. gapi should be set to the
+    // clientInterface
+    this._clientInterface = options.clientInterface;
+
+    // The fragmentURI is either a specific ID, or just 'root'
+    this._fragmentURI = options.fragmentURI;
+
+    return callback(false, self);
+    }
+  }
+
+
+  /**
+   * Creates a request for a given fileID and executes the request
+   * @param  {Function} callback Function with the XML string response
+   * @param {String} id ID of the file you want to get download
+   */
+  function _readFile = function(callback, id) {
+    var self = this;
+
+    request.execute(function(resp) {
+      $.ajax({
+        url: 'https://www.googleapis.com/drive/v2/files/' + id,
+        // Required to actually initiate a download
+        data: 'alt=media',
+        // If this isn't specified, we get an XMLDocument back. We want a
+        // string for maximum flexibility.
+        dataType: 'text',
+        // Note, if the authorization header is messed up, it will give us
+        // an error that tells us we need to sign in and have reached our
+        // limit.
+        headers: { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token }
+      }).then(function(xml_text) {
+        callback(xml_text);
       });
     }
+  }
+
+  /**
+   * In some cases, you can't get the root fragment ordinairily. Google drive
+   * makes it easy to reference other XooML files when you have a pointer to
+   * them, but we don't have anything to point to the root. Therefore we have
+   * to have a special variation of getXooMLFragment for the root case that
+   * functions differently.
+   *
+   * In this case, we make a query in the root folder of gdrive and return the
+   * contents of the first file with the name XooML2.xml
+   */
+  function _getRootFragment = function (callback) {
+    var self = this;
+
+    // This query means return the file with the title XooML2.xml in the
+    // root directory.
+    // Details on the gapi query syntax: https://developers.google.com/drive/web/search-parameters
+    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and in root';
+    var request = this.clientInterface.client.drive.files.list({
+      'maxResults': 1,
+      'q': query
+    });
+    request.execute(function(resp) {
+      // Now that we've made the request, we can extract the fileID and
+      // read the file contents
+      var rootId = resp.items[0];
+
+      _readFile(callback, id);
+    });
   }
 
   /**
@@ -73,12 +136,13 @@ define([
   XooMLDriver.prototype.getXooMLFragment = function (callback) {
     var self = this;
 
-    self._dropboxClient.readFile(self._fragmentURI, function (error, content) {
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      callback(false, content);
-    });
+    // Root fragment case
+    if (this._fragmentURI === 'root') {
+      _getRootFragment(callback);
+    }
+
+    // General case, where we don't need to do a query
+    _readFile(callback, this._fragmentURI);
   };
 
   /**
@@ -138,10 +202,6 @@ define([
 
   XooMLDriver.prototype._showDropboxError = function (error, callback) {
     return callback(error.status);
-  };
-
-  XooMLDriver.prototype._checkDropboxAuthenticated = function (dropboxClient) {
-    return dropboxClient.authState === 4;
   };
 
   return XooMLDriver;
