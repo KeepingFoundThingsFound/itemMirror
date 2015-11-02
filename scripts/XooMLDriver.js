@@ -52,6 +52,11 @@ define([
       throw new Error('Missing client interface in options!')
     }
 
+    // The parent URI tells us what 'folder', the XooML should be put inside
+    // of. Root is a special URI for google drive, otherwise it should be an
+    // id
+    this._parentURI = options.parentURI || 'root';
+
     // Client Interface is whatever object that a given client hands back
     // after the authorization step. We use it to make sending and recieving
     // requests extremely simple.
@@ -61,11 +66,10 @@ define([
     // clientInterface
     this._clientInterface = options.clientInterface;
 
-    // The fragmentURI is either a specific ID, or just 'root'
-    this._fragmentURI = options.fragmentURI;
+    // The fragmentURI is the id of the XooML file. It may or may not exist
+    this._fragmentURI = options.fragmentURI ? options.fragmentURI : null;
 
     return callback(false, self);
-    }
   }
 
 
@@ -136,7 +140,7 @@ define([
     var self = this;
 
     // Root fragment case
-    if (this._fragmentURI === 'root') {
+    if (this._parentURI === 'root') {
       _getRootFragment(callback);
     }
 
@@ -168,7 +172,7 @@ define([
         var metadata = {
           'title': XooMLUtil.xooMLFragmentFileName,
           'mimeType': contentType,
-          'parents': [self._fragmentURI]
+          'parents': [self._parentURI]
         };
 
         var base64Data = btoa(reader.result);
