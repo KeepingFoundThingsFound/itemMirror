@@ -148,28 +148,56 @@ define([
   /**
    * Writes a XooML fragment
    * @method setXooMLFragment
-   * @param {String} uri the location of the XooML fragment
-   * @param {String} fragment the content of the XooML fragment
+   * @param {String} xmlString the content of the XooML fragment
    * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
    *
    * @protected
    */
-  XooMLDriver.prototype.setXooMLFragment = function (fragment, callback) {
+  XooMLDriver.prototype.setXooMLFragment = function (xmlString, callback) {
     var self = this;
 
-    // We manually subistitue newlines with the proper XML
-    // representation for them because XMLSerializer doesn't seem to
-    // be DOM compliant.
-    // See: http://stackoverflow.com/questions/2004386/how-to-save-newlines-in-xml-attribute
-    fragment = fragment.replace(/\n/g, "&#10;");
+    var mimeType = 'text/xml';
+    function insertFile(fileData, callback) {
+      const boundary = '-------314159265358979323846';
+      const delimiter = "\r\n--" + boundary + "\r\n";
+      const close_delim = "\r\n--" + boundary + "--";
 
-    self._dropboxClient.writeFile(self._fragmentURI, fragment, function (error, stat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
+      var reader = new FileReader();
+      reader.readAsBinaryString(fileData);
+      reader.onload = function(e) {
+        var contentType = fileData.type || 'application/octet-stream';
+        var metadata = {
+          'title': XooMLUtil.xooMLFragmentFileName,
+          'mimeType': contentType,
+          'parents': [self._fragmentURI]
+        };
+
+        var base64Data = btoa(reader.result);
+        var multipartRequestBody =
+            delimiter +
+            'Content-Type: application/json\r\n\r\n' +
+            JSON.stringify(metadata) +
+            delimiter +
+            'Content-Type: ' + contentType + '\r\n' +
+            'Content-Transfer-Encoding: base64\r\n' +
+            '\r\n' +
+            base64Data +
+            close_delim;
+
+        var request = gapi.client.request({
+            'path': '/upload/drive/v2/files',
+            'method': 'POST',
+            'params': {'uploadType': 'multipart'},
+            'headers': {
+              'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+            },
+            'body': multipartRequestBody});
+        request.execute(callback);
       }
-      return callback(false, stat);
-    });
+    }
 
+    var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLUtil.xooMLFragmentFileName});
+    insertFile(blob, callback);
   };
 
   /**
@@ -206,8 +234,3 @@ define([
 
   return XooMLDriver;
 });
-
-
-
-
-
