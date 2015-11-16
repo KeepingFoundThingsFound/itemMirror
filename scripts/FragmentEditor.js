@@ -34,13 +34,11 @@ define([
   "./XooMLExceptions",
   "./XooMLConfig",
   "./XooMLUtil",
-  "./PathDriver",
   "./AssociationEditor"
 ], function(
   XooMLExceptions,
   XooMLConfig,
   XooMLUtil,
-  PathDriver,
   AssociationEditor) {
   "use strict";
 
