@@ -38,34 +38,35 @@ define([
     if (!options.client) {
       throw new Error('Client parameter missing');
     }
-    var _client = options.client;
+    this.clientInterface = options.client;
+
+    // These are the same across multple files, and so should be put in a common configuration somewhere
+    var _AUTH_HEADER = { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token };
+    var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
 
     return callback(false, self);
     }
   }
 
 
-  // callback(false) on success
   ItemDriver.prototype.moveGroupingItem = function (fromPath, newPath, callback) {
     var self = this;
-
-    self._dropboxClient.move(fromPath, newPath, function (error, stat) {
-      if (error) {
-        return callback(error);
-      }
-
-      return callback(false);
-    });
+    throw new Error('Not implemented');
   };
 
-  ItemDriver.prototype.isGroupingItem = function (path, callback) {
+  ItemDriver.prototype.isGroupingItem = function (id, callback) {
     var self = this;
 
-    self._dropboxClient.stat(path, function (error,stat){
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      return callback(false, stat.mimeType === _DIRECTORY_STAT);
+    // do a simple get request, and see if it's a folder
+    $.get({
+      url: _DRIVE_FILE_API + id,
+      headers: _AUTH_HEADER
+    }).then(function(resp) {
+      // This is the specific mimetype that google counts as a 'folder'
+      var DRIVE_FOLDER = 'application/vnd.google-apps.folder';
+      callback(false, DRIVE_FOLDER === resp.mimeType);
+    }).fail(function() {
+      callback('No response from GET: ' + id);
     });
   };
 
