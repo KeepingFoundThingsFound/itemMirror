@@ -43,6 +43,7 @@ define([
     // These are the same across multple files, and so should be put in a common configuration somewhere
     var _AUTH_HEADER = { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token };
     var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
+    var _FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
     return callback(false, self);
     }
@@ -63,8 +64,7 @@ define([
       headers: _AUTH_HEADER
     }).then(function(resp) {
       // This is the specific mimetype that google counts as a 'folder'
-      var DRIVE_FOLDER = 'application/vnd.google-apps.folder';
-      callback(false, DRIVE_FOLDER === resp.mimeType);
+      callback(false, _FOLDER_MIMETYPE === resp.mimeType);
     }).fail(function() {
       callback('No response from GET: ' + id);
     });
@@ -78,14 +78,22 @@ define([
    *
    * @protected
    */
-  ItemDriver.prototype.createGroupingItem = function (path, callback) {
+  ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
     var self = this;
 
-    self._dropboxClient.mkdir(path, function (error, stat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
+    $.post({
+      url: _DRIVE_FILE_API,
+      headers: _AUTH_HEADER,
+      body: {
+        mimeType: _FOLDER_MIMETYPE,
+        title: title,
+        parents: [parentURI]
       }
-      return callback(false, stat);
+    }).then(function(resp) {
+      // Callback with ID of the newly created folder so we have a reference
+      callback(false, resp.id);
+    }).fail(function() {
+      callback('Failed to make POST request for new grouping item. Check network requests for more deatils');
     });
   };
 
