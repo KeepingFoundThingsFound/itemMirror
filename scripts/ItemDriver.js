@@ -26,17 +26,6 @@ define([
   AssociationEditor) {
   "use strict";
 
-  var
-  // private static variables
-    _CONSTRUCTOR__OPTIONS = {
-      driverURI: true,
-      dropboxClient: true
-    },
-    _DIRECTORY_STAT = "inode/directory",
-
-  //oop helper
-    self;
-
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
    *
@@ -70,10 +59,9 @@ define([
     }
   }
 
-  self = ItemDriver.prototype;
 
   // callback(false) on success
-  self.moveGroupingItem = function (fromPath, newPath, callback) {
+  ItemDriver.prototype.moveGroupingItem = function (fromPath, newPath, callback) {
     var self = this;
 
     self._dropboxClient.move(fromPath, newPath, function (error, stat) {
@@ -85,7 +73,7 @@ define([
     });
   };
 
-  self.isGroupingItem = function (path, callback) {
+  ItemDriver.prototype.isGroupingItem = function (path, callback) {
     var self = this;
 
     self._dropboxClient.stat(path, function (error,stat){
@@ -104,7 +92,7 @@ define([
    *
    * @protected
    */
-  self.createGroupingItem = function (path, callback) {
+  ItemDriver.prototype.createGroupingItem = function (path, callback) {
     var self = this;
 
     self._dropboxClient.mkdir(path, function (error, stat) {
@@ -124,7 +112,7 @@ define([
    *
    * @protected
    */
-  self.createNonGroupingItem = function (path, file, callback) {
+  ItemDriver.prototype.createNonGroupingItem = function (path, file, callback) {
     var self = this;
 
     self._dropboxClient.writeFile(path, file, function (error, stat) {
@@ -143,7 +131,7 @@ define([
    *
    * @protected
    */
-  self.deleteGroupingItem = function (path, callback) {
+  ItemDriver.prototype.deleteGroupingItem = function (path, callback) {
     var self = this;
 
     self._dropboxClient.remove(path, function (error, stat) {
@@ -163,7 +151,7 @@ define([
    *
    * @protected
    */
-  self.deleteNonGroupingItem = function (path, callback) {
+  ItemDriver.prototype.deleteNonGroupingItem = function (path, callback) {
     var self = this;
 
     self._dropboxClient.remove(path, function (error, stat) {
@@ -203,7 +191,7 @@ define([
    *
    * @protected
    */
-  self.moveItem = function (fromPath, toPath, callback) {
+  ItemDriver.prototype.moveItem = function (fromPath, toPath, callback) {
     var self = this;
     
     self._dropboxClient.move(fromPath, toPath, function(error){
@@ -222,7 +210,7 @@ define([
    *
    * @protected
   */
-  self.getURL = function (path, callback){
+  ItemDriver.prototype.getURL = function (path, callback){
     var self = this;
     
     self._dropboxClient.makeUrl(path, null, function (error, publicURL){
@@ -241,7 +229,7 @@ define([
    *
    * @protected
    */
-  self.listItems = function (path, callback) {
+  ItemDriver.prototype.listItems = function (path, callback) {
     var self = this;
 
     self._dropboxClient.readdir(path, function (error, list, stat, listStat) {
@@ -276,7 +264,7 @@ define([
    *
    * @protected
    */
-  self.checkExisted = function(path, callback){
+  ItemDriver.prototype.checkExisted = function(path, callback){
     var self = this, result;
 
     self._dropboxClient.stat(path, function (error,stat){
@@ -287,14 +275,6 @@ define([
 
       return callback(false, result);
     });
-  };
-
-  self._showDropboxError = function (error, callback) {
-    return callback(error.status);
-  };
-
-  self._checkDropboxAuthenticated = function (dropboxClient) {
-    return dropboxClient.authState === 4;
   };
 
   return ItemDriver;
