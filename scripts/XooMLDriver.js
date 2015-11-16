@@ -69,6 +69,12 @@ define([
     // The fragmentURI is the id of the XooML file. It may or may not exist
     this._fragmentURI = options.fragmentURI ? options.fragmentURI : null;
 
+    // This is the authorized header, so we can easily make requests via ajax.
+    // If we get request errors, make sure that this header is correct, and
+    // doesn't constantly change
+    var _AUTH_HEADER = { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token };
+    var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
+
     return callback(false, self);
   }
 
@@ -81,22 +87,20 @@ define([
   function _readFile = function(callback, id) {
     var self = this;
 
-    request.execute(function(resp) {
-      $.ajax({
-        url: 'https://www.googleapis.com/drive/v2/files/' + id,
-        // Required to actually initiate a download
-        data: 'alt=media',
-        // If this isn't specified, we get an XMLDocument back. We want a
-        // string for maximum flexibility.
-        dataType: 'text',
-        // Note, if the authorization header is messed up, it will give us
-        // an error that tells us we need to sign in and have reached our
-        // limit.
-        headers: { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token }
-      }).then(function(xml_text) {
-        callback(xml_text);
-      });
-    }
+    $.ajax({
+      url:  _DRIVE_FILE_API + id,
+      // Required to actually initiate a download
+      data: 'alt=media',
+      // If this isn't specified, we get an XMLDocument back. We want a
+      // string for maximum flexibility.
+      dataType: 'text',
+      // Note, if the authorization header is messed up, it will give us
+      // an error that tells us we need to sign in and have reached our
+      // limit.
+      headers: _AUTH_HEADER
+    }).then(function(xml_text) {
+      callback(xml_text);
+    });
   }
 
   /**
@@ -215,24 +219,35 @@ define([
    * @protected
    */
   XooMLDriver.prototype.checkExists = function (callback) {
-    var self = this, result;
+    var self = this;
 
-    self._dropboxClient.stat(self._fragmentURI, function (error, stat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      if ((error !== null && error.status === 404) || (error === null && stat.isRemoved === true)) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      callback(false, result);
-    });
-  };
-
-  XooMLDriver.prototype._showDropboxError = function (error, callback) {
-    return callback(error.status);
+    // If we have the URI, first make a direct request for that
+    if (this._fragmentURI) {
+      // A simple get request will suffice
+      $.get({
+        url: _DRIVE_FILE_API + self._fragmentURI,
+        headers: _AUTH_HEADER
+      }).then(function() {
+        callback(false);
+      }).fail(function() {
+        callback('XooML file: ' + self._fragmentURI + ' not found');
+      })
+    // In this case, we do a search for XooML in the folder
+    } else {
+      var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and in ' + self._parentURI;
+      var request = this.clientInterface.client.drive.files.list({
+        'maxResults': 1,
+        'q': query
+      });
+      request.execute(function(resp) {
+        // Simply check if there were any results
+        if (resp.items[0]) {
+          callback(false);
+        } else {
+          callback('XooML file not found in directory: ' + self._parentURI);
+        }
+      });
+    }
   };
 
   return XooMLDriver;
