@@ -32,30 +32,15 @@ define([
    * @protected
    */
   function ItemDriver(options, callback) {
-    XooMLUtil.checkCallback(callback);
-    if (!XooMLUtil.isObject(options)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    if (!XooMLUtil.isFunction(callback)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-    if (!XooMLUtil.hasOptions(_CONSTRUCTOR__OPTIONS, options)) {
-      return callback(XooMLExceptions.missingParameter);
-    }
     var self = this;
 
-    // private variables
-    self._dropboxClient = options.dropboxClient;
+    // client (google drive in this case)
+    if (!options.client) {
+      throw new Error('Client parameter missing');
+    }
+    var _client = options.client;
 
-    if (self._checkDropboxAuthenticated(self._dropboxClient)) {
-      callback(false, self);
-    } else {
-      self._dropboxClient.authenticate(function (error) {
-        if (error) {
-          return callback(XooMLExceptions.itemUException, null);
-        }
-        return callback(false, self);
-      });
+    return callback(false, self);
     }
   }
 
