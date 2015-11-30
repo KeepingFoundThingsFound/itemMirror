@@ -90,11 +90,11 @@ define([
    * @param  {Function} callback Function with the XML string response
    * @param {String} id ID of the file you want to get download
    */
-  function _readFile(callback, id) {
+  XooMLDriver.prototype._readFile = function(callback, id) {
     var self = this;
 
     $.ajax({
-      url:  _DRIVE_FILE_API + id,
+      url:  self._DRIVE_FILE_API + id,
       // Required to actually initiate a download
       data: 'alt=media',
       // If this isn't specified, we get an XMLDocument back. We want a
@@ -103,11 +103,11 @@ define([
       // Note, if the authorization header is messed up, it will give us
       // an error that tells us we need to sign in and have reached our
       // limit.
-      headers: _AUTH_HEADER
+      headers: self._AUTH_HEADER
     }).then(function(xml_text) {
       callback(xml_text);
     });
-  }
+  };
 
   /**
    * In some cases, you can't get the root fragment ordinairily. Google drive
@@ -119,13 +119,13 @@ define([
    * In this case, we make a query in the root folder of gdrive and return the
    * contents of the first file with the name XooML2.xml
    */
-  function _getRootFragment(callback) {
+  XooMLDriver.prototype._getRootFragment = function(callback) {
     var self = this;
 
     // This query means return the file with the title XooML2.xml in the
     // root directory.
     // Details on the gapi query syntax: https://developers.google.com/drive/web/search-parameters
-    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and in root';
+    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'root\' in parents';
     var request = this.clientInterface.client.drive.files.list({
       'maxResults': 1,
       'q': query
@@ -135,9 +135,9 @@ define([
       // read the file contents
       var rootId = resp.items[0];
 
-      _readFile(callback, id);
+      self._readFile(callback, id);
     });
-  }
+  };
 
   /**
    * Reads and returns a XooML fragment
@@ -151,11 +151,11 @@ define([
 
     // Root fragment case
     if (this._parentURI === 'root') {
-      _getRootFragment(callback);
+      this._getRootFragment(callback);
     }
 
     // General case, where we don't need to do a query
-    _readFile(callback, this._fragmentURI);
+    this._readFile(callback, this._fragmentURI);
   };
 
   /**
