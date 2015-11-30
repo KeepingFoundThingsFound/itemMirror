@@ -214,7 +214,11 @@ define([
               'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
             },
             'body': multipartRequestBody});
-        request.execute(callback);
+        request.execute(function() {
+          callback(false);
+        }, function(response) {
+          callback('Could not write out XooML Fragment', response);
+        });
       };
     }
 

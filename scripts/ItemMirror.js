@@ -193,7 +193,7 @@ define([
       // Because the fragment is being built from scratch, it's safe
       // to save it directly via the driver.
       self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-        if (error) console.log(error);
+        if (error) console.error(error);
       });
 
       return callback(false, self);

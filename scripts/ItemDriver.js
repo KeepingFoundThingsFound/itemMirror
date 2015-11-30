@@ -47,7 +47,8 @@ define([
     // These are the same across multple files, and so should be put in a common configuration somewhere
     var _AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
     var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
-    var _FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
+
+    self._FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
     return callback(false, self);
   }
@@ -66,7 +67,7 @@ define([
       headers: _AUTH_HEADER
     }).then(function(resp) {
       // This is the specific mimetype that google counts as a 'folder'
-      callback(false, _FOLDER_MIMETYPE === resp.mimeType);
+      callback(false, self._FOLDER_MIMETYPE === resp.mimeType);
     }).fail(function() {
       callback('No response from GET: ' + id);
     });
@@ -87,7 +88,7 @@ define([
       url: _DRIVE_FILE_API,
       headers: _AUTH_HEADER,
       body: {
-        mimeType: _FOLDER_MIMETYPE,
+        mimeType: self._FOLDER_MIMETYPE,
         title: title,
         parents: [parentURI]
       }
@@ -228,7 +229,7 @@ define([
   ItemDriver.prototype.listItems = function (parentURI, callback) {
     var self = this;
 
-    var query = '\'' + parentURI + '\' in ' + 'parents'
+    var query = '\'' + parentURI + '\' in ' + 'parents';
     var request = this.clientInterface.client.drive.files.list({
       'maxResults': 1000,
       'q': query
@@ -238,11 +239,24 @@ define([
         return callback('Error: Bad Response / Request');  
       }
 
-      var ids = resp.items.map(function(item) {
-        return item.id;
-      })
+      var items = resp.items.map(function(item) {
+        return new AssociationEditor({
+          commonData: {
+            // Change this to be the ID of the XooML.xml file eventually
+            // Will need another parameter for that
+            associatedXooMLFragment: null, 
+            associatedItem: item.id,
+            associatedItemDriver: 'GoogleItemDriver',
+            associatedXooMLDriver: 'GoogleXooMLDriver',
+            associatedSyncDriver: 'MirrorSyncDriver', 
+            isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
+            localItem: item.title,
+            displayText: item.title
+          }
+        });
+      });
 
-      callback(false, ids);
+      callback(false, items);
     });
   };
 
