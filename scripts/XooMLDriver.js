@@ -49,7 +49,7 @@ define([
     var self = this;
 
     if (!options.clientInterface) {
-      throw new Error('Missing client interface in options!')
+      throw new Error('Missing client interface in options!');
     }
 
     // The parent URI tells us what 'folder', the XooML should be put inside
@@ -84,7 +84,7 @@ define([
    * @param  {Function} callback Function with the XML string response
    * @param {String} id ID of the file you want to get download
    */
-  function _readFile = function(callback, id) {
+  function _readFile(callback, id) {
     var self = this;
 
     $.ajax({
@@ -113,7 +113,7 @@ define([
    * In this case, we make a query in the root folder of gdrive and return the
    * contents of the first file with the name XooML2.xml
    */
-  function _getRootFragment = function (callback) {
+  function _getRootFragment(callback) {
     var self = this;
 
     // This query means return the file with the title XooML2.xml in the
@@ -200,7 +200,7 @@ define([
             },
             'body': multipartRequestBody});
         request.execute(callback);
-      }
+      };
     }
 
     var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLUtil.xooMLFragmentFileName});
@@ -231,7 +231,7 @@ define([
         callback(false);
       }).fail(function() {
         callback('XooML file: ' + self._fragmentURI + ' not found');
-      })
+      });
     // In this case, we do a search for XooML in the folder
     } else {
       var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and in ' + self._parentURI;

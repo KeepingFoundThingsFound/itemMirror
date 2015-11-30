@@ -46,9 +46,7 @@ define([
     var _FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
     return callback(false, self);
-    }
   }
-
 
   ItemDriver.prototype.moveGroupingItem = function (fromPath, newPath, callback) {
     var self = this;
