@@ -135,7 +135,14 @@ define([
       // read the file contents
       var rootId = resp.items[0];
 
-      self._readFile(callback, id);
+      // This means that there currently is no XooML file
+      if (!rootId) {
+        // This error should be standardized somewhere and made into a number
+        // that way all drivers can  share it
+        return callback('XooML Not Found'); 
+      }
+
+      self._readFile(callback, rootId);
     });
   };
 
@@ -240,7 +247,7 @@ define([
       });
     // In this case, we do a search for XooML in the folder
     } else {
-      var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and in ' + self._parentURI;
+      var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'' + self._parentURI + '\' in parents';
       var request = this.clientInterface.client.drive.files.list({
         'maxResults': 1,
         'q': query

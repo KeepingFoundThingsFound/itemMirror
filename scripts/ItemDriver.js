@@ -35,13 +35,17 @@ define([
     var self = this;
 
     // client (google drive in this case)
-    if (!options.client) {
+    if (!options.clientInterface) {
       throw new Error('Client parameter missing');
     }
-    this.clientInterface = options.client;
+    this.clientInterface = options.clientInterface;
+
+    var authResponse = this.clientInterface.auth2.getAuthInstance()
+      .currentUser.get()
+      .getAuthResponse();
 
     // These are the same across multple files, and so should be put in a common configuration somewhere
-    var _AUTH_HEADER = { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token };
+    var _AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
     var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
     var _FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
@@ -221,29 +225,24 @@ define([
    *
    * @protected
    */
-  ItemDriver.prototype.listItems = function (path, callback) {
+  ItemDriver.prototype.listItems = function (parentURI, callback) {
     var self = this;
 
-    self._dropboxClient.readdir(path, function (error, list, stat, listStat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
+    var query = '\'' + parentURI + '\' in ' + 'parents'
+    var request = this.clientInterface.client.drive.files.list({
+      'maxResults': 1000,
+      'q': query
+    });
+    request.execute(function(resp) {
+      if (resp.error) {
+        return callback('Error: Bad Response / Request');  
       }
-      var i, output;
 
-      output = [];
+      var ids = resp.items.map(function(item) {
+        return item.id;
+      })
 
-      for (i = 0; i < listStat.length; i += 1) {
-        if (listStat[i].name !== XooMLConfig.xooMLFragmentFileName) {
-          output.push(new AssociationEditor({
-            commonData: { displayText: listStat[i].name,
-                          isGrouping: listStat[i].isFolder,
-                          localItem: listStat[i].name,
-                          associatedItem: listStat[i].isFolder ? listStat[i].path : null
-                        }
-          }));
-        }
-      }
-      return callback(false, output);
+      callback(false, ids);
     });
   };
 

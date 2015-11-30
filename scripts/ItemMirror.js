@@ -106,22 +106,19 @@ define([
     self._itemDriver = null;
     self._syncDriver = null;
     self._creator = options.creator || null;
-    self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
+    self._groupingItemURI = options.groupingItemURI;
     self._newItemMirrorOptions = options;
 
     // displayName for the fragment
-    if (PathDriver.isRoot(self._groupingItemURI)) {
-      // This obviously will need to be changed when multiple driver
-      // support is implemented
-      displayName = "Dropbox";
-    } else {
-      displayName = PathDriver.formatPath(self._groupingItemURI);
-      displayName = PathDriver.splitPath(displayName);
-      displayName = displayName[displayName.length - 1];
-    }
+    // It may make more sense to set this later once we have the drivers loaded
+    // displayName = this._xooMLDriver.getDisplayName();
+    displayName = 'TBD';
 
-    xooMLFragmentURI = PathDriver.joinPath(self._groupingItemURI, XooMLConfig.xooMLFragmentFileName);
+    // URIs for XooML
+    var parentURI = options.parentURI || 'root';
+    var fragmentURI = options.fragmentURI || null;
     options.xooMLDriver.fragmentURI = xooMLFragmentURI;
+
     // First load the XooML Driver
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver);
 
@@ -136,8 +133,11 @@ define([
     function processXooML(error, fragmentString) {
       // Case 2: Since the fragment doesn't exist, we need
       // to construct it by using the itemDriver
-      if (error === 404) new ItemDriver(options.itemDriver, createFromItemDriver);
-      else if (error) return callback(error);
+      if (error === 'XooML Not Found') {
+        new ItemDriver(options.itemDriver, createFromItemDriver);
+      } else if (error) {
+        return callback(error);
+      }
 
       // Case 1: It already exists, and so all of the information
       // can be constructed from the saved fragment
