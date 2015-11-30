@@ -64,15 +64,21 @@ define([
     // Note: This does assume that the client has already been authenticated
     // If not it could lead to potential errors. gapi should be set to the
     // clientInterface
-    this._clientInterface = options.clientInterface;
+    this.clientInterface = options.clientInterface;
 
     // The fragmentURI is the id of the XooML file. It may or may not exist
     this._fragmentURI = options.fragmentURI ? options.fragmentURI : null;
 
+    // This comes from the usage of teh updated API, we have to jump through
+    // several hoops to geth the authentication token that we're looking for
+    var authResponse = this.clientInterface.auth2.getAuthInstance()
+      .currentUser.get()
+      .getAuthResponse();
+
     // This is the authorized header, so we can easily make requests via ajax.
     // If we get request errors, make sure that this header is correct, and
     // doesn't constantly change
-    var _AUTH_HEADER = { Authorization: 'Bearer ' + self.clientInterface.auth.getToken().access_token };
+    var _AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
     var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
 
     return callback(false, self);
