@@ -21,9 +21,11 @@
 define([
   "./XooMLExceptions",
   "./XooMLConfig",
+  "./XooMLUtil"
 ], function(
   XooMLExceptions,
-  XooMLConfig) {
+  XooMLConfig,
+  XooMLUtil) {
   "use strict";
 
   var _CONSTRUCTOR_OPTIONS = {
