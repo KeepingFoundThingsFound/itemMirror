@@ -115,8 +115,8 @@ define([
     displayName = 'TBD';
 
     // URIs for XooML
-    var parentURI = options.parentURI || 'root';
-    var fragmentURI = options.fragmentURI || null;
+    self.parentURI = options.parentURI || 'root';
+    self.fragmentURI = options.fragmentURI || null;
     options.xooMLDriver.fragmentURI = xooMLFragmentURI;
 
     // First load the XooML Driver
@@ -464,20 +464,19 @@ define([
         syncOptions,
         uri;
 
-    // Need to change this so that it instead points to the fragmentURI field
-    uri = PathDriver.joinPath(self.getAssociationAssociatedItem(GUID), "XooML2.xml");
-
     itemOptions = {
-      driverURI: "DropboxItemUtility",
-      dropboxClient: self._xooMLDriver._dropboxClient
+      driverURI: "GoogleItemUtility",
+      clientInterface: gapi,
+      parentURI: self._groupingItemURI
     };
     xooMLOptions = {
       fragmentURI: uri,
-      driverURI: "DropboxXooMLUtility",
-      dropboxClient: self._xooMLDriver._dropboxClient
+      driverURI: "GoogleXooMLUtility",
+      clientInterface: gapi,
+      parentURI: self._groupingItemURI
     };
     syncOptions = {
-      utilityURI: "MirrorSyncUtility"
+      utilityURI: "SyncUtility"
     };
 
     isGrouping = self.isAssociationAssociatedItemGrouping(GUID);
