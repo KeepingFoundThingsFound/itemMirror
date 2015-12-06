@@ -78,8 +78,8 @@ define([
     // This is the authorized header, so we can easily make requests via ajax.
     // If we get request errors, make sure that this header is correct, and
     // doesn't constantly change
-    var _AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
-    var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
+    this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
+    this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
 
     return callback(false, self);
   }
@@ -105,7 +105,7 @@ define([
       // limit.
       headers: self._AUTH_HEADER
     }).then(function(xml_text) {
-      callback(xml_text);
+      callback(false, xml_text);
     });
   };
 
@@ -133,16 +133,16 @@ define([
     request.execute(function(resp) {
       // Now that we've made the request, we can extract the fileID and
       // read the file contents
-      var rootId = resp.items[0];
+      var rootItem = resp.items[0];
 
       // This means that there currently is no XooML file
-      if (!rootId) {
+      if (!rootItem) {
         // This error should be standardized somewhere and made into a number
         // that way all drivers can  share it
         return callback('XooML Not Found'); 
       }
 
-      self._readFile(callback, rootId);
+      self._readFile(callback, rootItem.id);
     });
   };
 
