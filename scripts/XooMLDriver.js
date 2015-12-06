@@ -134,6 +134,10 @@ define([
       // Now that we've made the request, we can extract the fileID and
       // read the file contents
       var rootItem = resp.items[0];
+      
+      if (resp.items.length > 1) {
+        console.warn('Mutliple XooML files found, only using first one. Please delete extras');
+      }
 
       // This means that there currently is no XooML file
       if (!rootItem) {
