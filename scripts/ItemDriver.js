@@ -250,7 +250,7 @@ define([
             associatedXooMLDriver: 'GoogleXooMLDriver',
             associatedSyncDriver: 'MirrorSyncDriver', 
             isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
-            localItem: item.title,
+            localItem: item.id,
             displayText: item.title
           }
         });

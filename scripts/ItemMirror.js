@@ -464,16 +464,18 @@ define([
         syncOptions,
         uri;
 
+    console.log(self.getURIforItemDescribed(GUID));
+
     itemOptions = {
       driverURI: "GoogleItemUtility",
       clientInterface: gapi,
-      parentURI: self._groupingItemURI
+      parentURI: self._fragment.commonData.itemDescribed
     };
     xooMLOptions = {
       fragmentURI: uri,
       driverURI: "GoogleXooMLUtility",
       clientInterface: gapi,
-      parentURI: self._groupingItemURI
+      parentURI: self._fragment.commonData.itemDescribed
     };
     syncOptions = {
       utilityURI: "SyncUtility"

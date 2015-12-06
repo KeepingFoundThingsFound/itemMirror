@@ -21,11 +21,9 @@
 define([
   "./XooMLExceptions",
   "./XooMLConfig",
-  "./XooMLUtil"
 ], function(
   XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil) {
+  XooMLConfig) {
   "use strict";
 
   var _CONSTRUCTOR_OPTIONS = {
@@ -159,12 +157,18 @@ define([
     var self = this;
 
     // Root fragment case
+    // Parent is getting set to root somewhere that it shoudn't
+    // INstead it needs to point to the folderID that the XooML File resides in
+    // I kept getting confused about what that was. The is somewhere in itemMirror, when
+    //  the xoomldriver is created for the new mirror
     if (this._parentURI === 'root') {
+      console.log('ROOT CASE');
       this._getRootFragment(callback);
+    } else {
+      // General case, where we don't need to do a query
+      console.log('GENERAL CASE');
+      this._readFile(callback, this._fragmentURI);
     }
-
-    // General case, where we don't need to do a query
-    this._readFile(callback, this._fragmentURI);
   };
 
   /**
@@ -189,7 +193,7 @@ define([
       reader.onload = function(e) {
         var contentType = fileData.type || 'application/octet-stream';
         var metadata = {
-          'title': XooMLUtil.xooMLFragmentFileName,
+          'title': XooMLConfig.xooMLFragmentFileName,
           'mimeType': contentType,
           'parents': [self._parentURI]
         };
@@ -222,7 +226,7 @@ define([
       };
     }
 
-    var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLUtil.xooMLFragmentFileName});
+    var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLConfig.xooMLFragmentFileName});
     insertFile(blob, callback);
   };
 
