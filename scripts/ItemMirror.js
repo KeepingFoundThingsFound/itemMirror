@@ -114,8 +114,6 @@ define([
     // displayName = this._xooMLDriver.getDisplayName();
     displayName = 'TBD';
 
-    // URIs for XooML
-    self.parentURI = options.parentURI || 'root';
     self.fragmentURI = options.fragmentURI || null;
     options.xooMLDriver.fragmentURI = xooMLFragmentURI;
 
@@ -464,18 +462,20 @@ define([
         syncOptions,
         uri;
 
-    console.log(self.getURIforItemDescribed(GUID));
+    console.warn('Associated Item:');
+    console.log(self.getAssociationAssociatedItem(GUID));
 
     itemOptions = {
       driverURI: "GoogleItemUtility",
       clientInterface: gapi,
-      parentURI: self._fragment.commonData.itemDescribed
+      // Note that this needs to be changed, we want to point to the grouping item's id
+      associatedItem: self.getAssociationAssociatedItem(GUID)
     };
     xooMLOptions = {
       fragmentURI: uri,
       driverURI: "GoogleXooMLUtility",
       clientInterface: gapi,
-      parentURI: self._fragment.commonData.itemDescribed
+      associatedItem: self.getAssociationAssociatedItem(GUID)
     };
     syncOptions = {
       utilityURI: "SyncUtility"

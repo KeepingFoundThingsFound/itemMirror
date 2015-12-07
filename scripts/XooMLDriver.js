@@ -55,7 +55,7 @@ define([
     // The parent URI tells us what 'folder', the XooML should be put inside
     // of. Root is a special URI for google drive, otherwise it should be an
     // id
-    this._parentURI = options.parentURI || 'root';
+    this._parentURI = options.associatedItem || 'root';
 
     // Client Interface is whatever object that a given client hands back
     // after the authorization step. We use it to make sending and recieving
@@ -90,11 +90,11 @@ define([
    * @param  {Function} callback Function with the XML string response
    * @param {String} id ID of the file you want to get download
    */
-  XooMLDriver.prototype._readFile = function(callback, id) {
+  XooMLDriver.prototype._readFile = function(callback) {
     var self = this;
 
     $.ajax({
-      url:  self._DRIVE_FILE_API + id,
+      url:  self._DRIVE_FILE_API + self._fragmentURI,
       // Required to actually initiate a download
       data: 'alt=media',
       // If this isn't specified, we get an XMLDocument back. We want a
@@ -109,46 +109,40 @@ define([
     });
   };
 
-  /**
-   * In some cases, you can't get the root fragment ordinairily. Google drive
-   * makes it easy to reference other XooML files when you have a pointer to
-   * them, but we don't have anything to point to the root. Therefore we have
-   * to have a special variation of getXooMLFragment for the root case that
-   * functions differently.
-   *
-   * In this case, we make a query in the root folder of gdrive and return the
-   * contents of the first file with the name XooML2.xml
-   */
-  XooMLDriver.prototype._getRootFragment = function(callback) {
+  // This is a helper function that searches for the xml file in a folder when
+  // necessary
+  XooMLDriver.prototype._searchXooML = function(callback, folderID) {
     var self = this;
 
     // This query means return the file with the title XooML2.xml in the
     // root directory.
     // Details on the gapi query syntax: https://developers.google.com/drive/web/search-parameters
-    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'root\' in parents';
+    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'' + folderID + '\' in parents';
     var request = this.clientInterface.client.drive.files.list({
-      'maxResults': 1,
+      'maxResults': 10,
       'q': query
     });
     request.execute(function(resp) {
       // Now that we've made the request, we can extract the fileID and
       // read the file contents
-      var rootItem = resp.items[0];
-      
+      var xoomlItem = resp.items[0];
+
       if (resp.items.length > 1) {
         console.warn('Mutliple XooML files found, only using first one. Please delete extras');
+        console.log(resp.items);
       }
 
       // This means that there currently is no XooML file
-      if (!rootItem) {
+      if (!xoomlItem) {
         // This error should be standardized somewhere and made into a number
         // that way all drivers can  share it
         return callback('XooML Not Found'); 
       }
 
-      self._readFile(callback, rootItem.id);
+      self._fragmentURI = xoomlItem.id;
+      self._readFile(callback);
     });
-  };
+  }
 
   /**
    * Reads and returns a XooML fragment
@@ -160,14 +154,10 @@ define([
   XooMLDriver.prototype.getXooMLFragment = function (callback) {
     var self = this;
 
-    // Root fragment case
-    // Parent is getting set to root somewhere that it shoudn't
-    // INstead it needs to point to the folderID that the XooML File resides in
-    // I kept getting confused about what that was. The is somewhere in itemMirror, when
-    //  the xoomldriver is created for the new mirror
-    if (this._parentURI === 'root') {
-      console.log('ROOT CASE');
-      this._getRootFragment(callback);
+    // If we don't have the fragmentURI, we need this for searching
+    if (!this._fragmentURI) {
+      console.log('SEARCH CASE');
+      return this._searchXooML(callback, this._parentURI);
     } else {
       // General case, where we don't need to do a query
       console.log('GENERAL CASE');
@@ -185,8 +175,26 @@ define([
    */
   XooMLDriver.prototype.setXooMLFragment = function (xmlString, callback) {
     var self = this;
-
     var mimeType = 'text/xml';
+
+    // Used when updating an already existing XooML.xml
+    function updateFile(callback) {
+      var request = gapi.client.request({
+        path: '/upload/drive/v2/files/' + self._fragmentURI,
+        method: 'PUT',
+        params: {'uploadType': 'media'},
+        body: xmlString
+      });
+
+      request.execute(function(response) {
+        callback(false);
+      }, function(error) {
+        console.error(error);
+        callback(error);
+      });
+    }
+
+    // Used when writing a new XooML file
     function insertFile(fileData, callback) {
       var boundary = '-------314159265358979323846';
       var delimiter = "\r\n--" + boundary + "\r\n";
@@ -199,8 +207,11 @@ define([
         var metadata = {
           'title': XooMLConfig.xooMLFragmentFileName,
           'mimeType': contentType,
-          'parents': [self._parentURI]
+          'parents': [self._parentURI],
         };
+
+        console.log('XooML Metadata for writing');
+        console.log(metadata);
 
         var base64Data = btoa(reader.result);
         var multipartRequestBody =
@@ -222,7 +233,10 @@ define([
               'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
             },
             'body': multipartRequestBody});
-        request.execute(function() {
+        request.execute(function(response) {
+          // The response is the newly created file, and we set the fragment ID to that
+          // so that future requests don't require additional searches
+          self._fragmentURI = response.id
           callback(false);
         }, function(response) {
           callback('Could not write out XooML Fragment', response);
@@ -231,7 +245,14 @@ define([
     }
 
     var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLConfig.xooMLFragmentFileName});
-    insertFile(blob, callback);
+
+
+    // Update or create the file depending on the circumstances
+    if (self._fragmentURI) {
+      updateFile(callback);
+    } else {
+      insertFile(blob, callback);
+    }
   };
 
   /**
