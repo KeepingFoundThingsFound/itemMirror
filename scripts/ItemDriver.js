@@ -239,7 +239,10 @@ define([
         return callback('Error: Bad Response / Request');  
       }
 
-      var items = resp.items.map(function(item) {
+      var items = resp.items.filter(function(item) {
+        return item.title !== XooMLConfig.xooMLFragmentFileName;
+      })
+      .map(function(item) {
         return new AssociationEditor({
           commonData: {
             // Change this to be the ID of the XooML.xml file eventually
