@@ -25,11 +25,12 @@
  *
  * @protected
  */
-define([
-  "./XooMLExceptions",
-  "./XooMLUtil"
-], function(XooMLExceptions, XooMLUtil) {
-  "use strict";
+
+
+'use strict'
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLUtil = require('./XooMLUtil');
 
  var _ELEMENT_NAME = "association",
      _NAMESPACE_ELEMENT_NAME = "associationNamespaceElement",
@@ -299,5 +300,4 @@ define([
      */
   }
 
-  return AssociationEditor;
-});
+module.exports = AssociationEditor;

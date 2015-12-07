@@ -14,21 +14,17 @@
  *
  * @protected
  */
-define([
-  "./XooMLDriver",
-  "./XooMLExceptions",
-  "./XooMLConfig",
-  "./XooMLUtil",
-  "./FragmentEditor",
-  "./AssociationEditor"
-], function(
-  XooMLDriver,
-  XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil,
-  FragmentEditor,
-  AssociationEditor) {
-  "use strict";
+
+
+'use strict'
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLConfig = require('./XooMLConfig');
+var XooMLUtil = require('./XooMLUtil');
+var FragmentEditor = require('./FragmentEditor');
+var AssociationEditor = require('./AssociationEditor');
+var XooMLExceptions = require('./XooMLExceptions');
+
 
   var self;
 
@@ -160,5 +156,4 @@ define([
     }
   };
 
-  return SyncDriver;
-});
+module.exports = SyncDriver;

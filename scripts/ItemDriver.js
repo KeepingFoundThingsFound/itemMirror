@@ -14,17 +14,13 @@
  *
  * @protected
  */
-define([
-  "./XooMLExceptions",
-  "./XooMLConfig",
-  "./XooMLUtil",
-  "./AssociationEditor"
-], function(
-  XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil,
-  AssociationEditor) {
-  "use strict";
+
+'use strict'
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLConfig = require('./XooMLConfig');
+var XooMLUtil = require('./XooMLUtil');
+var AssociationEditor = require('./AssociationEditor');
 
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
@@ -285,5 +281,4 @@ define([
     });
   };
 
-  return ItemDriver;
-});
+module.exports = ItemDriver;

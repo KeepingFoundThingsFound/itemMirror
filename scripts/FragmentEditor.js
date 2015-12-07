@@ -30,17 +30,14 @@
  *
  * @protected
  **/
-define([
-  "./XooMLExceptions",
-  "./XooMLConfig",
-  "./XooMLUtil",
-  "./AssociationEditor"
-], function(
-  XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil,
-  AssociationEditor) {
-  "use strict";
+
+
+'use strict'
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLConfig = require('./XooMLConfig');
+var XooMLUtil = require('./XooMLUtil');
+var AssociationEditor = require('./AssociationEditor');
 
   var _ELEMENT_NAME = "fragment",
       _ASSOCIATION_ELEMENT_NAME = "association",
@@ -379,5 +376,4 @@ define([
     }
   }
 
-  return FragmentEditor;
-});
+module.exports = FragmentEditor;

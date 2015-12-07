@@ -18,13 +18,9 @@
  *
  * @protected
  */
-define([
-  "./XooMLExceptions",
-  "./XooMLConfig",
-], function(
-  XooMLExceptions,
-  XooMLConfig) {
-  "use strict";
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLConfig = require('./XooMLConfig');
 
   var _CONSTRUCTOR_OPTIONS = {
       // This is the location of the driver
@@ -301,5 +297,4 @@ define([
     }
   };
 
-  return XooMLDriver;
-});
+module.exports = XooMLDriver;

@@ -8,7 +8,7 @@
  *
  * @protected
  */
-define({
+module.exports = {
   // default schema version
   schemaVersion: "0.54",
 
@@ -48,4 +48,4 @@ define({
     "itemName": true,
     "isGroupingItem": true
   }
-});
+}

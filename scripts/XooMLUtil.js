@@ -9,11 +9,11 @@
  *
  * @protected
  */
-define([
-  "./XooMLExceptions",
-  "./XooMLConfig"
-], function(XooMLExceptions, XooMLConfig) {
-  "use strict";
+
+ 'use strict'
+
+ var XooMLExceptions = require('./XooMLExceptions');
+ var XooMLConfig = require('./XooMLConfig'); 
 
   var
     _GUIDRegex = /\[([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})\]/i,
@@ -228,5 +228,4 @@ define([
     }
   };
 
-  return XooMLUtil;
-});
+module.exports = XooMLUtil;

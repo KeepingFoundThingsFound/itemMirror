@@ -8,7 +8,7 @@
  *
  * @protected
  */
-define({
+module.exports = {
   /**
    * Thrown when a method is not yet implemented.
    *
@@ -110,4 +110,4 @@ define({
    * @protected
    */
   itemMirrorNotCurrent: "ItemMirrorNotCurrent"
-});
+}

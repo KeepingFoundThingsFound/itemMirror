@@ -52,25 +52,17 @@
  *                    an object with the error that occurred.
  *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
  */
-define([
-  './XooMLExceptions',
-  './XooMLConfig',
-  './XooMLUtil',
-  './ItemDriver',
-  './XooMLDriver',
-  './SyncDriver',
-  './FragmentEditor',
-  './AssociationEditor'
-], function(
-  XooMLExceptions,
-  XooMLConfig,
-  XooMLUtil,
-  ItemDriver,
-  XooMLDriver,
-  SyncDriver,
-  FragmentEditor,
-  AssociationEditor) {
-  "use strict";
+
+'use strict'
+
+var XooMLExceptions = require('./XooMLExceptions');
+var XooMLConfig = require('./XooMLConfig');
+var XooMLUtil = require('./XooMLUtil');
+var XooMLDriver = require('./XooMLDriver');
+var ItemDriver = require('./ItemDriver');
+var SyncDriver = require('./SyncDriver');
+var FragmentEditor = require('./FragmentEditor');
+var AssociationEditor = require('./AssociationEditor');
 
   var
     _CONSTRUCTOR_CASE_1_OPTIONS = {
@@ -1294,5 +1286,11 @@ define([
     return /^http:\/\//.exec(URL);
   };
 
-  return ItemMirror;
-});
+
+// This makes the pacakge accessible as a node module
+module.exports = ItemMirror;
+
+// This attaches the library as a global if it doesn't already exist
+if (window) { // Checks for window object so we don't break potential node usage
+  window.ItemMirror = window.ItemMirror || ItemMirror
+}
