@@ -207,7 +207,10 @@ define([
         var metadata = {
           'title': XooMLConfig.xooMLFragmentFileName,
           'mimeType': contentType,
-          'parents': [self._parentURI],
+          'parents': [{
+            "kind": "drive#parentReference",
+            "id": self._parentURI,
+          }]
         };
 
         console.log('XooML Metadata for writing');
