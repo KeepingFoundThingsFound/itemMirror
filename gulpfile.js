@@ -13,6 +13,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
 var eslint=  require('gulp-eslint');
 var path = require('path');
+var yuidoc = require('gulp-yuidoc')
 
 const SCRIPTS = path.resolve('./scripts');
 
@@ -42,3 +43,9 @@ gulp.task('lint', function () {
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
+
+gulp.task('document', function() {
+  return gulp.src(path.join(SCRIPTS, '*.js'))
+    .pipe(yuidoc())
+    .pipe(gulp.dest('./doc'));
+})
