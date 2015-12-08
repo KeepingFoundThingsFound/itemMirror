@@ -16,6 +16,7 @@ var path = require('path');
 var yuidoc = require('gulp-yuidoc')
 
 const SCRIPTS = path.resolve('./scripts');
+const JS = path.join(SCRIPTS, '*.js');
 
 // Uses browserify to compile modules, and put rendered files in the dist
 // directory. Uglify is then used to ugilfy the source and create source maps
@@ -45,7 +46,11 @@ gulp.task('lint', function () {
 });
 
 gulp.task('document', function() {
-  return gulp.src(path.join(SCRIPTS, '*.js'))
+  return gulp.src(JS)
     .pipe(yuidoc())
     .pipe(gulp.dest('./doc'));
-})
+});
+
+gulp.task('develop', function() {
+  gulp.watch(JS, ['lint', 'build']);
+});
