@@ -39,6 +39,11 @@ var XooMLConfig = require('./XooMLConfig');
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
    *
+   * @method XooMLDriver
+   *
+   * @param {Object} options A list of options for construction
+   * @param {Function} callback A function to call after completion
+   *
    * @protected
    */
   function XooMLDriver(options, callback) {
@@ -83,6 +88,7 @@ var XooMLConfig = require('./XooMLConfig');
 
   /**
    * Creates a request for a given fileID and executes the request
+   * @method _readFile
    * @param  {Function} callback Function with the XML string response
    * @param {String} id ID of the file you want to get download
    */

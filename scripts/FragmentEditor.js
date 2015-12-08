@@ -272,6 +272,8 @@ var AssociationEditor = require('./AssociationEditor');
    * Takes a fragment in the form of a string and then parses that
    * into XML. From there it converts that element into an object
    * using the _fromElement method
+   * 
+   * @method _fromString
    *
    * @param {String} text The text representing the fragment. Should
    * be obtained directly from a storage platform like dropbox or a

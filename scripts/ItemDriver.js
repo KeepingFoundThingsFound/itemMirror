@@ -25,6 +25,11 @@ var AssociationEditor = require('./AssociationEditor');
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
    *
+   * @method ItemDriver
+   *
+   * @param {Object} options Options passed for construction
+   * @param {Function} callback The function to call after completion
+   *
    * @protected
    */
   function ItemDriver(options, callback) {

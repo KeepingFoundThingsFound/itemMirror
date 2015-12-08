@@ -62,7 +62,7 @@ var XooMLUtil = require('./XooMLUtil');
    *
    * @method toElement
    *
-   * @returns {Element} A DOM element that can be further manipulated
+   * @return {Element} A DOM element that can be further manipulated
    * with DOM methods
    *
    * @protected
