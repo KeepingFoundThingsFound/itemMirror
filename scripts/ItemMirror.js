@@ -56,7 +56,6 @@
 'use strict'
 
 var XooMLExceptions = require('./XooMLExceptions');
-var XooMLConfig = require('./XooMLConfig');
 var XooMLUtil = require('./XooMLUtil');
 var XooMLDriver = require('./XooMLDriver');
 var ItemDriver = require('./ItemDriver');
@@ -64,25 +63,7 @@ var SyncDriver = require('./SyncDriver');
 var FragmentEditor = require('./FragmentEditor');
 var AssociationEditor = require('./AssociationEditor');
 
-  var
-    _CONSTRUCTOR_CASE_1_OPTIONS = {
-      "groupingItemURI":  true,
-      "xooMLDriver":      true,
-      "parent":           false
-    },
-    _CONSTRUCTOR_CASE_2_OPTIONS = {
-      "groupingItemURI": true,
-      "xooMLDriver":     true,
-      "itemDriver":      true,
-      "syncDriver":      true,
-      "parent":          false
-    },
-    _UPGRADE_ASSOCIATION_OPTIONS = {
-      "GUID": true,
-      "localItemURI": false
-    };
-
-  function ItemMirror(options, callback) {
+    function ItemMirror(options, callback) {
     XooMLUtil.checkCallback(callback);
     if (!options) {
       return callback(XooMLExceptions.nullArgument);
@@ -92,6 +73,9 @@ var AssociationEditor = require('./AssociationEditor');
     }
 
    var self = this, xooMLFragmentURI, displayName;
+
+   this._xooMLDriverClient = options.xooMLDriver.clientInterface;
+   this._itemDriverClient = options.xooMLDriver.clientInterface;
 
     // private variables
     self._xooMLDriver = null;
@@ -137,12 +121,7 @@ var AssociationEditor = require('./AssociationEditor');
     }
 
     function createFromXML(fragmentString) {
-      console.log("Constructing from XML");
       self._fragment = new FragmentEditor({text: fragmentString});
-
-      // Need to load other stuff from the fragment now
-      var syncDriverURI = self._fragment.commonData.syncDriver,
-          itemDriverURI = self._fragment.commonData.itemDriver;
 
       new ItemDriver(options.itemDriver, function(error, driver) {
         if (error) return callback(error);
@@ -152,7 +131,7 @@ var AssociationEditor = require('./AssociationEditor');
 
         // Do a refresh in case something has been added or deleted in
         // the directory since the last write
-        self.refresh(function(error) {
+        self.refresh(function() {
           return callback(false, self);
         });
       });
@@ -183,7 +162,9 @@ var AssociationEditor = require('./AssociationEditor');
       // Because the fragment is being built from scratch, it's safe
       // to save it directly via the driver.
       self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-        if (error) console.error(error);
+        if (error) {
+          throw new Error(error);
+        }
       });
 
       return callback(false, self);
@@ -211,7 +192,7 @@ var AssociationEditor = require('./AssociationEditor');
    * @method getSchemaVersion
    * @return {String} XooML schema version.
    */
-  ItemMirror.prototype.getSchemaVersion = function(callback) {
+  ItemMirror.prototype.getSchemaVersion = function() {
     return this._fragment.commonData.schemaVersion;
   };
 
@@ -454,19 +435,16 @@ var AssociationEditor = require('./AssociationEditor');
         syncOptions,
         uri;
 
-    console.warn('Associated Item:');
-    console.log(self.getAssociationAssociatedItem(GUID));
-
     itemOptions = {
       driverURI: "GoogleItemUtility",
-      clientInterface: gapi,
+      clientInterface: this._itemDriverClient,
       // Note that this needs to be changed, we want to point to the grouping item's id
       associatedItem: self.getAssociationAssociatedItem(GUID)
     };
     xooMLOptions = {
       fragmentURI: uri,
       driverURI: "GoogleXooMLUtility",
-      clientInterface: gapi,
+      clientInterface: this._xooMLDriverClient,
       associatedItem: self.getAssociationAssociatedItem(GUID)
     };
     syncOptions = {
@@ -487,7 +465,6 @@ var AssociationEditor = require('./AssociationEditor');
        creator: self
       },
       function (error, itemMirror) {
-        console.log(error);
         return callback(error, itemMirror);
       }
     );
@@ -546,7 +523,6 @@ var AssociationEditor = require('./AssociationEditor');
   ItemMirror.prototype.createAssociation = function (options, callback) {
     var self = this,
         association,
-        path,
         saveOutFragment;
 
     saveOutFragment = function(association){
@@ -574,13 +550,14 @@ var AssociationEditor = require('./AssociationEditor');
           displayText: options.displayText,
           isGrouping: true,
           localItem: options.localItem,
-          associatedItem: PathDriver.joinPath(self.getURIforItemDescribed(), options.localItem)
+          // Changed this part, and need to test folder creation to insure safety
+          associatedItem: options.associatedItem
         }
       });
 
       // Now we use the itemDriver to actually create the folder
-      path = PathDriver.joinPath(self._groupingItemURI, association.commonData.localItem);
-      self._itemDriver.createGroupingItem(path, function(error){
+      // NOTE: untested
+      self._itemDriver.createGroupingItem(options.displayText, function(error){
         if (error) return callback(error);
 
         return saveOutFragment(association);
@@ -641,52 +618,8 @@ var AssociationEditor = require('./AssociationEditor');
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   ItemMirror.prototype.copyAssociation = function (GUID, ItemMirror, callback) {
-    var self = this;
-
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
-      if (error) {
-        return callback(error);
-      }
-        //phantom case
-        if (!localItem) {
-          var options = {};
-          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
-          self.getAssociationDisplayText(GUID, function(error, displayText){
-            if (error) {
-              return callback(error);
-            }
-            options.displayText = displayText;
-
-            //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
-              if (error) {
-                return callback(error);
-              }
-              options.itemURI = associatedItem;
-            });
-          });
-          //create a new phantom association in destItemMirror
-          ItemMirror.createAssociation(options, function(error, GUID) {
-            if(error) {
-              return callback(error);
-            }
-          });
-          return ItemMirror._save(callback);
-        }
-
-        self._handleDataWrapperCopyAssociation(GUID, localItem, ItemMirror, error, callback);
-
-    });
-
+   ItemMirror.prototype.copyAssociation = function () {
+    throw new Error('Method not implemented');
    };
   /**
    * Moves an association to another ItemMirror Object (representing a grouping item)
@@ -706,57 +639,8 @@ var AssociationEditor = require('./AssociationEditor');
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   ItemMirror.prototype.moveAssociation = function (GUID, ItemMirror, callback) {
-    var self = this;
-    XooMLUtil.checkCallback(callback);
-    if (!GUID) {
-      return callback(XooMLExceptions.nullArgument);
-    }
-    if (!XooMLUtil.isGUID(GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-
-    self.getAssociationLocalItem(GUID, function (error, localItem) {
-      if (error) {
-        return callback(error);
-      }
-        //phantom case
-        if (!localItem) {
-          var options = {};
-          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
-          self.getAssociationDisplayText(GUID, function(error, displayText){
-            if (error) {
-              return callback(error);
-            }
-            options.displayText = displayText;
-            //check for case 2, phantom NonGrouping Item with ItemURI a.k.a associatedItem
-            self.getAssociationAssociatedItem(GUID, function(error, associatedItem){
-              if (error) {
-                return callback(error);
-              }
-              options.itemURI = associatedItem;
-            });
-          });
-          //create a new phantom association in destItemMirror
-          ItemMirror.createAssociation(options, function(error, newGUID) {
-            if(error) {
-              return callback(error);
-            }
-            //delete the current phantom association
-            self._fragmentEditor.deleteAssociation(GUID, function (error) {
-              if(error) {
-                return callback(error);
-              }
-              return self._save(callback);
-            });
-            return ItemMirror._save(callback);
-          });
-        }
-
-        self._handleDataWrapperMoveAssociation(GUID, localItem, ItemMirror, error, callback);
-
-    });
-
+   ItemMirror.prototype.moveAssociation = function () {
+    throw new Error('Method not implemented');
    };
 
   /**
@@ -796,8 +680,10 @@ var AssociationEditor = require('./AssociationEditor');
 
       if (!isPhantom) {
         var isGrouping = self.isAssociationAssociatedItemGrouping(GUID),
-            localItem = self.getAssociationLocalItem(GUID),
-            path = PathDriver.joinPath(self._groupingItemURI, localItem);
+            // For dropbox support, path should be the full path that is
+            // dynamically generated. Refer to case 39 for implementation
+            // details. UNTESTED
+            path = self.getAssociationAssociatedItem(GUID);
 
         delete self._fragment.associations[GUID];
         if (isGrouping) {
@@ -862,28 +748,8 @@ var AssociationEditor = require('./AssociationEditor');
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.upgradeAssociation = function (options, callback) {
-    var self = this, localItemURI;
-    XooMLUtil.checkCallback(callback);
-    if (!XooMLUtil.hasOptions(_UPGRADE_ASSOCIATION_OPTIONS, options)) {
-      return callback(XooMLExceptions.missingParameter);
-    }
-    if ((options.hasOwnProperty("localItemURI") &&
-      !XooMLUtil.isString(options.localItemURI)) ||
-      !XooMLUtil.isGUID(options.GUID)) {
-      return callback(XooMLExceptions.invalidType);
-    }
-
-    if (options.hasOwnProperty("localItemURI")) {
-      self._setSubGroupingItemURIFromDisplayText(options.GUID, options.localItemURI, callback);
-    } else {
-      self.getAssociationDisplayText(options.GUID, function (error, displayText) {
-        if (error) {
-          return callback(error);
-        }
-        self._setSubGroupingItemURIFromDisplayText(options.GUID, displayText, callback);
-      });
-    }
+  ItemMirror.prototype.upgradeAssociation = function () {
+    throw new Error('Method not implemented');
   };
 
   /**
@@ -904,6 +770,10 @@ var AssociationEditor = require('./AssociationEditor');
    * @param {String} callback.GUID The GUID of the association that was updated.
    */
   ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
+    // This method needs a redesign, and can't be properly implemented the way
+    // it is now. Instead, this needs to pass information to the acual item
+    // driver and that needs to implement an agnostic new name format. This
+    // path stuff is specific to dropbox and doesn't work
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -918,14 +788,16 @@ var AssociationEditor = require('./AssociationEditor');
     function postSave(error) {
       if (error) return callback(error);
 
-      var localItem = self.getAssociationLocalItem(GUID),
-          oldPath = PathDriver.joinPath(self._groupingItemURI, localItem),
-          newPath = PathDriver.joinPath(self._groupingItemURI, newName);
+      // This stuff needs to be replaced with a method that works for all stores
+          // oldPath = PathDriver.joinPath(self._groupingItemURI, localItem),
+          // newPath = PathDriver.joinPath(self._groupingItemURI, newName);
 
-      self._itemDriver.moveItem(oldPath, newPath, postMove);
+      self._itemDriver.rename(newName, postMove);
     }
 
     function postMove(error) {
+      if (error) return callback(error);
+      // This also needs to be more agnostic
       self._fragment.associations[GUID].commonData.localItem = newName;
 
       self._unsafeWrite(postWrite);
@@ -953,18 +825,13 @@ var AssociationEditor = require('./AssociationEditor');
   ItemMirror.prototype._unsafeWrite = function(callback) {
     var self = this;
 
-    self._xooMLDriver.getXooMLFragment(afterXooML);
-
-    function afterXooML(error, content){
+    // Note (12/8/2015) This was never used, but seems like it has purpose. May need to investigate
+    //var tmpFragment = new FragmentEditor({text: content});
+    self._fragment.updateID();
+    return self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
       if (error) return callback(error);
-
-      var tmpFragment = new FragmentEditor({text: content});
-      self._fragment.updateID();
-      return self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function(error) {
-        if (error) return callback(error);
-        return callback(false);
-      });
-    }
+      return callback(false);
+    });
   };
 
   /**

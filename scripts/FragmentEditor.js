@@ -35,7 +35,6 @@
 'use strict'
 
 var XooMLExceptions = require('./XooMLExceptions');
-var XooMLConfig = require('./XooMLConfig');
 var XooMLUtil = require('./XooMLUtil');
 var AssociationEditor = require('./AssociationEditor');
 
@@ -63,7 +62,7 @@ var AssociationEditor = require('./AssociationEditor');
     } else if (options.commonData) {
       _fromOptions(options.commonData, options.associations, self);
     } else {
-      console.log(XooMLExceptions.missingParameter);
+      throw new Error(XooMLExceptions.missingParameter);
     }
   }
 
@@ -76,9 +75,7 @@ var AssociationEditor = require('./AssociationEditor');
    * @protected
    */
   FragmentEditor.prototype.updateID = function() {
-    var self = this, guid;
-
-    guid = XooMLUtil.generateGUID();
+    var guid = XooMLUtil.generateGUID();
     this.commonData.GUIDGeneratedOnLastWrite = guid;
     return guid;
   };
@@ -301,7 +298,7 @@ var AssociationEditor = require('./AssociationEditor');
    * @private
    */
   function _fromElement(element, self) {
-    var dataElems, nsElem, i, associationElems, guid, elem, uri;
+    var dataElems, i, associationElems, guid, elem, uri;
     // Sets all common data attributes
     self.commonData = {
       fragmentNamespaceElement: element.getAttribute(_NAMESPACE_ELEMENT_NAME),

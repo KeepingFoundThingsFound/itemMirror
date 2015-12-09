@@ -52,7 +52,7 @@ var XooMLUtil = require('./XooMLUtil');
     } else if (options.commonData) {
       _fromOptions(options.commonData, self);
     } else {
-      console.log(XooMLExceptions.missingParameter);
+      throw new Error(XooMLExceptions.missingParameter);
     }
   }
 

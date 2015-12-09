@@ -15,7 +15,11 @@
   "eslintConfig": {
     "extends": "eslint:recommended",
     "env": {
+      "browser": true,
       "commonjs": true
+    },
+    "globals": {
+      "$": true
     },
     "indent": [
       2,

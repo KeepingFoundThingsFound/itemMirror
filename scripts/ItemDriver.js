@@ -17,9 +17,7 @@
 
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions');
 var XooMLConfig = require('./XooMLConfig');
-var XooMLUtil = require('./XooMLUtil');
 var AssociationEditor = require('./AssociationEditor');
 
   /**
@@ -46,26 +44,21 @@ var AssociationEditor = require('./AssociationEditor');
       .getAuthResponse();
 
     // These are the same across multple files, and so should be put in a common configuration somewhere
-    var _AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
-    var _DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
+    this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
+    this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
 
     self._FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
 
     return callback(false, self);
   }
 
-  ItemDriver.prototype.moveGroupingItem = function (fromPath, newPath, callback) {
-    var self = this;
-    throw new Error('Not implemented');
-  };
-
   ItemDriver.prototype.isGroupingItem = function (id, callback) {
     var self = this;
 
     // do a simple get request, and see if it's a folder
     $.get({
-      url: _DRIVE_FILE_API + id,
-      headers: _AUTH_HEADER
+      url: self._DRIVE_FILE_API + id,
+      headers: self._AUTH_HEADER
     }).then(function(resp) {
       // This is the specific mimetype that google counts as a 'folder'
       callback(false, self._FOLDER_MIMETYPE === resp.mimeType);
@@ -86,8 +79,8 @@ var AssociationEditor = require('./AssociationEditor');
     var self = this;
 
     $.post({
-      url: _DRIVE_FILE_API,
-      headers: _AUTH_HEADER,
+      url: self._DRIVE_FILE_API,
+      headers: self._AUTH_HEADER,
       body: {
         mimeType: self._FOLDER_MIMETYPE,
         title: title,
