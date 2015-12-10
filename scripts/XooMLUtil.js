@@ -13,10 +13,8 @@
  'use strict'
 
  var XooMLExceptions = require('./XooMLExceptions');
- var XooMLConfig = require('./XooMLConfig'); 
 
   var
-    _GUIDRegex = /\[([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})\]/i,
     _TYPES = {
       "[object Boolean]": "boolean",
       "[object Number]": "number",

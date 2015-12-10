@@ -18,23 +18,13 @@
 
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions');
-var XooMLConfig = require('./XooMLConfig');
-var XooMLUtil = require('./XooMLUtil');
 var FragmentEditor = require('./FragmentEditor');
-var AssociationEditor = require('./AssociationEditor');
-var XooMLExceptions = require('./XooMLExceptions');
-
-
-  var self;
 
   function SyncDriver(itemMirror) {
     var self = this;
     self._itemMirror = itemMirror;
     self._itemDriver = itemMirror._itemDriver;
     self._xooMLDriver = itemMirror._xooMLDriver;
-
-
   }
 
   /**
@@ -104,9 +94,9 @@ var XooMLExceptions = require('./XooMLExceptions');
           return self._fragmentEditor.associations[guid];
         })
       // filters out any phantoms
-	.filter( function(assoc) {
-	  return assoc.commonData.localItem !== null;
-	});
+  .filter( function(assoc) {
+    return assoc.commonData.localItem !== null;
+  });
 
       // No guarantee that the storage API sends results sorted
       itemAssociations.sort(_localItemCompare);
@@ -117,31 +107,31 @@ var XooMLExceptions = require('./XooMLExceptions');
       var xooMLLocals = xooMLAssociations.map( function (assoc) {return assoc.commonData.localItem;} );
 
       itemLocals.forEach( function(localItem, itemIdx) {
-	var search = xooMLLocals.lastIndexOf(localItem, xooMLIdx);
-	// Create association
-	if (search === -1) {
-	  synchronized = false;
-	  // Case 6/7 only, other cases won't be handled
+  var search = xooMLLocals.lastIndexOf(localItem, xooMLIdx);
+  // Create association
+  if (search === -1) {
+    synchronized = false;
+    // Case 6/7 only, other cases won't be handled
           var association = itemAssociations[itemIdx];
           self._fragmentEditor.associations[association.commonData.ID] = association;
-	} else {
-	  // Deletes any extraneous associations
-	  xooMLAssociations
-	    .slice(xooMLIdx, search)
-	    .forEach( function(assoc) {
-	      synchronized = false;
+  } else {
+    // Deletes any extraneous associations
+    xooMLAssociations
+      .slice(xooMLIdx, search)
+      .forEach( function(assoc) {
+        synchronized = false;
               delete self._fragmentEditor.associations[assoc.guid];
-	    });
-	  xooMLIdx = search + 1;
-	}
+      });
+    xooMLIdx = search + 1;
+  }
       });
       // Any remaining associations need to be deleted because they don't exist
       xooMLAssociations
-	.slice(xooMLIdx, xooMLLocals.length)
-	.forEach( function(assoc) {
-	  synchronized = false;
+  .slice(xooMLIdx, xooMLLocals.length)
+  .forEach( function(assoc) {
+    synchronized = false;
           delete self._fragmentEditor.associations[assoc.commonData.ID];
-	});
+  });
 
       // Only save fragment if needed
       if (!synchronized) {

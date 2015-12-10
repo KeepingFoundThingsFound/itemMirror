@@ -19,23 +19,7 @@
  * @protected
  */
 
-var XooMLExceptions = require('./XooMLExceptions');
 var XooMLConfig = require('./XooMLConfig');
-
-  var _CONSTRUCTOR_OPTIONS = {
-      // This is the location of the driver
-      // Not currently used, but will eventually be specified
-      driverURI: true,
-      // This is the location of the fragment (XooML2.xml) for a given
-      // interface. In the case of google drive it's just the first result of
-      // the root folder with a search for the exact file XooML2.xml. While
-      // there's a more specific ID for the file itself, we can't really
-      // use that because there's no pointer to that initial file.
-
-      // This means that if there are two XooML2.xml files in the root
-      // directory, it's then possible that one will get ignored
-    };
-
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
    *
@@ -66,6 +50,9 @@ var XooMLConfig = require('./XooMLConfig');
     // If not it could lead to potential errors. gapi should be set to the
     // clientInterface
     this.clientInterface = options.clientInterface;
+    // To avoid confusion, we should remove the above and any references to
+    // it. It makes the code way easier to read
+    this.gapi = this.clientInterface;
 
     // The fragmentURI is the id of the XooML file. It may or may not exist
     this._fragmentURI = options.fragmentURI ? options.fragmentURI : null;
@@ -129,11 +116,6 @@ var XooMLConfig = require('./XooMLConfig');
       // read the file contents
       var xoomlItem = resp.items[0];
 
-      if (resp.items.length > 1) {
-        console.warn('Mutliple XooML files found, only using first one. Please delete extras');
-        console.log(resp.items);
-      }
-
       // This means that there currently is no XooML file
       if (!xoomlItem) {
         // This error should be standardized somewhere and made into a number
@@ -154,15 +136,11 @@ var XooMLConfig = require('./XooMLConfig');
    * @protected
    */
   XooMLDriver.prototype.getXooMLFragment = function (callback) {
-    var self = this;
-
     // If we don't have the fragmentURI, we need this for searching
     if (!this._fragmentURI) {
-      console.log('SEARCH CASE');
       return this._searchXooML(callback, this._parentURI);
     } else {
       // General case, where we don't need to do a query
-      console.log('GENERAL CASE');
       this._readFile(callback, this._fragmentURI);
     }
   };
@@ -181,17 +159,16 @@ var XooMLConfig = require('./XooMLConfig');
 
     // Used when updating an already existing XooML.xml
     function updateFile(callback) {
-      var request = gapi.client.request({
+      var request = this.gapi.client.request({
         path: '/upload/drive/v2/files/' + self._fragmentURI,
         method: 'PUT',
         params: {'uploadType': 'media'},
         body: xmlString
       });
 
-      request.execute(function(response) {
+      request.execute(function() {
         callback(false);
       }, function(error) {
-        console.error(error);
         callback(error);
       });
     }
@@ -204,19 +181,16 @@ var XooMLConfig = require('./XooMLConfig');
 
       var reader = new FileReader();
       reader.readAsBinaryString(fileData);
-      reader.onload = function(e) {
+      reader.onload = function() {
         var contentType = fileData.type || 'application/octet-stream';
         var metadata = {
           'title': XooMLConfig.xooMLFragmentFileName,
           'mimeType': contentType,
           'parents': [{
             "kind": "drive#parentReference",
-            "id": self._parentURI,
+            "id": self._parentURI
           }]
         };
-
-        console.log('XooML Metadata for writing');
-        console.log(metadata);
 
         var base64Data = btoa(reader.result);
         var multipartRequestBody =
@@ -230,7 +204,7 @@ var XooMLConfig = require('./XooMLConfig');
             base64Data +
             close_delim;
 
-        var request = gapi.client.request({
+        var request = this.gapi.client.request({
             'path': '/upload/drive/v2/files',
             'method': 'POST',
             'params': {'uploadType': 'multipart'},
@@ -278,8 +252,8 @@ var XooMLConfig = require('./XooMLConfig');
     if (this._fragmentURI) {
       // A simple get request will suffice
       $.get({
-        url: _DRIVE_FILE_API + self._fragmentURI,
-        headers: _AUTH_HEADER
+        url: this._DRIVE_FILE_API + self._fragmentURI,
+        headers: this._AUTH_HEADER
       }).then(function() {
         callback(false);
       }).fail(function() {
