@@ -157,43 +157,43 @@ var AssociationEditor = require('./AssociationEditor');
     return insertFile(blob, callback);
   };
 
+
+  // Helper function for deleting files, since no distinction is needed
+  // between grouping items and non grouping items in google drive
+  ItemDriver.prototype._deleteID = function (id, callback) {
+    var self = this;
+
+    $.delete({
+      url: self._DRIVE_FILE_API + '/' + id,
+      headers: self._AUTH_HEADER
+    }).then(function(resp) {
+      callback(false, resp);
+    }).fail(function(resp) {
+      callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp);
+    });
+  }
   /**
-   * Deletes a grouping item at the location
+   * Deletes a grouping item with the specified ID
    * @method deleteGroupingItem
-   * @param {String} path the path to the location that the grouping item is located
+   * @param {String} id the id of the file that will be deleted. This is specific to google
    * @param {Function} callback Function to be called when self function is finished with it's operation.
    *
    * @protected
    */
-  ItemDriver.prototype.deleteGroupingItem = function (path, callback) {
-    var self = this;
-
-    self._dropboxClient.remove(path, function (error, stat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      return callback(false, stat);
-    });
+  ItemDriver.prototype.deleteGroupingItem = function (id, callback) {
+    this._deleteID(id, callback);
   };
 
   /**
    * Deletes a non-grouping item at the location
    * @method deleteNonGroupingItem
-   * @param {String} path the path to the location that the non-grouping item is located
-   * @param {String} name the name of the non-grouping item
+   * @param {String} id the id of the file that will be deleted. This is specific to google
    * @param {Function} callback Function to be called when self function is finished with it's operation.
    *
    * @protected
    */
-  ItemDriver.prototype.deleteNonGroupingItem = function (path, callback) {
-    var self = this;
-
-    self._dropboxClient.remove(path, function (error, stat) {
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      return callback(false, stat);
-    });
+  ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
+    this._deleteID(id, callback);
   };
   
     /**
