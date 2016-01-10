@@ -57,8 +57,8 @@
 
 var XooMLExceptions = require('./XooMLExceptions');
 var XooMLUtil = require('./XooMLUtil');
-var XooMLDriver = require('./XooMLDriver');
-var ItemDriver = require('./ItemDriver');
+var XooMLDriver = require('./google-xooml-driver');
+var ItemDriver = require('./google-item-driver');
 var SyncDriver = require('./SyncDriver');
 var FragmentEditor = require('./FragmentEditor');
 var AssociationEditor = require('./AssociationEditor');
