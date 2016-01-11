@@ -42,7 +42,8 @@ var XooMLUtil = require('./XooMLUtil');
      _ASSOCIATED_ITEM_DRIVER_ATTR = "associatedItemDriver",
      _ASSOCIATED_ITEM_ATTR = "associatedItem",
      _LOCAL_ITEM_ATTR = "localItem",
-     _IS_GROUPING_ATTR = "isGrouping";
+     _IS_GROUPING_ATTR = "isGrouping",
+     _PUBLIC_URL = "publicURL";
 
   function AssociationEditor(options) {
     var self = this;
@@ -119,7 +120,8 @@ var XooMLUtil = require('./XooMLUtil');
       associatedItem: element.getAttribute(_ASSOCIATED_ITEM_ATTR),
       localItem: element.getAttribute(_LOCAL_ITEM_ATTR),
       // We use JSON.parse to get the value as a boolean, not as a string
-      isGrouping: JSON.parse(element.getAttribute(_IS_GROUPING_ATTR))
+      isGrouping: JSON.parse(element.getAttribute(_IS_GROUPING_ATTR)),
+      publicURL: element.getAttribute(_PUBLIC_URL)
     };
 
     self.namespace = {};

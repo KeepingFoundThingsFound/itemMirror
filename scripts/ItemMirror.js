@@ -220,6 +220,10 @@ var AssociationEditor = require('./AssociationEditor');
     return this._fragment.commonData.itemDescribed;
   };
 
+  ItemMirror.prototype.getPublicURL = function(GUID) {
+    return this._fragment.associations[GUID].commonData.publicURL;
+  }
+
   /**
    * Throws NullArgumentException if GUID is null. <br/>
    * Throws InvalidTypeException if GUID is not a String. <br/>

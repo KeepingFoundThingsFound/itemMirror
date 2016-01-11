@@ -232,7 +232,8 @@ var AssociationEditor = require('./AssociationEditor');
             associatedSyncDriver: 'MirrorSyncDriver', 
             isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
             localItem: item.id,
-            displayText: item.title
+            displayText: item.title,
+            publicURL: item.alternateLink
           }
         });
       });

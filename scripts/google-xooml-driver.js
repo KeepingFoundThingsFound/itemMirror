@@ -204,7 +204,7 @@ var XooMLConfig = require('./XooMLConfig');
             base64Data +
             close_delim;
 
-        var request = this.gapi.client.request({
+        var request = self.gapi.client.request({
             'path': '/upload/drive/v2/files',
             'method': 'POST',
             'params': {'uploadType': 'multipart'},
