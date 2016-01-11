@@ -213,8 +213,8 @@ define([
 
   ItemMirror.prototype.getPublicURL = function(GUID) {
     var self = this;
-    item = self.getAssociationLocalItem(GUID);
-    folder = self.getURIforItemDescribed();
+    var item = self.getAssociationLocalItem(GUID);
+    var folder = self.getURIforItemDescribed();
 
     return "https://www.dropbox.com/home" + encodeURI(folder) + "?preview=" + encodeURIComponent(item); 
   };
