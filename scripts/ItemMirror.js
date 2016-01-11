@@ -74,9 +74,6 @@ function ItemMirror(options, callback) {
     if (!options) {
       return callback(XooMLExceptions.nullArgument);
     }
-    if (!XooMLUtil.isObject(options)) {
-      return callback(XooMLExceptions.invalidType);
-    }
 
    var self = this, xooMLFragmentURI, displayName;
 
