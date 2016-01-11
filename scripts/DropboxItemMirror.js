@@ -1,56 +1,56 @@
 /**
- * ItemMirror represents an Item according to the XooML2 specification.
+ * DropboxItemMirror represents an Item according to the XooML2 specification.
  *
  * It can be instantiated using one of the following two cases based on the
  * given arguments.
  *
  * 1. XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
  * 2. The XooMLFragment is created from an existing groupingItemURI (e.g., a dropbox folder).
- * Given a groupingItemURI, itemDriver, and a xooMLDriver a new itemMirror will be constructed for given groupingItemURI.
+ * Given a groupingItemURI, itemDriver, and a xooMLDriver a new DropboxItemMirror will be constructed for given groupingItemURI.
  *
  * Throws NullArgumentException when options is null.
  *
  * Throws MissingParameterException when options is not null and a required
  * argument is missing.
  *
- * @class ItemMirror
+ * @class DropboxItemMirror
  * @constructor
  *
- * @param {Object} options Data to construct a new ItemMirror with
+ * @param {Object} options Data to construct a new DropboxItemMirror with
  *
  *  @param {String} options.groupingItemURI URI to the grouping item. Required
  *                  for all cases.
  *
  *  @param {String} options.itemDriver Data for the ItemDriver to
- *                  construct ItemMirror with. Required for cases 2 & 3
+ *                  construct DropboxItemMirror with. Required for cases 2 & 3
  *                  Can contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.itemDriver.driverURI URI of the driver.
  *
  *  @param {String} options.xooMLDriver Data for the XooMLDriver to
- *                  construct ItemMirror with. Required for all cases.
+ *                  construct DropboxItemMirror with. Required for all cases.
  *                  Can contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.xooMLDriver.driverURI URI of the driver.
  *
  *  @param {String} options.syncDriver Data for the SyncDriver to
- *                  construct ItemMirror with. Required Case 2 & 3. Can
+ *                  construct DropboxItemMirror with. Required Case 2 & 3. Can
  *                  contain any amount of optional key/value pairs for
  *                  the various Driver implementations.
  *   @param {String} options.syncDriver.driverURI URI of the driver.
  *
- *  @param {Boolean} options.readIfExists True if ItemMirror
- *                   should create an ItemMirror if it does not exist,
+ *  @param {Boolean} options.readIfExists True if DropboxItemMirror
+ *                   should create an DropboxItemMirror if it does not exist,
  *                   else false. Required for Case 2 & 3.
  *
- *  @param {ItemMirror} options.creator If being created from another
- *  itemMirror, specifies that itemMirror which it comes from.
+ *  @param {DropboxItemMirror} options.creator If being created from another
+ *  DropboxItemMirror, specifies that DropboxItemMirror which it comes from.
  *
  * @param {Function} callback Function to execute once finished.
  *  @param {Object}   callback.error Null if no error has occurred
  *                    in executing this function, else an contains
  *                    an object with the error that occurred.
- *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
+ *  @param {DropboxItemMirror} callback.DropboxItemMirror Newly constructed DropboxItemMirror
  */
 define([
   './XooMLExceptions',
@@ -92,7 +92,7 @@ define([
       "localItemURI": false
     };
 
-  function ItemMirror(options, callback) {
+  function DropboxItemMirror(options, callback) {
     XooMLUtil.checkCallback(callback);
     if (!options) {
       return callback(XooMLExceptions.nullArgument);
@@ -109,7 +109,7 @@ define([
     self._syncDriver = null;
     self._creator = options.creator || null;
     self._groupingItemURI = PathDriver.formatPath(options.groupingItemURI);
-    self._newItemMirrorOptions = options;
+    self._newDropboxItemMirrorOptions = options;
 
     // displayName for the fragment
     if (PathDriver.isRoot(self._groupingItemURI)) {
@@ -185,7 +185,7 @@ define([
           displayName: displayName,
           itemDriver: "dropboxItemDriver",
           xooMLDriver: "dropboxXooMLDriver",
-          syncDriver: "itemMirrorSyncUtility"
+          syncDriver: "DropboxItemMirrorSyncUtility"
         },
         associations: associations
       });
@@ -206,7 +206,7 @@ define([
    * @method getDisplayName
    * @return {String} The display name of the fragment.
    */
-  ItemMirror.prototype.getDisplayName = function() {
+  DropboxItemMirror.prototype.getDisplayName = function() {
     return this._fragment.commonData.displayName;
   };
 
@@ -214,7 +214,7 @@ define([
    * @method setDisplayName
    * @param {String} name The display text to set for the fragment
    */
-  ItemMirror.prototype.setDisplayName = function(name) {
+  DropboxItemMirror.prototype.setDisplayName = function(name) {
     this._fragment.commonData.displayName = name;
   };
 
@@ -223,7 +223,7 @@ define([
    * @method getSchemaVersion
    * @return {String} XooML schema version.
    */
-  ItemMirror.prototype.getSchemaVersion = function(callback) {
+  DropboxItemMirror.prototype.getSchemaVersion = function(callback) {
     return this._fragment.commonData.schemaVersion;
   };
 
@@ -232,7 +232,7 @@ define([
    * @method getSchemaLocation
    * @return {String} XooML schema location.
    */
-  ItemMirror.prototype.getSchemaLocation = function() {
+  DropboxItemMirror.prototype.getSchemaLocation = function() {
     return this._fragment.commonData.schemaLocation;
   };
 
@@ -247,7 +247,7 @@ define([
    * of a fragment if it exists, else returns null.
    *
    */
-  ItemMirror.prototype.getURIforItemDescribed = function() {
+  DropboxItemMirror.prototype.getURIforItemDescribed = function() {
     return this._fragment.commonData.itemDescribed;
   };
 
@@ -262,7 +262,7 @@ define([
    *
    * @param {String} GUID GUID representing the desired association.
    */
-    ItemMirror.prototype.getAssociationDisplayText = function(GUID) {
+    DropboxItemMirror.prototype.getAssociationDisplayText = function(GUID) {
     return this._fragment.associations[GUID].commonData.displayText;
   };
 
@@ -278,7 +278,7 @@ define([
    * @param {String}   GUID        GUID of the association to set.
    * @param {String}   displayText Display text to be set.
    */
-    ItemMirror.prototype.setAssociationDisplayText = function(GUID, displayText) {
+    DropboxItemMirror.prototype.setAssociationDisplayText = function(GUID, displayText) {
     this._fragment.associations[GUID].commonData.displayText = displayText;
   };
 
@@ -292,7 +292,7 @@ define([
    *
    * @param {String} GUID GUID of the association to get.
    */
-    ItemMirror.prototype.getAssociationLocalItem = function(GUID) {
+    DropboxItemMirror.prototype.getAssociationLocalItem = function(GUID) {
     return this._fragment.associations[GUID].commonData.localItem;
   };
 
@@ -305,7 +305,7 @@ define([
    * @return {String} The associated item for the association with the given GUID.
    * @param {String} GUID GUID of the association to get.
    */
-    ItemMirror.prototype.getAssociationAssociatedItem = function(GUID) {
+    DropboxItemMirror.prototype.getAssociationAssociatedItem = function(GUID) {
     return this._fragment.associations[GUID].commonData.associatedItem;
   };
 
@@ -316,7 +316,7 @@ define([
    * @param {String} attributeName Name of the attribute to be returned.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName, uri) {
+  DropboxItemMirror.prototype.getFragmentNamespaceAttribute = function(attributeName, uri) {
     var ns = this._fragment.namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -338,7 +338,7 @@ define([
    * @param {String} attributeValue Value of the attribute to be set.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue, uri) {
+  DropboxItemMirror.prototype.setFragmentNamespaceAttribute = function(attributeName, attributeValue, uri) {
     var ns = this._fragment.namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -357,7 +357,7 @@ define([
    * @param {String} uri Namespace URI
    */
   // TODO: Possibly remove? Why not just get and set
-  ItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName, uri) {
+  DropboxItemMirror.prototype.addFragmentNamespaceAttribute = function(attributeName, uri) {
     var ns = this._fragment.namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -383,7 +383,7 @@ define([
    * @param {String} uri  Namespace URI
    *
    */
-  ItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName, uri) {
+  DropboxItemMirror.prototype.removeFragmentNamespaceAttribute = function(attributeName, uri) {
     delete this._fragment.namespace[uri].attributes[attributeName];
   };
 
@@ -401,7 +401,7 @@ define([
    * @param {String} uri URI of the namespace for the association.
    *
    */
-  ItemMirror.prototype.hasFragmentNamespace = function (uri) {
+  DropboxItemMirror.prototype.hasFragmentNamespace = function (uri) {
     var namespace = this._fragment.namespace[uri];
     if (namespace) { return true; }
     else { return false; }
@@ -414,7 +414,7 @@ define([
    * @param {String} uri Namespace URI
    *
   */
-  ItemMirror.prototype.listFragmentNamespaceAttributes = function(uri) {
+  DropboxItemMirror.prototype.listFragmentNamespaceAttributes = function(uri) {
     return Object.keys(this._fragment.namespace[uri].attributes);
   };
 
@@ -423,7 +423,7 @@ define([
    * @return {String} The fragment namespace data with the given namespace URI.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.getFragmentNamespaceData = function(uri) {
+  DropboxItemMirror.prototype.getFragmentNamespaceData = function(uri) {
     return this._fragment.namespace[uri].data;
   };
 
@@ -435,7 +435,7 @@ define([
    * @param {String} data Fragment namespace data to be set.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
+  DropboxItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
     var ns = this._fragment.namespace;
     ns[uri] = ns[uri] || {};
 
@@ -443,7 +443,7 @@ define([
   };
 
   /**
-   * Creates an ItemMirror from the associated grouping item represented by
+   * Creates an DropboxItemMirror from the associated grouping item represented by
    * the given GUID.
    *
    * Throws NullArgumentException if GUID or callback is null. <br/>
@@ -451,14 +451,14 @@ define([
    * not a function. <br/>
    * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
    *
-   * @method createItemMirrorForAssociatedGroupingItem
-   * @return {ItemMirror} Possibly return an itemMirror if the GUID is a grouping item
+   * @method createDropboxItemMirrorForAssociatedGroupingItem
+   * @return {DropboxItemMirror} Possibly return an DropboxItemMirror if the GUID is a grouping item
    *
-   * @param {String} GUID GUID of the association to create the ItemMirror
+   * @param {String} GUID GUID of the association to create the DropboxItemMirror
    *                 from.
    *
    */
-  ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
+  DropboxItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
     var self = this,
         isGrouping,
         xooMLOptions,
@@ -488,16 +488,16 @@ define([
       return callback("Association not grouping, cannot continue");
     }
 
-    new ItemMirror(
+    new DropboxItemMirror(
       {groupingItemURI: self.getAssociationAssociatedItem(GUID),
        xooMLDriver: xooMLOptions,
        itemDriver: itemOptions,
        syncDriver: syncOptions,
        creator: self
       },
-      function (error, itemMirror) {
+      function (error, DropboxItemMirror) {
         console.log(error);
-        return callback(error, itemMirror);
+        return callback(error, DropboxItemMirror);
       }
     );
   };
@@ -552,7 +552,7 @@ define([
    *                    an object with the error that occurred.
    *  @param {String}   callback.GUID GUID of the association created.
    */
-  ItemMirror.prototype.createAssociation = function (options, callback) {
+  DropboxItemMirror.prototype.createAssociation = function (options, callback) {
     var self = this,
         association,
         path,
@@ -627,13 +627,13 @@ define([
    * @return {Boolean} True if the association of the given GUID is a
    * phantom association. False otherwise.
    */
-  ItemMirror.prototype.isAssociationPhantom = function(guid) {
+  DropboxItemMirror.prototype.isAssociationPhantom = function(guid) {
     var data = this._fragment.associations[guid].commonData;
     return !(data.isGrouping || data.localItem);
   };
 
   /**
-   * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
+   * Duplicates (copies) an association to another DropboxItemMirror Object (representing a grouping item)
    *
    *
    * Throws NullArgumentException if GUID is null. <br/>
@@ -643,14 +643,14 @@ define([
    * @method copyAssociation
    *
    * @param {String} GUID GUID of the association you wish to copy/duplicate
-   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
+   * @param {DropboxItemMirror} DropboxItemMirror DropboxItemMirror representing the grouping item you want to move the GUID object to
    *
    * @param {Function} callback Function to execute once finished.
    * @param {Object} callback.error Null if no error Null if no error has occurred
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   ItemMirror.prototype.copyAssociation = function (GUID, ItemMirror, callback) {
+   DropboxItemMirror.prototype.copyAssociation = function (GUID, DropboxItemMirror, callback) {
     var self = this;
 
     XooMLUtil.checkCallback(callback);
@@ -668,7 +668,7 @@ define([
         //phantom case
         if (!localItem) {
           var options = {};
-          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
+          //getDisplayText and Create new Simple DisplayText Assoc in DestDropboxItemMirror
           self.getAssociationDisplayText(GUID, function(error, displayText){
             if (error) {
               return callback(error);
@@ -683,22 +683,22 @@ define([
               options.itemURI = associatedItem;
             });
           });
-          //create a new phantom association in destItemMirror
-          ItemMirror.createAssociation(options, function(error, GUID) {
+          //create a new phantom association in destDropboxItemMirror
+          DropboxItemMirror.createAssociation(options, function(error, GUID) {
             if(error) {
               return callback(error);
             }
           });
-          return ItemMirror._save(callback);
+          return DropboxItemMirror._save(callback);
         }
 
-        self._handleDataWrapperCopyAssociation(GUID, localItem, ItemMirror, error, callback);
+        self._handleDataWrapperCopyAssociation(GUID, localItem, DropboxItemMirror, error, callback);
 
     });
 
    };
   /**
-   * Moves an association to another ItemMirror Object (representing a grouping item)
+   * Moves an association to another DropboxItemMirror Object (representing a grouping item)
    *
    *
    * Throws NullArgumentException if GUID is null. <br/>
@@ -708,14 +708,14 @@ define([
    * @method moveAssociation
    *
    * @param {String} GUID GUID of the item you want to paste or move
-   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
+   * @param {DropboxItemMirror} DropboxItemMirror DropboxItemMirror representing the grouping item you want to move the GUID object to
    *
    * @param {Function} callback Function to execute once finished.
    * @param {Object} callback.error Null if no error Null if no error has occurred
    *                 in executing this function, else it contains
    *                 an object with the error that occurred.
    */
-   ItemMirror.prototype.moveAssociation = function (GUID, ItemMirror, callback) {
+   DropboxItemMirror.prototype.moveAssociation = function (GUID, DropboxItemMirror, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -732,7 +732,7 @@ define([
         //phantom case
         if (!localItem) {
           var options = {};
-          //getDisplayText and Create new Simple DisplayText Assoc in DestItemMirror
+          //getDisplayText and Create new Simple DisplayText Assoc in DestDropboxItemMirror
           self.getAssociationDisplayText(GUID, function(error, displayText){
             if (error) {
               return callback(error);
@@ -746,8 +746,8 @@ define([
               options.itemURI = associatedItem;
             });
           });
-          //create a new phantom association in destItemMirror
-          ItemMirror.createAssociation(options, function(error, newGUID) {
+          //create a new phantom association in destDropboxItemMirror
+          DropboxItemMirror.createAssociation(options, function(error, newGUID) {
             if(error) {
               return callback(error);
             }
@@ -758,11 +758,11 @@ define([
               }
               return self._save(callback);
             });
-            return ItemMirror._save(callback);
+            return DropboxItemMirror._save(callback);
           });
         }
 
-        self._handleDataWrapperMoveAssociation(GUID, localItem, ItemMirror, error, callback);
+        self._handleDataWrapperMoveAssociation(GUID, localItem, DropboxItemMirror, error, callback);
 
     });
 
@@ -784,7 +784,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
+  DropboxItemMirror.prototype.deleteAssociation = function (GUID, callback) {
     var self = this;
 
     XooMLUtil.checkCallback(callback);
@@ -841,7 +841,7 @@ define([
 
   /**
    * Upgrades a given association without a local item. Local item is named
-   * by a truncated form of the display name of this ItemMirror if the
+   * by a truncated form of the display name of this DropboxItemMirror if the
    * localItemURI is not given, else uses given localItemURI. Always
    * truncated to 50 characters.
    *
@@ -857,7 +857,7 @@ define([
    *
    * @method upgradeAssociation
    *
-   * @param {Object} options Data to construct a new ItemMirror with
+   * @param {Object} options Data to construct a new DropboxItemMirror with
    *
    *  @param {String} options.GUID of the association to be upgraded. Required
    *
@@ -871,7 +871,7 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.upgradeAssociation = function (options, callback) {
+  DropboxItemMirror.prototype.upgradeAssociation = function (options, callback) {
     var self = this, localItemURI;
     XooMLUtil.checkCallback(callback);
     if (!XooMLUtil.hasOptions(_UPGRADE_ASSOCIATION_OPTIONS, options)) {
@@ -912,7 +912,7 @@ define([
    *                    an object with the error that occurred.
    * @param {String} callback.GUID The GUID of the association that was updated.
    */
-  ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
+  DropboxItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
     var self = this;
     XooMLUtil.checkCallback(callback);
     if (!GUID) {
@@ -959,7 +959,7 @@ define([
    * @param callback
    * @param calback.error
    */
-  ItemMirror.prototype._unsafeWrite = function(callback) {
+  DropboxItemMirror.prototype._unsafeWrite = function(callback) {
     var self = this;
 
     self._xooMLDriver.getXooMLFragment(afterXooML);
@@ -990,7 +990,7 @@ define([
    * @param GUID {String} GUID of the association to be to be checked.
    *
    */
-  ItemMirror.prototype.isAssociationAssociatedItemGrouping = function(GUID) {
+  DropboxItemMirror.prototype.isAssociationAssociatedItemGrouping = function(GUID) {
     return this._fragment.associations[GUID].commonData.isGrouping;
   };
 
@@ -1001,7 +1001,7 @@ define([
    *
    * @return {String[]} Array of the GUIDs of each association
    */
-  ItemMirror.prototype.listAssociations = function() {
+  DropboxItemMirror.prototype.listAssociations = function() {
     return Object.keys(this._fragment.associations);
   };
 
@@ -1023,7 +1023,7 @@ define([
    * @param {String} uri Namspace URI
    *
    */
-  ItemMirror.prototype.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+  DropboxItemMirror.prototype.getAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
     var ns = this._fragment.associations[GUID].namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -1049,7 +1049,7 @@ define([
    * @param {String} uri Namespace URI
    *
    */
-  ItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+  DropboxItemMirror.prototype.setAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
     var ns = this._fragment.associations[GUID].namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -1076,7 +1076,7 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
+  DropboxItemMirror.prototype.addAssociationNamespaceAttribute = function(attributeName, attributeValue, GUID, uri) {
     var ns = this._fragment.associations[GUID].namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -1105,7 +1105,7 @@ define([
    * @param {String} GUID          GUID of the association.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
+  DropboxItemMirror.prototype.removeAssociationNamespaceAttribute = function(attributeName, GUID, uri) {
     delete this._fragment.associations[GUID].namespace[uri].attributes[attributeName];
   };
 
@@ -1118,7 +1118,7 @@ define([
    * @param {String} uri  Namespace URI
    *
    */
-  ItemMirror.prototype.hasAssociationNamespace = function(GUID, uri) {
+  DropboxItemMirror.prototype.hasAssociationNamespace = function(GUID, uri) {
     var namespace = this._fragment.associations[GUID].namespace[uri];
     if (namespace) { return true; }
     else { return false; }
@@ -1138,7 +1138,7 @@ define([
    * @param {String} GUID          GUID of association to list attributes for.
    * @param {String} uri Namespace URI
    */
-  ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
+  DropboxItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
     var ns = this._fragment.associations[GUID].namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -1180,7 +1180,7 @@ define([
    *                               valid fragmentNamespaceData.
    * @param {String} GUID          GUID of the association namespace data to set.
    */
-  ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
+  DropboxItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
     var ns = this._fragment.associations[GUID].namespace;
     ns[uri] = ns[uri] || {};
     ns[uri].attributes = ns[uri].attributes || {};
@@ -1190,7 +1190,7 @@ define([
 
   /**
    * Uses the specified ItemDriver and SyncDriver to synchronize the
-   * local ItemMirror object changes. This is an implmentation of Synchronization
+   * local DropboxItemMirror object changes. This is an implmentation of Synchronization
    * Driver which modifies the XooML Fragment according to the real structure
    * under the item described.
    *
@@ -1202,7 +1202,7 @@ define([
    *                    an object with the error that occurred.
    * @private
    */
-  ItemMirror.prototype._sync = function (callback) {
+  DropboxItemMirror.prototype._sync = function (callback) {
     var self = this;
 
     self._syncDriver.sync(callback);
@@ -1218,13 +1218,13 @@ define([
    *                    in executing this function, else an contains
    *                    an object with the error that occurred.
    */
-  ItemMirror.prototype.refresh = function(callback) {
+  DropboxItemMirror.prototype.refresh = function(callback) {
     var self = this;
 
     self._sync( function(error) {
       // This error means that sync changed the fragment
       // We then will reload the fragment based on the new XooML
-      if (error === XooMLExceptions.itemMirrorNotCurrent) {
+      if (error === XooMLExceptions.DropboxItemMirrorNotCurrent) {
         self._xooMLDriver.getXooMLFragment(resetFragment);
       } else if (error) {
         callback(error);
@@ -1244,21 +1244,21 @@ define([
   /**
    * @method getCreator
    *
-   * @return {Object} The itemMirror that created this current
-   * itemMirror, if it has one. Note that this isn't the same as
-   * asking for a 'parent,' since multiple itemMirrors can possibly
+   * @return {Object} The DropboxItemMirror that created this current
+   * DropboxItemMirror, if it has one. Note that this isn't the same as
+   * asking for a 'parent,' since multiple DropboxItemMirrors can possibly
    * link to the same one
    *
    */
-  ItemMirror.prototype.getCreator = function () {
+  DropboxItemMirror.prototype.getCreator = function () {
     return this._creator;
   };
 
 
   /**
-   * Saves the itemMirror object, writing it out to the
+   * Saves the DropboxItemMirror object, writing it out to the
    * fragment. Fails if the GUID generated on last write for the
-   * itemMirror and the XooML fragment don't match.
+   * DropboxItemMirror and the XooML fragment don't match.
    *
    * @method save
    *
@@ -1266,7 +1266,7 @@ define([
    *  @param callback.error Returns false if everything went ok,
    *  otherwise returns the error
    */
-  ItemMirror.prototype.save = function(callback) {
+  DropboxItemMirror.prototype.save = function(callback) {
     var self = this;
 
     self._sync(postSync);
@@ -1295,5 +1295,5 @@ define([
     return /^http:\/\//.exec(URL);
   };
 
-  return ItemMirror;
+  return DropboxItemMirror;
 });

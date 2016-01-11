@@ -8,6 +8,6 @@
     } else {
         //Browser globals case. Just assign the
         //result to a property on the global.
-        root.ItemMirror = factory();
+        root.DropboxItemMirror = factory();
     }
 }(this, function () {

@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     } else {
         //Browser globals case. Just assign the
         //result to a property on the global.
-        root.ItemMirror = factory();
+        root.DropboxItemMirror = factory();
     }
 }(this, function () {
 /**
@@ -3675,5 +3675,5 @@ define('DropboxItemMirror',[
   return DropboxItemMirror;
 });
 
-    return require('ItemMirror');
+    return require('DropboxItemMirror');
 }));

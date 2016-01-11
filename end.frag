@@ -1,2 +1,2 @@
-    return require('ItemMirror');
+    return require('DropboxItemMirror');
 }));

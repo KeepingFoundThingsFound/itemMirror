@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
       files: ['Gruntfile.js',
-              'scripts/ItemMirror.js',
+              'scripts/DropboxItemMirror.js',
               'scripts/PathDriver.js',
               'scripts/SyncDriver.js',
 	      'scripts/XooMLDriver.js',
@@ -33,9 +33,9 @@ module.exports = function(grunt) {
         options: {
           baseUrl: "./scripts",
           name: "../node_modules/almond/almond",
-          include: "ItemMirror",
+          include: "DropboxItemMirror",
 //          insertRequire: ["ItemMirror"],
-          out: "item-mirror.js",
+          out: "dropbox-item-mirror.js",
           optimize: "none",
           useStrict: true,
           enforceDefine: true,
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 
     yuidoc: {
       compile: {
-        "name": "item-mirror",
+        "name": "dropbox-item-mirror",
         "description": "ItemMirror: a library for working with XooML to promote open cross platform tool usage",
         "version": version,
         "url": "https://github.com/KeepingFoundThingsFound/itemMirror",
@@ -79,7 +79,7 @@ module.exports = function(grunt) {
           mangle: false
         },
         files: {
-          'item-mirror.min.js': ['item-mirror.js']
+          'dropbox-item-mirror.min.js': ['dropbox-item-mirror.js']
         }
       }
     },
