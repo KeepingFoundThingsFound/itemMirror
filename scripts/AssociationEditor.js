@@ -271,7 +271,9 @@ var XooMLUtil = require('./XooMLUtil');
        * @type String
        */
       // GUID is generated upon construction
-      ID: XooMLUtil.generateGUID()
+      ID: XooMLUtil.generateGUID(),
+
+      publicURL: commonData.publicURL || null
     };
 
     /**

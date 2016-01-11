@@ -241,7 +241,6 @@ var AssociationEditor = require('./AssociationEditor');
       self.associations[guid] = assoc;
     });
 
-
     /**
      * The namespace data of the fragment. Holds both the URI as well
      * as the namespace specific data for the fragment
