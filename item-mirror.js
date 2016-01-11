@@ -2587,6 +2587,15 @@ define('DropboxItemMirror',[
     return this._fragment.commonData.displayName;
   };
 
+
+  ItemMirror.prototype.getPublicURL = function(GUID) {
+    var self = this;
+    var item = self.getAssociationLocalItem(GUID);
+    var folder = self.getURIforItemDescribed();
+
+    return "https://www.dropbox.com/home" + encodeURI(folder) + "?preview=" + encodeURIComponent(item); 
+  };
+
   /**
    * @method setDisplayName
    * @param {String} name The display text to set for the fragment
