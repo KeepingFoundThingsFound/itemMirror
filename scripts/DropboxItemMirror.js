@@ -216,7 +216,7 @@ define([
     var item = self.getAssociationLocalItem(GUID);
     var folder = self.getURIforItemDescribed();
 
-    return "https://www.dropbox.com/home" + encodeURI(folder) + "?preview=" + encodeURIComponent(item); 
+    return "https://www.dropbox.com/home" + encodeURI(folder) + "?preview=" + encodeURIComponent(item);
   };
 
   /**

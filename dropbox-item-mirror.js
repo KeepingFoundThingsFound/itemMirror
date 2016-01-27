@@ -902,7 +902,7 @@ define('PathDriver',[
     _PATH_SEPARATOR = "/",
     self;
 
-    
+
   function PathDriver() {}
   self = PathDriver.prototype;
 
@@ -939,7 +939,7 @@ define('PathDriver',[
    *
    * Currently unimplemented and throws notImplemented exception if
    * called.
-   
+
    * @method joinPathArrays
    *
    * @protected
@@ -1543,7 +1543,7 @@ define('ItemDriver',[
       return callback(false, stat);
     });
   };
-  
+
     /**
    * Copies an item in the fashion of moveItem
    * @method copyItem
@@ -1555,7 +1555,7 @@ define('ItemDriver',[
    */
   self.copyItem = function (fromPath, toPath, callback) {
     var self = this;
-    
+
     self._dropboxClient.copy(fromPath, toPath, function(error){
       if (error) {
         return self._showDropboxError(error, callback);
@@ -1563,7 +1563,7 @@ define('ItemDriver',[
       return callback(false);
     });
   };
-  
+
   /**
    * Moves an item
    * @method moveItem
@@ -1575,7 +1575,7 @@ define('ItemDriver',[
    */
   self.moveItem = function (fromPath, toPath, callback) {
     var self = this;
-    
+
     self._dropboxClient.move(fromPath, toPath, function(error){
       if (error) {
         return self._showDropboxError(error, callback);
@@ -1594,7 +1594,7 @@ define('ItemDriver',[
   */
   self.getURL = function (path, callback){
     var self = this;
-    
+
     self._dropboxClient.makeUrl(path, null, function (error, publicURL){
         if (error) {
           return self._showDropboxError(error, callback);
@@ -3271,6 +3271,18 @@ define('DropboxItemMirror',[
       });
     }
   };
+
+  /**
+   * Retieves the URL which allows us to view an association in a given store.
+   * For the case of dropbox it will open a preview
+   */
+  DropboxItemMirror.prototype.getPublicURL = function(GUID) {
+     var self = this;
+     var item = self.getAssociationLocalItem(GUID);
+     var folder = self.getURIforItemDescribed();
+
+    return "https://www.dropbox.com/home" + encodeURI(folder) + "?preview=" + encodeURIComponent(item);
+   };
 
   /**
    * Renames the local item for the association with the given GUID.
