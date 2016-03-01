@@ -16,7 +16,7 @@ module.exports = {
    *
    * @protected
    */
-  notImplemented: "NotImplementedException",
+  notImplemented: 'NotImplementedException',
 
   /**
    * Thrown when a required property from a method's options is missing.
@@ -25,7 +25,7 @@ module.exports = {
    *
    * @protected
    */
-  missingParameter: "MissingParameterException",
+  missingParameter: 'MissingParameterException',
 
   /**
    * Thrown when an argument is given a null value when it does not accept null
@@ -35,7 +35,7 @@ module.exports = {
    *
    * @protected
    */
-  nullArgument: "NullArgumentException",
+  nullArgument: 'NullArgumentException',
 
   /**
    * Thrown when an argument is given a value with a different type from the
@@ -45,7 +45,7 @@ module.exports = {
    *
    * @protected
    */
-  invalidType: "InvalidTypeException",
+  invalidType: 'InvalidTypeException',
 
   /**
    * Thrown when an a method is called when the object is in invalid state
@@ -55,7 +55,7 @@ module.exports = {
    *
    * @protected
    */
-  invalidState: "InvalidStateArgument",
+  invalidState: 'InvalidStateArgument',
 
   /**
    * Thrown after receiving an exception from XooMLU Storage
@@ -64,7 +64,7 @@ module.exports = {
    *
    * @protected
    */
-  xooMLUException: "XooMLUException",
+  xooMLUException: 'XooMLUException',
 
   /**
    * Thrown after receiving an exception from ItemU Storage
@@ -73,7 +73,7 @@ module.exports = {
    *
    * @protected
    */
-  itemUException: "ItemUException",
+  itemUException: 'ItemUException',
 
   /**
    * Thrown after an association was upgraded that could not be upgraded.
@@ -82,7 +82,7 @@ module.exports = {
    *
    * @protected
    */
-  nonUpgradeableAssociationException: "NonUpgradeableAssociationException",
+  nonUpgradeableAssociationException: 'NonUpgradeableAssociationException',
 
   /**
    * Thrown after an argument was passed in an invalid state than expected.
@@ -91,7 +91,7 @@ module.exports = {
    *
    * @protected
    */
-  invalidArgument: "InvalidOptionsException",
+  invalidArgument: 'InvalidOptionsException',
 
   /**
    * Thrown after expecting a file or folder not to exist when it does.
@@ -100,7 +100,7 @@ module.exports = {
    *
    * @protected
    */
-  itemAlreadyExists: "ItemAlreadyExistsException",
+  itemAlreadyExists: 'ItemAlreadyExistsException',
 
   /**
    * Thrown when expecting the ItemMirror to be current, and it is not.
@@ -109,5 +109,5 @@ module.exports = {
    *
    * @protected
    */
-  itemMirrorNotCurrent: "ItemMirrorNotCurrent"
+  itemMirrorNotCurrent: 'ItemMirrorNotCurrent'
 }

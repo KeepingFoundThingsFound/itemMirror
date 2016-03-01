@@ -31,40 +31,39 @@
  * @protected
  **/
 
-
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions');
-var XooMLUtil = require('./XooMLUtil');
-var AssociationEditor = require('./AssociationEditor');
+var XooMLExceptions = require('./XooMLExceptions')
+var XooMLUtil = require('./XooMLUtil')
+var AssociationEditor = require('./AssociationEditor')
 
-  var _ELEMENT_NAME = "fragment",
-      _ASSOCIATION_ELEMENT_NAME = "association",
-      _ASSOCIATION_ID_ATTR = "ID",
-      _NAMESPACE_ELEMENT_NAME = "fragmentNamespaceElement",
-      _SCHEMA_VERSION_ATTR = "schemaVersion",
-      _SCHEMA_LOCATION_ATTR = "schemaLocation",
-      _ITEM_DESCRIBED_ATTR = "itemDescribed",
-      _DISPLAY_NAME_ATTR = "displayName",
-      _ITEM_DRIVER_ATTR = "itemDriver",
-      _SYNC_DRIVER_ATTR = "syncDriver",
-      _XOOML_DRIVER_ATTR = "xooMLDriver",
-      _GUID_ATTR = "GUIDGeneratedOnLastWrite",
-      _ITEM_MIRROR_NS = "http://kftf.ischool.washington.edu/xmlns/xooml";
+var _ELEMENT_NAME = 'fragment'
+var _ASSOCIATION_ELEMENT_NAME = 'association'
+var _ASSOCIATION_ID_ATTR = 'ID'
+var _NAMESPACE_ELEMENT_NAME = 'fragmentNamespaceElement'
+var _SCHEMA_VERSION_ATTR = 'schemaVersion'
+var _SCHEMA_LOCATION_ATTR = 'schemaLocation'
+var _ITEM_DESCRIBED_ATTR = 'itemDescribed'
+var _DISPLAY_NAME_ATTR = 'displayName'
+var _ITEM_DRIVER_ATTR = 'itemDriver'
+var _SYNC_DRIVER_ATTR = 'syncDriver'
+var _XOOML_DRIVER_ATTR = 'xooMLDriver'
+var _GUID_ATTR = 'GUIDGeneratedOnLastWrite'
+var _ITEM_MIRROR_NS = 'http://kftf.ischool.washington.edu/xmlns/xooml'
 
-  function FragmentEditor(options) {
-    var self = this;
+function FragmentEditor (options) {
+  var self = this
 
-    if (options.text) {
-      _fromString(options.text, self);
-    } else if (options.element) {
-      _fromElement(options.element, self);
-    } else if (options.commonData) {
-      _fromOptions(options.commonData, options.associations, self);
-    } else {
-      throw new Error(XooMLExceptions.missingParameter);
-    }
+  if (options.text) {
+    _fromString(options.text, self)
+  } else if (options.element) {
+    _fromElement(options.element, self)
+  } else if (options.commonData) {
+    _fromOptions(options.commonData, options.associations, self)
+  } else {
+    throw new Error(XooMLExceptions.missingParameter)
   }
+}
 
   /**
    * Updates the GUID of the Fragment
@@ -74,11 +73,11 @@ var AssociationEditor = require('./AssociationEditor');
    * @private
    * @protected
    */
-  FragmentEditor.prototype.updateID = function() {
-    var guid = XooMLUtil.generateGUID();
-    this.commonData.GUIDGeneratedOnLastWrite = guid;
-    return guid;
-  };
+FragmentEditor.prototype.updateID = function () {
+  var guid = XooMLUtil.generateGUID()
+  this.commonData.GUIDGeneratedOnLastWrite = guid
+  return guid
+}
 
   /**
    * Converts a FragmentEditor object into an XML element, which can
@@ -88,38 +87,38 @@ var AssociationEditor = require('./AssociationEditor');
    * @return {Element} The XooML fragment as an XML element
    * @protected
    */
-  FragmentEditor.prototype.toElement = function() {
-    var self = this,
-        fragmentElem = document.createElementNS(_ITEM_MIRROR_NS, _ELEMENT_NAME);
+FragmentEditor.prototype.toElement = function () {
+  var self = this
+  var fragmentElem = document.createElementNS(_ITEM_MIRROR_NS, _ELEMENT_NAME)
 
-    // common data
-    Object.keys(self.commonData).forEach( function(attrName) {
-      var attrValue = self.commonData[attrName];
-      if (attrValue) { // Don't set null attributes
-        fragmentElem.setAttribute(attrName, attrValue);
-      }
-    });
+  // common data
+  Object.keys(self.commonData).forEach(function (attrName) {
+    var attrValue = self.commonData[attrName]
+    if (attrValue) { // Don't set null attributes
+      fragmentElem.setAttribute(attrName, attrValue)
+    }
+  })
 
-    // namespace data
-    Object.keys(self.namespace).forEach( function(uri) {
-      var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME);
+  // namespace data
+  Object.keys(self.namespace).forEach(function (uri) {
+    var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME)
       // Attributes
-      Object.keys(self.namespace[uri].attributes).forEach( function(attrName) {
-        nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ]);
-      });
+    Object.keys(self.namespace[uri].attributes).forEach(function (attrName) {
+      nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ])
+    })
 
-      nsElem.textContent = self.namespace[ uri ].data;
+    nsElem.textContent = self.namespace[ uri ].data
 
-      fragmentElem.appendChild(nsElem);
-    });
+    fragmentElem.appendChild(nsElem)
+  })
 
     // associations
-    Object.keys(self.associations).forEach( function(id) {
-      fragmentElem.appendChild( self.associations[id].toElement() );
-    });
+  Object.keys(self.associations).forEach(function (id) {
+    fragmentElem.appendChild(self.associations[id].toElement())
+  })
 
-    return fragmentElem;
-  };
+  return fragmentElem
+}
 
   /**
    * Returns the XML of a fragment as a string, _not_ the string
@@ -128,10 +127,10 @@ var AssociationEditor = require('./AssociationEditor');
    * @method toString
    * @return {String} Fragment XML
    */
-  FragmentEditor.prototype.toString = function() {
-    var serializer = new XMLSerializer();
-    return serializer.serializeToString( this.toElement() );
-  };
+FragmentEditor.prototype.toString = function () {
+  var serializer = new XMLSerializer()
+  return serializer.serializeToString(this.toElement())
+}
 
   /**
    * Constructs a fragmentEditor based on data passed into the
@@ -155,10 +154,10 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @private
    */
-  function _fromOptions(commonData, associations, self) {
-    if (!commonData) {
-      throw XooMLExceptions.nullArgument;
-    }
+function _fromOptions (commonData, associations, self) {
+  if (!commonData) {
+    throw XooMLExceptions.nullArgument
+  }
 
     // Properties from the common data
     /**
@@ -166,34 +165,34 @@ var AssociationEditor = require('./AssociationEditor');
      * @property commonData
      * @type Object
      */
-    self.commonData = {
+  self.commonData = {
       /**
        * Text that describes the fragment
        * @property commonData.displayName
        * @type String
        */
-      displayName: commonData.displayName || null,
+    displayName: commonData.displayName || null,
 
       /**
        * The schema location for the fragment
        * @property commonData.schemaLocation
        * @type String
        */
-      schemaLocation: commonData.schemaLocation || null,
+    schemaLocation: commonData.schemaLocation || null,
 
       /**
        * The schema version for the fragment
        * @property commonData.schemaVersion
        * @type String
        */
-      schemaVersion: commonData.schemaVersion || null,
+    schemaVersion: commonData.schemaVersion || null,
 
       /**
        * The item driver URI for the fragment
        * @property commonData.itemDriver
        * @type String
        */
-      itemDriver: commonData.itemDriver || null,
+    itemDriver: commonData.itemDriver || null,
 
       /**
        * The item described for the fragment. This is a URI that
@@ -201,21 +200,21 @@ var AssociationEditor = require('./AssociationEditor');
        * @property commonData.
        * @type String
        */
-      itemDescribed: commonData.itemDescribed || null,
+    itemDescribed: commonData.itemDescribed || null,
 
       /**
        * The sync driver URI for the fragment
        * @property commonData.syncDriver
        * @type String
        */
-      syncDriver: commonData.syncDriver || null,
+    syncDriver: commonData.syncDriver || null,
 
       /**
        * The XooML driver URI for the fragment
        * @property commonData.xooMLDriver
        * @type String
        */
-      xooMLDriver: commonData.xooMLDriver || null,
+    xooMLDriver: commonData.xooMLDriver || null,
 
       /**
        * The unique GUID for the fragment that is updated after every
@@ -223,8 +222,8 @@ var AssociationEditor = require('./AssociationEditor');
        * @property commonData.GUIDGeneratedOnLastWrite
        * @type String
        */
-      GUIDGeneratedOnLastWrite: XooMLUtil.generateGUID()
-    };
+    GUIDGeneratedOnLastWrite: XooMLUtil.generateGUID()
+  }
 
     /**
      * The associations of the fragment. Each association is accessed
@@ -235,11 +234,11 @@ var AssociationEditor = require('./AssociationEditor');
      */
     // Takes the association array and turns it into an associative
     // array accessed by the GUID of an association
-    self.associations = {};
-    associations.forEach( function(assoc) {
-      var guid = assoc.commonData.ID;
-      self.associations[guid] = assoc;
-    });
+  self.associations = {}
+  associations.forEach(function (assoc) {
+    var guid = assoc.commonData.ID
+    self.associations[guid] = assoc
+  })
 
     /**
      * The namespace data of the fragment. Holds both the URI as well
@@ -247,7 +246,7 @@ var AssociationEditor = require('./AssociationEditor');
      * @property namespace
      * @type Object
      */
-    self.namespace = {};
+  self.namespace = {}
       /**
        * The namespace URI for the fragment. Used to set namespace data
        * for both the fragment and it's associations
@@ -262,13 +261,13 @@ var AssociationEditor = require('./AssociationEditor');
        * @property namespace.attributes
        * @type Object
        */
-  }
+}
 
   /**
    * Takes a fragment in the form of a string and then parses that
    * into XML. From there it converts that element into an object
    * using the _fromElement method
-   * 
+   *
    * @method _fromString
    *
    * @param {String} text The text representing the fragment. Should
@@ -279,11 +278,11 @@ var AssociationEditor = require('./AssociationEditor');
    * data
    * @param {FragmentEditor} self
    */
-  function _fromString(text, namespace, self) {
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(text, "application/xml");
-    _fromElement(doc.children[0], namespace, self);
-  }
+function _fromString (text, namespace, self) {
+  var parser = new DOMParser()
+  var doc = parser.parseFromString(text, 'application/xml')
+  _fromElement(doc.children[0], namespace, self)
+}
 
   /**
    * Takes a fragment element in XML and then converts that into a
@@ -296,20 +295,20 @@ var AssociationEditor = require('./AssociationEditor');
    * @param {FragmentEditor} self
    * @private
    */
-  function _fromElement(element, self) {
-    var dataElems, i, associationElems, guid, elem, uri;
+function _fromElement (element, self) {
+  var dataElems, i, associationElems, guid, elem, uri
     // Sets all common data attributes
-    self.commonData = {
-      fragmentNamespaceElement: element.getAttribute(_NAMESPACE_ELEMENT_NAME),
-      schemaVersion: element.getAttribute(_SCHEMA_VERSION_ATTR),
-      schemaLocation: element.getAttribute(_SCHEMA_LOCATION_ATTR),
-      itemDescribed: element.getAttribute(_ITEM_DESCRIBED_ATTR),
-      displayName: element.getAttribute(_DISPLAY_NAME_ATTR),
-      itemDriver: element.getAttribute(_ITEM_DRIVER_ATTR),
-      syncDriver: element.getAttribute(_SYNC_DRIVER_ATTR),
-      xooMLDriver: element.getAttribute(_XOOML_DRIVER_ATTR),
-      GUIDGeneratedOnLastWrite: element.getAttribute(_GUID_ATTR)
-    };
+  self.commonData = {
+    fragmentNamespaceElement: element.getAttribute(_NAMESPACE_ELEMENT_NAME),
+    schemaVersion: element.getAttribute(_SCHEMA_VERSION_ATTR),
+    schemaLocation: element.getAttribute(_SCHEMA_LOCATION_ATTR),
+    itemDescribed: element.getAttribute(_ITEM_DESCRIBED_ATTR),
+    displayName: element.getAttribute(_DISPLAY_NAME_ATTR),
+    itemDriver: element.getAttribute(_ITEM_DRIVER_ATTR),
+    syncDriver: element.getAttribute(_SYNC_DRIVER_ATTR),
+    xooMLDriver: element.getAttribute(_XOOML_DRIVER_ATTR),
+    GUIDGeneratedOnLastWrite: element.getAttribute(_GUID_ATTR)
+  }
 
     /**
      * The namespace object is an associated array with each key being
@@ -318,12 +317,12 @@ var AssociationEditor = require('./AssociationEditor');
      * @property namespace
      * @type Object
      */
-    self.namespace = {};
+  self.namespace = {}
 
-    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
-    for (i = 0; i < dataElems.length; i += 1) {
-      elem = dataElems[i];
-      uri = elem.namespaceURI;
+  dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME)
+  for (i = 0; i < dataElems.length; i += 1) {
+    elem = dataElems[i]
+    uri = elem.namespaceURI
 
       /**
        * The information for a given namespace. Includes both the
@@ -332,24 +331,24 @@ var AssociationEditor = require('./AssociationEditor');
        * @property namespace.URI
        * @type Object
        */
-      self.namespace[ uri ] = {};
-      self.namespace[ uri ].attributes = {};
+    self.namespace[ uri ] = {}
+    self.namespace[ uri ].attributes = {}
 
-      for (i = 0; i < elem.attributes.length; i += 1) {
+    for (i = 0; i < elem.attributes.length; i += 1) {
         // We have to filter out the special namespace attribute We
         // let the namespace methods handle the namespace, and we
         // don't deal with it
-        if (elem.attributes[i].name !== "xmlns") {
+      if (elem.attributes[i].name !== 'xmlns') {
           /**
            * The attributes of the current namespace, with each attribute
            * having a corresponding value.
            * @property namespace.URI.attributes
            * @type Object
            */
-          self.namespace[ uri ].attributes[ elem.attributes[i].localName ] =
-            elem.getAttributeNS(uri, elem.attributes[i].localName);
-        }
+        self.namespace[ uri ].attributes[ elem.attributes[i].localName ] =
+            elem.getAttributeNS(uri, elem.attributes[i].localName)
       }
+    }
 
     /**
      * This is the namespace data stored within the namespace
@@ -360,18 +359,18 @@ var AssociationEditor = require('./AssociationEditor');
      * @property namespace.URI.data
      * @type String
      */
-      self.namespace[ uri ].data = elem.textContent;
-    }
-
-    // associations
-    self.associations = {};
-    associationElems = element.getElementsByTagName(_ASSOCIATION_ELEMENT_NAME);
-    for (i = 0; i < associationElems.length; i += 1) {
-      guid = associationElems[i].getAttribute(_ASSOCIATION_ID_ATTR);
-      self.associations[guid] = new AssociationEditor({
-        element: associationElems[i]
-      });
-    }
+    self.namespace[ uri ].data = elem.textContent
   }
 
-module.exports = FragmentEditor;
+    // associations
+  self.associations = {}
+  associationElems = element.getElementsByTagName(_ASSOCIATION_ELEMENT_NAME)
+  for (i = 0; i < associationElems.length; i += 1) {
+    guid = associationElems[i].getAttribute(_ASSOCIATION_ID_ATTR)
+    self.associations[guid] = new AssociationEditor({
+      element: associationElems[i]
+    })
+  }
+}
+
+module.exports = FragmentEditor

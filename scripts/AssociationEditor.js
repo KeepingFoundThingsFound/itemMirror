@@ -26,36 +26,35 @@
  * @protected
  */
 
-
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions');
-var XooMLUtil = require('./XooMLUtil');
+var XooMLExceptions = require('./XooMLExceptions')
+var XooMLUtil = require('./XooMLUtil')
 
- var _ELEMENT_NAME = "association",
-     _NAMESPACE_ELEMENT_NAME = "associationNamespaceElement",
-     _ID_ATTR = "ID",
-     _DISPLAY_TEXT_ATTR = "displayText",
-     _ASSOCIATED_XOOML_FRAGMENT_ATTR = "associatedXooMLFragment",
-     _ASSOCIATED_XOOML_DRIVER_ATTR = "associatedXooMLDriver",
-     _ASSOCIATED_SYNC_DRIVER_ATTR = "associatedSyncDriver",
-     _ASSOCIATED_ITEM_DRIVER_ATTR = "associatedItemDriver",
-     _ASSOCIATED_ITEM_ATTR = "associatedItem",
-     _LOCAL_ITEM_ATTR = "localItem",
-     _IS_GROUPING_ATTR = "isGrouping",
-     _PUBLIC_URL = "publicURL";
+var _ELEMENT_NAME = 'association'
+var _NAMESPACE_ELEMENT_NAME = 'associationNamespaceElement'
+var _ID_ATTR = 'ID'
+var _DISPLAY_TEXT_ATTR = 'displayText'
+var _ASSOCIATED_XOOML_FRAGMENT_ATTR = 'associatedXooMLFragment'
+var _ASSOCIATED_XOOML_DRIVER_ATTR = 'associatedXooMLDriver'
+var _ASSOCIATED_SYNC_DRIVER_ATTR = 'associatedSyncDriver'
+var _ASSOCIATED_ITEM_DRIVER_ATTR = 'associatedItemDriver'
+var _ASSOCIATED_ITEM_ATTR = 'associatedItem'
+var _LOCAL_ITEM_ATTR = 'localItem'
+var _IS_GROUPING_ATTR = 'isGrouping'
+var _PUBLIC_URL = 'publicURL'
 
-  function AssociationEditor(options) {
-    var self = this;
+function AssociationEditor (options) {
+  var self = this
 
-    if (options.element) {
-      _fromElement(options.element, self);
-    } else if (options.commonData) {
-      _fromOptions(options.commonData, self);
-    } else {
-      throw new Error(XooMLExceptions.missingParameter);
-    }
+  if (options.element) {
+    _fromElement(options.element, self)
+  } else if (options.commonData) {
+    _fromOptions(options.commonData, self)
+  } else {
+    throw new Error(XooMLExceptions.missingParameter)
   }
+}
 
   /**
    * Converts the object into an association element, which can then
@@ -68,35 +67,35 @@ var XooMLUtil = require('./XooMLUtil');
    *
    * @protected
    */
-  AssociationEditor.prototype.toElement = function() {
-    var self = this,
-        // The We use a null namespace to leave it blank, otherwise it
-        // sets it as XHTML and won't serialize attribute names properly.
-        // The namespace will be inherited by the fragment it resides in.
-        associationElem = document.createElementNS(null, _ELEMENT_NAME);
+AssociationEditor.prototype.toElement = function () {
+  var self = this
+  // The We use a null namespace to leave it blank, otherwise it
+  // sets it as XHTML and won't serialize attribute names properly.
+  // The namespace will be inherited by the fragment it resides in.
+  var associationElem = document.createElementNS(null, _ELEMENT_NAME)
 
-    // common data
-    Object.keys(self.commonData).forEach( function(key) {
-      if ( self.commonData[key] ) {// Don't set null attributes
-        associationElem.setAttribute(key, self.commonData[key]);
-      }
-    });
+  // common data
+  Object.keys(self.commonData).forEach(function (key) {
+    if (self.commonData[key]) { // Don't set null attributes
+      associationElem.setAttribute(key, self.commonData[key])
+    }
+  })
 
-    // namespace data
-    Object.keys(self.namespace).forEach( function(uri) {
-      var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME);
-      // Attributes
-      Object.keys(self.namespace[uri].attributes).forEach( function(attrName) {
-        nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ]);
-      });
-      // Data
-      nsElem.textContent = self.namespace[ uri ].data;
+  // namespace data
+  Object.keys(self.namespace).forEach(function (uri) {
+    var nsElem = document.createElementNS(uri, _NAMESPACE_ELEMENT_NAME)
+    // Attributes
+    Object.keys(self.namespace[uri].attributes).forEach(function (attrName) {
+      nsElem.setAttributeNS(uri, attrName, self.namespace[ uri ].attributes[ attrName ])
+    })
+    // Data
+    nsElem.textContent = self.namespace[ uri ].data
 
-      associationElem.appendChild(nsElem);
-    });
+    associationElem.appendChild(nsElem)
+  })
 
-    return associationElem;
-  };
+  return associationElem
+}
 
   /**
    * Takes an association element in XML and then converts that into
@@ -107,29 +106,29 @@ var XooMLUtil = require('./XooMLUtil');
    *
    * @param {Element} element The XML element that represents an association.
    */
-  function _fromElement(element, self) {
-    var dataElems, i, uri, elem;
+function _fromElement (element, self) {
+  var dataElems, i, uri, elem
     // Sets all common data attributes
-    self.commonData = {
-      ID: element.getAttribute(_ID_ATTR),
-      displayText: element.getAttribute(_DISPLAY_TEXT_ATTR),
-      associatedXooMLFragment: element.getAttribute(_ASSOCIATED_XOOML_FRAGMENT_ATTR),
-      associatedXooMLDriver: element.getAttribute(_ASSOCIATED_XOOML_DRIVER_ATTR),
-      associatedSyncDriver: element.getAttribute(_ASSOCIATED_SYNC_DRIVER_ATTR),
-      associatedItemDriver: element.getAttribute(_ASSOCIATED_ITEM_DRIVER_ATTR),
-      associatedItem: element.getAttribute(_ASSOCIATED_ITEM_ATTR),
-      localItem: element.getAttribute(_LOCAL_ITEM_ATTR),
+  self.commonData = {
+    ID: element.getAttribute(_ID_ATTR),
+    displayText: element.getAttribute(_DISPLAY_TEXT_ATTR),
+    associatedXooMLFragment: element.getAttribute(_ASSOCIATED_XOOML_FRAGMENT_ATTR),
+    associatedXooMLDriver: element.getAttribute(_ASSOCIATED_XOOML_DRIVER_ATTR),
+    associatedSyncDriver: element.getAttribute(_ASSOCIATED_SYNC_DRIVER_ATTR),
+    associatedItemDriver: element.getAttribute(_ASSOCIATED_ITEM_DRIVER_ATTR),
+    associatedItem: element.getAttribute(_ASSOCIATED_ITEM_ATTR),
+    localItem: element.getAttribute(_LOCAL_ITEM_ATTR),
       // We use JSON.parse to get the value as a boolean, not as a string
-      isGrouping: JSON.parse(element.getAttribute(_IS_GROUPING_ATTR)),
-      publicURL: element.getAttribute(_PUBLIC_URL)
-    };
+    isGrouping: JSON.parse(element.getAttribute(_IS_GROUPING_ATTR)),
+    publicURL: element.getAttribute(_PUBLIC_URL)
+  }
 
-    self.namespace = {};
+  self.namespace = {}
 
-    dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME);
-    for (i = 0; i < dataElems.length; i += 1) {
-      elem = dataElems[i];
-      uri = elem.namespaceURI;
+  dataElems = element.getElementsByTagName(_NAMESPACE_ELEMENT_NAME)
+  for (i = 0; i < dataElems.length; i += 1) {
+    elem = dataElems[i]
+    uri = elem.namespaceURI
 
       /**
        * The information for a given namespace. Includes both the
@@ -138,24 +137,24 @@ var XooMLUtil = require('./XooMLUtil');
        * @property namespace.URI
        * @type Object
        */
-      self.namespace[ uri ] = {};
-      self.namespace[ uri ].attributes = {};
+    self.namespace[ uri ] = {}
+    self.namespace[ uri ].attributes = {}
 
-      for (i = 0; i < elem.attributes.length; i += 1) {
+    for (i = 0; i < elem.attributes.length; i += 1) {
         // We have to filter out the special namespace attribute We
         // let the namespace methods handle the namespace, and we
         // don't deal with it
-        if (elem.attributes[i].name !== "xmlns") {
+      if (elem.attributes[i].name !== 'xmlns') {
           /**
            * The attributes of the current namespace, with each attribute
            * having a corresponding value.
            * @property namespace.URI.attributes
            * @type Object
            */
-          self.namespace[ uri ].attributes[ elem.attributes[i].localName ] =
-            elem.getAttributeNS(uri, elem.attributes[i].localName );
-        }
+        self.namespace[ uri ].attributes[ elem.attributes[i].localName ] =
+            elem.getAttributeNS(uri, elem.attributes[i].localName)
       }
+    }
 
     /**
      * This is the namespace data stored within the namespace
@@ -166,9 +165,9 @@ var XooMLUtil = require('./XooMLUtil');
      * @property namespace.URI.data
      * @type String
      */
-      self.namespace[ uri ].data = elem.textContent;
-    }
+    self.namespace[ uri ].data = elem.textContent
   }
+}
 
   /**
    * Constructs an association with data from an object
@@ -197,10 +196,10 @@ var XooMLUtil = require('./XooMLUtil');
    * @protected
    * @private
    */
-  function _fromOptions(commonData, self) {
-    if (!commonData) {
-      throw XooMLExceptions.nullArgument;
-    }
+function _fromOptions (commonData, self) {
+  if (!commonData) {
+    throw XooMLExceptions.nullArgument
+  }
 
     // Properties from the common data
     /**
@@ -208,62 +207,62 @@ var XooMLUtil = require('./XooMLUtil');
      * @property commonData
      * @type Object
      */
-    self.commonData = {
+  self.commonData = {
       /**
        * Text that describes the association
        * @property commonData.displayText
        * @type String
        */
-      displayText: commonData.displayText || null,
+    displayText: commonData.displayText || null,
 
       /**
        * The associated XooML fragment of the association
        * @property commonData.associatedXooMLFragment
        * @type String
        */
-      associatedXooMLFragment: commonData.associatedXooMLFragment || null,
+    associatedXooMLFragment: commonData.associatedXooMLFragment || null,
 
       /**
        * The associated XooML driver of the association
        * @property commonData.associatedXooMLDriver
        * @type String
        */
-      associatedXooMLDriver: commonData.associatedXooMLDriver || null,
+    associatedXooMLDriver: commonData.associatedXooMLDriver || null,
 
       /**
        * The associated sync driver of the association
        * @property commonData.associatedSyncDriver
        * @type String
        */
-      associatedSyncDriver: commonData.associatedSyncDriver || null,
+    associatedSyncDriver: commonData.associatedSyncDriver || null,
 
       /**
        * The associated item driver of the association
        * @property commonData.associatedItemDriver
        * @type String
        */
-      associatedItemDriver: commonData.associatedItemDriver || null,
+    associatedItemDriver: commonData.associatedItemDriver || null,
 
       /**
        * The associated item of the association
        * @property commonData.associatedItem
        * @type String
        */
-      associatedItem: commonData.associatedItem || null,
+    associatedItem: commonData.associatedItem || null,
 
       /**
        * The local item of the association
        * @property commonData.localItem
        * @type String
        */
-      localItem: commonData.localItem || null,
+    localItem: commonData.localItem || null,
 
       /**
        * Whether or not the item is a grouping item
        * @property commonData.isGrouping
        * @type Boolean
        */
-      isGrouping: commonData.isGrouping || false,
+    isGrouping: commonData.isGrouping || false,
 
       /**
        * The GUID of the association
@@ -271,10 +270,10 @@ var XooMLUtil = require('./XooMLUtil');
        * @type String
        */
       // GUID is generated upon construction
-      ID: XooMLUtil.generateGUID(),
+    ID: XooMLUtil.generateGUID(),
 
-      publicURL: commonData.publicURL || null
-    };
+    publicURL: commonData.publicURL || null
+  }
 
     /**
      * Data for the namespaces. Stored as a key pair value, with each
@@ -284,7 +283,7 @@ var XooMLUtil = require('./XooMLUtil');
      * @property namespace
      * @type Object
      */
-    self.namespace = {};
+  self.namespace = {}
     /**
      * The attributes of the current namespace, with each attribute
      * having a corresponding value.
@@ -302,6 +301,6 @@ var XooMLUtil = require('./XooMLUtil');
      * @property namespace.URI.data
      * @type String
      */
-  }
+}
 
-module.exports = AssociationEditor;
+module.exports = AssociationEditor

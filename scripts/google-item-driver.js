@@ -17,8 +17,8 @@
 
 'use strict'
 
-var XooMLConfig = require('./XooMLConfig');
-var AssociationEditor = require('./AssociationEditor');
+var XooMLConfig = require('./XooMLConfig')
+var AssociationEditor = require('./AssociationEditor')
 
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
@@ -30,42 +30,42 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  function ItemDriver(options, callback) {
-    var self = this;
+function ItemDriver (options, callback) {
+  var self = this
 
     // client (google drive in this case)
-    if (!options.clientInterface) {
-      throw new Error('Client parameter missing');
-    }
-    this.clientInterface = options.clientInterface;
+  if (!options.clientInterface) {
+    throw new Error('Client parameter missing')
+  }
+  this.clientInterface = options.clientInterface
 
-    var authResponse = this.clientInterface.auth2.getAuthInstance()
+  var authResponse = this.clientInterface.auth2.getAuthInstance()
       .currentUser.get()
-      .getAuthResponse();
+      .getAuthResponse()
 
     // These are the same across multple files, and so should be put in a common configuration somewhere
-    this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token };
-    this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/';
+  this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token }
+  this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/'
 
-    self._FOLDER_MIMETYPE = 'application/vnd.google-apps.folder';
+  self._FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
 
-    return callback(false, self);
-  }
+  return callback(false, self)
+}
 
-  ItemDriver.prototype.isGroupingItem = function (id, callback) {
-    var self = this;
+ItemDriver.prototype.isGroupingItem = function (id, callback) {
+  var self = this
 
     // do a simple get request, and see if it's a folder
-    $.get({
-      url: self._DRIVE_FILE_API + id,
-      headers: self._AUTH_HEADER
-    }).then(function(resp) {
+  $.get({
+    url: self._DRIVE_FILE_API + id,
+    headers: self._AUTH_HEADER
+  }).then(function (resp) {
       // This is the specific mimetype that google counts as a 'folder'
-      callback(false, self._FOLDER_MIMETYPE === resp.mimeType);
-    }).fail(function() {
-      callback('No response from GET: ' + id);
-    });
-  };
+    callback(false, self._FOLDER_MIMETYPE === resp.mimeType)
+  }).fail(function () {
+    callback('No response from GET: ' + id)
+  })
+}
 
   /**
    * Creates a grouping item at the location
@@ -75,24 +75,24 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
-    var self = this;
+ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
+  var self = this
 
-    $.post({
-      url: self._DRIVE_FILE_API,
-      headers: self._AUTH_HEADER,
-      body: {
-        mimeType: self._FOLDER_MIMETYPE,
-        title: title,
-        parents: [parentURI]
-      }
-    }).then(function(resp) {
+  $.post({
+    url: self._DRIVE_FILE_API,
+    headers: self._AUTH_HEADER,
+    body: {
+      mimeType: self._FOLDER_MIMETYPE,
+      title: title,
+      parents: [parentURI]
+    }
+  }).then(function (resp) {
       // Callback with ID of the newly created folder so we have a reference
-      callback(false, resp.id);
-    }).fail(function() {
-      callback('Failed to make POST request for new grouping item. Check network requests for more deatils');
-    });
-  };
+    callback(false, resp.id)
+  }).fail(function () {
+    callback('Failed to make POST request for new grouping item. Check network requests for more deatils')
+  })
+}
 
   /**
    * Creates or uploads a non-grouping item at the location
@@ -103,75 +103,74 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.createNonGroupingItem = function (fileName, file, callback) {
-    var self = this;
+ItemDriver.prototype.createNonGroupingItem = function (fileName, file, callback) {
+  var self = this
 
-    function insertFile(fileData, callback) {
-      var boundary = '-------314159265358979323846';
-      var delimiter = "\r\n--" + boundary + "\r\n";
-      var close_delim = "\r\n--" + boundary + "--";
+  function insertFile (fileData, callback) {
+    var boundary = '-------314159265358979323846'
+    var delimiter = '\r\n--' + boundary + '\r\n'
+    var close_delim = '\r\n--' + boundary + '--'
 
-      var reader = new FileReader();
-      reader.readAsBinaryString(fileData);
-      reader.onload = function() {
-        var contentType = fileData.type || 'application/octet-stream';
-        var metadata = {
-          'title': XooMLConfig.xooMLFragmentFileName,
-          'mimeType': contentType,
-          'parents': [{
-            "kind": "drive#parentReference",
-            "id": self._parentURI
-          }]
-        };
+    var reader = new FileReader()
+    reader.readAsBinaryString(fileData)
+    reader.onload = function () {
+      var contentType = fileData.type || 'application/octet-stream'
+      var metadata = {
+        'title': XooMLConfig.xooMLFragmentFileName,
+        'mimeType': contentType,
+        'parents': [{
+          'kind': 'drive#parentReference',
+          'id': self._parentURI
+        }]
+      }
 
-        var base64Data = btoa(reader.result);
-        var multipartRequestBody =
-            delimiter +
-            'Content-Type: application/json\r\n\r\n' +
-            JSON.stringify(metadata) +
-            delimiter +
-            'Content-Type: ' + contentType + '\r\n' +
-            'Content-Transfer-Encoding: base64\r\n' +
-            '\r\n' +
-            base64Data +
-            close_delim;
+      var base64Data = btoa(reader.result)
+      var multipartRequestBody =
+        delimiter +
+        'Content-Type: application/json\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: ' + contentType + '\r\n' +
+        'Content-Transfer-Encoding: base64\r\n' +
+        '\r\n' +
+        base64Data +
+        close_delim
 
-        var request = this.gapi.client.request({
-            'path': '/upload/drive/v2/files',
-            'method': 'POST',
-            'params': {'uploadType': 'multipart'},
-            'headers': {
-              'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-            },
-            'body': multipartRequestBody});
-        request.execute(function(response) {
-          callback(false, response);
-        }, function(response) {
-          callback('Could not write out File', response);
-        });
-      };
+      var request = this.gapi.client.request({
+        'path': '/upload/drive/v2/files',
+        'method': 'POST',
+        'params': {'uploadType': 'multipart'},
+        'headers': {
+          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
+        },
+        'body': multipartRequestBody})
+      request.execute(function (response) {
+        callback(false, response)
+      }, function (response) {
+        callback('Could not write out File', response)
+      })
     }
-
-    var blob = new Blob([file], {type: 'text/plain', fileName: fileName});
-
-    return insertFile(blob, callback);
-  };
-
-
-  // Helper function for deleting files, since no distinction is needed
-  // between grouping items and non grouping items in google drive
-  ItemDriver.prototype._deleteID = function (id, callback) {
-    var self = this;
-
-    $.delete({
-      url: self._DRIVE_FILE_API + '/' + id,
-      headers: self._AUTH_HEADER
-    }).then(function(resp) {
-      callback(false, resp);
-    }).fail(function(resp) {
-      callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp);
-    });
   }
+
+  var blob = new Blob([file], {type: 'text/plain', fileName: fileName})
+
+  return insertFile(blob, callback)
+}
+
+// Helper function for deleting files, since no distinction is needed
+// between grouping items and non grouping items in google drive
+ItemDriver.prototype._deleteID = function (id, callback) {
+  var self = this
+
+  $.delete({
+    url: self._DRIVE_FILE_API + '/' + id,
+    headers: self._AUTH_HEADER
+  }).then(function (resp) {
+    callback(false, resp)
+  }).fail(function (resp) {
+    callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp)
+  })
+}
   /**
    * Deletes a grouping item with the specified ID
    * @method deleteGroupingItem
@@ -180,9 +179,9 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.deleteGroupingItem = function (id, callback) {
-    this._deleteID(id, callback);
-  };
+ItemDriver.prototype.deleteGroupingItem = function (id, callback) {
+  this._deleteID(id, callback)
+}
 
   /**
    * Deletes a non-grouping item at the location
@@ -192,10 +191,10 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
-    this._deleteID(id, callback);
-  };
-  
+ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
+  this._deleteID(id, callback)
+}
+
   /**
    * Lists the items under the grouping item
    * @method listItems
@@ -204,43 +203,43 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.listItems = function (parentURI, callback) {
-    var self = this;
+ItemDriver.prototype.listItems = function (parentURI, callback) {
+  var self = this
 
-    var query = '\'' + parentURI + '\' in ' + 'parents';
-    var request = this.clientInterface.client.drive.files.list({
-      'maxResults': 1000,
-      'q': query
-    });
-    request.execute(function(resp) {
-      if (resp.error) {
-        return callback('Error: Bad Response / Request');  
-      }
+  var query = '\'' + parentURI + '\' in ' + 'parents'
+  var request = this.clientInterface.client.drive.files.list({
+    'maxResults': 1000,
+    'q': query
+  })
+  request.execute(function (resp) {
+    if (resp.error) {
+      return callback('Error: Bad Response / Request')
+    }
 
-      var items = resp.items.filter(function(item) {
-        return item.title !== XooMLConfig.xooMLFragmentFileName;
-      })
-      .map(function(item) {
+    var items = resp.items.filter(function (item) {
+      return item.title !== XooMLConfig.xooMLFragmentFileName
+    })
+      .map(function (item) {
         return new AssociationEditor({
           commonData: {
             // Change this to be the ID of the XooML.xml file eventually
             // Will need another parameter for that
-            associatedXooMLFragment: null, 
+            associatedXooMLFragment: null,
             associatedItem: item.id,
             associatedItemDriver: 'GoogleItemDriver',
             associatedXooMLDriver: 'GoogleXooMLDriver',
-            associatedSyncDriver: 'MirrorSyncDriver', 
+            associatedSyncDriver: 'MirrorSyncDriver',
             isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
             localItem: item.id,
             displayText: item.title,
             publicURL: item.alternateLink
           }
-        });
-      });
+        })
+      })
 
-      callback(false, items);
-    });
-  };
+    callback(false, items)
+  })
+}
 
   /**
    * Check if the item is existed
@@ -251,17 +250,18 @@ var AssociationEditor = require('./AssociationEditor');
    *
    * @protected
    */
-  ItemDriver.prototype.checkExisted = function(path, callback){
-    var self = this, result;
+ItemDriver.prototype.checkExisted = function (path, callback) {
+  var self = this
+  var result
 
-    self._dropboxClient.stat(path, function (error,stat){
-      if (error) {
-        return self._showDropboxError(error, callback);
-      }
-      result = !(error !== null && error.status === 404) || (error === null && stat.isRemoved);
+  self._dropboxClient.stat(path, function (error, stat) {
+    if (error) {
+      return self._showDropboxError(error, callback)
+    }
+    result = !(error !== null && error.status === 404) || (error === null && stat.isRemoved)
 
-      return callback(false, result);
-    });
-  };
+    return callback(false, result)
+  })
+}
 
-module.exports = ItemDriver;
+module.exports = ItemDriver

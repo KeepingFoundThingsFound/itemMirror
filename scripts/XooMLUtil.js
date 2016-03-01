@@ -10,24 +10,23 @@
  * @protected
  */
 
- 'use strict'
+'use strict'
 
- var XooMLExceptions = require('./XooMLExceptions');
+var XooMLExceptions = require('./XooMLExceptions')
 
-  var
-    _TYPES = {
-      "[object Boolean]": "boolean",
-      "[object Number]": "number",
-      "[object String]": "string",
-      "[object Function]": "function",
-      "[object Array]": "array",
-      "[object Date]": "date",
-      "[object RegExp]": "regexp",
-      "[object Object]": "object",
-      "[object Error]": "error"
-    };
+var _TYPES = {
+  '[object Boolean]': 'boolean',
+  '[object Number]': 'number',
+  '[object String]': 'string',
+  '[object Function]': 'function',
+  '[object Array]': 'array',
+  '[object Date]': 'date',
+  '[object RegExp]': 'regexp',
+  '[object Object]': 'object',
+  '[object Error]': 'error'
+}
 
-  var XooMLUtil = {
+var XooMLUtil = {
     /**
      * Checks if each option within the given checkedOptions is a property of
      * the given options.
@@ -39,58 +38,60 @@
      *
      * @protected
      */
-    hasOptions: function (checkedOptions, options) {
-      if (!checkedOptions || !options) {
-        throw XooMLExceptions.nullArgument;
-      }
-      if (!XooMLUtil.isObject(checkedOptions) ||
-          !XooMLUtil.isObject(options)) {
-        throw XooMLExceptions.invalidType;
-      }
-      var checkedOption, isRequiredOption, missingOptionalParamCount;
+  hasOptions: function (checkedOptions, options) {
+    if (!checkedOptions || !options) {
+      throw XooMLExceptions.nullArgument
+    }
+    if (!XooMLUtil.isObject(checkedOptions) ||
+      !XooMLUtil.isObject(options)) {
+      throw XooMLExceptions.invalidType
+    }
+    var checkedOption
+    var isRequiredOption
+    var missingOptionalParamCount
 
-      missingOptionalParamCount = 0;
+    missingOptionalParamCount = 0
 
-      if (Object.keys(options).length <= Object.keys(checkedOptions).length) {
-        for (checkedOption in checkedOptions) {
-          if (checkedOptions.hasOwnProperty(checkedOption)) {
-            isRequiredOption = checkedOptions[checkedOption];
+    if (Object.keys(options).length <= Object.keys(checkedOptions).length) {
+      for (checkedOption in checkedOptions) {
+        if (checkedOptions.hasOwnProperty(checkedOption)) {
+          isRequiredOption = checkedOptions[checkedOption]
 
-            if (!options.hasOwnProperty(checkedOption)) {
-              if (isRequiredOption) {
-                return false;
-              } else {
-                missingOptionalParamCount += 1;
-              }
+          if (!options.hasOwnProperty(checkedOption)) {
+            if (isRequiredOption) {
+              return false
+            } else {
+              missingOptionalParamCount += 1
             }
           }
         }
-      } else {
-        return false;
       }
+    } else {
+      return false
+    }
 
-      return Object.keys(options).length <=
-        Object.keys(checkedOptions).length - missingOptionalParamCount;
-    },
+    return Object.keys(options).length <=
+      Object.keys(checkedOptions).length - missingOptionalParamCount
+  },
 
-    // throws exceptions for callbacks since null callbacks mean the program can't continue
-    checkCallback: function (callback) {
-      if (callback) {
-        if (!XooMLUtil.isFunction(callback)) {
-          throw XooMLExceptions.invalidType;
-        }
-      } else {
-        throw XooMLExceptions.nullArgument;
+  // throws exceptions for callbacks since null callbacks mean the program can't continue
+  checkCallback: function (callback) {
+    if (callback) {
+      if (!XooMLUtil.isFunction(callback)) {
+        throw XooMLExceptions.invalidType
       }
-    },
+    } else {
+      throw XooMLExceptions.nullArgument
+    }
+  },
 
-    isGUID: function (GUID) {
-      if (XooMLUtil.getType(GUID) === "string") {
-        return true; // TODO implement guid checking
-      } else {
-        return false;
-      }
-    },
+  isGUID: function (GUID) {
+    if (XooMLUtil.getType(GUID) === 'string') {
+      return true // TODO implement guid checking
+    } else {
+      return false
+    }
+  },
 
     /**
      * Returns if the given value is an array.
@@ -103,9 +104,9 @@
      *
      * @protected
      */
-    isArray: function (value) {
-      return XooMLUtil.getType(value) === "array";
-    },
+  isArray: function (value) {
+    return XooMLUtil.getType(value) === 'array'
+  },
 
     /**
      * Returns if the given value is an object.
@@ -120,9 +121,9 @@
      *
      * @protected
      */
-    isObject: function (value) {
-      return XooMLUtil.getType(value) === "object";
-    },
+  isObject: function (value) {
+    return XooMLUtil.getType(value) === 'object'
+  },
 
     /**
      * Returns if the given value is an function.
@@ -137,10 +138,10 @@
      *
      * @protected
      */
-    isFunction: function (value) {
-      return value !== null;
-      //return XooMLUtil.getType(value) === "function"; TODO figure out why this doesn't work
-    },
+  isFunction: function (value) {
+    return value !== null
+    // return XooMLUtil.getType(value) === "function"; TODO figure out why this doesn't work
+  },
 
     /**
      * Returns if the given value is an string.
@@ -155,13 +156,13 @@
      *
      * @protected
      */
-    isString: function (value) {
-      return XooMLUtil.getType(value) === "string";
-    },
+  isString: function (value) {
+    return XooMLUtil.getType(value) === 'string'
+  },
 
-    isBoolean: function (value) {
-      return XooMLUtil.getType(value) === "boolean";
-    },
+  isBoolean: function (value) {
+    return XooMLUtil.getType(value) === 'boolean'
+  },
 
     /**
      * Generates a GUID.
@@ -172,58 +173,59 @@
      *
      * @protected
      */
-    generateGUID: function () {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    },
+  generateGUID: function () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0
+      var v = c === 'x' ? r : (r & 0x3 | 0x8)
+      return v.toString(16)
+    })
+  },
 
-    getType: function (obj) {
-      if (obj === null) {
-        return String(obj);
-      }
-      return typeof obj === "object" ||
-        typeof obj === "function" ? _TYPES[obj.toString()] || "object" : typeof obj;
-    },
-
-    endsWith: function (string, suffix) {
-      return string.indexOf(suffix, string.length - suffix.length) !== -1;
-    },
-
-    // http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
-    clone: function (obj) {
-      var copy;
-      // Handle the 3 simple types, and null or undefined
-      if (null === obj || "object" != typeof obj) return obj;
-
-      // Handle Date
-      if (obj instanceof Date) {
-        copy = new Date();
-        copy.setTime(obj.getTime());
-        return copy;
-      }
-
-      // Handle Array
-      if (obj instanceof Array) {
-        copy = [];
-        for (var i = 0, len = obj.length; i < len; i++) {
-          copy[i] = XooMLUtil.clone(obj[i]);
-        }
-        return copy;
-      }
-
-      // Handle Object
-      if (obj instanceof Object) {
-        copy = {};
-        for (var attr in obj) {
-          if (obj.hasOwnProperty(attr)) copy[attr] = XooMLUtil.clone(obj[attr]);
-        }
-        return copy;
-      }
-
-      throw XooMLExceptions.invalidType;
+  getType: function (obj) {
+    if (obj === null) {
+      return String(obj)
     }
-  };
+    return typeof obj === 'object' ||
+       typeof obj === 'function' ? _TYPES[obj.toString()] || 'object' : typeof obj
+  },
 
-module.exports = XooMLUtil;
+  endsWith: function (string, suffix) {
+    return string.indexOf(suffix, string.length - suffix.length) !== -1
+  },
+
+   // http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+  clone: function (obj) {
+    var copy
+     // Handle the 3 simple types, and null or undefined
+    if (obj === null || obj !== typeof 'object') return obj
+
+     // Handle Date
+    if (obj instanceof Date) {
+      copy = new Date()
+      copy.setTime(obj.getTime())
+      return copy
+    }
+
+     // Handle Array
+    if (obj instanceof Array) {
+      copy = []
+      for (var i = 0, len = obj.length; i < len; i++) {
+        copy[i] = XooMLUtil.clone(obj[i])
+      }
+      return copy
+    }
+
+     // Handle Object
+    if (obj instanceof Object) {
+      copy = {}
+      for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = XooMLUtil.clone(obj[attr])
+      }
+      return copy
+    }
+
+    throw XooMLExceptions.invalidType
+  }
+}
+
+module.exports = XooMLUtil
