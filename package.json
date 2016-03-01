@@ -21,6 +21,7 @@
     "webpack": "^1.12.14"
   },
   "scripts": {
-    "lint": "node node_modules/eslint/bin/eslint ./scripts"
+    "lint": "node node_modules/eslint/bin/eslint ./scripts",
+    "build": "node node_modules/webpack/bin/webpack"
   }
 }
