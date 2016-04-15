@@ -64,7 +64,7 @@ ItemDriver.prototype.isGroupingItem = function (id, callback) {
     headers: self._AUTH_HEADER
   }).then(function (resp) {
     // This is the specific mimetype that google counts as a 'folder'
-    callback(false, self._FOLDER_MIMETYPE === resp.mimeType)
+    callback(false, self._FOLDER_MIMETYPE === resp.json().mimeType)
   }).catch(function (error) {
     callback('No response from GET: ' + id)
   })
