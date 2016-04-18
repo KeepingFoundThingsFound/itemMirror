@@ -17,6 +17,10 @@
 
 'use strict'
 
+// Allows allows us to use the fetch API for better requests in the browser and node
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 var XooMLConfig = require('./XooMLConfig')
 var AssociationEditor = require('./AssociationEditor')
 
@@ -55,14 +59,13 @@ function ItemDriver (options, callback) {
 ItemDriver.prototype.isGroupingItem = function (id, callback) {
   var self = this
 
-    // do a simple get request, and see if it's a folder
-  $.get({
-    url: self._DRIVE_FILE_API + id,
+  // do a simple get request, and see if it's a folder
+  fetch(URL + id, {
     headers: self._AUTH_HEADER
   }).then(function (resp) {
-      // This is the specific mimetype that google counts as a 'folder'
-    callback(false, self._FOLDER_MIMETYPE === resp.mimeType)
-  }).fail(function () {
+    // This is the specific mimetype that google counts as a 'folder'
+    callback(false, self._FOLDER_MIMETYPE === resp.json().mimeType)
+  }).catch(function (error) {
     callback('No response from GET: ' + id)
   })
 }
@@ -78,19 +81,19 @@ ItemDriver.prototype.isGroupingItem = function (id, callback) {
 ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
   var self = this
 
-  $.post({
-    url: self._DRIVE_FILE_API,
+  fetch(self._DRIVE_FILE_API, {
     headers: self._AUTH_HEADER,
-    body: {
+    method: 'POST',
+    body: JSON.stringify({
       mimeType: self._FOLDER_MIMETYPE,
       title: title,
       parents: [parentURI]
-    }
+    })
   }).then(function (resp) {
-      // Callback with ID of the newly created folder so we have a reference
+    // Callback with ID of the newly created folder so we have a reference
     callback(false, resp.id)
-  }).fail(function () {
-    callback('Failed to make POST request for new grouping item. Check network requests for more deatils')
+  }).catch(function () {
+    callback('Failed to make POST request for new grouping item. Check network requests for more details')
   })
 }
 
@@ -162,13 +165,13 @@ ItemDriver.prototype.createNonGroupingItem = function (fileName, file, callback)
 ItemDriver.prototype._deleteID = function (id, callback) {
   var self = this
 
-  $.delete({
-    url: self._DRIVE_FILE_API + '/' + id,
-    headers: self._AUTH_HEADER
+  fetch(self._DRIVE_FILE_API + '/' + id, {
+    headers: self._AUTH_HEADER,
+    method: 'DELETE'
   }).then(function (resp) {
-    callback(false, resp)
-  }).fail(function (resp) {
-    callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp)
+    callback(false, resp.json())
+  }).catch(function (resp) {
+    callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp.json())
   })
 }
   /**

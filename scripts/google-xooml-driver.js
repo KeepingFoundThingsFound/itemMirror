@@ -19,6 +19,10 @@
  * @protected
  */
 
+// Allows allows us to use the fetch API for better requests in the browser and node
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 var XooMLConfig = require('./XooMLConfig')
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
@@ -81,19 +85,15 @@ function XooMLDriver (options, callback) {
 XooMLDriver.prototype._readFile = function (callback) {
   var self = this
 
-  $.ajax({
-    url: self._DRIVE_FILE_API + self._fragmentURI,
-      // Required to actually initiate a download
-    data: 'alt=media',
-      // If this isn't specified, we get an XMLDocument back. We want a
-      // string for maximum flexibility.
-    dataType: 'text',
-      // Note, if the authorization header is messed up, it will give us
-      // an error that tells us we need to sign in and have reached our
-      // limit.
+  // alt=media option is required to initiate a download
+  fetch(self._DRIVE_FILE_API + self._fragmentURI + '?alt=media', {
     headers: self._AUTH_HEADER
   }).then(function (xml_text) {
+    // Note, if the authorization header is messed up, it will give us
+    // an error that tells us we need to sign in and have reached our
+    // limit.
     callback(false, xml_text)
+    // Make sure we get text back, and NOT an XML document. We want a string
   })
 }
 
@@ -239,7 +239,7 @@ XooMLDriver.prototype.setXooMLFragment = function (xmlString, callback) {
    * self function is finished with it's operation.
    *  @param {String} callback.error Dropbox error if there is one
    *  @param {Boolean} callback.result True if the fragment exists and
-   *  false otherwis
+   *  false otherwise
    *
    * @protected
    */
@@ -248,13 +248,12 @@ XooMLDriver.prototype.checkExists = function (callback) {
 
     // If we have the URI, first make a direct request for that
   if (this._fragmentURI) {
-      // A simple get request will suffice
-    $.get({
-      url: this._DRIVE_FILE_API + self._fragmentURI,
-      headers: this._AUTH_HEADER
+    // A simple get request will suffice
+    fetch(this._DRIVE_FILE_API + self._fragmentURI, {
+      headers: self._AUTH_HEADER
     }).then(function () {
       callback(false)
-    }).fail(function () {
+    }).catch(function () {
       callback('XooML file: ' + self._fragmentURI + ' not found')
     })
     // In this case, we do a search for XooML in the folder
