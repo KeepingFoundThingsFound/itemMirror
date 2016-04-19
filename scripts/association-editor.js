@@ -28,8 +28,8 @@
 
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions')
-var XooMLUtil = require('./XooMLUtil')
+var XooMLExceptions = require('./xooml-exceptions')
+var XooMLUtil = require('./xooml-util')
 
 var _ELEMENT_NAME = 'association'
 var _NAMESPACE_ELEMENT_NAME = 'associationNamespaceElement'

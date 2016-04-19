@@ -4,7 +4,7 @@ var path = require('path')
 module.exports = {
     devtool: 'source-map',
     entry: {
-        main: './scripts/ItemMirror.js'
+        main: './scripts/item-mirror.js'
     },
     output: {
         path: path.join(__dirname, 'dist'),

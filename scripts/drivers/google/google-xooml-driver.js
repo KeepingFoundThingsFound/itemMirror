@@ -23,7 +23,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
-var XooMLConfig = require('./XooMLConfig')
+var XooMLConfig = require('../../xooml-config')
   /**
    * Constructs a XooMLDriver for reading/writing XooML fragment.
    *

@@ -21,8 +21,8 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
-var XooMLConfig = require('./XooMLConfig')
-var AssociationEditor = require('./AssociationEditor')
+var XooMLConfig = require('../../xooml-config')
+var AssociationEditor = require('../../association-editor')
 
   /**
    * Constructs a ItemDriver for reading/writing Item Storage
