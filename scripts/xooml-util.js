@@ -12,7 +12,7 @@
 
 'use strict'
 
-var XooMLExceptions = require('./XooMLExceptions')
+var XooMLExceptions = require('./xooml-exceptions')
 
 var _TYPES = {
   '[object Boolean]': 'boolean',

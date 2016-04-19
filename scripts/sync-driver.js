@@ -17,7 +17,7 @@
 
 'use strict'
 
-var FragmentEditor = require('./FragmentEditor')
+var FragmentEditor = require('./fragment-editor')
 
 function SyncDriver (itemMirror) {
   var self = this
