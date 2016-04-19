@@ -1,58 +1,3 @@
-/**
- * ItemMirror represents an Item according to the XooML2 specification.
- *
- * It can be instantiated using one of the following two cases based on the
- * given arguments.
- *
- * 1. XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
- * 2. The XooMLFragment is created from an existing groupingItemURI (e.g., a dropbox folder).
- * Given a groupingItemURI, itemDriver, and a xooMLDriver a new itemMirror will be constructed for given groupingItemURI.
- *
- * Throws NullArgumentException when options is null.
- *
- * Throws MissingParameterException when options is not null and a required
- * argument is missing.
- *
- * @class ItemMirror
- * @constructor
- *
- * @param {Object} options Data to construct a new ItemMirror with
- *
- *  @param {String} options.groupingItemURI URI to the grouping item. Required
- *                  for all cases.
- *
- *  @param {String} options.itemDriver Data for the ItemDriver to
- *                  construct ItemMirror with. Required for cases 2 & 3
- *                  Can contain any amount of optional key/value pairs for
- *                  the various Driver implementations.
- *   @param {String} options.itemDriver.driverURI URI of the driver.
- *
- *  @param {String} options.xooMLDriver Data for the XooMLDriver to
- *                  construct ItemMirror with. Required for all cases.
- *                  Can contain any amount of optional key/value pairs for
- *                  the various Driver implementations.
- *   @param {String} options.xooMLDriver.driverURI URI of the driver.
- *
- *  @param {String} options.syncDriver Data for the SyncDriver to
- *                  construct ItemMirror with. Required Case 2 & 3. Can
- *                  contain any amount of optional key/value pairs for
- *                  the various Driver implementations.
- *   @param {String} options.syncDriver.driverURI URI of the driver.
- *
- *  @param {Boolean} options.readIfExists True if ItemMirror
- *                   should create an ItemMirror if it does not exist,
- *                   else false. Required for Case 2 & 3.
- *
- *  @param {ItemMirror} options.creator If being created from another
- *  itemMirror, specifies that itemMirror which it comes from.
- *
- * @param {Function} callback Function to execute once finished.
- *  @param {Object}   callback.error Null if no error has occurred
- *                    in executing this function, else an contains
- *                    an object with the error that occurred.
- *  @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
- */
-
 'use strict'
 
 var XooMLExceptions = require('./xooml-exceptions')
@@ -63,6 +8,51 @@ var SyncDriver = require('./sync-driver')
 var FragmentEditor = require('./fragment-editor')
 var AssociationEditor = require('./association-editor')
 
+/**
+ * ItemMirror represents an Item according to the XooML2 specification.
+ *
+ * It can be instantiated using one of the following two cases based on the
+ * given arguments.
+ *
+ * 1. XooMLFragment already exists. Given xooMLFragmentURI and xooMLDriver.
+ * 2. The XooMLFragment is created from an existing groupingItemURI (e.g., a
+ * dropbox folder).
+ *
+ * Given a groupingItemURI, itemDriver, and a xooMLDriver a new itemMirror will
+ * be constructed for given groupingItemURI.
+ *
+ * Throws NullArgumentException when options is null.
+ *
+ * Throws MissingParameterException when options is not null and a required
+ * argument is missing.
+ *
+ * @class ItemMirror
+ * @constructor
+ * @param {Object} options Data to construct a new ItemMirror with
+ * @param {string} options.groupingItemURI URI to the grouping item. Required
+ * for all cases.
+ * @param {string} options.itemDriver Data for the ItemDriver to
+ * construct ItemMirror with. Required for cases 2 & 3. Can
+ * contain any amount of optional key/value pairs for the
+ * various Driver implementations.
+ * @param {string} options.itemDriver.driverURI URI of the driver.
+ * @param {string} options.xooMLDriver Data for the XooMLDriver to construct
+ * ItemMirror with. Required for all cases. Can contain any amount of optional
+ * key/value pairs for the various Driver implementations.
+ * @param {string} options.xooMLDriver.driverURI URI of the driver.
+ * @param {string} options.syncDriver Data for the SyncDriver to construct
+ * ItemMirror with. Required Case 2 & 3. Can contain any amount of optional
+ * key/value pairs for the various Driver implementations.
+ * @param {string} options.syncDriver.driverURI URI of the driver.
+ * @param {Boolean} options.readIfExists True if ItemMirror should create an
+ * ItemMirror if it does not exist, else false. Required for Case 2 & 3.  
+ * @param {ItemMirror} options.creator If being created from another
+ * itemMirror, specifies that itemMirror which it comes from.
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ * @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
+ */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
   if (!options) {
@@ -191,101 +181,119 @@ function ItemMirror (options, callback) {
   }
 }
 
-  /**
-   * @method getDisplayName
-   * @return {string} The display name of the fragment.
-   */
+/**
+ * @type Function
+ * @method getDisplayName
+ * @return {string} The display name of the fragment.
+ */
 ItemMirror.prototype.getDisplayName = function () {
   return this._fragment.commonData.displayName
 }
 
-  /**
-   * @method setDisplayName
-   * @param {string} name The display text to set for the fragment
-   */
+/**
+ * @type Function
+ * @method setDisplayName
+ * @param {string} name The display text to set for the fragment
+ */
 ItemMirror.prototype.setDisplayName = function (name) {
   this._fragment.commonData.displayName = name
 }
 
-  /**
-   * @method getSchemaVersion
-   * @return {string} XooML schema version.
-   */
+/**
+ * @type Function
+ * @method getSchemaVersion
+ * @return {string} XooML schema version.
+ */
 ItemMirror.prototype.getSchemaVersion = function () {
   return this._fragment.commonData.schemaVersion
 }
 
-  /**
-   * @method getSchemaLocation
-   * @return {string} XooML schema location.
-   */
+/**
+ * @type Function
+ * @method getSchemaLocation
+ * @return {string} XooML schema location.
+ */
 ItemMirror.prototype.getSchemaLocation = function () {
   return this._fragment.commonData.schemaLocation
 }
 
-  /**
-   * Returns URI pointing to item described by the metadata of a fragment. A URI might point to just about anything that can be interpreted as a grouping item. For example: a conventional file system folder or a “tag as supported by any of several applications.
-   * @method getURIforItemDescribed
-   * @return {string} A URI pointing to item described by the metadata
-   * of a fragment if it exists, else returns null.
-   */
+/**
+ * Returns URI pointing to item described by the metadata of a fragment. A URI
+ * might point to just about anything that can be interpreted as a grouping
+ * item. For example: a conventional file system folder or a “tag as supported
+ * by any of several applications.
+ *
+ * @type Function
+ * @method getURIforItemDescribed
+ * @return {string} A URI pointing to item described by the metadata
+ * of a fragment if it exists, else returns null.
+ */
 ItemMirror.prototype.getURIforItemDescribed = function () {
   return this._fragment.commonData.itemDescribed
 }
 
-  /**
-   * Gets a URL for an association that can be shared. For instance, on a Google Drive document this provides a direct link to the document itself when opened.
-   * @method getPublicURL
-   * @return {string}
-   */
+/**
+ * Gets a URL for an association that can be shared. For instance, on a Google
+ * Drive document this provides a direct link to the document itself when
+ * opened.
+ *
+ * @type Function
+ * @method getPublicURL
+ * @return {string}
+ */
 ItemMirror.prototype.getPublicURL = function (GUID) {
   return this._fragment.associations[GUID].commonData.publicURL
 }
 
-  /**
-   * @method getAssociationDisplayText
-   * @return {string} The display text for the association with the given GUID.
-   *
-   * @param {string} GUID GUID representing the desired association.
-   */
+/**
+ * @type Function
+ * @method getAssociationDisplayText
+ * @return {string} The display text for the association with the given GUID.
+ * @param {string} GUID GUID representing the desired association.
+ */
 ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
   return this._fragment.associations[GUID].commonData.displayText
 }
 
-  /**
-   * Sets the display text for the association with the given GUID.
-   * @method setAssociationDisplayText
-   * @param {string} GUID GUID of the association to set.
-   * @param {string} displayText Display text to be set.
-   */
+/**
+ * Sets the display text for the association with the given GUID.
+ *
+ * @method setAssociationDisplayText
+ * @param {string} GUID GUID of the association to set.
+ * @param {string} displayText Display text to be set.
+ */
 ItemMirror.prototype.setAssociationDisplayText = function (GUID, displayText) {
   this._fragment.associations[GUID].commonData.displayText = displayText
 }
 
-  /**
-   * @method getAssociationLocalItem
-   * @return {string} The local item for the association with the given GUID.
-   * @param {string} GUID GUID of the association to get.
-   */
+/**
+ * @type Function
+ * @method getAssociationLocalItem
+ * @return {string} The local item for the association with the given GUID.
+ * @param {string} GUID GUID of the association to get.
+ */
 ItemMirror.prototype.getAssociationLocalItem = function (GUID) {
   return this._fragment.associations[GUID].commonData.localItem
 }
 
-  /**
-   * @method getAssociationAssociatedItem
-   * @return {string} The associated item for the association with the given GUID.
-   * @param {string} GUID GUID of the association to get.
-   */
+/**
+ * @type Function
+ * @method getAssociationAssociatedItem
+ * @return {string} The associated item for the association with the given GUID.
+ * @param {string} GUID GUID of the association to get.
+ */
 ItemMirror.prototype.getAssociationAssociatedItem = function (GUID) {
   return this._fragment.associations[GUID].commonData.associatedItem
 }
 
-  /**
-   * @method getFragmentNamespaceAttribute
-   * @return {string} Returns the value of the given attributeName for the fragmentNamespaceData with the given namespaceURI.
-   * @param {string} attributeName Name of the attribute to be returned.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @type Function
+ * @method getFragmentNamespaceAttribute
+ * @return {string} Returns the value of the given attributeName for the
+ * fragmentNamespaceData with the given namespaceURI.
+ * @param {string} attributeName Name of the attribute to be returned.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.getFragmentNamespaceAttribute = function (attributeName, uri) {
   var ns = this._fragment.namespace
   ns[uri] = ns[uri] || {}
@@ -294,13 +302,15 @@ ItemMirror.prototype.getFragmentNamespaceAttribute = function (attributeName, ur
   return this._fragment.namespace[uri].attributes[attributeName]
 }
 
-  /**
-   * Sets the value of the given attributeName with the given attributeValue for the fragmentNamespaceData with the given namespaceURI.
-   * @method setFragmentNamespaceAttribute
-   * @param {string} attributeName  Name of the attribute to be set.
-   * @param {string} attributeValue Value of the attribute to be set.
-   * @param {string} uri Namespace URI
-   */
+/**
+ * Sets the value of the given attributeName with the given attributeValue for
+ * the fragmentNamespaceData with the given namespaceURI.
+ *
+ * @method setFragmentNamespaceAttribute
+ * @param {string} attributeName  Name of the attribute to be set.
+ * @param {string} attributeValue Value of the attribute to be set.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, attributeValue, uri) {
   var ns = this._fragment.namespace
   ns[uri] = ns[uri] || {}
@@ -309,11 +319,13 @@ ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, at
   this._fragment.namespace[uri].attributes[attributeName] = attributeValue
 }
 
-  /**
-   * Adds the given attributeName to the fragment's current namespace
-   * @param {string} attributeName Name of the attribute.
-   * @param {string} uri Namespace URI
-   */
+/**
+ * Adds the given attributeName to the fragment's current namespace
+ *
+ * @method addFragmentNamespaceAttribue
+ * @param {string} attributeName Name of the attribute.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, uri) {
   var ns = this._fragment.namespace
   ns[uri] = ns[uri] || {}
@@ -325,23 +337,25 @@ ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, ur
   this.setFragmentNamespaceAttribute(attributeName, uri)
 }
 
-  /**
-   * Removes the fragment namespace attribute with the given namespaceURI
-   * @method removeFragmentNamespaceAttribute
-   * @param {string} attributeName Name of the attribute.
-   * @param {string} uri  Namespace URI
-   */
+/**
+ * Removes the fragment namespace attribute with the given namespaceURI
+ *
+ * @method removeFragmentNamespaceAttribute
+ * @param {string} attributeName Name of the attribute.
+ * @param {string} uri  Namespace URI
+ */
 ItemMirror.prototype.removeFragmentNamespaceAttribute = function (attributeName, uri) {
   delete this._fragment.namespace[uri].attributes[attributeName]
 }
 
-  /**
-   * Checks if the fragment has the given namespaceURI.
-   * @method hasFragmentNamespace
-   * @return {Boolean} True if the fragment has the given
-   * namespaceURI, otherwise false.
-   * @param {String} uri URI of the namespace for the association.
-   */
+/**
+ * Checks if the fragment has the given namespaceURI.
+ *
+ * @method hasFragmentNamespace
+ * @return {Boolean} True if the fragment has the given
+ * namespaceURI, otherwise false.
+ * @param {string} uri URI of the namespace for the association.
+ */
 ItemMirror.prototype.hasFragmentNamespace = function (uri) {
   var namespace = this._fragment.namespace[uri]
   if (namespace) { return true }
@@ -349,31 +363,34 @@ ItemMirror.prototype.hasFragmentNamespace = function (uri) {
   return false
 }
 
-  /**
-   * @method listFragmentNamespaceAttributes
-   * @return {String[]} An array of the attributes within the
-   * fragmentNamespaceData with the given namespaceURI.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @type Function
+ * @method listFragmentNamespaceAttributes
+ * @return {String[]} An array of the attributes within the
+ * fragmentNamespaceData with the given namespaceURI.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.listFragmentNamespaceAttributes = function (uri) {
   return Object.keys(this._fragment.namespace[uri].attributes)
 }
 
-  /**
-   * @method getFragmentNamespaceData
-   * @return {String} The fragment namespace data with the given namespace URI.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @type Function
+ * @method getFragmentNamespaceData
+ * @return {string} The fragment namespace data with the given namespace URI.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.getFragmentNamespaceData = function (uri) {
   return this._fragment.namespace[uri].data
 }
 
-  /**
-   * Sets the fragment namespace data with the given namespaceURI.
-   * @method setFragmentNamespaceData
-   * @param {String} data Fragment namespace data to be set.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * Sets the fragment namespace data with the given namespaceURI.
+ *
+ * @method setFragmentNamespaceData
+ * @param {string} data Fragment namespace data to be set.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
   var ns = this._fragment.namespace
   ns[uri] = ns[uri] || {}
@@ -381,13 +398,14 @@ ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
   this._fragment.namespace[uri].data = data
 }
 
-  /**
-   * Creates an ItemMirror from the associated grouping item represented by
-   * the given GUID.
-   * @method createItemMirrorForAssociatedGroupingItem
-   * @return {ItemMirror} Possibly return an itemMirror if the GUID is a grouping item
-   * @param {String} GUID GUID of the association to create the ItemMirror from
-   */
+/**
+ * Creates an ItemMirror from the associated grouping item represented by
+ * the given GUID.
+ *
+ * @method createItemMirrorForAssociatedGroupingItem
+ * @return {ItemMirror} Possibly return an itemMirror if the GUID is a grouping item
+ * @param {string} GUID GUID of the association to create the ItemMirror from
+ */
 ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
   // Handle Special cases for the unique stores:
   var self = this
@@ -477,45 +495,41 @@ ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID,
     )
 }
 
-  /**
-   * Creates an association based on the given options and the following cases
-   *
-   * Cases 1, 2, 7 implemented. All else are not implemented.
-   *
-   * 1. Simple text association declared phantom
-   * 2. Link to existing non-grouping item, phantom. This can be a URL
-   * 3. Link to existing non-grouping item, real
-   * 4. Link to existing grouping item, phantom
-   * 5. Link to existing grouping item, real
-   * 6. Create new local non-grouping item
-   * 7. Create new local grouping item
-   * @method createAssociation
-   *
-   * @param {Object} options Data to create an new association for.
-   *
-   *  @param {String}  options.displayText Display text for the association.
-   *                   Required in all cases.
-   *
-   *  @param {String}  options.itemURI URI of the item. Required for case 2 & 3. Note: Please ensure "http://" prefix exists at the beginning of the string when referencing a Web URL and not an Item.
-   *
-   *  @param {Boolean} options.localItemRequested True if the local item is requested, else false. Required for cases 2 & 3.
-   *
-   *  @param {String}  options.groupingItemURI URI of the grouping item.
-   *                   Required for cases 4 & 5.
-   *
-   *  @param {String}  options.xooMLDriverURI URI of the XooML driver for the
-   *                   association. Required for cases 4 & 5.
-   *
-   *  @param {String}  options.localItem URI of the new local
-   *                   non-grouping/grouping item. Required for cases 6 & 7.
-   *
-   *  @param {String}  options.isGroupingItem True if the item is a grouping
-   *                   item, else false. Required for cases 6 & 7.
-   *
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
-   *  @param {String}   callback.GUID GUID of the association created.
-   */
+/**
+ * Creates an association based on the given options and the following cases
+ *
+ * Cases 1, 2, 7 implemented. All else are not implemented.
+ *
+ * 1. Simple text association declared phantom
+ * 2. Link to existing non-grouping item, phantom. This can be a URL
+ * 3. Link to existing non-grouping item, real
+ * 4. Link to existing grouping item, phantom
+ * 5. Link to existing grouping item, real
+ * 6. Create new local non-grouping item
+ * 7. Create new local grouping item
+ *
+ * @method createAssociation
+ * @param {Object} options Data to create an new association for.
+ * @param {string}  options.displayText Display text for the association.
+ * Required in all cases.
+ * @param {string}  options.itemURI URI of the item. Required for case 2 & 3.
+ * Note: Please ensure "http://" prefix exists at the beginning of the string
+ * when referencing a Web URL and not an Item.
+ * @param {Boolean} options.localItemRequested True if the local item is
+ * requested, else false. Required for cases 2 & 3.
+ * @param {string}  options.groupingItemURI URI of the grouping item.
+ * Required for cases 4 & 5.
+ * @param {string}  options.xooMLDriverURI URI of the XooML driver for the
+ * association. Required for cases 4 & 5.
+ * @param {string}  options.localItem URI of the new local
+ * non-grouping/grouping item. Required for cases 6 & 7.
+ * @param {string}  options.isGroupingItem True if the item is a grouping
+ * item, else false. Required for cases 6 & 7.
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ * @param {string} callback.GUID GUID of the association created.
+ */
 ItemMirror.prototype.createAssociation = function (options, callback) {
   var self = this
   var association
@@ -583,46 +597,58 @@ ItemMirror.prototype.createAssociation = function (options, callback) {
   }
 }
 
-  /**
-   * @method isAssociationPhantom
-   * @param {String} guid
-   * @return {Boolean} True if the association of the given GUID is a phantom association. False otherwise.
-   */
+/**
+ * @method isAssociationPhantom
+ * @param {string} guid
+ * @return {Boolean} True if the association of the given GUID is a phantom association. False otherwise.
+ */
 ItemMirror.prototype.isAssociationPhantom = function (guid) {
   var data = this._fragment.associations[guid].commonData
   return !(data.isGrouping || data.localItem)
 }
 
-  /**
-   * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
-   * @method copyAssociation
-   * @param {String} GUID GUID of the association you wish to copy/duplicate
-   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred in executing this function, else it contains an object with the error that occurred.
-   */
+/**
+ * Duplicates (copies) an association to another ItemMirror Object (representing
+ * a grouping item)
+ *
+ * @method copyAssociation
+ * @param {string} GUID GUID of the association you wish to copy/duplicate
+ * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you
+ * want to move the GUID object to
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error Null if no error has occurred
+ * in executing this function, else it contains an object with the error that
+ * occurred.
+ */
 ItemMirror.prototype.copyAssociation = function () {
   throw new Error('Method not implemented')
 }
-  /**
-   * Moves an association to another ItemMirror Object (representing a grouping item)
-   * @method moveAssociation
-   * @param {string} GUID GUID of the item you want to paste or move
-   * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred in executing this function, else it contains an object with the error that occurred.
-   */
+
+/**
+ * Moves an association to another ItemMirror Object (representing a grouping
+ * item)
+ *
+ * @method moveAssociation
+ * @param {string} GUID GUID of the item you want to paste or move
+ * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you
+ * want to move the GUID object to
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error Null if no error has occurred
+ * in executing this function, else it contains an object with the error that
+ * occurred.
+ */
 ItemMirror.prototype.moveAssociation = function () {
   throw new Error('Method not implemented')
 }
 
-  /**
-   * Deletes the association represented by the given GUID
-   * @method deleteAssociation
-   * @param {string} GUID of the association to be deleted.
-   * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
-   */
+/**
+ * Deletes the association represented by the given GUID
+ *
+ * @method deleteAssociation
+ * @param {string} GUID of the association to be deleted.
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
+ */
 ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
   var self = this
 
@@ -680,34 +706,37 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
 }
 
   /**
-   * Upgrades a given association without a local item. Local item is named by a truncated form of the display name of this ItemMirror if the  localItemURI is not given, else uses given localItemURI. Always truncated to 50 characters.  __ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM__
+   * Upgrades a given association without a local item. Local item is named by a
+   * truncated form of the display name of this ItemMirror if the  localItemURI
+   * is not given, else uses given localItemURI. Always truncated to 50
+   * characters.  __ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH
+   * GROUPING ITEM__
+   *
    * @method upgradeAssociation
-   *
    * @param {Object} options Data to construct a new ItemMirror with
-   *
-   *  @param {String} options.GUID of the association to be upgraded. Required
-   *
-   *  @param {String} options.localItemURI URI of the local item to be used if a truncated display name is not the intended behavior. Optional.
-   *
+   * @param {string} options.GUID of the association to be upgraded. Required
+   * @param {string} options.localItemURI URI of the local item to be used if a
+   * truncated display name is not the intended behavior. Optional.
    * @param {Function} callback Function to execute once finished.
-   *
-   *  @param {String}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
+   * @param {string} callback.error Null if no error has occurred in executing
+   * this function, else an contains an object with the error that occurred.
    */
 ItemMirror.prototype.upgradeAssociation = function () {
   throw new Error('Method not implemented')
 }
 
-  /**
-   * Renames the local item for the association with the given GUID.
-   *
-   *
-   * @method renameAssocaitionLocalItem
-   * @param {String} GUID GUID of the association.
-   * @param {String} String String Name you want to rename the file to (including file extension)
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
-   * @param {string} callback.GUID The GUID of the association that was updated.
-   */
+/**
+ * Renames the local item for the association with the given GUID.
+ *
+ * @method renameAssocaitionLocalItem
+ * @param {string} GUID GUID of the association.
+ * @param {string} String String Name you want to rename the file to (including
+ * file extension)
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ * @param {string} callback.GUID The GUID of the association that was updated.
+ */
 ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
     // This method needs a redesign, and can't be properly implemented the way
     // it is now. Instead, this needs to pass information to the acual item
@@ -753,14 +782,16 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
   }
 }
 
-  /**
-   * A special method that is used for certain file operations where calling a sync won't work. Essentially it is the save function,  sans syncing. This should __never__ be called be an application.
-   *
-   * @private
-   * @method _unsafeWrite
-   * @param {Function} callback
-   * @param {Error} calback.error
-   */
+/**
+ * A special method that is used for certain file operations where calling a
+ * sync won't work. Essentially it is the save function,  sans syncing. This
+ * should __never__ be called be an application.
+ *
+ * @private
+ * @method _unsafeWrite
+ * @param {Function} callback
+ * @param {Error} calback.error
+ */
 ItemMirror.prototype._unsafeWrite = function (callback) {
   var self = this
 
@@ -773,32 +804,38 @@ ItemMirror.prototype._unsafeWrite = function (callback) {
   })
 }
 
-  /**
-   * Checks if an association's associatedItem is a grouping item
-   * @method isAssociationAssociatedItemGrouping
-   * @return {Boolean} True if the association with the given GUID's associatedItem is a grouping item, otherwise false.
-   * @param {String} GUID of the association to be to be checked.
-   */
+/**
+ * Checks if an association's associatedItem is a grouping item
+ *
+ * @method isAssociationAssociatedItemGrouping
+ * @return {boolean} True if the association with the given GUID's
+ * associatedItem is a grouping item, otherwise false.
+ * @param {string} GUID of the association to be to be checked.
+ */
 ItemMirror.prototype.isAssociationAssociatedItemGrouping = function (GUID) {
   return this._fragment.associations[GUID].commonData.isGrouping
 }
 
-  /**
-   * Lists the GUIDs of each association.
-   * @method listAssociations
-   * @return {String[]} Array of the GUIDs of each association
-   */
+/**
+ * Lists the GUIDs of each association.
+ *
+ * @type Function
+ * @method listAssociations
+ * @return {string[]} Array of the GUIDs of each association
+ */
 ItemMirror.prototype.listAssociations = function () {
   return Object.keys(this._fragment.associations)
 }
 
-  /**
-   * @method getAssociationNamespaceAttribute
-   * @return {String} The association namespace attribute with the given attributeName and the given namespaceURI within the association with the given GUID.
-   * @param {String} attributeName Name of the attribute to be returned.
-   * @param {String} GUID GUID of the association to return attribute from.
-   * @param {String} uri Namspace URI
-   */
+/**
+ * @method getAssociationNamespaceAttribute
+ * @return {string} The association namespace attribute with the given
+ * attributeName and the given namespaceURI within the association with the
+ * given GUID.
+ * @param {string} attributeName Name of the attribute to be returned.
+ * @param {string} GUID GUID of the association to return attribute from.
+ * @param {string} uri Namspace URI
+ */
 ItemMirror.prototype.getAssociationNamespaceAttribute = function (attributeName, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -807,15 +844,16 @@ ItemMirror.prototype.getAssociationNamespaceAttribute = function (attributeName,
   return this._fragment.associations[GUID].namespace[uri].attributes[attributeName]
 }
 
-  /**
-   * Sets the association namespace attribute with the given attributeName and the given namespaceURI within the association with the given GUID.
-   * @method setAssociationNamespaceAttribute
-   * @param {String} attributeName  Name of the attribute to be set.
-   * @param {String} attributeValue Value of the attribute to be set
-   * @param {String} GUID GUID of association to set attribute for.
-   * @param {String} uri Namespace URI
-   *
-   */
+/**
+ * Sets the association namespace attribute with the given attributeName and the
+ * given namespaceURI within the association with the given GUID.
+ *
+ * @method setAssociationNamespaceAttribute
+ * @param {string} attributeName  Name of the attribute to be set.
+ * @param {string} attributeValue Value of the attribute to be set
+ * @param {string} GUID GUID of association to set attribute for.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.setAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -824,14 +862,15 @@ ItemMirror.prototype.setAssociationNamespaceAttribute = function (attributeName,
   this._fragment.associations[GUID].namespace[uri].attributes[attributeName] = attributeValue
 }
 
-  /**
-   * Adds the given attributeName to the association with the given GUID and namespaceURI.
-   * @method addAssociationNamespaceAttribute
-   * @param {String} attributeName Name of the attribute.
-   * @param {String} attributeValue Value of the attribe to be set
-   * @param {String} GUID          GUID of the association.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * Adds the given attributeName to the association with the given GUID and
+ * namespaceURI.
+ * @method addAssociationNamespaceAttribute
+ * @param {string} attributeName Name of the attribute.
+ * @param {string} attributeValue Value of the attribe to be set
+ * @param {string} GUID GUID of the association.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.addAssociationNamespaceAttribute = function (attributeName, attributeValue, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -843,23 +882,24 @@ ItemMirror.prototype.addAssociationNamespaceAttribute = function (attributeName,
   this.setAssociationNamespaceAttribute(attributeName, attributeValue, GUID, uri)
 }
 
-  /**
-   * Removes the given attributeName to the association with the given GUID and namespaceURI.
-   * @method removeAssociationNamespaceAttribute
-   * @param {String} attributeName Name of the attribute.
-   * @param {String} GUID GUID of the association.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * Removes the given attributeName to the association with the given GUID and namespaceURI.
+ * @method removeAssociationNamespaceAttribute
+ * @param {string} attributeName Name of the attribute.
+ * @param {string} GUID GUID of the association.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.removeAssociationNamespaceAttribute = function (attributeName, GUID, uri) {
   delete this._fragment.associations[GUID].namespace[uri].attributes[attributeName]
 }
 
-  /**
-   * @method hasAssociationNamespace
-   * @return {Boolean} True if the association has the given namespaceURI, else false.
-   * @param {String} GUID GUID of the association.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @method hasAssociationNamespace
+ * @return {boolean} True if the association has the given namespaceURI, else
+ * false.
+ * @param {string} GUID GUID of the association.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.hasAssociationNamespace = function (GUID, uri) {
   var namespace = this._fragment.associations[GUID].namespace[uri]
   if (namespace) { return true }
@@ -867,12 +907,14 @@ ItemMirror.prototype.hasAssociationNamespace = function (GUID, uri) {
   return false
 }
 
-  /**
-   * @method listAssociationNamespaceAttributes
-   * @return {String[]} An array of the association namespace attributes with the given attributeName and the given namespaceURI within the association with the given GUID.
-   * @param {String} GUID GUID of association to list attributes for.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @method listAssociationNamespaceAttributes
+ * @return {string[]} An array of the association namespace attributes with the
+ * given attributeName and the given namespaceURI within the association with
+ * the given GUID.
+ * @param {string} GUID GUID of association to list attributes for.
+ * @param {string} uri Namespace URI
+ */
 ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -881,12 +923,13 @@ ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
   return Object.keys(this._fragment.associations[GUID].namespace[uri].attributes)
 }
 
-  /**
-   * @method getAssociationNamespaceData
-   * @return {String} The association namespace data for an association with the given GUID and the given namespaceURI.
-   * @param {String} GUID GUID of the association namespace data to returned.
-   * @param {String} uri Namespace URI
-   */
+/**
+ * @method getAssociationNamespaceData
+ * @return {string} The association namespace data for an association with the
+ * given GUID and the given namespaceURI.
+ * @param {string} GUID GUID of the association namespace data to returned.
+ * @param {string} uri Namespace URI
+ */
 self.getAssociationNamespaceData = function (GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -895,12 +938,14 @@ self.getAssociationNamespaceData = function (GUID, uri) {
   return this._fragment.associations[GUID].namespace[uri].data
 }
 
-  /**
-   * Sets the association namespace data for an association with the given GUID and given namespaceURI using the given data.
-   * @method setAssociationNamespaceData
-   * @param {String} data Association namespace data to set. Must be valid fragmentNamespaceData.
-   * @param {String} GUID GUID of the association namespace data to set.
-   */
+/**
+ * Sets the association namespace data for an association with the given GUID
+ * and given namespaceURI using the given data.
+ * @method setAssociationNamespaceData
+ * @param {string} data Association namespace data to set. Must be valid
+ * fragmentNamespaceData.
+ * @param {string} GUID GUID of the association namespace data to set.
+ */
 ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
   ns[uri] = ns[uri] || {}
@@ -909,25 +954,31 @@ ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
   this._fragment.associations[GUID].namespace[uri].data = data
 }
 
-  /**
-   * Uses the specified ItemDriver and SyncDriver to synchronize the local ItemMirror object changes. This is an implmentation of Synchronization Driver which modifies the XooML Fragment according to the real structure * under the item described.
-   * @method sync
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
-   * @private
-   */
+/**
+ * Uses the specified ItemDriver and SyncDriver to synchronize the local
+ * ItemMirror object changes. This is an implmentation of Synchronization
+ * Driver which modifies the XooML Fragment according to the real structure *
+ * under the item described.
+ *
+ * @method sync
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object}   callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ * @private
+ */
 ItemMirror.prototype._sync = function (callback) {
   var self = this
 
   self._syncDriver.sync(callback)
 }
 
-  /**
-   * Reloads the XooML Fragment
-   * @method refresh
-   * @param {Function} callback Function to execute once finished.
-   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
-   */
+/**
+ * Reloads the XooML Fragment
+ * @method refresh
+ * @param {Function} callback Function to execute once finished.
+ * @param {Object} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ */
 ItemMirror.prototype.refresh = function (callback) {
   var self = this
 
@@ -951,20 +1002,26 @@ ItemMirror.prototype.refresh = function (callback) {
   }
 }
 
-  /**
-   * @method getCreator
-   * @return {Object} The itemMirror that created this current  itemMirror, if it has one. Note that this isn't the same as  asking for a 'parent,' since multiple itemMirrors can possibly link to the same one
-   */
+/**
+ * @type Function
+ * @method getCreator
+ * @return {Object} The itemMirror that created this current  itemMirror, if it
+ * has one. Note that this isn't the same as  asking for a 'parent,' since
+ * multiple itemMirrors can possibly link to the same one
+ */
 ItemMirror.prototype.getCreator = function () {
   return this._creator
 }
 
-  /**
-   * Saves the itemMirror object, writing it out to the fragment. Fails if the GUID generated on last write for the itemMirror and the XooML fragment don't match.
-   * @method save
-   * @param {Function} callback
-   * @param {Error} callback.error Returns false if everything went ok, otherwise returns the error
-   */
+/**
+ * Saves the itemMirror object, writing it out to the fragment. Fails if the
+ * GUID generated on last write for the itemMirror and the XooML fragment
+ * don't match.
+ *
+ * @method save
+ * @param {Function} callback
+ * @param {Error} callback.error Returns false if everything went ok, otherwise returns the error
+ */
 ItemMirror.prototype.save = function (callback) {
   var self = this
 
@@ -981,10 +1038,5 @@ ItemMirror.prototype.save = function (callback) {
   }
 }
 
-// This makes the pacakge accessible as a node module
+// This makes the package accessible as a node module
 module.exports = ItemMirror
-
-// This attaches the library as a global if it doesn't already exist
-if (window) { // Checks for window object so we don't break potential node usage
-  window.ItemMirror = window.ItemMirror || ItemMirror
-}
