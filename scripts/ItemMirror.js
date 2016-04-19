@@ -755,6 +755,8 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
 
   /**
    * A special method that is used for certain file operations where calling a sync won't work. Essentially it is the save function,  sans syncing. This should __never__ be called be an application.
+   *
+   * @private
    * @method _unsafeWrite
    * @param {Function} callback
    * @param {Error} calback.error
