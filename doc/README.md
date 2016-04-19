@@ -214,42 +214,29 @@ Duplicates *(copies) an association to another ItemMirror Object (representing a
 ### <a id="createassociationoptions-callback-callbackerror-callbackguid"></a>`createAssociation(options, callback, callback.error, callback.GUID)`
 <a href="#createassociationoptions-callback-callbackerror-callbackguid">#</a> [&#x24C8;](https://github.com/KeepingFoundThingsFound/ItemMirror/blob/0.9.0/item-mirror.js#L519 "View in source") [&#x24C9;][1]
 
-Creates an association based on the given options and the following cases<br>
+Creates an association based on the given options and the following cases
 <br>
-<br>
 <br>
-Cases `1`, `2`, `7` implemented. All else are not implemented.<br>
+Cases `1`, `2`, `7` implemented. All else are not implemented.
 <br>
-<br>
 <br>
-1. Simple text association declared phantom<br>
-<br>
-2. Link to existing non-grouping item, phantom. This can be a URL<br>
-<br>
-3. Link to existing non-grouping item, real<br>
-<br>
-4. Link to existing grouping item, phantom<br>
-<br>
-5. Link to existing grouping item, real<br>
-<br>
-6. Create new local non-grouping item<br>
-<br>
+1. Simple text association declared phantom
+2. Link to existing non-grouping item, phantom. This can be a URL
+3. Link to existing non-grouping item, real
+4. Link to existing grouping item, phantom
+5. Link to existing grouping item, real
+6. Create new local non-grouping item
 7. Create new local grouping item
 
 #### Arguments
 1. `options` *(Object)*: Data to create an new association for.
-2. `options.displayText` *(String)*: Display text for the association.<br>
-<br> Required in all cases.
+2. `options.displayText` *(String)*: Display text for the association. Required in all cases.
 3. `options.itemURI` *(String)*: URI of the item. Required for case `2` & 3. Note: Please ensure "http://" prefix exists at the beginning of the string when referencing a Web URL and not an Item.
 4. `options.localItemRequested` *(Boolean)*: True if the local item is requested, else false. Required for cases `2` & `3`.
-5. `options.groupingItemURI` *(String)*: URI of the grouping item.<br>
-<br> Required for cases `4` & `5`.
-6. `options.xooMLDriverURI` *(String)*: URI of the XooML driver for the<br>
-<br> association. Required for cases `4` & `5`.
-7. `options.localItem` *(String)*: URI of the new local<br>
-<br> non-grouping/grouping item. Required for cases `6` & `7`.
-8. `options.isGroupingItem` *(String)*: True if the item is a grouping<br>
-<br> item, else false. Required for cases `6` & `7`.
+5. `options.groupingItemURI` *(String)*: URI of the grouping item. Required for cases `4` & `5`.
+6. `options.xooMLDriverURI` *(String)*: URI of the XooML driver for the association. Required for cases `4` & `5`.
+7. `options.localItem` *(String)*: URI of the new local non-grouping/grouping item. Required for cases `6` & `7`.
+8. `options.isGroupingItem` *(String)*: True if the item is a grouping item, else false. Required for cases `6` & `7`.
 9. `callback` *(Function)*: Function to execute once finished.
 10. `callback.error` *(Object)*: Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
 11. `callback.GUID` *(String)*: GUID of the association created.
@@ -263,8 +250,7 @@ Cases `1`, `2`, `7` implemented. All else are not implemented.<br>
 ### <a id="createitemmirrorforassociatedgroupingitemguid"></a>`createItemMirrorForAssociatedGroupingItem(GUID)`
 <a href="#createitemmirrorforassociatedgroupingitemguid">#</a> [&#x24C8;](https://github.com/KeepingFoundThingsFound/ItemMirror/blob/0.9.0/item-mirror.js#L391 "View in source") [&#x24C9;][1]
 
-Creates an ItemMirror from the associated grouping item represented by<br>
-<br>
+Creates an ItemMirror from the associated grouping item represented by
 the given GUID.
 
 #### Arguments
