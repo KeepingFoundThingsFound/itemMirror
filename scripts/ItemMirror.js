@@ -193,7 +193,7 @@ function ItemMirror (options, callback) {
 
   /**
    * @method getDisplayName
-   * @return {String} The display name of the fragment.
+   * @return {string} The display name of the fragment.
    */
 ItemMirror.prototype.getDisplayName = function () {
   return this._fragment.commonData.displayName
@@ -201,59 +201,52 @@ ItemMirror.prototype.getDisplayName = function () {
 
   /**
    * @method setDisplayName
-   * @param {String} name The display text to set for the fragment
+   * @param {string} name The display text to set for the fragment
    */
 ItemMirror.prototype.setDisplayName = function (name) {
   this._fragment.commonData.displayName = name
 }
 
   /**
-   *
    * @method getSchemaVersion
-   * @return {String} XooML schema version.
+   * @return {string} XooML schema version.
    */
 ItemMirror.prototype.getSchemaVersion = function () {
   return this._fragment.commonData.schemaVersion
 }
 
   /**
-   *
    * @method getSchemaLocation
-   * @return {String} XooML schema location.
+   * @return {string} XooML schema location.
    */
 ItemMirror.prototype.getSchemaLocation = function () {
   return this._fragment.commonData.schemaLocation
 }
 
   /**
-   * Returns URI pointing to item described by the metadata of a fragment. A URI
-   * might point to just about anything that can be interpreted as a grouping
-   * item. For example: a conventional file system folder or a “tag as
-   * supported by any of several applications.
-   *
+   * Returns URI pointing to item described by the metadata of a fragment. A URI might point to just about anything that can be interpreted as a grouping item. For example: a conventional file system folder or a “tag as supported by any of several applications.
    * @method getURIforItemDescribed
-   * @return {String} A URI pointing to item described by the metadata
+   * @return {string} A URI pointing to item described by the metadata
    * of a fragment if it exists, else returns null.
-   *
    */
 ItemMirror.prototype.getURIforItemDescribed = function () {
   return this._fragment.commonData.itemDescribed
 }
 
+  /**
+   * Gets a URL for an association that can be shared. For instance, on a Google Drive document this provides a direct link to the document itself when opened.
+   * @method getPublicURL
+   * @return {string}
+   */
 ItemMirror.prototype.getPublicURL = function (GUID) {
   return this._fragment.associations[GUID].commonData.publicURL
 }
 
   /**
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
-   *
    * @method getAssociationDisplayText
-   * @return {String} The display text for the association with the given GUID.
+   * @return {string} The display text for the association with the given GUID.
    *
-   * @param {String} GUID GUID representing the desired association.
+   * @param {string} GUID GUID representing the desired association.
    */
 ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
   return this._fragment.associations[GUID].commonData.displayText
@@ -261,42 +254,27 @@ ItemMirror.prototype.getAssociationDisplayText = function (GUID) {
 
   /**
    * Sets the display text for the association with the given GUID.
-   *
-   * Throws NullArgumentException if GUID or displayName is null. <br/>
-   * Throws InvalidTypeException if GUID or displayName is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method setAssociationDisplayText
-   *
-   * @param {String}   GUID        GUID of the association to set.
-   * @param {String}   displayText Display text to be set.
+   * @param {string} GUID GUID of the association to set.
+   * @param {string} displayText Display text to be set.
    */
 ItemMirror.prototype.setAssociationDisplayText = function (GUID, displayText) {
   this._fragment.associations[GUID].commonData.displayText = displayText
 }
 
   /**
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method getAssociationLocalItem
-   * @return {String} The local item for the association with the given GUID.
-   *
-   * @param {String} GUID GUID of the association to get.
+   * @return {string} The local item for the association with the given GUID.
+   * @param {string} GUID GUID of the association to get.
    */
 ItemMirror.prototype.getAssociationLocalItem = function (GUID) {
   return this._fragment.associations[GUID].commonData.localItem
 }
 
   /**
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method getAssociationAssociatedItem
-   * @return {String} The associated item for the association with the given GUID.
-   * @param {String} GUID GUID of the association to get.
+   * @return {string} The associated item for the association with the given GUID.
+   * @param {string} GUID GUID of the association to get.
    */
 ItemMirror.prototype.getAssociationAssociatedItem = function (GUID) {
   return this._fragment.associations[GUID].commonData.associatedItem
@@ -304,9 +282,8 @@ ItemMirror.prototype.getAssociationAssociatedItem = function (GUID) {
 
   /**
    * @method getFragmentNamespaceAttribute
-   * @return {String} Returns the value of the given attributeName for the
-   * fragmentNamespaceData with the given namespaceURI.
-   * @param {String} attributeName Name of the attribute to be returned.
+   * @return {string} Returns the value of the given attributeName for the fragmentNamespaceData with the given namespaceURI.
+   * @param {string} attributeName Name of the attribute to be returned.
    * @param {String} uri Namespace URI
    */
 ItemMirror.prototype.getFragmentNamespaceAttribute = function (attributeName, uri) {
@@ -318,18 +295,11 @@ ItemMirror.prototype.getFragmentNamespaceAttribute = function (attributeName, ur
 }
 
   /**
-   * Sets the value of the given attributeName with the given attributeValue
-   * for the fragmentNamespaceData with the given namespaceURI.
-   *
-   * Throws NullArgumentException if attributeName, attributeValue, or
-   * namespaceURI is null. <br/>
-   * Throws InvalidTypeException if attributeName, attributeValue, or
-   * namespaceURI is not a String. <br/>
-   *
+   * Sets the value of the given attributeName with the given attributeValue for the fragmentNamespaceData with the given namespaceURI.
    * @method setFragmentNamespaceAttribute
-   * @param {String} attributeName  Name of the attribute to be set.
-   * @param {String} attributeValue Value of the attribute to be set.
-   * @param {String} uri Namespace URI
+   * @param {string} attributeName  Name of the attribute to be set.
+   * @param {string} attributeValue Value of the attribute to be set.
+   * @param {string} uri Namespace URI
    */
 ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, attributeValue, uri) {
   var ns = this._fragment.namespace
@@ -341,15 +311,9 @@ ItemMirror.prototype.setFragmentNamespaceAttribute = function (attributeName, at
 
   /**
    * Adds the given attributeName to the fragment's current namespace
-   *
-   * Throws an InvalidStateException when the attribute already exists
-   *
-   * @method addFragmentNamespaceAttribute
-   *
-   * @param {String} attributeName Name of the attribute.
-   * @param {String} uri Namespace URI
+   * @param {string} attributeName Name of the attribute.
+   * @param {string} uri Namespace URI
    */
-  // TODO: Possibly remove? Why not just get and set
 ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, uri) {
   var ns = this._fragment.namespace
   ns[uri] = ns[uri] || {}
@@ -362,19 +326,10 @@ ItemMirror.prototype.addFragmentNamespaceAttribute = function (attributeName, ur
 }
 
   /**
-   * Removes the fragment namespace attribute with the given namespaceURI.
-   *
-   * Throws NullArgumentException if attributeName, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, or namespaceURI is not
-   * a String. <br/>
-   * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. <br/>
-   *
+   * Removes the fragment namespace attribute with the given namespaceURI
    * @method removeFragmentNamespaceAttribute
-   * @param {String} attributeName Name of the attribute.
-   * @param {String} uri  Namespace URI
-   *
+   * @param {string} attributeName Name of the attribute.
+   * @param {string} uri  Namespace URI
    */
 ItemMirror.prototype.removeFragmentNamespaceAttribute = function (attributeName, uri) {
   delete this._fragment.namespace[uri].attributes[attributeName]
@@ -382,17 +337,10 @@ ItemMirror.prototype.removeFragmentNamespaceAttribute = function (attributeName,
 
   /**
    * Checks if the fragment has the given namespaceURI.
-   *
-   * Currently cannot find a way to list the namespaces (no DOM
-   * standard method for doing so). So this fuction will ALWAYS RETURN
-   * FALSE for now.
-   *
    * @method hasFragmentNamespace
    * @return {Boolean} True if the fragment has the given
    * namespaceURI, otherwise false.
-   *
    * @param {String} uri URI of the namespace for the association.
-   *
    */
 ItemMirror.prototype.hasFragmentNamespace = function (uri) {
   var namespace = this._fragment.namespace[uri]
@@ -406,8 +354,7 @@ ItemMirror.prototype.hasFragmentNamespace = function (uri) {
    * @return {String[]} An array of the attributes within the
    * fragmentNamespaceData with the given namespaceURI.
    * @param {String} uri Namespace URI
-   *
-  */
+   */
 ItemMirror.prototype.listFragmentNamespaceAttributes = function (uri) {
   return Object.keys(this._fragment.namespace[uri].attributes)
 }
@@ -423,9 +370,7 @@ ItemMirror.prototype.getFragmentNamespaceData = function (uri) {
 
   /**
    * Sets the fragment namespace data with the given namespaceURI.
-   *
    * @method setFragmentNamespaceData
-   *
    * @param {String} data Fragment namespace data to be set.
    * @param {String} uri Namespace URI
    */
@@ -439,18 +384,9 @@ ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
   /**
    * Creates an ItemMirror from the associated grouping item represented by
    * the given GUID.
-   *
-   * Throws NullArgumentException if GUID or callback is null. <br/>
-   * Throws InvalidTypeException if GUID is not a string, and callback is
-   * not a function. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method createItemMirrorForAssociatedGroupingItem
    * @return {ItemMirror} Possibly return an itemMirror if the GUID is a grouping item
-   *
-   * @param {String} GUID GUID of the association to create the ItemMirror
-   *                 from.
-   *
+   * @param {String} GUID GUID of the association to create the ItemMirror from
    */
 ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
   // Handle Special cases for the unique stores:
@@ -542,25 +478,17 @@ ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID,
 }
 
   /**
-   * Creates an association based on the given options and the following
-   * cases.
+   * Creates an association based on the given options and the following cases
    *
    * Cases 1, 2, 7 implemented. All else are not implemented.
    *
-   * 1. Simple text association declared phantom. <br/>
-   * 2. Link to existing non-grouping item, phantom. This can be a URL <br/>
-   * 3. Link to existing non-grouping item, real. <br/>
-   * 4. Link to existing grouping item, phantom. <br/>
-   * 5. Link to existing grouping item, real. <br/>
-   * 6. Create new local non-grouping item. <br/>
-   * 7. Create new local grouping item. <br/>
-   *
-   * Throws NullArgumentException when options, or callback is null. <br/>
-   * Throws InvalidTypeException when options is not an object and callback
-   * is not a function. <br/>
-   * Throws MissingParameterException when an argument is missing for an expected
-   * case. <br/>
-   *
+   * 1. Simple text association declared phantom
+   * 2. Link to existing non-grouping item, phantom. This can be a URL
+   * 3. Link to existing non-grouping item, real
+   * 4. Link to existing grouping item, phantom
+   * 5. Link to existing grouping item, real
+   * 6. Create new local non-grouping item
+   * 7. Create new local grouping item
    * @method createAssociation
    *
    * @param {Object} options Data to create an new association for.
@@ -570,8 +498,7 @@ ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID,
    *
    *  @param {String}  options.itemURI URI of the item. Required for case 2 & 3. Note: Please ensure "http://" prefix exists at the beginning of the string when referencing a Web URL and not an Item.
    *
-   *  @param {Boolean} options.localItemRequested True if the local item is
-   *                   requested, else false. Required for cases 2 & 3.
+   *  @param {Boolean} options.localItemRequested True if the local item is requested, else false. Required for cases 2 & 3.
    *
    *  @param {String}  options.groupingItemURI URI of the grouping item.
    *                   Required for cases 4 & 5.
@@ -586,9 +513,7 @@ ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID,
    *                   item, else false. Required for cases 6 & 7.
    *
    * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   *  @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    *  @param {String}   callback.GUID GUID of the association created.
    */
 ItemMirror.prototype.createAssociation = function (options, callback) {
@@ -661,8 +586,7 @@ ItemMirror.prototype.createAssociation = function (options, callback) {
   /**
    * @method isAssociationPhantom
    * @param {String} guid
-   * @return {Boolean} True if the association of the given GUID is a
-   * phantom association. False otherwise.
+   * @return {Boolean} True if the association of the given GUID is a phantom association. False otherwise.
    */
 ItemMirror.prototype.isAssociationPhantom = function (guid) {
   var data = this._fragment.associations[guid].commonData
@@ -671,62 +595,33 @@ ItemMirror.prototype.isAssociationPhantom = function (guid) {
 
   /**
    * Duplicates (copies) an association to another ItemMirror Object (representing a grouping item)
-   *
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method copyAssociation
-   *
    * @param {String} GUID GUID of the association you wish to copy/duplicate
    * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
-   *
    * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred
-   *                 in executing this function, else it contains
-   *                 an object with the error that occurred.
+   * @param {Object} callback.error Null if no error Null if no error has occurred in executing this function, else it contains an object with the error that occurred.
    */
 ItemMirror.prototype.copyAssociation = function () {
   throw new Error('Method not implemented')
 }
   /**
    * Moves an association to another ItemMirror Object (representing a grouping item)
-   *
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method moveAssociation
-   *
    * @param {string} GUID GUID of the item you want to paste or move
    * @param {ItemMirror} ItemMirror ItemMirror representing the grouping item you want to move the GUID object to
-   *
    * @param {Function} callback Function to execute once finished.
-   * @param {Object} callback.error Null if no error Null if no error has occurred
-   *                 in executing this function, else it contains
-   *                 an object with the error that occurred.
+   * @param {Object} callback.error Null if no error Null if no error has occurred in executing this function, else it contains an object with the error that occurred.
    */
 ItemMirror.prototype.moveAssociation = function () {
   throw new Error('Method not implemented')
 }
 
   /**
-   * Deletes the association represented by the given GUID.
-   *
-   * Throws NullArgumentException if GUID is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
+   * Deletes the association represented by the given GUID
    * @method deleteAssociation
-   *
    * @param {string} GUID of the association to be deleted.
-   *
    * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   *  @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    */
 ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
   var self = this
@@ -785,36 +680,18 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
 }
 
   /**
-   * Upgrades a given association without a local item. Local item is named
-   * by a truncated form of the display name of this ItemMirror if the
-   * localItemURI is not given, else uses given localItemURI. Always
-   * truncated to 50 characters.
-   *
-   * ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM
-   *
-   * Throws NullArgumentException when options is null. <br/>
-   * Throws MissingParameterException when options is not null and a required
-   * argument is missing.<br/>
-   * Throws InvalidTypeException if GUID is not a string, and if callback
-   * is not a function. <br/>
-   * Throws InvalidState if the association with the given GUID cannot be
-   * upgraded. <br/>
-   *
+   * Upgrades a given association without a local item. Local item is named by a truncated form of the display name of this ItemMirror if the  localItemURI is not given, else uses given localItemURI. Always truncated to 50 characters.  __ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH GROUPING ITEM__
    * @method upgradeAssociation
    *
    * @param {Object} options Data to construct a new ItemMirror with
    *
    *  @param {String} options.GUID of the association to be upgraded. Required
    *
-   *  @param {String} options.localItemURI URI of the local item to be used if
-   *                  a truncated display name is not the intended behavior.
-   *                  Optional.
+   *  @param {String} options.localItemURI URI of the local item to be used if a truncated display name is not the intended behavior. Optional.
    *
    * @param {Function} callback Function to execute once finished.
    *
-   *  @param {String}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   *  @param {String}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    */
 ItemMirror.prototype.upgradeAssociation = function () {
   throw new Error('Method not implemented')
@@ -823,18 +700,12 @@ ItemMirror.prototype.upgradeAssociation = function () {
   /**
    * Renames the local item for the association with the given GUID.
    *
-   * Throws NullArgumentException if GUID, callback is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String, and if callback
-   * is not a function. <br/>
    *
    * @method renameAssocaitionLocalItem
-   *
    * @param {String} GUID GUID of the association.
    * @param {String} String String Name you want to rename the file to (including file extension)
    * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    * @param {string} callback.GUID The GUID of the association that was updated.
    */
 ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
@@ -883,9 +754,7 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
 }
 
   /**
-   * A special method that is used for certain file operations where
-   * calling a sync won't work. Essentially it is the save function,
-   * sans syncing. This should __never__ be called be an application.
+   * A special method that is used for certain file operations where calling a sync won't work. Essentially it is the save function,  sans syncing. This should __never__ be called be an application.
    * @method _unsafeWrite
    * @param {Function} callback
    * @param {Error} calback.error
@@ -904,17 +773,9 @@ ItemMirror.prototype._unsafeWrite = function (callback) {
 
   /**
    * Checks if an association's associatedItem is a grouping item
-   *
-   * Throws NullArgumentException if GUID, callback is null. <br/>
-   * Throws InvalidTypeException if GUID is not a String, and if callback
-   * is not an function. <br/>
-   *
    * @method isAssociationAssociatedItemGrouping
-   * @return {Boolean} True if the association with the given GUID's associatedItem is a grouping
-   * item, otherwise false.
-   *
+   * @return {Boolean} True if the association with the given GUID's associatedItem is a grouping item, otherwise false.
    * @param {String} GUID of the association to be to be checked.
-   *
    */
 ItemMirror.prototype.isAssociationAssociatedItemGrouping = function (GUID) {
   return this._fragment.associations[GUID].commonData.isGrouping
@@ -922,9 +783,7 @@ ItemMirror.prototype.isAssociationAssociatedItemGrouping = function (GUID) {
 
   /**
    * Lists the GUIDs of each association.
-   *
    * @method listAssociations
-   *
    * @return {String[]} Array of the GUIDs of each association
    */
 ItemMirror.prototype.listAssociations = function () {
@@ -932,22 +791,11 @@ ItemMirror.prototype.listAssociations = function () {
 }
 
   /**
-   *
-   * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method getAssociationNamespaceAttribute
-   * @return {String} The association namespace attribute with
-   * the given attributeName and the given namespaceURI within the
-   * association with the given GUID.
-   *
+   * @return {String} The association namespace attribute with the given attributeName and the given namespaceURI within the association with the given GUID.
    * @param {String} attributeName Name of the attribute to be returned.
-   * @param {String} GUID          GUID of the association to return attribute from.
+   * @param {String} GUID GUID of the association to return attribute from.
    * @param {String} uri Namspace URI
-   *
    */
 ItemMirror.prototype.getAssociationNamespaceAttribute = function (attributeName, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
@@ -958,20 +806,11 @@ ItemMirror.prototype.getAssociationNamespaceAttribute = function (attributeName,
 }
 
   /**
-   * Sets the association namespace attribute with the given attributeName
-   * and the given namespaceURI within the association with the given GUID.
-   *
-   * Throws NullArgumentException if attributeName, attributeValue, GUID, or
-   * namespaceURI is null. <br/>
-   * Throws InvalidTypeException if attributeName, attributeValue, GUID, or
-   * namespaceURI is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
+   * Sets the association namespace attribute with the given attributeName and the given namespaceURI within the association with the given GUID.
    * @method setAssociationNamespaceAttribute
-   *
    * @param {String} attributeName  Name of the attribute to be set.
    * @param {String} attributeValue Value of the attribute to be set
-   * @param {String} GUID           GUID of association to set attribute for.
+   * @param {String} GUID GUID of association to set attribute for.
    * @param {String} uri Namespace URI
    *
    */
@@ -984,19 +823,8 @@ ItemMirror.prototype.setAssociationNamespaceAttribute = function (attributeName,
 }
 
   /**
-   * Adds the given attributeName to the association with the given GUID and
-   * namespaceURI.
-   *
-   * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   * Throws an InvalidStateException when the given attributeName has already
-   * been added. <br/>
-   *
+   * Adds the given attributeName to the association with the given GUID and namespaceURI.
    * @method addAssociationNamespaceAttribute
-   *
    * @param {String} attributeName Name of the attribute.
    * @param {String} attributeValue Value of the attribe to be set
    * @param {String} GUID          GUID of the association.
@@ -1014,21 +842,10 @@ ItemMirror.prototype.addAssociationNamespaceAttribute = function (attributeName,
 }
 
   /**
-   * Removes the given attributeName to the association with the given GUID and
-   * namespaceURI.
-   *
-   * Throws NullArgumentException if attributeName, GUID, or namespaceURI is
-   * null. <br/>
-   * Throws InvalidTypeException if attributeName, GUID, or namespaceURI is not
-   * a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   * Throws an InvalidStateException when the given attributeName is not an
-   * attribute. <br/>
-   *
+   * Removes the given attributeName to the association with the given GUID and namespaceURI.
    * @method removeAssociationNamespaceAttribute
-   *
    * @param {String} attributeName Name of the attribute.
-   * @param {String} GUID          GUID of the association.
+   * @param {String} GUID GUID of the association.
    * @param {String} uri Namespace URI
    */
 ItemMirror.prototype.removeAssociationNamespaceAttribute = function (attributeName, GUID, uri) {
@@ -1037,12 +854,9 @@ ItemMirror.prototype.removeAssociationNamespaceAttribute = function (attributeNa
 
   /**
    * @method hasAssociationNamespace
-   * @return {Boolean} True if the association has the given
-   * namespaceURI, else false.
-   *
-   * @param {String} GUID          GUID of the association.
-   * @param {String} uri  Namespace URI
-   *
+   * @return {Boolean} True if the association has the given namespaceURI, else false.
+   * @param {String} GUID GUID of the association.
+   * @param {String} uri Namespace URI
    */
 ItemMirror.prototype.hasAssociationNamespace = function (GUID, uri) {
   var namespace = this._fragment.associations[GUID].namespace[uri]
@@ -1052,17 +866,9 @@ ItemMirror.prototype.hasAssociationNamespace = function (GUID, uri) {
 }
 
   /**
-   *
-   * Throws NullArgumentException if GUID, namespaceURI is null. <br/>
-   * Throws InvalidTypeException if GUID, namespaceURI is not a String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method listAssociationNamespaceAttributes
-   * @return {String[]} An array of the association namespace
-   * attributes with the given attributeName and the given
-   * namespaceURI within the association with the given GUID.
-   *
-   * @param {String} GUID          GUID of association to list attributes for.
+   * @return {String[]} An array of the association namespace attributes with the given attributeName and the given namespaceURI within the association with the given GUID.
+   * @param {String} GUID GUID of association to list attributes for.
    * @param {String} uri Namespace URI
    */
 ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
@@ -1074,14 +880,9 @@ ItemMirror.prototype.listAssociationNamespaceAttributes = function (GUID, uri) {
 }
 
   /**
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
    * @method getAssociationNamespaceData
-   * @return {String} The association namespace data for an
-   * association with the given GUID and the given namespaceURI.
-   *
-   * @param {String} GUID GUID of the association namespace data to
-   * returned.
+   * @return {String} The association namespace data for an association with the given GUID and the given namespaceURI.
+   * @param {String} GUID GUID of the association namespace data to returned.
    * @param {String} uri Namespace URI
    */
 self.getAssociationNamespaceData = function (GUID, uri) {
@@ -1093,19 +894,10 @@ self.getAssociationNamespaceData = function (GUID, uri) {
 }
 
   /**
-   * Sets the association namespace data for an association with the given GUID
-   * and given namespaceURI using the given data.
-   *
-   * Throws NullArgumentException if data, GUID, or namespaceURI is null. <br/>
-   * Throws InvalidTypeException if data, GUID, or namespaceURI is not a
-   * String. <br/>
-   * Throws InvalidGUIDException if GUID is not a valid GUID. <br/>
-   *
+   * Sets the association namespace data for an association with the given GUID and given namespaceURI using the given data.
    * @method setAssociationNamespaceData
-   *
-   * @param {String} data          Association namespace data to set. Must be
-   *                               valid fragmentNamespaceData.
-   * @param {String} GUID          GUID of the association namespace data to set.
+   * @param {String} data Association namespace data to set. Must be valid fragmentNamespaceData.
+   * @param {String} GUID GUID of the association namespace data to set.
    */
 ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
   var ns = this._fragment.associations[GUID].namespace
@@ -1116,17 +908,10 @@ ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
 }
 
   /**
-   * Uses the specified ItemDriver and SyncDriver to synchronize the
-   * local ItemMirror object changes. This is an implmentation of Synchronization
-   * Driver which modifies the XooML Fragment according to the real structure
-   * under the item described.
-   *
+   * Uses the specified ItemDriver and SyncDriver to synchronize the local ItemMirror object changes. This is an implmentation of Synchronization Driver which modifies the XooML Fragment according to the real structure * under the item described.
    * @method sync
-   *
    * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    * @private
    */
 ItemMirror.prototype._sync = function (callback) {
@@ -1137,13 +922,9 @@ ItemMirror.prototype._sync = function (callback) {
 
   /**
    * Reloads the XooML Fragment
-   *
    * @method refresh
-   *
    * @param {Function} callback Function to execute once finished.
-   *  @param {Object}   callback.error Null if no error has occurred
-   *                    in executing this function, else an contains
-   *                    an object with the error that occurred.
+   * @param {Object}   callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
    */
 ItemMirror.prototype.refresh = function (callback) {
   var self = this
@@ -1170,27 +951,17 @@ ItemMirror.prototype.refresh = function (callback) {
 
   /**
    * @method getCreator
-   *
-   * @return {Object} The itemMirror that created this current
-   * itemMirror, if it has one. Note that this isn't the same as
-   * asking for a 'parent,' since multiple itemMirrors can possibly
-   * link to the same one
-   *
+   * @return {Object} The itemMirror that created this current  itemMirror, if it has one. Note that this isn't the same as  asking for a 'parent,' since multiple itemMirrors can possibly link to the same one
    */
 ItemMirror.prototype.getCreator = function () {
   return this._creator
 }
 
   /**
-   * Saves the itemMirror object, writing it out to the
-   * fragment. Fails if the GUID generated on last write for the
-   * itemMirror and the XooML fragment don't match.
-   *
+   * Saves the itemMirror object, writing it out to the fragment. Fails if the GUID generated on last write for the itemMirror and the XooML fragment don't match.
    * @method save
-   *
    * @param {Function} callback
-   *  @param {Error} callback.error Returns false if everything went ok,
-   *  otherwise returns the error
+   * @param {Error} callback.error Returns false if everything went ok, otherwise returns the error
    */
 ItemMirror.prototype.save = function (callback) {
   var self = this
@@ -1206,19 +977,6 @@ ItemMirror.prototype.save = function (callback) {
   function postWrite (error) {
     return callback(error)
   }
-}
-
-/**
- * Checks if the AssociatedItem String passed into it is a URL or not.
- *
- * @method _isURL
- * @return {Boolean} True if it is an HTTP URL, false otherwise
- * (HTTPS will fail)
- * @private
- * @param {String} URL
- */
-self._isURL = function (URL) {
-  return /^http:\/\//.exec(URL)
 }
 
 // This makes the pacakge accessible as a node module
