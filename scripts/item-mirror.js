@@ -1091,7 +1091,7 @@ var Redirect = require('./redirect-handler')
 var service = Redirect.getService(location.path)
 // A tokenExtractor is specific to a service, and correctly parses the redirect
 // URI to get the token (only the part after the hash)
-var tokenExtractor = ItemMirror.authDrivers[service].extractor
+var tokenExtractor = ItemMirror.drivers.auth[service].extractToken
 Redirect.redirectHandler(tokenExtractor)
 
 // This makes the package accessible as a node module
