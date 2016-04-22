@@ -162,19 +162,23 @@ if (IM.isAuthenticated('google')) {
   // yay, we can just construct
   afterAuthCallback(false)
 } else {
-  // Generate a handler
-  var handler = IM.genAuthHandler('google', 'unique_id', 'super_secret_key')
+  // Calls authenticate, which gives us back an event handler
+  // Also binds an event listenter that calls the callback when the
+  // authorization process is completed
+  var handler = IM.authenticate('google', 'client_id', 'secret', afterAuthCallback)
 
   // Stick the handler on a very obvious button that the user needs to click on
   $('#authorize-button').click(handler)
+  // Or with vanilla JS...
+  document.getElementById('authorize-button').addEventListener(handler)
 
   // Now we wait for the user to do the auth process and eventually return
   // When it's complete, a LocalStorage event will be fired, which then gets us
   // of here
 
-  // When the 'dropbox' authentication event gets triggered, we then issue a
-  // callback and proceed onto the next step
-  IM.genAuthListener('dropbox')(afterAuthCallback(false))
+  // The `authenticate` method also creates an event listener for the specific service
+  // It then binds the event to the window automatically, and calls the callback
+  // we provided!
 }
 
 function afterAuthCallback(error) {
@@ -183,6 +187,5 @@ function afterAuthCallback(error) {
   // Now we are authenticated with the service and can safely construct IM
   // objects which require google drivers
 }
-
 
 ```
