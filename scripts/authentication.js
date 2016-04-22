@@ -1,4 +1,4 @@
-var localStoragePrelude = 'item-mirror-service:'
+var localStoragePrelude = require('constants').localStoragePrelude
 
 function getKey (service) {
   return localStoragePrelude + service
