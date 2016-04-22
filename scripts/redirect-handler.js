@@ -29,7 +29,7 @@ function getService (path) {
  * of things, we handle it on a case by case basis. It's also responsible for
  * setting the token to 'false' and triggering an error.
  */
-module.exports.redirectHandler = function (tokenExtractor) {
+module.exports = function (tokenExtractor) {
   if (isRedirect(location.path)) {
     var token = tokenExtractor(location.hash)
     var service = getService(location.path)
