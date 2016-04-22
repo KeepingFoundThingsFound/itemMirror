@@ -1,4 +1,4 @@
-var localStoragePrelude = require('constants').localStoragePrelude
+var localStoragePrelude = require('./constants').localStoragePrelude
 
 function getKey (service) {
   return localStoragePrelude + service

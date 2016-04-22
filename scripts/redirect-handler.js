@@ -8,7 +8,7 @@
  *
  */
 
-var localStoragePrelude = require('constants').localStoragePrelude
+var localStoragePrelude = require('./constants').localStoragePrelude
 
 // Determines whether our URL is a redirect
 function isRedirect (path) {
