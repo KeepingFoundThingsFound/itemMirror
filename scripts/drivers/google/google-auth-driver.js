@@ -12,12 +12,12 @@ function extractToken (hash) {
   var error = hash.match('error=([^&]+)')
   if (error) {
     // This indicates an error, we have to set this string in localstorage
-    return "false"
+    // TODO: Instead place error in a dedicated namespace
+    return 'false'
   }
 
   return token[1]
 }
-
 
 /**
  * Returns a request URL that we can use to begin the authentication flow
@@ -35,8 +35,13 @@ function createURI (id) {
   var redirect_uri = location.origin + '/auth/google'
   var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?'
 
-  return endpoint + 'scope=email' + '&'
-    + 'redirect_uri=' + encodeURIComponent(redirect_uri) + '&'
-    + 'response_type=token&'
-    + 'client_id=' + encodeURIComponent(id)
+  return endpoint + 'scope=email' + '&' +
+    'redirect_uri=' + encodeURIComponent(redirect_uri) + '&' +
+    'response_type=token&' +
+    'client_id=' + encodeURIComponent(id)
+}
+
+module.exports = {
+  createURI: createURI,
+  extractToken: extractToken
 }
