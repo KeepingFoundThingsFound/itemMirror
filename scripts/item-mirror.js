@@ -706,22 +706,22 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
   }
 }
 
-  /**
-   * Upgrades a given association without a local item. Local item is named by a
-   * truncated form of the display name of this ItemMirror if the  localItemURI
-   * is not given, else uses given localItemURI. Always truncated to 50
-   * characters.  __ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH
-   * GROUPING ITEM__
-   *
-   * @method upgradeAssociation
-   * @param {Object} options Data to construct a new ItemMirror with
-   * @param {string} options.GUID of the association to be upgraded. Required
-   * @param {string} options.localItemURI URI of the local item to be used if a
-   * truncated display name is not the intended behavior. Optional.
-   * @param {Function} callback Function to execute once finished.
-   * @param {string} callback.error Null if no error has occurred in executing
-   * this function, else an contains an object with the error that occurred.
-   */
+/**
+ * Upgrades a given association without a local item. Local item is named by a
+ * truncated form of the display name of this ItemMirror if the  localItemURI
+ * is not given, else uses given localItemURI. Always truncated to 50
+ * characters.  __ONLY SUPPORTS SIMPLE PHANTOM ASSOCIATION TO ASSOCIATION WITH
+ * GROUPING ITEM__
+ *
+ * @method upgradeAssociation
+ * @param {Object} options Data to construct a new ItemMirror with
+ * @param {string} options.GUID of the association to be upgraded. Required
+ * @param {string} options.localItemURI URI of the local item to be used if a
+ * truncated display name is not the intended behavior. Optional.
+ * @param {Function} callback Function to execute once finished.
+ * @param {string} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
+ */
 ItemMirror.prototype.upgradeAssociation = function () {
   throw new Error('Method not implemented')
 }
