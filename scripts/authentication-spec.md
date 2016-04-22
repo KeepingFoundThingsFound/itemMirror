@@ -189,3 +189,18 @@ function afterAuthCallback(error) {
 }
 
 ```
+
+#### Potential Improvements
+
+1. Don't write the value 'false' as the token if there's an error. Instead use a
+   dedicated space for errors, and check for the value there. This way we can
+   store details about the error
+2. Provide a way for users to impact the redirect URI. In some cases, people
+   _may_ not have the ability to host their app at the root of a domain. In that
+   case, we need to support nesting: e.g.
+   `https://thorsteinson.io/item-mirror-app/auth/google`. Another command that
+   let's devs append to the path during authentication should work.
+3. Avoid callbacks internally, and only use promises unless the call is going
+   through and itemMirror method back to the dev. This will improve the quality
+   of dealing with errors tremendously, and make the code more readable in
+   general.
