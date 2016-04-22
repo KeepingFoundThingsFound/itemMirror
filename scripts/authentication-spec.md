@@ -204,3 +204,6 @@ function afterAuthCallback(error) {
    through and itemMirror method back to the dev. This will improve the quality
    of dealing with errors tremendously, and make the code more readable in
    general.
+4. Take advantage of the timeout value that is passed along by some services and
+   actually store the timeout value so that it has an impact when doing an
+   `isAuthenticated` call.
