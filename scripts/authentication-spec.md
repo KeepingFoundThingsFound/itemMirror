@@ -113,3 +113,76 @@ apps?*.
 Can IM observe the URL when it loads initially, so that essentially we can load
 a page that just get's closed, but loads IM, saves the info, and then moves on.
 
+#### Potential Solution: IM Checks URL at start
+
+What we can do is take advantage of the redirectURI and standardize this across
+applications so that the route actually has signifigance. This way, when IM
+loads it will first do a check on the URL, and if it recognizes that it's a
+redirect from an authenticator, it will write the details to localstorage, and
+leave a message asking to close the window, or just automatically close it (to
+avoid confusion).
+
+Then, in the original window where the link was clicked, the call back finally
+gets executed from the event firing.
+
+This COULD be problematic if dealing with _multiple_ ItemMirror apps
+simoltaneously.
+
+Another method that would be a part of the flow is a new function,
+`IM.isAuthenticated`. Returns whether we have the token for a given service and
+can start actually using it's API. All it would do is perform a lookup of the
+localstorage key for a given service, but it's still important to keep that
+behaviour well defined.
+
+```js
+IM.isAuthenticated('Name of service')
+```
+
+It would then be up to developers to present the URL to the user and initiate
+the flow. To avoid _popup blocks_, we need to basically have the `window.open`
+call take place inside of code directly within a click handler. We can leave it
+up to the devs to make everything proper, or just provide the handler, and leave
+it up to them to deal with attaching it to the ui!
+
+```js
+IM.genAuthHandler('dropbox', id, secret)
+// Returns a Function, that is passed directly to a click handler. Used to
+// bypass pop blockers
+// It would ideally be a magic URL that just 'works'
+```
+
+#### Example Flow
+
+```js
+
+// Start up application
+
+// About to construct an IM, first check if we're authenticated
+if (IM.isAuthenticated('google')) {
+  // yay, we can just construct
+  afterAuthCallback(false)
+} else {
+  // Generate a handler
+  var handler = IM.genAuthHandler('google', 'unique_id', 'super_secret_key')
+
+  // Stick the handler on a very obvious button that the user needs to click on
+  $('#authorize-button').click(handler)
+
+  // Now we wait for the user to do the auth process and eventually return
+  // When it's complete, a LocalStorage event will be fired, which then gets us
+  // of here
+
+  // When the 'dropbox' authentication event gets triggered, we then issue a
+  // callback and proceed onto the next step
+  IM.genAuthListener('dropbox')(afterAuthCallback(false))
+}
+
+function afterAuthCallback(error) {
+  if (error) // explode
+
+  // Now we are authenticated with the service and can safely construct IM
+  // objects which require google drivers
+}
+
+
+```
