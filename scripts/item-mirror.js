@@ -7,6 +7,8 @@ var ItemDriver = require('./drivers/google/google-item-driver')
 var SyncDriver = require('./sync-driver')
 var FragmentEditor = require('./fragment-editor')
 var AssociationEditor = require('./association-editor')
+// Loads private helper for authentication
+var Auth = require('./authentication')
 
 /**
  * ItemMirror represents an Item according to the XooML2 specification.
@@ -180,6 +182,19 @@ function ItemMirror (options, callback) {
     return callback(false, self)
   }
 }
+
+// Creates namespace for the drivers
+// Each of the drivers should be loaded into this standard namespace and
+// addressed from here. Drivers can be determined ahead of time simply by
+// iterating over these.
+ItemMirror.drivers = {
+  auth: {},
+  xooml: {},
+  item: {}
+}
+
+// Loads and regiesters Google Auth driver
+ItemMirror.drivers.auth.google = require('./drivers/google/google-auth-driver')
 
 /**
  * @type Function
@@ -1038,18 +1053,6 @@ ItemMirror.prototype.save = function (callback) {
     return callback(error)
   }
 }
-
-// Loads private helper for authentication
-var Auth = require('./authentication')
-var GoogleAuth = require('./drivers/google/google-auth-driver')
-// Creates namespace for the drivers
-ItemMirror.drivers = {
-  auth: {},
-  xooml: {},
-  item: {}
-}
-// Adds createURI and extractToken functions for this
-ItemMirror.drivers.auth.google = GoogleAuth
 
 /**
  * @method authenticate
