@@ -17,7 +17,10 @@ function isRedirect (path) {
 
 // Given a path, returns the auth service that the path corresponds to
 function getService (path) {
-  return path.match('^/auth/([a-z]+)/?')[1]
+  var match = path.match('^/auth/([a-z]+)/?')
+  if (match) {
+    return match[1]
+  }
 }
 
 /**
