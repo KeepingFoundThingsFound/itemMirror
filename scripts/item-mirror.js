@@ -45,7 +45,7 @@ var AssociationEditor = require('./association-editor')
  * key/value pairs for the various Driver implementations.
  * @param {string} options.syncDriver.driverURI URI of the driver.
  * @param {Boolean} options.readIfExists True if ItemMirror should create an
- * ItemMirror if it does not exist, else false. Required for Case 2 & 3.  
+ * ItemMirror if it does not exist, else false. Required for Case 2 & 3.
  * @param {ItemMirror} options.creator If being created from another
  * itemMirror, specifies that itemMirror which it comes from.
  * @param {Function} callback Function to execute once finished.
@@ -647,7 +647,8 @@ ItemMirror.prototype.moveAssociation = function () {
  * @method deleteAssociation
  * @param {string} GUID of the association to be deleted.
  * @param {Function} callback Function to execute once finished.
- * @param {Object} callback.error Null if no error has occurred in executing this function, else an contains an object with the error that occurred.
+ * @param {Object} callback.error Null if no error has occurred in executing
+ * this function, else an contains an object with the error that occurred.
  */
 ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
   var self = this
@@ -689,7 +690,7 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
         // was extremely quick
       return self._unsafeWrite(function (error) {
         if (error) return callback(error)
-          else return callback()
+        return callback(false)
       })
     }
   }
@@ -700,7 +701,7 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
 
     return self.refresh(function (error) {
       if (error) return callback(error)
-      return callback(error)
+      return callback(false)
     })
   }
 }
@@ -1037,6 +1038,14 @@ ItemMirror.prototype.save = function (callback) {
     return callback(error)
   }
 }
+
+// Immediately start handling a redirect if detected
+var Redirect = require('./redirect-handler')
+var service = Redirect.getService(location.path)
+// A tokenExtractor is specific to a service, and correctly parses the redirect
+// URI to get the token (only the part after the hash)
+var tokenExtractor = ItemMirror.authDrivers[service].extractor
+Redirect.redirectHandler(tokenExtractor)
 
 // This makes the package accessible as a node module
 module.exports = ItemMirror

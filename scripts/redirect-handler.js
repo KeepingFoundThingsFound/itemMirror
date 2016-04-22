@@ -29,15 +29,18 @@ function getService (path) {
  * of things, we handle it on a case by case basis. It's also responsible for
  * setting the token to 'false' and triggering an error.
  */
-module.exports = function (tokenExtractor) {
-  if (isRedirect(location.path)) {
-    var token = tokenExtractor(location.hash)
-    var service = getService(location.path)
-    // This triggers the callback in the main application window!
-    localStorage.setKey(localStoragePrelude + service, token)
+module.exports = {
+  'redirectHandler': function (tokenExtractor) {
+    if (isRedirect(location.path)) {
+      var token = tokenExtractor(location.hash)
+      var service = getService(location.path)
+      // This triggers the callback in the main application window!
+      localStorage.setKey(localStoragePrelude + service, token)
 
-    // Inform user that the process is done, and they should close the newly
-    // created page
-    document.write('<h1>Thanks! Please close this window</h1>')
-  }
+      // Inform user that the process is done, and they should close the newly
+      // created page
+      document.write('<h1>Thanks! Please close this window</h1>')
+    }
+  },
+  'getService': getService
 }
