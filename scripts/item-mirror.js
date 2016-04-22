@@ -1039,6 +1039,53 @@ ItemMirror.prototype.save = function (callback) {
   }
 }
 
+// Loads private helper for authentication
+var Auth = require('./authentication')
+var GoogleAuth = require('./drivers/google/google-auth-driver')
+// Creates namespace for the drivers
+ItemMirror.drivers = {
+  auth: {},
+  xooml: {},
+  item: {}
+}
+// Adds createURI and extractToken functions for this
+ItemMirror.drivers.auth.google = GoogleAuth
+
+/**
+ * @method authenticate
+ * @static
+ * @param {Object} config Configuration for the authentication
+ * @param {string} config.service The service that we will authenticate against
+ * @param {string} config.id The client id that is registered for the given service
+ * @param {boolean} config.force (False by default)
+ * @param {Function} callback Callback that is run upon completion of the
+ * authentication process (or if there was an authentication error)
+ * @param {Error} callback.error Authentication error
+ * @returns {Function} Returns a click handler that should be attached to an
+ * element that a user will click to begin the authentication process.
+ */
+ItemMirror.prototype.authenticate = function (config, callback) {
+  var service = config.service
+  var id = config.id
+  var force = config.force
+
+  // Creates a URI specific to a service
+  var uri = ItemMirror.drivers.auth[service].createURI(id)
+
+  return Auth.authenticate(service, uri, force, callback)
+}
+
+/**
+ * @method isAuthenticated
+ * @static
+ * @param {string} service The name of the service to check against
+ * @returns {boolean} Returns true if currently authenticated against the given
+ * service, false otherwise
+ */
+ItemMirror.prototype.isAuthenticated = function (service) {
+  return Auth.isAuthenticated(service)
+}
+
 // Immediately start handling a redirect if detected
 var Redirect = require('./redirect-handler')
 var service = Redirect.getService(location.path)

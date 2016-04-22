@@ -25,7 +25,7 @@ function isAuthenticated (service) {
  * side effect of creating an event listener and binding it to the window so
  * that the callback passed in is executed after the auth flow.
  */
-function authenticate (service, uri, callback, force) {
+function authenticate (service, uri, force, callback) {
   // First check if we're already authenticated
   if (!force && isAuthenticated(service)) {
     return callback(false)
