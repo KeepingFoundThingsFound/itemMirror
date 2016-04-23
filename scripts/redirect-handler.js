@@ -16,9 +16,10 @@ function isRedirect () {
   return !!(location.hash)
 }
 
-// Given a path, returns the auth service that the path corresponds to
-function getService (path) {
-  var match = path.match('^/auth/([a-z]+)/?')
+// Returns the auth service that the redirect specifies
+// We store that information in the state parameter when constructing the URI
+function getService () {
+  var match = location.hash.match('state=([a-z]+)')
   if (match) {
     return match[1]
   }
@@ -38,7 +39,7 @@ module.exports = {
     var token = tokenExtractor(location.hash)
     var service = getService(location.path)
     // This triggers the callback in the main application window!
-    localStorage.setKey(localStoragePrelude + service, token)
+    localStorage.setItem(localStoragePrelude + service, token)
 
     // Inform user that the process is done, and they should close the newly
     // created page

@@ -6,6 +6,8 @@
  * request so that it doesn't fail.
  */
 
+var SERVICE_NAME = 'google'
+
 // Parses the hash, for the token, or an error and handles both cases
 function extractToken (hash) {
   var token = hash.match('access_token=([^&]+)')
@@ -32,16 +34,19 @@ function extractToken (hash) {
  * user (by clicking on it).
  */
 function createURI (id) {
-  var redirect_uri = location.origin 
+  var redirect_uri = location.origin
   var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?'
 
   return endpoint + 'scope=email' + '&' +
     'redirect_uri=' + encodeURIComponent(redirect_uri) + '&' +
     'response_type=token&' +
-    'client_id=' + encodeURIComponent(id)
+    'client_id=' + encodeURIComponent(id) + '&' +
+    // Because we can't rely on the path, we use the state param to store the service
+    'state=' + SERVICE_NAME
 }
 
 module.exports = {
   createURI: createURI,
-  extractToken: extractToken
+  extractToken: extractToken,
+  SERVICE_NAME: SERVICE_NAME
 }
