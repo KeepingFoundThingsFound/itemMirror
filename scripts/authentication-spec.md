@@ -207,3 +207,10 @@ function afterAuthCallback(error) {
 4. Take advantage of the timeout value that is passed along by some services and
    actually store the timeout value so that it has an impact when doing an
    `isAuthenticated` call.
+
+#### Path Problem
+
+We can't give path data or rely on it when creating the redirect URI. The
+reason for this is that the webserver will actually try and go to that
+file/address, instead of loading our root app. So what we need, is to create
+a base redirect, and instead use document.referrer to look it up.

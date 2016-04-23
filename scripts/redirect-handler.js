@@ -11,8 +11,9 @@
 var localStoragePrelude = require('./constants').localStoragePrelude
 
 // Determines whether our URL is a redirect
-function isRedirect (path) {
-  return !!(path.match('^/auth/'))
+function isRedirect () {
+  // Assume that if there's a hash, it's a redirect
+  return !!(location.hash)
 }
 
 // Given a path, returns the auth service that the path corresponds to

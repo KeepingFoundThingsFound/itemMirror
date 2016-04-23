@@ -32,7 +32,7 @@ function extractToken (hash) {
  * user (by clicking on it).
  */
 function createURI (id) {
-  var redirect_uri = location.origin + '/auth/google'
+  var redirect_uri = location.origin 
   var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?'
 
   return endpoint + 'scope=email' + '&' +
