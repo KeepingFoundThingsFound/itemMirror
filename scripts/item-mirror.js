@@ -1067,7 +1067,7 @@ ItemMirror.prototype.save = function (callback) {
  * @returns {Function} Returns a click handler that should be attached to an
  * element that a user will click to begin the authentication process.
  */
-ItemMirror.prototype.authenticate = function (config, callback) {
+ItemMirror.authenticate = function (config, callback) {
   var service = config.service
   var id = config.id
   var force = config.force
@@ -1085,17 +1085,20 @@ ItemMirror.prototype.authenticate = function (config, callback) {
  * @returns {boolean} Returns true if currently authenticated against the given
  * service, false otherwise
  */
-ItemMirror.prototype.isAuthenticated = function (service) {
+ItemMirror.isAuthenticated = function (service) {
   return Auth.isAuthenticated(service)
 }
 
 // Immediately start handling a redirect if detected
 var Redirect = require('./redirect-handler')
-var service = Redirect.getService(location.pathname)
-// A tokenExtractor is specific to a service, and correctly parses the redirect
-// URI to get the token (only the part after the hash)
-var tokenExtractor = ItemMirror.drivers.auth[service].extractToken
-Redirect.redirectHandler(tokenExtractor)
+if (Redirect.isRedirect(location.pathname)) {
+  console.log('Redirect Script Running')
+  var service = Redirect.getService(location.pathname)
+  // A tokenExtractor is specific to a service, and correctly parses the redirect
+  // URI to get the token (only the part after the hash)
+  var tokenExtractor = ItemMirror.drivers.auth[service].extractToken
+  Redirect.redirectHandler(tokenExtractor)
+}
 
 // This makes the package accessible as a node module
 module.exports = ItemMirror

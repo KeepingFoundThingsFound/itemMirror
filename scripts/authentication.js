@@ -6,7 +6,7 @@ function getKey (service) {
 
 function isAuthenticated (service) {
   // If there's a value, assume we're authenticated
-  return !!(getKey(service))
+  return !!(localStorage.getItem(getKey(service)))
 }
 
 /**

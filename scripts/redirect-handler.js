@@ -34,16 +34,15 @@ function getService (path) {
  */
 module.exports = {
   'redirectHandler': function (tokenExtractor) {
-    if (isRedirect(location.path)) {
-      var token = tokenExtractor(location.hash)
-      var service = getService(location.path)
-      // This triggers the callback in the main application window!
-      localStorage.setKey(localStoragePrelude + service, token)
+    var token = tokenExtractor(location.hash)
+    var service = getService(location.path)
+    // This triggers the callback in the main application window!
+    localStorage.setKey(localStoragePrelude + service, token)
 
-      // Inform user that the process is done, and they should close the newly
-      // created page
-      document.write('<h1>Thanks! Please close this window</h1>')
-    }
+    // Inform user that the process is done, and they should close the newly
+    // created page
+    document.write('<h1>Thanks! Please close this window</h1>')
   },
-  'getService': getService
+  'getService': getService,
+  'isRedirect': isRedirect
 }
