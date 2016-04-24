@@ -1092,10 +1092,7 @@ ItemMirror.isAuthenticated = function (service) {
 // Immediately start handling a redirect if detected
 var Redirect = require('./redirect-handler')
 if (Redirect.isRedirect()) {
-  console.log('Redirect Script Running')
-  var service = Redirect.getService(location.hash)
-  console.log('service: ' + service)
-  console.log(ItemMirror.drivers)
+  var service = Redirect.getService()
   // A tokenExtractor is specific to a service, and correctly parses the redirect
   // URI to get the token (only the part after the hash)
   var tokenExtractor = ItemMirror.drivers.auth[service].extractToken
