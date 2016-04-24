@@ -193,8 +193,9 @@ ItemMirror.drivers = {
   item: {}
 }
 
-// Loads and regiesters Google Auth driver
+// Loads and registers auth drivers
 ItemMirror.drivers.auth.google = require('./drivers/google/google-auth-driver')
+ItemMirror.drivers.auth.dropbox = require('./drivers/dropbox/dropbox-auth-driver')
 
 /**
  * @type Function
