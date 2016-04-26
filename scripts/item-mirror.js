@@ -1058,6 +1058,7 @@ ItemMirror.prototype.save = function (callback) {
 /**
  * @method authenticate
  * @static
+ * @category authentication
  * @param {Object} config Configuration for the authentication
  * @param {string} config.service The service that we will authenticate against
  * @param {string} config.id The client id that is registered for the given service
@@ -1081,6 +1082,7 @@ ItemMirror.authenticate = function (config, callback) {
 
 /**
  * @method isAuthenticated
+ * @category authentication
  * @static
  * @param {string} service The name of the service to check against
  * @returns {boolean} Returns true if currently authenticated against the given
@@ -1088,6 +1090,18 @@ ItemMirror.authenticate = function (config, callback) {
  */
 ItemMirror.isAuthenticated = function (service) {
   return Auth.isAuthenticated(service)
+}
+
+/**
+ * @method _getToken
+ * @category authentication
+ * @static
+ * @private
+ * @param {string} service The name of the service to look for a value
+ * @returns {string | undefined} Returns the token, or undefined if it doesn't exist
+ */
+ItemMirror._getToken = function (service) {
+  return Auth.getToken(service)
 }
 
 // Immediately start handling a redirect if detected

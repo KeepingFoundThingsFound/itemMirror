@@ -9,6 +9,10 @@ function isAuthenticated (service) {
   return !!(localStorage.getItem(getKey(service)))
 }
 
+function getToken (service) {
+  return localStorage.getItem(getKey(service))
+}
+
 /**
  * @private
  * @static
@@ -55,5 +59,7 @@ module.exports = {
   // Returns whether we're authenticated for the service
   isAuthenticated: isAuthenticated,
   // Performs the authentication process
-  authenticate: authenticate
+  authenticate: authenticate,
+  // Passes the actual token
+  getToken: getToken
 }
