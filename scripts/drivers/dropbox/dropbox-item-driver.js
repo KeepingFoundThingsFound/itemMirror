@@ -4,6 +4,10 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+
+var isObject = require('lodash/isObject')
+var isString = require('lodash/isString')
+
 var XooMLConfig = require('../../xooml-config')
 var AssociationEditor = require('../../association-editor')
 
@@ -31,7 +35,7 @@ function ItemDriver (options) {
 
 // Helper function that makes it easier to hit the dropbox API
 // Returns a promise
-ItemDriver.prototype._dbFetch = function (isContent, endPoint) {
+ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
   var uri = isContent
     ? DROPBOX_CONTENT + endPoint
     : DROPBOX_API + endPoint
@@ -40,9 +44,61 @@ ItemDriver.prototype._dbFetch = function (isContent, endPoint) {
   headers.append('Authorization', this.authToken)
 
   return fetch(uri, {
-    method: 'GET',
-    headers: headers
+    method: method,
+    headers: headers,
+    body: isObject(params)
+      ? JSON.stringify(params)
+      // Not params, actually body
+        : isString(params)
+        ? params : undefined
+      params ? JSON.stringify(params) : null
+  }).then(function (res) {
+    if (res.status > 400) {
+      // This means the request was bad
+      throw new Error('API Response Error')
+    }
+    // Assumes that the response is JSON, this should be the case
+    return res.json()
   })
 } 
+
+// Gets the metadata for a file or folder
+ItemDriver.prototype._getMetadata = function (path) {
+  return this._dbFetch(false, 'GET', '/metadata/' + path)
+}
+
+// Async
+ItemDriver.prototype.isGroupingItem = function (path) {
+  return this._getMetadata(path)
+    .then(function (metadata) {
+      return metadata.is_dir
+    })
+}
+
+ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
+  return this._dbFetch(false, 'POST', '/fileops/create_folder', {
+    root: 'dropbox',
+    path: parentURI + '/' + title
+  })
+}
+
+ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data, callback) {
+  var path = parentURI + '/' + filename
+  return this._dbFetch(true, 'PUT', '/files_put/auto' + path)
+}
+
+ItemDriver.prototype.deleteGroupingItem = function (parentURI, title, callback) {
+  return this._dbFetch(false, 'POST', '/fileops/delete', {
+    root: 'dropbox',
+    path: parentURI + '/' + title
+  })
+}
+
+ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title, callback) {
+  return this._dbFetch(false, 'POST', '/fileops/delete', {
+    root: 'dropbox',
+    path: parentURI + '/' + title
+  })
+}
 
 module.exports = ItemDriver
