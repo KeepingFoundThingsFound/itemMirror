@@ -106,6 +106,8 @@ ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) 
    *
    * @protected
    */
+// TODO: This referes to self._parentURI, but I'm not sure where that is ever
+// set?
 ItemDriver.prototype.createNonGroupingItem = function (fileName, file, callback) {
   var self = this
 
