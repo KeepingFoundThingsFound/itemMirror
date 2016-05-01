@@ -5,6 +5,7 @@ require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 var Path = require('path')
+var Buffer = require('buffer')
 
 var isObject = require('lodash/isObject')
 var isString = require('lodash/isString')
@@ -88,8 +89,40 @@ ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
 }
 
 ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data) {
-  var path = parentURI + '/' + fileName
-  return this._dbFetch(true, 'PUT', '/files_put/auto' + path, data)
+  var headers = new Headers()
+  headers.append('Authorization', this.authToken)
+  // Use Buffers to get byte size
+  var bytes = (new Buffer(data)).length
+  headers.append('Content-Length', bytes)
+
+  return fetch(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + fileName, {
+    headers: headers,
+    method: 'PUT',
+    body: data
+  }).then(function (res) {
+    if (res.status >= 400) {
+      throw new Error('Dropbox API Error. Got status code: ' + res.status)
+    }
+
+    // parse the JSON
+    return res.json()
+  }).then(function (item) {
+    // Create a new association from the data we get back!
+    return new AssociationEditor({
+      commonData: {
+        associatedXooMLFragment: null,
+        associatedItem: item.path,
+        associatedItemDriver: 'google',
+        associatedXooMLDriver: 'google',
+        associatedSyncDriver: 'sync',
+        isGrouping: item.is_dir, // Should always be false
+        localItem: item.path, // We'll remove this eventually...
+        // Gets the name of the file
+        displayText: Path.basename(item.path),
+        publicURL: DROPBOX_CONTENT + '/previews/auto' + item.path
+      }
+    })
+  })
 }
 
 ItemDriver.prototype.deleteGroupingItem = function (parentURI, title) {
