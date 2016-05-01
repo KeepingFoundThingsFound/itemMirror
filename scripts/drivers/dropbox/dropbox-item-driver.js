@@ -145,11 +145,7 @@ ItemDriver.prototype.checkExists = function (parentURI, title) {
   headers.append('Authorization', this.authToken)
 
   return fetch(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title, {
-<<<<<<< HEAD
     headers: headers,
-=======
-    headers: headers
->>>>>>> 086ae1ffe8a1a21142f43d911ac17e4fbfccf4f9
     body: {
       // Don't include folder contents, we just want to check for an error
       list: false

@@ -72,3 +72,18 @@ XooMLDriver.prototype.checkExists = function (parentURI, title) {
     return res.status !== 404
   })
 }
+
+// Fetches the contents of a XooMLFragment as a string, if it exists
+XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
+  var headers = new Headers()
+  headers.append('Authorization', this.authToken)
+
+  return fetch(DROPBOX_CONTENT + '/files/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName, {
+    headers: headers
+  }).then(function (res) {
+    if (res.status >= 400) {
+      throw new Error('Dropbox API Error. Got status code: ' + res.status)
+    }
+    return res.text()
+  })
+}
