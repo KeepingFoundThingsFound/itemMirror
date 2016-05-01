@@ -6,6 +6,8 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var Buffer = require('buffer')
+
 var isObject = require('lodash/isObject')
 var isString = require('lodash/isString')
 
@@ -85,5 +87,25 @@ XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
       throw new Error('Dropbox API Error. Got status code: ' + res.status)
     }
     return res.text()
+  })
+}
+
+// Saves the contents of a XooMLFragment to the given directory
+XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
+  var headers = new Headers()
+  headers.append('Authorization', this.authToken)
+  // Content length is required in bytes. We borrow node's buffers to
+  // make determining this easy
+  var bytes = (new Buffer(xooml)).length
+  headers.append('Content-Length', bytes)
+
+  return fetch(DROPBOX_CONTENT + '/files_put/auto' + parentURI, {
+    headers: headers,
+    method: 'PUT',
+    body: xooml
+  }).then(function (res) {
+    if (res.status >= 400) {
+      throw new Error('Dropbox API Error. Got status code: ' + res.status)
+    }
   })
 }
