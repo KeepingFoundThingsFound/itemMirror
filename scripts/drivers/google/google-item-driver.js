@@ -218,26 +218,25 @@ ItemDriver.prototype.listItems = function (parentURI, callback) {
   })
 }
 
-  /**
-   * Check if the item is existed
-   * @method checkExisted
-   * @param {String} path the path to the location that the item is located
-   * @param {String} name the name of the item
-   * @param {Function} callback(result) Function to be called when self function is finished with it's operation. Result is the bollean value for whether existed.
-   *
-   * @protected
-   */
-ItemDriver.prototype.checkExisted = function (path, callback) {
-  var self = this
-  var result
-
-  self._dropboxClient.stat(path, function (error, stat) {
-    if (error) {
-      return self._showDropboxError(error, callback)
+/**
+ * Check if the item exists at all
+ * @method checkExists
+ * @param {string} id The id of the given file
+ * @returns {Promise(boolean)} Returns a promise that resolves with whether the file exists or not
+ */
+ItemDriver.prototype.checkExists = function (id) {
+  // Do a get request for a file, and see if the response is a 404
+  return fetch(GOOGLE_DRIVE_ENDPOINT + '/' + id, {
+    headers: this._makeAuthHeader()
+  }).then(function (res) {
+    if (res.status === 404) {
+      return false
+    } else if (res.status < 400) {
+      return true
+    } else {
+      // This means that we made a bad request or something bad happened
+      throw new Error('Google Drive API Error. Returned status code ' + res.status)
     }
-    result = !(error !== null && error.status === 404) || (error === null && stat.isRemoved)
-
-    return callback(false, result)
   })
 }
 
