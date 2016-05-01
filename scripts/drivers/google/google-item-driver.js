@@ -48,7 +48,7 @@ function ItemDriver (options) {
 }
 
 // Helper function for creating a proper auth header
-ItemDriver.prototype._makeAuthHeader = function() {
+ItemDriver.prototype._makeAuthHeader = function () {
   var headers = new Headers()
   return headers.append('Authorization', 'Bearer' + this.authToken)
 }
@@ -72,7 +72,7 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
       headers: headers,
       method: method
     })
-  
+
   return req.then(function (res) {
     if (res.status >= 400) {
       throw new Error('Google Drive API Response Error. Recieved request code ' + res.status)
@@ -85,10 +85,8 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
 
 // Async
 ItemDriver.prototype.isGroupingItem = function (id) {
-  var self = this
-
-  return this._gFetch('GET', '/' + fileID)
-  .then(function(metadata) {
+  return this._gFetch('GET', '/' + id)
+  .then(function (metadata) {
     return FOLDER_MIMETYPE === metadata.mimeType
   })
 }
@@ -98,13 +96,11 @@ ItemDriver.prototype.isGroupingItem = function (id) {
  * @method createGroupingItem
  * @param {string} parentURI The ID of the folder in which this will be
  * created
- * @param {string} title The title of the folder to create 
+ * @param {string} title The title of the folder to create
  * @returns {Promise} A promise that resolves when the folder is created, or an
  * error if it could not be created for some reason
  */
-ItemDriver.prototype.createGroupingItem = function (parentURI, title), {
-  var self = this
-
+ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
   return this._gFetch('POST', '/' + parentURI, {
     mimeType: FOLDER_MIMETYPE,
     title: title,
@@ -138,9 +134,6 @@ ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, content
   var delimiter = '\r\n--' + boundary + '\r\n'
   var close_delim = '\r\n--' + boundary + '--'
 
-  var contentType = fileData.type || 'application/octet-stream'
-
-  var base64Data = btoa(reader.result)
   var multipartRequestBody =
     delimiter +
     'Content-Type: application/json\r\n\r\n' +

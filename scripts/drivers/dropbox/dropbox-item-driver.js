@@ -37,7 +37,7 @@ function ItemDriver (options) {
 }
 
 // Helper function for creating a proper auth header
-ItemDriver.prototype._makeAuthHeader = function() {
+ItemDriver.prototype._makeAuthHeader = function () {
   var headers = new Headers()
   return headers.append('Authorization', 'Bearer' + this.authToken)
 }
