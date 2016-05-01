@@ -25,7 +25,7 @@ var XooMLConfig = require('../../xooml-config')
 var AssociationEditor = require('../../association-editor')
 
 var FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
-var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files/'
+var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files'
 
 /**
  * Constructs a ItemDriver for reading/writing Item Storage
@@ -44,7 +44,30 @@ function ItemDriver (options) {
   return this
 }
 
+// A helper function which wraps around a request, and fills in some common
+// paramters for use to use
+// API REFERENCE: https://developers.google.com/drive/v2/reference/#Files
+ItemDriver.prototype._gFetch = function (method, endPoint, params) {
+  var headers = new Headers()
+  headers.append('Authorization', this.authToken)
 
+  var uri = encodeURI(GOOGLE_DRIVE_ENDPOINT + endPoint)
+
+  return fetch(uri, {
+    headers: headers,
+    method: method,
+    body: params
+  }).then(function (res) {
+    if (res.status >= 400) {
+      throw new Error('Google Drive API Response Error. Recieved request code ' + res.status)
+    }
+    // Assumes that responses will come back as JSON, which is typically the
+    // case
+    return res.json()
+  })
+}
+
+// Async
 ItemDriver.prototype.isGroupingItem = function (id, callback) {
   var self = this
 
