@@ -49,7 +49,7 @@ ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
   // Body is either a JSON object OR it's a string (used for uploading)
   var body
   if (isObject(params)) {
-    body = params
+    body = JSON.stringify(params)
   } else if (isString(params)) {
     body = params
   } else {
