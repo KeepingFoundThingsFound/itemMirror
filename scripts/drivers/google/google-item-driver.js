@@ -56,7 +56,7 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
   return fetch(uri, {
     headers: headers,
     method: method,
-    body: params
+    body: JSON.stringify(params)
   }).then(function (res) {
     if (res.status >= 400) {
       throw new Error('Google Drive API Response Error. Recieved request code ' + res.status)
@@ -68,44 +68,33 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
 }
 
 // Async
-ItemDriver.prototype.isGroupingItem = function (id, callback) {
+ItemDriver.prototype.isGroupingItem = function (id) {
   var self = this
 
-  // do a simple get request, and see if it's a folder
-  fetch(URL + id, {
-    headers: self._AUTH_HEADER
-  }).then(function (resp) {
-    // This is the specific mimetype that google counts as a 'folder'
-    callback(false, self._FOLDER_MIMETYPE === resp.json().mimeType)
-  }).catch(function (error) {
-    callback('No response from GET: ' + id)
+  return this._gFetch('GET', '/' + fileID)
+  .then(function(metadata) {
+    return FOLDER_MIMETYPE === metadata.mimeType
   })
 }
 
-  /**
-   * Creates a grouping item at the location
-   * @method createGroupingItem
-   * @param {String} path the path to the location that the grouping item will be created
-   * @param {Function} callback Function to be called when self function is finished with it's operation.
-   *
-   * @protected
-   */
-ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
+/**
+ * Creates a grouping item at the location
+ * @method createGroupingItem
+ * @param {string} parentURI The ID of the folder in which this will be
+ * created
+ * @param {string} title The title of the folder to create 
+ * @returns {Promise} A promise that resolves when the folder is created, or an
+ * error if it could not be created for some reason
+ */
+ItemDriver.prototype.createGroupingItem = function (parentURI, title), {
   var self = this
 
-  fetch(self._DRIVE_FILE_API, {
-    headers: self._AUTH_HEADER,
-    method: 'POST',
-    body: JSON.stringify({
-      mimeType: self._FOLDER_MIMETYPE,
-      title: title,
-      parents: [parentURI]
-    })
-  }).then(function (resp) {
-    // Callback with ID of the newly created folder so we have a reference
-    callback(false, resp.id)
-  }).catch(function () {
-    callback('Failed to make POST request for new grouping item. Check network requests for more details')
+  return this._gFetch('POST', '/' + parentURI, {
+    mimeType: FOLDER_MIMETYPE,
+    title: title,
+    parents: [parentURI]
+  }).then(function (res) {
+    return res.id
   })
 }
 
