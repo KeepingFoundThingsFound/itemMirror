@@ -4,6 +4,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var path = require('path')
 
 var isObject = require('lodash/isObject')
 var isString = require('lodash/isString')
@@ -99,6 +100,39 @@ ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title, callbac
     root: 'dropbox',
     path: parentURI + '/' + title
   })
+}
+
+// Returns a structured list of items. Takes a grouping item address as input
+// Async
+ItemDriver.prototype.listItems = function (path) {
+  return this._getMetadata(path).then(function(metadata) {
+    // Return a list of AssociationEditor
+    function contentsToAssoc(item) {
+      // https://www.dropbox.com/developers-v1/core/docs#metadata-details
+      return new AssociationEditor({
+        commonData: {
+          associatedXooMLFragment: null,
+          associatedItem: item.path,
+          associatedItemDriver: 'google',
+          associatedXooMLDriver: 'google',
+          associatedSyncDriver: 'sync',
+          isGrouping: item.is_dir,
+          localItem: item.path,
+          // Gets the name of the file
+          displayText: path.basename(item.path),
+          publicURL: DROPBOX_CONTENT + '/previews/auto' + item.path
+        }
+      })
+    }
+
+    return metadata.contents.map(contentsToAssoc)
+  })
+}
+
+// Returns true if given path leads to a real thing!
+// Async
+ItemDriver.prototype.checkExists = function (parentURI, title, callback) {
+
 }
 
 module.exports = ItemDriver
