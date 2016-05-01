@@ -4,7 +4,7 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
-var path = require('path')
+var Path = require('path')
 
 var isObject = require('lodash/isObject')
 var isString = require('lodash/isString')
@@ -31,7 +31,6 @@ function ItemDriver (options) {
   if (!this.authToken) {
     throw new Error('Missing Authentication Token')
   }
-
 }
 
 // Helper function that makes it easier to hit the dropbox API
@@ -41,18 +40,23 @@ ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
     ? DROPBOX_CONTENT + endPoint
     : DROPBOX_API + endPoint
 
-  var headers = new Headers();
+  var headers = new Headers()
   headers.append('Authorization', this.authToken)
+
+  // Body is either a JSON object OR it's a string (used for uploading)
+  var body
+  if (isObject(params)) {
+    body = params
+  } else if (isString(params)) {
+    body = params
+  } else {
+    body = undefined
+  }
 
   return fetch(uri, {
     method: method,
     headers: headers,
-    body: isObject(params)
-      ? JSON.stringify(params)
-      // Not params, actually body
-        : isString(params)
-        ? params : undefined
-      params ? JSON.stringify(params) : null
+    body: body
   }).then(function (res) {
     if (res.status > 400) {
       // This means the request was bad
@@ -61,11 +65,11 @@ ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
     // Assumes that the response is JSON, this should be the case
     return res.json()
   })
-} 
+}
 
 // Gets the metadata for a file or folder
 ItemDriver.prototype._getMetadata = function (path) {
-  return this._dbFetch(false, 'GET', '/metadata/' + path)
+  return this._dbFetch(false, 'GET', '/metadata' + path)
 }
 
 // Async
@@ -76,26 +80,26 @@ ItemDriver.prototype.isGroupingItem = function (path) {
     })
 }
 
-ItemDriver.prototype.createGroupingItem = function (parentURI, title, callback) {
+ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
   return this._dbFetch(false, 'POST', '/fileops/create_folder', {
     root: 'dropbox',
     path: parentURI + '/' + title
   })
 }
 
-ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data, callback) {
-  var path = parentURI + '/' + filename
-  return this._dbFetch(true, 'PUT', '/files_put/auto' + path)
+ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data) {
+  var path = parentURI + '/' + fileName
+  return this._dbFetch(true, 'PUT', '/files_put/auto' + path, data)
 }
 
-ItemDriver.prototype.deleteGroupingItem = function (parentURI, title, callback) {
+ItemDriver.prototype.deleteGroupingItem = function (parentURI, title) {
   return this._dbFetch(false, 'POST', '/fileops/delete', {
     root: 'dropbox',
     path: parentURI + '/' + title
   })
 }
 
-ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title, callback) {
+ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title) {
   return this._dbFetch(false, 'POST', '/fileops/delete', {
     root: 'dropbox',
     path: parentURI + '/' + title
@@ -105,9 +109,9 @@ ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title, callbac
 // Returns a structured list of items. Takes a grouping item address as input
 // Async
 ItemDriver.prototype.listItems = function (path) {
-  return this._getMetadata(path).then(function(metadata) {
+  return this._getMetadata(path).then(function (metadata) {
     // Return a list of AssociationEditor
-    function contentsToAssoc(item) {
+    function contentsToAssoc (item) {
       // https://www.dropbox.com/developers-v1/core/docs#metadata-details
       return new AssociationEditor({
         commonData: {
@@ -119,20 +123,33 @@ ItemDriver.prototype.listItems = function (path) {
           isGrouping: item.is_dir,
           localItem: item.path,
           // Gets the name of the file
-          displayText: path.basename(item.path),
+          displayText: Path.basename(item.path),
           publicURL: DROPBOX_CONTENT + '/previews/auto' + item.path
         }
       })
     }
 
-    return metadata.contents.map(contentsToAssoc)
+    return metadata.contents
+    .filter(function (data) {
+      // Don't show the XooML file!
+      return Path.basename(data.path) !== XooMLConfig.xooMLFragmentFileName
+    })
+    .map(contentsToAssoc)
   })
 }
 
 // Returns true if given path leads to a real thing!
 // Async
-ItemDriver.prototype.checkExists = function (parentURI, title, callback) {
+ItemDriver.prototype.checkExists = function (parentURI, title) {
+  var headers = new Headers()
+  headers.append('Authorization', this.authToken)
 
+  return fetch(DROPBOX_API + '/files/auto' + parentURI + '/' + title, {
+    headers: headers
+  }, function (res) {
+    // IF the file doesn't exist, we get a 404 error
+    return res.status !== 404
+  })
 }
 
 module.exports = ItemDriver
