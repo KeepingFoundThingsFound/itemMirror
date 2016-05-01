@@ -24,37 +24,26 @@ require('isomorphic-fetch')
 var XooMLConfig = require('../../xooml-config')
 var AssociationEditor = require('../../association-editor')
 
-  /**
-   * Constructs a ItemDriver for reading/writing Item Storage
-   *
-   * @method ItemDriver
-   *
-   * @param {Object} options Options passed for construction
-   * @param {Function} callback The function to call after completion
-   *
-   * @protected
-   */
-function ItemDriver (options, callback) {
-  var self = this
+var FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
+var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files/'
 
-    // client (google drive in this case)
-  if (!options.clientInterface) {
-    throw new Error('Client parameter missing')
+/**
+ * Constructs a ItemDriver for reading/writing Item Storage
+ *
+ * @class ItemDriver
+ * @constructor
+ * @param {Object} options Options passed for construction
+ * @param {Function} callback The function to call after completion
+ */
+function ItemDriver (options) {
+  if (!options.authToken) {
+    throw new Error('Missing Authentication Token')
   }
-  this.clientInterface = options.clientInterface
 
-  var authResponse = this.clientInterface.auth2.getAuthInstance()
-      .currentUser.get()
-      .getAuthResponse()
-
-    // These are the same across multple files, and so should be put in a common configuration somewhere
-  this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token }
-  this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/'
-
-  self._FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
-
-  return callback(false, self)
+  this.authToken = options.authToken
+  return this
 }
+
 
 ItemDriver.prototype.isGroupingItem = function (id, callback) {
   var self = this

@@ -61,7 +61,7 @@ ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
     headers: headers,
     body: body
   }).then(function (res) {
-    if (res.status > 400) {
+    if (res.status >= 400) {
       // This means the request was bad
       throw new Error('API Response Error')
     }
