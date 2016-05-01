@@ -144,8 +144,12 @@ ItemDriver.prototype.checkExists = function (parentURI, title) {
   var headers = new Headers()
   headers.append('Authorization', this.authToken)
 
-  return fetch(DROPBOX_API + '/files/auto' + parentURI + '/' + title, {
+  return fetch(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title, {
     headers: headers
+    body: {
+      // Don't include folder contents, we just want to check for an error
+      list: false
+    }
   }, function (res) {
     // IF the file doesn't exist, we get a 404 error
     return res.status !== 404
