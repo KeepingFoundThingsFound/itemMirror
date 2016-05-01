@@ -21,11 +21,14 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var Buffer = require('buffer')
+
 var XooMLConfig = require('../../xooml-config')
 var AssociationEditor = require('../../association-editor')
 
 var FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
 var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files'
+var GOOGLE_DRIVE_CONTENT = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
 
 /**
  * Constructs a ItemDriver for reading/writing Item Storage
@@ -44,12 +47,17 @@ function ItemDriver (options) {
   return this
 }
 
+// Helper function for creating a proper auth header
+ItemDriver.prototype._makeAuthHeader = function() {
+  var headers = new Headers()
+  return headers.append('Authorization', 'Bearer' + this.authToken)
+}
+
 // A helper function which wraps around a request, and fills in some common
 // paramters for use to use
 // API REFERENCE: https://developers.google.com/drive/v2/reference/#Files
 ItemDriver.prototype._gFetch = function (method, endPoint, params) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
 
   var uri = encodeURI(GOOGLE_DRIVE_ENDPOINT + endPoint)
 
@@ -98,69 +106,55 @@ ItemDriver.prototype.createGroupingItem = function (parentURI, title), {
   })
 }
 
-  /**
-   * Creates or uploads a non-grouping item at the location
-   * @method createNonGroupingItem
-   * @param {String} path the path to the location that the non-grouping item will be created
-   * @param {String} file the contents to be written to the non-grouping item
-   * @param {Function} callback Function to be called when self function is finished with it's operation.
-   *
-   * @protected
-   */
-// TODO: This referes to self._parentURI, but I'm not sure where that is ever
-// set?
-ItemDriver.prototype.createNonGroupingItem = function (fileName, file, callback) {
-  var self = this
-
-  function insertFile (fileData, callback) {
-    var boundary = '-------314159265358979323846'
-    var delimiter = '\r\n--' + boundary + '\r\n'
-    var close_delim = '\r\n--' + boundary + '--'
-
-    var reader = new FileReader()
-    reader.readAsBinaryString(fileData)
-    reader.onload = function () {
-      var contentType = fileData.type || 'application/octet-stream'
-      var metadata = {
-        'title': XooMLConfig.xooMLFragmentFileName,
-        'mimeType': contentType,
-        'parents': [{
-          'kind': 'drive#parentReference',
-          'id': self._parentURI
-        }]
-      }
-
-      var base64Data = btoa(reader.result)
-      var multipartRequestBody =
-        delimiter +
-        'Content-Type: application/json\r\n\r\n' +
-        JSON.stringify(metadata) +
-        delimiter +
-        'Content-Type: ' + contentType + '\r\n' +
-        'Content-Transfer-Encoding: base64\r\n' +
-        '\r\n' +
-        base64Data +
-        close_delim
-
-      var request = this.gapi.client.request({
-        'path': '/upload/drive/v2/files',
-        'method': 'POST',
-        'params': {'uploadType': 'multipart'},
-        'headers': {
-          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-        },
-        'body': multipartRequestBody})
-      request.execute(function (response) {
-        callback(false, response)
-      }, function (response) {
-        callback('Could not write out File', response)
-      })
-    }
+/**
+ * Creates or uploads a non-grouping item at the location
+ * @method createNonGroupingItem
+ * @param {string} parentURI The ID of the folder that we want to file to
+ * uploaded into
+ * @param {string} title The name to set for the fiel
+ * @param {string} contents contents to be written to the non-grouping item
+ * @returns {Promise} A promise that resolves when the file has been sucessfully
+ * uploaded, or if there was an error
+ */
+ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, contents) {
+  var metadata = {
+    'title': title,
+    'mimeType': 'text/plain',
+    'parents': [{
+      'kind': 'drive#parentReference',
+      'id': parentURI
+    }]
   }
 
-  var blob = new Blob([file], {type: 'text/plain', fileName: fileName})
+  var boundary = '-------314159265358979323846'
+  var delimiter = '\r\n--' + boundary + '\r\n'
+  var close_delim = '\r\n--' + boundary + '--'
 
-  return insertFile(blob, callback)
+  var contentType = fileData.type || 'application/octet-stream'
+
+  var base64Data = btoa(reader.result)
+  var multipartRequestBody =
+    delimiter +
+    'Content-Type: application/json\r\n\r\n' +
+    JSON.stringify(metadata) +
+    delimiter +
+    'Content-Type: text/plain' + '\r\n' +
+    'Content-Transfer-Encoding: base64\r\n' +
+    '\r\n' +
+    btoa(contents) +
+    close_delim
+
+  var headers = this._makeAuthHeader()
+  headers.append('Content-Type', 'multipart/related; boundary="' + boundary + '"')
+  headers.append('Content-Length', (new Buffer(multipartRequestBody)).length)
+
+  return fetch(GOOGLE_DRIVE_CONTENT, {
+    method: 'POST',
+    headers: headers,
+    body: multipartRequestBody
+  }).then(function (res) {
+    return res.json()
+  })
 }
 
 // Helper function for deleting files, since no distinction is needed
