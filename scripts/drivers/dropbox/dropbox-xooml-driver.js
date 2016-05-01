@@ -8,9 +8,6 @@ require('isomorphic-fetch')
 
 var Buffer = require('buffer')
 
-var isObject = require('lodash/isObject')
-var isString = require('lodash/isString')
-
 var XooMLConfig = require('../../xooml-config')
 
 var DROPBOX_API = 'https://api.dropboxapi.com/1'
@@ -23,47 +20,13 @@ function XooMLDriver (options) {
   }
 }
 
-// Helper function that makes it easier to hit the dropbox API
-// Returns a promise
-XooMLDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
-  var uri = isContent
-    ? DROPBOX_CONTENT + endPoint
-    : DROPBOX_API + endPoint
-
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
-
-  // Body is either a JSON object OR it's a string (used for uploading)
-  var body
-  if (isObject(params)) {
-    body = params
-  } else if (isString(params)) {
-    body = params
-  } else {
-    body = undefined
-  }
-
-  return fetch(uri, {
-    method: method,
-    headers: headers,
-    body: body
-  }).then(function (res) {
-    if (res.status > 400) {
-      // This means the request was bad
-      throw new Error('API Response Error')
-    }
-    // Assumes that the response is JSON, this should be the case
-    return res.json()
-  })
-}
-
 // Returns true if given path leads to a real thing!
 // Async
 XooMLDriver.prototype.checkExists = function (parentURI, title) {
   var headers = new Headers()
   headers.append('Authorization', this.authToken)
 
-  return fetch(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title, {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
@@ -80,7 +43,7 @@ XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
   var headers = new Headers()
   headers.append('Authorization', this.authToken)
 
-  return fetch(DROPBOX_CONTENT + '/files/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName, {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers
   }).then(function (res) {
     if (res.status >= 400) {
@@ -99,7 +62,7 @@ XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
   var bytes = (new Buffer(xooml)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(DROPBOX_CONTENT + '/files_put/auto' + parentURI, {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI), {
     headers: headers,
     method: 'PUT',
     body: xooml

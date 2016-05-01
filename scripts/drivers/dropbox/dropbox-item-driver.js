@@ -37,9 +37,9 @@ function ItemDriver (options) {
 // Helper function that makes it easier to hit the dropbox API
 // Returns a promise
 ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
-  var uri = isContent
+  var uri = encodeURI(isContent
     ? DROPBOX_CONTENT + endPoint
-    : DROPBOX_API + endPoint
+    : DROPBOX_API + endPoint)
 
   var headers = new Headers()
   headers.append('Authorization', this.authToken)
@@ -95,7 +95,7 @@ ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data
   var bytes = (new Buffer(data)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + fileName, {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + fileName), {
     headers: headers,
     method: 'PUT',
     body: data
@@ -177,7 +177,7 @@ ItemDriver.prototype.checkExists = function (parentURI, title) {
   var headers = new Headers()
   headers.append('Authorization', this.authToken)
 
-  return fetch(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title, {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
