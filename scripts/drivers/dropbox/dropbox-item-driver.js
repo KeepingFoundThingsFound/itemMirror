@@ -36,6 +36,12 @@ function ItemDriver (options) {
   return this
 }
 
+// Helper function for creating a proper auth header
+ItemDriver.prototype._makeAuthHeader = function() {
+  var headers = new Headers()
+  return headers.append('Authorization', 'Bearer' + this.authToken)
+}
+
 // Helper function that makes it easier to hit the dropbox API
 // Returns a promise
 ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
@@ -43,8 +49,7 @@ ItemDriver.prototype._dbFetch = function (isContent, method, endPoint, params) {
     ? DROPBOX_CONTENT + endPoint
     : DROPBOX_API + endPoint)
 
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
 
   // Body is either a JSON object OR it's a string (used for uploading)
   var body
@@ -91,8 +96,7 @@ ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
 }
 
 ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
   // Use Buffers to get byte size
   var bytes = (new Buffer(data)).length
   headers.append('Content-Length', bytes)
@@ -176,8 +180,7 @@ ItemDriver.prototype.listItems = function (path) {
 // Returns true if given path leads to a real thing!
 // Async
 ItemDriver.prototype.checkExists = function (parentURI, title) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
 
   return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
     headers: headers,

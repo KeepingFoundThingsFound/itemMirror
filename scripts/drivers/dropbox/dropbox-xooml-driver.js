@@ -22,11 +22,16 @@ function XooMLDriver (options) {
   return this
 }
 
+// Helper function for creating a proper auth header
+ItemDriver.prototype._makeAuthHeader = function() {
+  var headers = new Headers()
+  return headers.append('Authorization', 'Bearer' + this.authToken)
+}
+
 // Returns true if given path leads to a real thing!
 // Async
 XooMLDriver.prototype.checkExists = function (parentURI, title) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
 
   return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
     headers: headers,
@@ -42,8 +47,7 @@ XooMLDriver.prototype.checkExists = function (parentURI, title) {
 
 // Fetches the contents of a XooMLFragment as a string, if it exists
 XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
 
   return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers
@@ -57,8 +61,8 @@ XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
 
 // Saves the contents of a XooMLFragment to the given directory
 XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
-  var headers = new Headers()
-  headers.append('Authorization', this.authToken)
+  var headers = this._makeAuthHeader()
+
   // Content length is required in bytes. We borrow node's buffers to
   // make determining this easy
   var bytes = (new Buffer(xooml)).length
