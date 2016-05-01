@@ -14,10 +14,12 @@ var DROPBOX_API = 'https://api.dropboxapi.com/1'
 var DROPBOX_CONTENT = 'https://content.dropboxapi.com/1'
 
 function XooMLDriver (options) {
-  this.authToken = options.authToken
   if (!this.authToken) {
     throw new Error('Missing Authentication Token')
   }
+
+  this.authToken = options.authToken
+  return this
 }
 
 // Returns true if given path leads to a real thing!

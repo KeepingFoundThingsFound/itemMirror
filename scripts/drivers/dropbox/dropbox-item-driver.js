@@ -28,10 +28,12 @@ var DROPBOX_CONTENT = 'https://content.dropboxapi.com/1'
  * @constructor
  */
 function ItemDriver (options) {
-  this.authToken = options.authToken
   if (!this.authToken) {
     throw new Error('Missing Authentication Token')
   }
+
+  this.authToken = options.authToken
+  return this
 }
 
 // Helper function that makes it easier to hit the dropbox API
