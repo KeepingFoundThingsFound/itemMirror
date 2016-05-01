@@ -187,46 +187,34 @@ ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
 /**
  * Lists the items under the grouping item
  * @method listItems
- * @param {String} path the path to the grouping item
- * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of AssociationEditors.
- *
- * @protected
+ * @param {string} parentURI The folder ID according to google
+ * @returns {Promise([AssociationEditor])} Returns a promise that resolves with
+ * an array of association editors
  */
 ItemDriver.prototype.listItems = function (parentURI, callback) {
-  var self = this
-
-  var query = '\'' + parentURI + '\' in ' + 'parents'
-  var request = this.clientInterface.client.drive.files.list({
-    'maxResults': 1000,
-    'q': query
-  })
-  request.execute(function (resp) {
-    if (resp.error) {
-      return callback('Error: Bad Response / Request')
-    }
-
-    var items = resp.items.filter(function (item) {
+  return this._gFetch('GET', '/list', {
+    q: "'" + parentURI + "' in parents",
+    maxResults: 1000
+  }).then(function (data) {
+    return data.items.filter(function (item) {
       return item.title !== XooMLConfig.xooMLFragmentFileName
-    })
-      .map(function (item) {
-        return new AssociationEditor({
-          commonData: {
-            // Change this to be the ID of the XooML.xml file eventually
-            // Will need another parameter for that
-            associatedXooMLFragment: null,
-            associatedItem: item.id,
-            associatedItemDriver: 'GoogleItemDriver',
-            associatedXooMLDriver: 'GoogleXooMLDriver',
-            associatedSyncDriver: 'MirrorSyncDriver',
-            isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
-            localItem: item.id,
-            displayText: item.title,
-            publicURL: item.alternateLink
-          }
-        })
+    }).map(function (item) {
+      return new AssociationEditor({
+        commonData: {
+          // Change this to be the ID of the XooML.xml file eventually
+          // Will need another parameter for that
+          associatedXooMLFragment: null,
+          associatedItem: item.id,
+          associatedItemDriver: 'GoogleItemDriver',
+          associatedXooMLDriver: 'GoogleXooMLDriver',
+          associatedSyncDriver: 'MirrorSyncDriver',
+          isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
+          localItem: item.id,
+          displayText: item.title,
+          publicURL: item.alternateLink
+        }
       })
-
-    callback(false, items)
+    })
   })
 }
 
