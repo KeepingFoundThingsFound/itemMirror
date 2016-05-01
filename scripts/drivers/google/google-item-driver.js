@@ -61,11 +61,19 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
 
   var uri = encodeURI(GOOGLE_DRIVE_ENDPOINT + endPoint)
 
-  return fetch(uri, {
-    headers: headers,
-    method: method,
-    body: JSON.stringify(params)
-  }).then(function (res) {
+  // Two different versions, with/without the body
+  var req = params
+    ? fetch(uri, {
+      headers: headers,
+      method: method,
+      body: JSON.stringify(params)
+    })
+    : fetch(uri, {
+      headers: headers,
+      method: method
+    })
+  
+  return req.then(function (res) {
     if (res.status >= 400) {
       throw new Error('Google Drive API Response Error. Recieved request code ' + res.status)
     }
@@ -159,50 +167,38 @@ ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, content
 
 // Helper function for deleting files, since no distinction is needed
 // between grouping items and non grouping items in google drive
-ItemDriver.prototype._deleteID = function (id, callback) {
-  var self = this
-
-  fetch(self._DRIVE_FILE_API + '/' + id, {
-    headers: self._AUTH_HEADER,
-    method: 'DELETE'
-  }).then(function (resp) {
-    callback(false, resp.json())
-  }).catch(function (resp) {
-    callback('Failed to make DELETE request for new grouping item. Check network requests for more deatils', resp.json())
-  })
-}
-  /**
-   * Deletes a grouping item with the specified ID
-   * @method deleteGroupingItem
-   * @param {String} id the id of the file that will be deleted. This is specific to google
-   * @param {Function} callback Function to be called when self function is finished with it's operation.
-   *
-   * @protected
-   */
-ItemDriver.prototype.deleteGroupingItem = function (id, callback) {
-  this._deleteID(id, callback)
+ItemDriver.prototype._deleteID = function (id) {
+  return this._gFetch('DELETE', '/' + id)
 }
 
-  /**
-   * Deletes a non-grouping item at the location
-   * @method deleteNonGroupingItem
-   * @param {String} id the id of the file that will be deleted. This is specific to google
-   * @param {Function} callback Function to be called when self function is finished with it's operation.
-   *
-   * @protected
-   */
+/**
+ * Deletes a grouping item with the specified ID
+ * @method deleteGroupingItem
+ * @param {string} id the id of the file that will be deleted. This is specific to google
+ * @returns {Promise} Returns promise with the actual request back
+ */
+ItemDriver.prototype.deleteGroupingItem = function (id) {
+  return this._deleteID(id)
+}
+
+/**
+ * Deletes a grouping item with the specified ID
+ * @method deleteGroupingItem
+ * @param {string} id the id of the file that will be deleted. This is specific to google
+ * @returns {Promise} Returns promise with the actual request back
+ */
 ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
-  this._deleteID(id, callback)
+  return this._deleteID(id)
 }
 
-  /**
-   * Lists the items under the grouping item
-   * @method listItems
-   * @param {String} path the path to the grouping item
-   * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of AssociationEditors.
-   *
-   * @protected
-   */
+/**
+ * Lists the items under the grouping item
+ * @method listItems
+ * @param {String} path the path to the grouping item
+ * @param {Function} callback(output) Function to be called when self function is finished with it's operation. Output is an array of AssociationEditors.
+ *
+ * @protected
+ */
 ItemDriver.prototype.listItems = function (parentURI, callback) {
   var self = this
 
