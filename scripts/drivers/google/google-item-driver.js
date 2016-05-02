@@ -45,13 +45,31 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
 
   var uri = encodeURI(GOOGLE_DRIVE_ENDPOINT + endPoint)
 
-  // Two different versions, with/without the body
-  var req = params
+  // Takes params and converts them a query string that can be appended to the
+  // end of a URI for requests that don't support a body (like GET)
+  function paramsToQueryString (params) {
+    var qs = reduce(params, function(acc, value, key) {
+      acc + key.toString() + value.toString() + "&" 
+    }, "?")
+
+    return trimEnd(qs, "&")
+  }
+
+  // Three different versions
+  var req = method === 'GET' ?
+    // Special version that requires a query string
+    fetch(uri + paramsToQueryString(params), {
+      headers: headers,
+      methods: method
+    })
+    : params
+    // Params in request body
     ? fetch(uri, {
       headers: headers,
       method: method,
       body: JSON.stringify(params)
     })
+    // No params at all!
     : fetch(uri, {
       headers: headers,
       method: method
