@@ -115,17 +115,9 @@ ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
   })
 }
 
-/**
- * Creates or uploads a non-grouping item at the location
- * @method createNonGroupingItem
- * @param {string} parentURI The ID of the folder that we want to file to
- * uploaded into
- * @param {string} title The name to set for the fiel
- * @param {string} contents contents to be written to the non-grouping item
- * @returns {Promise} A promise that resolves when the file has been sucessfully
- * uploaded, or if there was an error
- */
-ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, contents) {
+// Does the actual complicated work of writing to a file
+// TODO: Factor out into another file
+function writeFile (parentURI, title, contents, authHeader) {
   var metadata = {
     'title': title,
     'mimeType': 'text/plain',
@@ -150,17 +142,30 @@ ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, content
     btoa(contents) +
     close_delim
 
-  var headers = this._makeAuthHeader()
-  headers.append('Content-Type', 'multipart/related; boundary="' + boundary + '"')
-  headers.append('Content-Length', (new Buffer(multipartRequestBody)).length)
+  authHeader.append('Content-Type', 'multipart/related; boundary="' + boundary + '"')
+  authHeader.append('Content-Length', (new Buffer(multipartRequestBody)).length)
 
   return fetch(GOOGLE_DRIVE_CONTENT, {
     method: 'POST',
-    headers: headers,
+    headers: authHeader,
     body: multipartRequestBody
   }).then(function (res) {
     return res.json()
   })
+}
+
+/**
+ * Creates or uploads a non-grouping item at the location
+ * @method createNonGroupingItem
+ * @param {string} parentURI The ID of the folder that we want to file to
+ * uploaded into
+ * @param {string} title The name to set for the fiel
+ * @param {string} contents contents to be written to the non-grouping item
+ * @returns {Promise} A promise that resolves when the file has been sucessfully
+ * uploaded, or if there was an error
+ */
+ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, contents) {
+  return writeFile(parentURI, title, contents, this._makeAuthHeader)
 }
 
 // Helper function for deleting files, since no distinction is needed
@@ -245,4 +250,7 @@ ItemDriver.prototype.checkExists = function (id) {
   })
 }
 
-module.exports = ItemDriver
+module.exports = {
+  driver: ItemDriver,
+  writeFile: writeFile
+}

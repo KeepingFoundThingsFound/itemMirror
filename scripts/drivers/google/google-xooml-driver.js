@@ -4,6 +4,8 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var writeFile = require('google-item-driver').writeFile
+
 var reduce = require('lodash/reduce')
 var trimEnd = require('lodash/trimEnd')
 
@@ -119,92 +121,37 @@ XooMLDriver.prototype.getXooMLFragment = function () {
   }
 }
 
-  /**
-   * Writes a XooML fragment
-   * @method setXooMLFragment
-   * @param {String} xmlString the content of the XooML fragment
-   * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
-   *
-   * @protected
-   */
-XooMLDriver.prototype.setXooMLFragment = function (xmlString, callback) {
-  var self = this
-  var mimeType = 'text/xml'
+/**
+ * Writes a XooML fragment
+ * @method setXooMLFragment
+ * @param {string} xmlString the content of the XooML fragment
+ * @returns {Promise} Returns a promise that resolves when the file has been
+ * written, along with the response from google
+ */
+XooMLDriver.prototype.setXooMLFragment = function (xmlString) {
+  // Used when writing a new XooML file
+  function updateFile () {
+    var uri = GOOGLE_DRIVE_CONTENT + '/' + this.fragmentURI
+    var qs = paramsToQueryString({
+      uploadType: 'media'
+    })
 
-    // Used when updating an already existing XooML.xml
-  function updateFile (callback) {
-    var request = this.gapi.client.request({
-      path: '/upload/drive/v2/files/' + self._fragmentURI,
+    return fetch(uri + qs, {
+      headers: this._makeAuthHeader,
       method: 'PUT',
-      params: {'uploadType': 'media'},
       body: xmlString
-    })
-
-    request.execute(function () {
-      callback(false)
-    }, function (error) {
-      callback(error)
-    })
-  }
-
-    // Used when writing a new XooML file
-  function insertFile (fileData, callback) {
-    var boundary = '-------314159265358979323846'
-    var delimiter = '\r\n--' + boundary + '\r\n'
-    var close_delim = '\r\n--' + boundary + '--'
-
-    var reader = new FileReader()
-    reader.readAsBinaryString(fileData)
-    reader.onload = function () {
-      var contentType = fileData.type || 'application/octet-stream'
-      var metadata = {
-        'title': XooMLConfig.xooMLFragmentFileName,
-        'mimeType': contentType,
-        'parents': [{
-          'kind': 'drive#parentReference',
-          'id': self._parentURI
-        }]
+    }).then(function (res) {
+      if (res.status >= 400) {
+        throw new Error('Google API Error: Returned status code ' + res.status)
       }
 
-      var base64Data = btoa(reader.result)
-      var multipartRequestBody =
-            delimiter +
-            'Content-Type: application/json\r\n\r\n' +
-            JSON.stringify(metadata) +
-            delimiter +
-            'Content-Type: ' + contentType + '\r\n' +
-            'Content-Transfer-Encoding: base64\r\n' +
-            '\r\n' +
-            base64Data +
-            close_delim
-
-      var request = self.gapi.client.request({
-        'path': '/upload/drive/v2/files',
-        'method': 'POST',
-        'params': {'uploadType': 'multipart'},
-        'headers': {
-          'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-        },
-        'body': multipartRequestBody})
-      request.execute(function (response) {
-          // The response is the newly created file, and we set the fragment ID to that
-          // so that future requests don't require additional searches
-        self._fragmentURI = response.id
-        callback(false)
-      }, function (response) {
-        callback('Could not write out XooML Fragment', response)
-      })
-    }
+      return res.json()
+    })
   }
 
-  var blob = new Blob([xmlString], {type: mimeType, fileName: XooMLConfig.xooMLFragmentFileName})
-
-    // Update or create the file depending on the circumstances
-  if (self._fragmentURI) {
-    updateFile(callback)
-  } else {
-    insertFile(blob, callback)
-  }
+  return self.fragmentURI
+    ? updateFile()
+    : writeFile(this.parentURI, XooMLConfig.xooMLFragmentFileName, xmlString, this._makeAuthHeader)
 }
 
   /**
@@ -249,4 +196,4 @@ XooMLDriver.prototype.checkExists = function (callback) {
   }
 }
 
-module.exports = XooMLDriver
+module.exports = {driver: XooMLDriver}
