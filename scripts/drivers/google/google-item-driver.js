@@ -4,6 +4,9 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var reduce = require('lodash/reduce')
+var trimEnd = require('lodash/trimEnd')
+
 var Buffer = require('buffer')
 
 var XooMLConfig = require('../../xooml-config')
@@ -48,17 +51,17 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
   // Takes params and converts them a query string that can be appended to the
   // end of a URI for requests that don't support a body (like GET)
   function paramsToQueryString (params) {
-    var qs = reduce(params, function(acc, value, key) {
-      acc + key.toString() + value.toString() + "&" 
-    }, "?")
+    var qs = reduce(params, function (acc, value, key) {
+      acc + key.toString() + value.toString() + '&'
+    }, '?')
 
-    return trimEnd(qs, "&")
+    return trimEnd(qs, '&')
   }
 
   // Three different versions
-  var req = method === 'GET' ?
+  var req = method === 'GET'
     // Special version that requires a query string
-    fetch(uri + paramsToQueryString(params), {
+    ? fetch(uri + paramsToQueryString(params), {
       headers: headers,
       methods: method
     })
