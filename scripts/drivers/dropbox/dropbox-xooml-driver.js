@@ -1,6 +1,8 @@
 'use strict'
 
 // TODO: Remove duplicate functionality into another file for hitting the API
+// NOTE: Instead of reimplementing everything, why not just literally use the
+// ITEMDRIVER methods?
 
 // Allows allows us to use the fetch API for better requests in the browser and node
 require('es6-promise').polyfill()
