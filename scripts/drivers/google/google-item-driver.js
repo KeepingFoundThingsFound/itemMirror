@@ -1,20 +1,3 @@
-/**
- * An item utility interacts with the item storage and is responsible for
- * creating and deleting items. This is an implementation of item utility
- * using Dropbox as the item storage.
- *
- * For ItemMirror core developers only. Enable protected to see.
- *
- * @class ItemDriver
- * @constructor
- *
- * @param {Object} options Data to construct a new ItemU with
- * @param {String} options.utilityURI URI of the utility
- * @param {Object} options.dropboxClient Authenticated dropbox client
- *
- * @protected
- */
-
 'use strict'
 
 // Allows allows us to use the fetch API for better requests in the browser and node
@@ -36,6 +19,7 @@ var GOOGLE_DRIVE_CONTENT = 'https://www.googleapis.com/upload/drive/v2/files?upl
  * @class ItemDriver
  * @constructor
  * @param {Object} options Options passed for construction
+ * @param {string} options.authToken Authentication token for authorization
  * @param {Function} callback The function to call after completion
  */
 function ItemDriver (options) {
