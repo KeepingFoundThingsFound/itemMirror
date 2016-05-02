@@ -104,20 +104,18 @@ XooMLDriver.prototype._searchXooML = function (folderID) {
   })
 }
 
-  /**
-   * Reads and returns a XooML fragment
-   * @method getXooMLFragment
-   * @param {Function} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
-   *
-   * @protected
-   */
-XooMLDriver.prototype.getXooMLFragment = function (callback) {
-    // If we don't have the fragmentURI, we need this for searching
-  if (!this._fragmentURI) {
-    return this._searchXooML(callback, this._parentURI)
+/**
+ * Reads and returns a XooML fragment
+ * @method getXooMLFragment
+ * @returns {Promise} callback(content) Function to be called when self function is finished with it's operation. content is the content of the XooML fragment.
+ */
+XooMLDriver.prototype.getXooMLFragment = function () {
+  // General case, where we don't need to do a query
+  if (this.fragmentURI) {
+    return this._readFile(this.fragmentURI)
+  // If we don't have the fragmentURI, we need this for searching
   } else {
-      // General case, where we don't need to do a query
-    this._readFile(callback, this._fragmentURI)
+    return this._searchXooML(this.parentURI)
   }
 }
 
