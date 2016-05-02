@@ -81,4 +81,4 @@ XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
   })
 }
 
-module.exports = XooMLDriver
+module.exports = { driver: XooMLDriver }

@@ -194,4 +194,4 @@ ItemDriver.prototype.checkExists = function (parentURI, title) {
   })
 }
 
-module.exports = ItemDriver
+module.exports = { driver: ItemDriver }
