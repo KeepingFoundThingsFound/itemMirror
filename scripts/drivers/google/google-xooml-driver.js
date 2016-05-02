@@ -6,9 +6,7 @@ require('isomorphic-fetch')
 
 var writeFile = require('google-item-driver').writeFile
 var checkExists = require('google-item-driver').checkExists
-
-var reduce = require('lodash/reduce')
-var trimEnd = require('lodash/trimEnd')
+var paramsToQueryString = require('google-item-driver').paramsToQueryString
 
 var XooMLConfig = require('../../xooml-config')
 
@@ -68,16 +66,6 @@ XooMLDriver.prototype._readFile = function (id) {
 
     return res.text()
   })
-}
-
-// Takes params and converts them a query string that can be appended to the
-// end of a URI for requests that don't support a body (like GET)
-function paramsToQueryString (params) {
-  var qs = reduce(params, function (acc, value, key) {
-    acc + key.toString() + value.toString() + '&'
-  }, '?')
-
-  return trimEnd(qs, '&')
 }
 
 // This is a helper function that searches for the xml file in a folder when

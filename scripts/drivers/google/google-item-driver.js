@@ -16,6 +16,16 @@ var FOLDER_MIMETYPE = 'application/vnd.google-apps.folder'
 var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files'
 var GOOGLE_DRIVE_CONTENT = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
 
+// Takes params and converts them a query string that can be appended to the
+// end of a URI for requests that don't support a body (like GET)
+function paramsToQueryString (params) {
+  var qs = reduce(params, function (acc, value, key) {
+    acc + key.toString() + value.toString() + '&'
+  }, '?')
+
+  return trimEnd(qs, '&')
+}
+
 /**
  * Constructs a ItemDriver for reading/writing Item Storage
  *
@@ -47,16 +57,6 @@ ItemDriver.prototype._gFetch = function (method, endPoint, params) {
   var headers = this._makeAuthHeader()
 
   var uri = encodeURI(GOOGLE_DRIVE_ENDPOINT + endPoint)
-
-  // Takes params and converts them a query string that can be appended to the
-  // end of a URI for requests that don't support a body (like GET)
-  function paramsToQueryString (params) {
-    var qs = reduce(params, function (acc, value, key) {
-      acc + key.toString() + value.toString() + '&'
-    }, '?')
-
-    return trimEnd(qs, '&')
-  }
 
   // Three different versions
   var req = method === 'GET'
@@ -258,5 +258,6 @@ ItemDriver.prototype.checkExists = function (id) {
 module.exports = {
   driver: ItemDriver,
   writeFile: writeFile,
-  checkExists: checkExists
+  checkExists: checkExists,
+  paramsToQueryString: paramsToQueryString
 }
