@@ -4,6 +4,9 @@
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
+var reduce = require('lodash/reduce')
+var trimEnd = require('lodash/trimEnd')
+
 var XooMLConfig = require('../../xooml-config')
 
 // Constants
@@ -52,7 +55,7 @@ XooMLDriver.prototype._makeAuthHeader = function () {
  */
 XooMLDriver.prototype._readFile = function (id) {
   // alt=media option is required to initiate a download
-  var uri = this.GOOGLE_DRIVE_ENDPOINT + '/' + id+ '?alt=media'
+  var uri = this.GOOGLE_DRIVE_ENDPOINT + '/' + id + '?alt=media'
   return fetch(uri, {
     headers: this.makeAuthHeader()
   }).then(function (res) {
@@ -64,33 +67,40 @@ XooMLDriver.prototype._readFile = function (id) {
   })
 }
 
-  // This is a helper function that searches for the xml file in a folder when
-  // necessary
-XooMLDriver.prototype._searchXooML = function (callback, folderID) {
-  var self = this
+// Takes params and converts them a query string that can be appended to the
+// end of a URI for requests that don't support a body (like GET)
+function paramsToQueryString (params) {
+  var qs = reduce(params, function (acc, value, key) {
+    acc + key.toString() + value.toString() + '&'
+  }, '?')
 
-    // This query means return the file with the title XooML2.xml in the
-    // root directory.
-    // Details on the gapi query syntax: https://developers.google.com/drive/web/search-parameters
+  return trimEnd(qs, '&')
+}
+
+// This is a helper function that searches for the xml file in a folder when
+// necessary
+XooMLDriver.prototype._searchXooML = function (folderID) {
+  // This query means return the file with the title XooML2.xml in the
+  // root directory.
+  // Details on the gapi query syntax: https://developers.google.com/drive/web/search-parameters
   var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'' + folderID + '\' in parents'
-  var request = this.clientInterface.client.drive.files.list({
+  var params = JSON.stringify({
     'maxResults': 10,
     'q': query
   })
-  request.execute(function (resp) {
-      // Now that we've made the request, we can extract the fileID and
-      // read the file contents
-    var xoomlItem = resp.items[0]
+  var uri = GOOGLE_DRIVE_ENDPOINT + '/files/list/' + folderID + paramsToQueryString(params)
 
-      // This means that there currently is no XooML file
-    if (!xoomlItem) {
-        // This error should be standardized somewhere and made into a number
-        // that way all drivers can  share it
-      return callback('XooML Not Found')
+  return fetch(uri, {
+    headers: this._makeAuthHeader()
+  }).then(function (res) {
+    return res.json()
+  }).then(function (res) {
+    var xooml = res.items[0]
+    if (!xooml) {
+      throw new Error('XooML Not Found')
     }
 
-    self._fragmentURI = xoomlItem.id
-    self._readFile(callback)
+    return xooml
   })
 }
 
