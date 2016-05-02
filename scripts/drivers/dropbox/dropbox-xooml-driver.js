@@ -30,10 +30,10 @@ XooMLDriver.prototype._makeAuthHeader = function () {
 
 // Returns true if given path leads to a real thing!
 // Async
-XooMLDriver.prototype.checkExists = function (parentURI, title) {
+XooMLDriver.prototype.checkExists = function (parentURI) {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
@@ -68,7 +68,7 @@ XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
   var bytes = (new Buffer(xooml)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     method: 'PUT',
     body: xooml
