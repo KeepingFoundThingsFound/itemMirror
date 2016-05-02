@@ -1,79 +1,39 @@
-/**
- * An XooML utility interacts with an storage and is responsible for
- * reading and writing XooML fragments. This is an implementation of XooML utility
- * using Dropbox as the storage.
- *
- * This specific version is for google drive
- *
- * For ItemMirror core developers only. Enable protected to see.
- *
- * @class XooMLDriver
- * @constructor
- *
- * @param {Object} options Data to construct a new XooMLU with
- * @param {String} options.fragmentURI The URI of fragment
- * contains the XooML
- * @param {String} options.utilityURI URI of the utility
- * @param {Object} options.dropboxClient Authenticated dropbox client
- *
- * @protected
- */
+'use strict'
 
 // Allows allows us to use the fetch API for better requests in the browser and node
 require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 var XooMLConfig = require('../../xooml-config')
-  /**
-   * Constructs a XooMLDriver for reading/writing XooML fragment.
-   *
-   * @method XooMLDriver
-   *
-   * @param {Object} options A list of options for construction
-   * @param {Function} callback A function to call after completion
-   *
-   * @protected
-   */
+
+// Constants
+var GOOGLE_DRIVE_ENDPOINT = 'https://www.googleapis.com/drive/v2/files'
+var GOOGLE_DRIVE_CONTENT = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
+
+/**
+ * Constructs a XooMLDriver for reading/writing XooML fragment.
+ *
+ * @method XooMLDriver
+ *
+ * @param {Object} options A list of options for construction
+ * @param {string} options.authToken The authentication token for making
+ * requests
+ * @param {string} options.parentURI (Optional) The folder ID where the XooML will be
+ * read/written from. If not provided, root is assumed.
+ * @param {string} options.fragmentURI (Optinal) The file ID of the XooML File.
+ * This may or may not exist.
+ * @returns {XooMLDriver}
+ */
 function XooMLDriver (options, callback) {
-  var self = this
-
-  if (!options.clientInterface) {
-    throw new Error('Missing client interface in options!')
+  if (!options.authToken) {
+    throw new Error('Missing Authentication Token')
   }
+  this.authToken = options.authToken
+  this.parentURI = options.parentURI || 'root'
 
-    // The parent URI tells us what 'folder', the XooML should be put inside
-    // of. Root is a special URI for google drive, otherwise it should be an
-    // id
-  this._parentURI = options.associatedItem || 'root'
+  this.fragmentURI = options.fragmentURI ? options.fragmentURI : null
 
-    // Client Interface is whatever object that a given client hands back
-    // after the authorization step. We use it to make sending and recieving
-    // requests extremely simple.
-
-    // Note: This does assume that the client has already been authenticated
-    // If not it could lead to potential errors. gapi should be set to the
-    // clientInterface
-  this.clientInterface = options.clientInterface
-    // To avoid confusion, we should remove the above and any references to
-    // it. It makes the code way easier to read
-  this.gapi = this.clientInterface
-
-    // The fragmentURI is the id of the XooML file. It may or may not exist
-  this._fragmentURI = options.fragmentURI ? options.fragmentURI : null
-
-    // This comes from the usage of teh updated API, we have to jump through
-    // several hoops to geth the authentication token that we're looking for
-  var authResponse = this.clientInterface.auth2.getAuthInstance()
-      .currentUser.get()
-      .getAuthResponse()
-
-    // This is the authorized header, so we can easily make requests via ajax.
-    // If we get request errors, make sure that this header is correct, and
-    // doesn't constantly change
-  this._AUTH_HEADER = { Authorization: 'Bearer ' + authResponse.access_token }
-  this._DRIVE_FILE_API = 'https://www.googleapis.com/drive/v2/files/'
-
-  return callback(false, self)
+  return this
 }
 
   /**
