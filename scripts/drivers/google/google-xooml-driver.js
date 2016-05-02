@@ -5,6 +5,7 @@ require('es6-promise').polyfill()
 require('isomorphic-fetch')
 
 var writeFile = require('google-item-driver').writeFile
+var checkExists = require('google-item-driver').checkExists
 
 var reduce = require('lodash/reduce')
 var trimEnd = require('lodash/trimEnd')
@@ -98,11 +99,7 @@ XooMLDriver.prototype._searchXooML = function (folderID) {
     return res.json()
   }).then(function (res) {
     var xooml = res.items[0]
-    if (!xooml) {
-      throw new Error('XooML Not Found')
-    }
-
-    return xooml
+    return xooml // Returns undefined if there is no XooML
   })
 }
 
@@ -154,46 +151,23 @@ XooMLDriver.prototype.setXooMLFragment = function (xmlString) {
     : writeFile(this.parentURI, XooMLConfig.xooMLFragmentFileName, xmlString, this._makeAuthHeader)
 }
 
-  /**
-   * Check if the XooML fragment exists
-   * @method checkExists
-   * @param {Function} callback Function to be called when
-   * self function is finished with it's operation.
-   *  @param {String} callback.error Dropbox error if there is one
-   *  @param {Boolean} callback.result True if the fragment exists and
-   *  false otherwise
-   *
-   * @protected
-   */
-XooMLDriver.prototype.checkExists = function (callback) {
-  var self = this
-
-    // If we have the URI, first make a direct request for that
-  if (this._fragmentURI) {
-    // A simple get request will suffice
-    fetch(this._DRIVE_FILE_API + self._fragmentURI, {
-      headers: self._AUTH_HEADER
-    }).then(function () {
-      callback(false)
-    }).catch(function () {
-      callback('XooML file: ' + self._fragmentURI + ' not found')
-    })
-    // In this case, we do a search for XooML in the folder
-  } else {
-    var query = 'title = \'' + XooMLConfig.xooMLFragmentFileName + '\' and \'' + self._parentURI + '\' in parents'
-    var request = this.clientInterface.client.drive.files.list({
-      'maxResults': 1,
-      'q': query
-    })
-    request.execute(function (resp) {
-        // Simply check if there were any results
-      if (resp.items[0]) {
-        callback(false)
-      } else {
-        callback('XooML file not found in directory: ' + self._parentURI)
+/**
+ * Check if the XooML fragment exists
+ * @method checkExists
+ */
+XooMLDriver.prototype.checkExists = function () {
+  // If we have the URI, first make a direct request for that
+  return this.fragmentURI
+    ? checkExists(this.fragmentURI).then(function (exists) {
+      if (exists) {
+        // The given ID actually exists!
+        return true
       }
     })
-  }
+    // Otherwise do a search
+    : this._searchXooML(this.parentURI).then(function (xooml) {
+      return !!xooml
+    })
 }
 
-module.exports = {driver: XooMLDriver}
+module.exports = { driver: XooMLDriver }

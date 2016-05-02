@@ -228,16 +228,11 @@ ItemDriver.prototype.listItems = function (parentURI, callback) {
   })
 }
 
-/**
- * Check if the item exists at all
- * @method checkExists
- * @param {string} id The id of the given file
- * @returns {Promise(boolean)} Returns a promise that resolves with whether the file exists or not
- */
-ItemDriver.prototype.checkExists = function (id) {
+// High level checkExists so we don't copy code for xooml driver
+function checkExists (id, authHeader) {
   // Do a get request for a file, and see if the response is a 404
   return fetch(GOOGLE_DRIVE_ENDPOINT + '/' + id, {
-    headers: this._makeAuthHeader()
+    headers: authHeader
   }).then(function (res) {
     if (res.status === 404) {
       return false
@@ -250,7 +245,18 @@ ItemDriver.prototype.checkExists = function (id) {
   })
 }
 
+/**
+ * Check if the item exists at all
+ * @method checkExists
+ * @param {string} id The id of the given file
+ * @returns {Promise(boolean)} Returns a promise that resolves with whether the file exists or not
+ */
+ItemDriver.prototype.checkExists = function (id) {
+  return checkExists(id, this._makeAuthHeader())
+}
+
 module.exports = {
   driver: ItemDriver,
-  writeFile: writeFile
+  writeFile: writeFile,
+  checkExists: checkExists
 }
