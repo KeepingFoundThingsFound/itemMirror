@@ -159,10 +159,7 @@ XooMLDriver.prototype.checkExists = function () {
   // If we have the URI, first make a direct request for that
   return this.fragmentURI
     ? checkExists(this.fragmentURI).then(function (exists) {
-      if (exists) {
-        // The given ID actually exists!
-        return true
-      }
+      return exists
     })
     // Otherwise do a search
     : this._searchXooML(this.parentURI).then(function (xooml) {
