@@ -36,24 +36,31 @@ function XooMLDriver (options, callback) {
   return this
 }
 
-  /**
-   * Creates a request for a given fileID and executes the request
-   * @method _readFile
-   * @param  {Function} callback Function with the XML string response
-   * @param {String} id ID of the file you want to get download
-   */
-XooMLDriver.prototype._readFile = function (callback) {
-  var self = this
+// Helper function for creating a proper auth header
+XooMLDriver.prototype._makeAuthHeader = function () {
+  var headers = new Headers()
+  return headers.append('Authorization', 'Bearer' + this.authToken)
+}
 
+/**
+ * Creates a request for the fragment as it is addressed in the fragmentURI
+ * property
+ * @method _readFile
+ * @private
+ * @param {string} id File id to be read
+ * @returns {Promise(string)} Returns the text contents of the file
+ */
+XooMLDriver.prototype._readFile = function (id) {
   // alt=media option is required to initiate a download
-  fetch(self._DRIVE_FILE_API + self._fragmentURI + '?alt=media', {
-    headers: self._AUTH_HEADER
-  }).then(function (xml_text) {
-    // Note, if the authorization header is messed up, it will give us
-    // an error that tells us we need to sign in and have reached our
-    // limit.
-    callback(false, xml_text)
-    // Make sure we get text back, and NOT an XML document. We want a string
+  var uri = this.GOOGLE_DRIVE_ENDPOINT + '/' + id+ '?alt=media'
+  return fetch(uri, {
+    headers: this.makeAuthHeader()
+  }).then(function (res) {
+    if (res.status >= 400) {
+      throw new Error('Google Drive API Error. Recieved status code ' + res.status)
+    }
+
+    return res.text()
   })
 }
 
