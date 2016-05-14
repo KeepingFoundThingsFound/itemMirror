@@ -54,6 +54,10 @@ var Auth = require('./authentication')
  * @param {Object} callback.error Null if no error has occurred in executing
  * this function, else an contains an object with the error that occurred.
  * @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
+ *
+ * @property {ItemMirror | undefined} creator The itemMirror that created this
+ * current  itemMirror, if it has one. Note that this isn't the same as  asking
+ * for a 'parent,' since multiple itemMirrors can possibly link to the same one
  */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
@@ -94,7 +98,7 @@ function ItemMirror (options, callback) {
     self._xooMLDriver = null
     self._itemDriver = null
     self._syncDriver = null
-    self._creator = options.creator || null
+    self.creator = options.creator || null
     self._groupingItemURI = options.groupingItemURI
     self._newItemMirrorOptions = options
 
@@ -1017,17 +1021,6 @@ ItemMirror.prototype.refresh = function (callback) {
     self._fragment = new FragmentEditor({text: content})
     return callback(false)
   }
-}
-
-/**
- * @type Function
- * @method getCreator
- * @return {Object} The itemMirror that created this current  itemMirror, if it
- * has one. Note that this isn't the same as  asking for a 'parent,' since
- * multiple itemMirrors can possibly link to the same one
- */
-ItemMirror.prototype.getCreator = function () {
-  return this._creator
 }
 
 /**
