@@ -287,7 +287,7 @@ ItemMirror.prototype.setAssociationDisplayText = function (GUID, displayText) {
  * @return {string} The local item for the association with the given GUID.
  * @param {string} GUID GUID of the association to get.
  */
-ItemMirror.prototype.getAssociationLocalItem = function (GUID) {
+ItemMirror.prototype.associationLocalItem = function (GUID) {
   return this._fragment.associations[GUID].commonData.localItem
 }
 
