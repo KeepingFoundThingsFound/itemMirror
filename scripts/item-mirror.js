@@ -64,6 +64,12 @@ var Auth = require('./authentication')
  * metadata of a fragment. A URI might point to just about anything that can be
  * interpreted as a grouping item.  For example: a conventional file system
  * folder or a “tag as supported by any of several applications.
+ * @property {string} xoomlDriver The name of the driver being used for
+ * interacting with the XooML
+ * @property {string} itemDriver The name of the driver being used for
+ * interacting with the actual files or objects in the web
+ * @property {string} syncDriver the name of the driver being used for the
+ * syncing process
  */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
@@ -102,6 +108,9 @@ function ItemMirror (options, callback) {
   function assignFragmentProps () {
     self.schemaVersion = self._fragment.commonData.schemaVersion
     self.itemDescribed = self._fragment.commonData.itemDescribed
+    self.itemDriver = self._fragment.commonData.itemDriver
+    self.syncDriver = self._fragment.commonData.syncDriver
+    self.xoomlDriver = self._fragment.commonData.xoomlDriver
   }
 
   function regularConstruction () {
