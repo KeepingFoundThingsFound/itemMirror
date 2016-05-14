@@ -60,6 +60,10 @@ var Auth = require('./authentication')
  * for a 'parent,' since multiple itemMirrors can possibly link to the same one
  * @property {string} schemaVersion The version of the XooML schema associated with this
  * fragment
+ * @property {string} itemDescribed URI pointing to item described by the
+ * metadata of a fragment. A URI might point to just about anything that can be
+ * interpreted as a grouping item.  For example: a conventional file system
+ * folder or a “tag as supported by any of several applications.
  */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
@@ -180,6 +184,7 @@ function ItemMirror (options, callback) {
 
     // Properties that require the fragment
     self.schemaVersion = self._fragment.commonData.schemaVersion
+    self.itemDescribed = self._fragment.commonData.itemDescribed
 
     self._syncDriver = new SyncDriver(self)
 
@@ -234,21 +239,6 @@ ItemMirror.prototype.setDisplayName = function (name) {
  */
 ItemMirror.prototype.getSchemaLocation = function () {
   return this._fragment.commonData.schemaLocation
-}
-
-/**
- * Returns URI pointing to item described by the metadata of a fragment. A URI
- * might point to just about anything that can be interpreted as a grouping
- * item. For example: a conventional file system folder or a “tag as supported
- * by any of several applications.
- *
- * @type Function
- * @method getURIforItemDescribed
- * @return {string} A URI pointing to item described by the metadata
- * of a fragment if it exists, else returns null.
- */
-ItemMirror.prototype.getURIforItemDescribed = function () {
-  return this._fragment.commonData.itemDescribed
 }
 
 /**
