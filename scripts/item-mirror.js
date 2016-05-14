@@ -68,8 +68,9 @@ var Auth = require('./authentication')
  * interacting with the XooML
  * @property {string} itemDriver The name of the driver being used for
  * interacting with the actual files or objects in the web
- * @property {string} syncDriver the name of the driver being used for the
+ * @property {string} syncDriver The name of the driver being used for the
  * syncing process
+ * @property {string} schemaLocation The location of the schema for the XooML
  */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
@@ -111,6 +112,7 @@ function ItemMirror (options, callback) {
     self.itemDriver = self._fragment.commonData.itemDriver
     self.syncDriver = self._fragment.commonData.syncDriver
     self.xoomlDriver = self._fragment.commonData.xoomlDriver
+    self.schemaLocation = self._fragment.commonData.schemaLocation
   }
 
   function regularConstruction () {
@@ -245,15 +247,6 @@ ItemMirror.prototype.getDisplayName = function () {
  */
 ItemMirror.prototype.setDisplayName = function (name) {
   this._fragment.commonData.displayName = name
-}
-
-/**
- * @type Function
- * @method getSchemaLocation
- * @return {string} XooML schema location.
- */
-ItemMirror.prototype.getSchemaLocation = function () {
-  return this._fragment.commonData.schemaLocation
 }
 
 /**
