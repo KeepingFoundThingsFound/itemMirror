@@ -99,7 +99,7 @@ function ItemMirror (options, callback) {
   }
 
   // Helper function for assigning all the properties that require the fragment
-  function assignFragmentProps() {
+  function assignFragmentProps () {
     self.schemaVersion = self._fragment.commonData.schemaVersion
     self.itemDescribed = self._fragment.commonData.itemDescribed
   }
@@ -744,7 +744,7 @@ ItemMirror.prototype.upgradeAssociation = function () {
 /**
  * Renames the local item for the association with the given GUID.
  *
- * @method renameAssocaitionLocalItem
+ * @method renameAssociationLocalItem
  * @param {string} GUID GUID of the association.
  * @param {string} String String Name you want to rename the file to (including
  * file extension)
@@ -754,10 +754,10 @@ ItemMirror.prototype.upgradeAssociation = function () {
  * @param {string} callback.GUID The GUID of the association that was updated.
  */
 ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
-    // This method needs a redesign, and can't be properly implemented the way
-    // it is now. Instead, this needs to pass information to the acual item
-    // driver and that needs to implement an agnostic new name format. This
-    // path stuff is specific to dropbox and doesn't work
+  // This method needs a redesign, and can't be properly implemented the way
+  // it is now. Instead, this needs to pass information to the acual item
+  // driver and that needs to implement an agnostic new name format. This
+  // path stuff is specific to dropbox and doesn't work
   var self = this
   XooMLUtil.checkCallback(callback)
   if (!GUID) {
@@ -772,16 +772,12 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
   function postSave (error) {
     if (error) return callback(error)
 
-      // This stuff needs to be replaced with a method that works for all stores
-          // oldPath = PathDriver.joinPath(self._groupingItemURI, localItem),
-          // newPath = PathDriver.joinPath(self._groupingItemURI, newName);
-
     self._itemDriver.rename(newName, postMove)
   }
 
   function postMove (error) {
     if (error) return callback(error)
-      // This also needs to be more agnostic
+    // This also needs to be more agnostic
     self._fragment.associations[GUID].commonData.localItem = newName
 
     self._unsafeWrite(postWrite)
