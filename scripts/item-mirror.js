@@ -93,8 +93,15 @@ function ItemMirror (options, callback) {
       '</fragment>'].join('\n')
 
     self._fragment = new FragmentEditor({text: xml})
-    self.schemaVersion = self._fragment.commonData.schemaVersion
+    assignFragmentProps()
+
     return callback(false, self)
+  }
+
+  // Helper function for assigning all the properties that require the fragment
+  function assignFragmentProps() {
+    self.schemaVersion = self._fragment.commonData.schemaVersion
+    self.itemDescribed = self._fragment.commonData.itemDescribed
   }
 
   function regularConstruction () {
@@ -183,8 +190,7 @@ function ItemMirror (options, callback) {
     })
 
     // Properties that require the fragment
-    self.schemaVersion = self._fragment.commonData.schemaVersion
-    self.itemDescribed = self._fragment.commonData.itemDescribed
+    assignFragmentProps()
 
     self._syncDriver = new SyncDriver(self)
 
