@@ -253,10 +253,10 @@ ItemMirror.prototype.getSchemaLocation = function () {
  * opened.
  *
  * @type Function
- * @method getPublicURL
+ * @method mediaURL
  * @return {string}
  */
-ItemMirror.prototype.getPublicURL = function (GUID) {
+ItemMirror.prototype.mediaURL = function (GUID) {
   return this._fragment.associations[GUID].commonData.publicURL
 }
 
