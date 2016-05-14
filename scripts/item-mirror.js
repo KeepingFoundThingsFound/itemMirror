@@ -58,6 +58,8 @@ var Auth = require('./authentication')
  * @property {ItemMirror | undefined} creator The itemMirror that created this
  * current  itemMirror, if it has one. Note that this isn't the same as  asking
  * for a 'parent,' since multiple itemMirrors can possibly link to the same one
+ * @property {string} schemaVersion The version of the XooML schema associated with this
+ * fragment
  */
 function ItemMirror (options, callback) {
   XooMLUtil.checkCallback(callback)
@@ -87,6 +89,7 @@ function ItemMirror (options, callback) {
       '</fragment>'].join('\n')
 
     self._fragment = new FragmentEditor({text: xml})
+    self.schemaVersion = self._fragment.commonData.schemaVersion
     return callback(false, self)
   }
 
@@ -98,9 +101,11 @@ function ItemMirror (options, callback) {
     self._xooMLDriver = null
     self._itemDriver = null
     self._syncDriver = null
-    self.creator = options.creator || null
     self._groupingItemURI = options.groupingItemURI
     self._newItemMirrorOptions = options
+
+    // Properties
+    self.creator = options.creator
 
       // displayName for the fragment
       // It may make more sense to set this later once we have the drivers loaded
@@ -173,6 +178,9 @@ function ItemMirror (options, callback) {
       associations: associations
     })
 
+    // Properties that require the fragment
+    self.schemaVersion = self._fragment.commonData.schemaVersion
+
     self._syncDriver = new SyncDriver(self)
 
       // Because the fragment is being built from scratch, it's safe
@@ -217,15 +225,6 @@ ItemMirror.prototype.getDisplayName = function () {
  */
 ItemMirror.prototype.setDisplayName = function (name) {
   this._fragment.commonData.displayName = name
-}
-
-/**
- * @type Function
- * @method getSchemaVersion
- * @return {string} XooML schema version.
- */
-ItemMirror.prototype.getSchemaVersion = function () {
-  return this._fragment.commonData.schemaVersion
 }
 
 /**
