@@ -10,6 +10,10 @@ var AssociationEditor = require('./association-editor')
 // Loads private helper for authentication
 var Auth = require('./authentication')
 
+// Allows allows us to use the fetch API for better requests in the browser and node
+require('es6-promise').polyfill()
+require('isomorphic-fetch')
+
 /**
  * ItemMirror represents an Item according to the XooML2 specification.
  *
@@ -702,13 +706,16 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
     } else {
       delete self._fragment.associations[GUID]
 
-        // Now do an unsafe_write to commit the XML. It's okay because
-        // save means that everything is synced, and this operation
-        // was extremely quick
-      return self._unsafeWrite(function (error) {
-        if (error) return callback(error)
-        return callback(false)
-      })
+      // Now do a forceWrite to commit the XML. It's okay because
+      // save means that everything is synced, and this operation
+      // was extremely quick
+      return self._forceWrite()
+        .then(function () {
+          return callback(false)
+        })
+        .catch(function (e) {
+          callback(e)
+        })
     }
   }
 
@@ -782,13 +789,13 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
     // This also needs to be more agnostic
     self._fragment.associations[GUID].commonData.localItem = newName
 
-    self._unsafeWrite(postWrite)
-  }
-
-  function postWrite (error) {
-    if (error) return callback(error)
-
-    self.refresh(postRefresh)
+    self._forceWrite()
+      .then(function () {
+        self.refresh(postRefresh)
+      })
+      .catch(function (e) {
+        return callback(e)
+      })
   }
 
   function postRefresh (error) {
@@ -802,20 +809,17 @@ ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callb
  * should __never__ be called be an application.
  *
  * @private
- * @method _unsafeWrite
+ * @method _forceWrite
  * @param {Function} callback
  * @param {Error} calback.error
+ * @returns {Promise}
  */
-ItemMirror.prototype._unsafeWrite = function (callback) {
+ItemMirror.prototype._forceWrite = function (callback) {
   var self = this
 
-    // Note (12/8/2015) This was never used, but seems like it has purpose. May need to investigate
-    // var tmpFragment = new FragmentEditor({text: content});
+  // Update the ID so that we inform other apps of the change
   self._fragment.updateID()
-  return self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function (error) {
-    if (error) return callback(error)
-    return callback(false)
-  })
+  return self._xooMLDriver.setXooMLFragment(self._fragment.toString())
 }
 
 /**
@@ -1033,11 +1037,13 @@ ItemMirror.prototype.save = function (callback) {
   function postSync (error) {
     if (error) return callback(error)
 
-    return self._unsafeWrite(postWrite)
-  }
-
-  function postWrite (error) {
-    return callback(error)
+    return self._forceWrite
+      .then(function () {
+        callback(false)
+      })
+      .catch(function (e) {
+        callback(e)
+      })
   }
 }
 
