@@ -1000,24 +1000,16 @@ ItemMirror.prototype._sync = function () {
 ItemMirror.prototype.refresh = function (callback) {
   var self = this
 
-  self._sync(function (error) {
-      // This error means that sync changed the fragment
-      // We then will reload the fragment based on the new XooML
-    if (error === XooMLExceptions.itemMirrorNotCurrent) {
-      self._xooMLDriver.getXooMLFragment(resetFragment)
-    } else if (error) {
-      callback(error)
-    } else {
-      self._xooMLDriver.getXooMLFragment(resetFragment)
-    }
-  })
-
-  function resetFragment (error, content) {
-    if (error) return callback(error)
-
-    self._fragment = new FragmentEditor({text: content})
-    return callback(false)
-  }
+  this._sync().then(callback)
+    .catch(function (e) {
+      // If we have a sync error, we basically want to completely recreate the
+      // itemMirror with the newer XooML file. This is the safest way to update
+      // the data and ensure all the properties are set
+      self = new ItemMirror({
+        // TODO: Options for constructing itemMirror
+      })
+      callback(undefined, self)
+    })
 }
 
 /**
@@ -1032,19 +1024,13 @@ ItemMirror.prototype.refresh = function (callback) {
 ItemMirror.prototype.save = function (callback) {
   var self = this
 
-  self._sync(postSync)
-
-  function postSync (error) {
-    if (error) return callback(error)
-
-    return self._forceWrite
-      .then(function () {
-        callback(false)
-      })
-      .catch(function (e) {
-        callback(e)
-      })
-  }
+  this._sync()
+    .then(function () {
+      return callback()
+    })
+    .catch(function (e) {
+      return callback(e)
+    })
 }
 
 /**
