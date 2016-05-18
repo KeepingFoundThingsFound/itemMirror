@@ -975,19 +975,19 @@ ItemMirror.prototype.setAssociationNamespaceData = function (data, GUID, uri) {
 /**
  * Uses the specified ItemDriver and SyncDriver to synchronize the local
  * ItemMirror object changes. This is an implmentation of Synchronization
- * Driver which modifies the XooML Fragment according to the real structure *
+ * Driver which modifies the XooML Fragment according to the real structure
  * under the item described.
  *
  * @method sync
- * @param {Function} callback Function to execute once finished.
- * @param {Object}   callback.error Null if no error has occurred in executing
- * this function, else an contains an object with the error that occurred.
+ * @returns {Promise} Returns a promise that resolves if everything syncs and
+ * saves properly
  * @private
  */
-ItemMirror.prototype._sync = function (callback) {
+ItemMirror.prototype._sync = function () {
   var self = this
 
-  self._syncDriver.sync(callback)
+  return self._syncDriver.sync()
+    .then(this._forceWrite) // Actually write the file since it's synced
 }
 
 /**
