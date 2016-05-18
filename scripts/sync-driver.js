@@ -35,8 +35,8 @@ function SyncDriver (itemMirror) {
    */
 function _localItemCompare (a, b) {
   if (a.commonData.localItem > b.commonData.localItem) return 1
-    else if (a.commonData.localItem < b.commonData.localItem) return -1
-    else return 0
+  else if (a.commonData.localItem < b.commonData.localItem) return -1
+  else return 0
 }
 
   /**
@@ -72,7 +72,7 @@ SyncDriver.prototype.sync = function (callback) {
       var fragmentString = self._itemMirror._fragment.toString()
       return self._xooMLDriver.setXooMLFragment(fragmentString, function (error) {
         if (error) callback(error)
-          else callback(false)
+        else callback(false)
       })
     } else if (error) {
       return callback(error)
