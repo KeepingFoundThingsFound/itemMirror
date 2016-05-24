@@ -28,13 +28,13 @@ var GOOGLE_DRIVE_CONTENT = 'https://www.googleapis.com/upload/drive/v2/files?upl
  * This may or may not exist.
  * @returns {XooMLDriver}
  */
-function XooMLDriver (options, callback) {
+function XooMLDriver (options) {
   if (!options.authToken) {
     throw new Error('Missing Authentication Token')
   }
   this.authToken = options.authToken
   this.parentURI = options.parentURI || 'root'
-
+  this.name = 'google'
   this.fragmentURI = options.fragmentURI ? options.fragmentURI : null
 
   return this

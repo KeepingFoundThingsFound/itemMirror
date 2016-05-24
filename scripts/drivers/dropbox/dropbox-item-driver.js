@@ -37,6 +37,7 @@ function ItemDriver (options) {
 
   this.parentURI = options.parentURI
   this.authToken = options.authToken
+  this.name = 'dropbox'
   return this
 }
 

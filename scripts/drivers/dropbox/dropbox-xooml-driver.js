@@ -23,6 +23,7 @@ function XooMLDriver (options) {
   this.fragmentURI = options.fragmentURI || '/XooML2.xml'
 
   this.authToken = options.authToken
+  this.name = 'dropbox'
   return this
 }
 
