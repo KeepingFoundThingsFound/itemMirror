@@ -43,13 +43,10 @@ require('isomorphic-fetch')
  * 'dropbox')
  * @param {Object} options.itemDriver.options options to pass along to the
  * driver
- * @param {string} options.XooMLDriver.name Name of the driver ('google' or
+ * @param {string} options.xooMLDriver.name Name of the driver ('google' or
  * 'dropbox')
- * @param {Object} options.XooMLDriver.options Options to pass along to the
+ * @param {Object} options.xooMLDriver.options Options to pass along to the
  * driver
- * @param {string} options.syncDriver Data for the SyncDriver to construct
- * ItemMirror with. Required Case 2 & 3. Can contain any amount of optional
- * key/value pairs for the various Driver implementations.
  * @param {ItemMirror} options.creator If being created from another
  * itemMirror, specifies that itemMirror which it comes from.
  * @param {Function(e, mirror)} callback Function to execute once finished.
@@ -914,25 +911,34 @@ ItemMirror.prototype._sync = function () {
 }
 
 /**
- * Reloads the XooML Fragment
+ * Reloads the XooML Fragment. Doesn't sync, and discards any information that's
+ * ucrrently in the itemMirror ojbect. After a refresh the itemMirror object
+ * will be guarunteed to be up to date though
  * @method refresh
  * @param {Function} callback Function to execute once finished.
  * @param {Object} callback.error Null if no error has occurred in executing
  * this function, else an contains an object with the error that occurred.
  */
 ItemMirror.prototype.refresh = function (callback) {
-  var self = this
-
-  this._sync().then(callback)
-    .catch(function (e) {
-      // If we have a sync error, we basically want to completely recreate the
-      // itemMirror with the newer XooML file. This is the safest way to update
-      // the data and ensure all the properties are set
-      self = new ItemMirror({
-        // TODO: Options for constructing itemMirror
-      })
-      callback(undefined, self)
-    })
+  // TODO: Store the options upon initial creation to avoid duplication
+  return new ItemMirror({
+    itemDriver: {
+      name: this.itemDriver,
+      options: {
+        authToken: this._itemDriver.authToken,
+        parentURI: this._itemDriver.parentURI
+      }
+    },
+    xooMLDriver: {
+      name: this.xooMLDriver,
+      options: {
+        authToken: this._xooMLDriver.authToken,
+        parentURI: this._xooMLDriver.parentURI,
+        fragmentURI: this._xooMLDriver.fragmentURI
+      }
+    },
+    creator: this.creator
+  }, callback)
 }
 
 /**
