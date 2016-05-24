@@ -990,12 +990,8 @@ ItemMirror.prototype.refresh = function (callback) {
  * @param {Error} callback.error Returns false if everything went ok, otherwise returns the error
  */
 ItemMirror.prototype.save = function (callback) {
-  var self = this
-
   this._sync()
-    .then(function () {
-      return callback()
-    })
+    .then(callback)
     .catch(function (e) {
       return callback(e)
     })
