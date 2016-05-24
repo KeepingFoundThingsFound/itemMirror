@@ -115,19 +115,13 @@ function ItemMirror (options, callback) {
     self.itemDescribed = self._fragment.commonData.itemDescribed
     self.itemDriver = self._fragment.commonData.itemDriver
     self.syncDriver = self._fragment.commonData.syncDriver
-    self.xoomlDriver = self._fragment.commonData.xoomlDriver
+    self.xooMLDriver = self._fragment.commonData.xoomlDriver
     self.schemaLocation = self._fragment.commonData.schemaLocation
   }
 
   function regularConstruction () {
-    this._xooMLDriverClient = options.xooMLDriver.clientInterface
-    this._itemDriverClient = options.xooMLDriver.clientInterface
-
-      // private variables
-    self._xooMLDriver = null
-    self._itemDriver = null
-    self._syncDriver = null
-    self._groupingItemURI = options.groupingItemURI
+    // private variables
+    self._groupingItemURI = options.groupingItemURI // TODO: Figure what this is, how it's used, and how to remove it
     self._newItemMirrorOptions = options
 
     // Properties
@@ -141,7 +135,9 @@ function ItemMirror (options, callback) {
     self.fragmentURI = options.fragmentURI || null
     options.xooMLDriver.fragmentURI = xooMLFragmentURI
 
-      // First load the XooML Driver
+    // First load the XooML Driver
+
+    self._xooMLDriver = ItemMirror.drivers.xooml[options.xooml]
     new XooMLDriver(options.xooMLDriver, loadXooMLDriver)
   }
 
@@ -187,7 +183,7 @@ function ItemMirror (options, callback) {
   function createFromItemDriver (error, driver) {
     self._itemDriver = driver
 
-    self._itemDriver.listItems(self._groupingItemURI)
+    self._itemDriver.listItems()
       .then(buildFragment)
       .catch(function (e) { throw e })
   }
@@ -228,6 +224,14 @@ ItemMirror.drivers = {
   xooml: {},
   item: {}
 }
+
+// Loads and registers XooML drivers
+ItemMirror.drivers.xooml.google = require('./drivers/google/google-xooml-driver').driver
+ItemMirror.drivers.xooml.dropbox = require('./drivers/dropbox/dropbox-xooml-driver').driver
+
+// Loads and registers item drivers
+ItemMirror.drivers.item.google = require('./drivers/google/google-item-driver').driver
+ItemMirror.drivers.item.dropbox = require('./drivers/dropbox/dropbox-item-driver').driver
 
 // Loads and registers auth drivers
 ItemMirror.drivers.auth.google = require('./drivers/google/google-auth-driver')
@@ -719,7 +723,7 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
   }
 
     // Now do a refresh since actual files were removed.
-  function postDelete (error) {
+  function postDelete () {
     if (error) return callback(error)
 
     return self.refresh(function (error) {
