@@ -2,8 +2,6 @@
 
 var XooMLExceptions = require('./xooml-exceptions')
 var XooMLUtil = require('./xooml-util')
-var XooMLDriver = require('./drivers/google/google-xooml-driver')
-var ItemDriver = require('./drivers/google/google-item-driver')
 var SyncDriver = require('./sync-driver')
 var FragmentEditor = require('./fragment-editor')
 var AssociationEditor = require('./association-editor')
@@ -41,21 +39,21 @@ require('isomorphic-fetch')
  * construct ItemMirror with. Required for cases 2 & 3. Can
  * contain any amount of optional key/value pairs for the
  * various Driver implementations.
- * @param {string} options.itemDriver.driverURI URI of the driver.
- * @param {string} options.xooMLDriver Data for the XooMLDriver to construct
- * ItemMirror with. Required for all cases. Can contain any amount of optional
- * key/value pairs for the various Driver implementations.
- * @param {string} options.xooMLDriver.driverURI URI of the driver.
+ * @param {string} options.itemDriver.name Name of the driver ('google' or
+ * 'dropbox')
+ * @param {Object} options.itemDriver.options options to pass along to the
+ * driver
+ * @param {string} options.XooMLDriver.name Name of the driver ('google' or
+ * 'dropbox')
+ * @param {Object} options.XooMLDriver.options Options to pass along to the
+ * driver
  * @param {string} options.syncDriver Data for the SyncDriver to construct
  * ItemMirror with. Required Case 2 & 3. Can contain any amount of optional
  * key/value pairs for the various Driver implementations.
- * @param {string} options.syncDriver.driverURI URI of the driver.
- * @param {Boolean} options.readIfExists True if ItemMirror should create an
- * ItemMirror if it does not exist, else false. Required for Case 2 & 3.
  * @param {ItemMirror} options.creator If being created from another
  * itemMirror, specifies that itemMirror which it comes from.
- * @param {Function} callback Function to execute once finished.
- * @param {Object} callback.error Null if no error has occurred in executing
+ * @param {Function(e, mirror)} callback Function to execute once finished.
+ * @param {Error} callback.error Null if no error has occurred in executing
  * this function, else an contains an object with the error that occurred.
  * @param {ItemMirror} callback.itemMirror Newly constructed ItemMirror
  *
@@ -136,53 +134,35 @@ function ItemMirror (options, callback) {
     options.xooMLDriver.fragmentURI = xooMLFragmentURI
 
     // First load the XooML Driver
-
-    self._xooMLDriver = ItemMirror.drivers.xooml[options.xooml]
-    new XooMLDriver(options.xooMLDriver, loadXooMLDriver)
-  }
-
-  function loadXooMLDriver (error, driver) {
-    if (error) return callback(error)
-
-    self._xooMLDriver = driver // actually sets the XooMLDriver
-
-    self._xooMLDriver.getXooMLFragment(processXooML)
-  }
-
-  function processXooML (error, fragmentString) {
-      // Case 2: Since the fragment doesn't exist, we need
-      // to construct it by using the itemDriver
-    if (error === 'XooML Not Found') {
-      new ItemDriver(options.itemDriver, createFromItemDriver)
-    } else if (error) {
-      return callback(error)
-    } else {
-      // Case 1: It already exists, and so all of the information
-      // can be constructed from the saved fragment
-      createFromXML(fragmentString)
-    }
+    var XooMLDriver = ItemMirror.drivers.xooml[options.xooMLDriver.name]
+    self._xooMLDriver = new XooMLDriver(options.xooMLDriver.options)
+    return self._xooMLDriver.checkExists()
+      .then(function (exists) {
+        if (exists) {
+          // handle case 1
+          return self._xoomlDriver.getXooMLFragment()
+            .then(createFromXML)
+        }
+        // handle case 2
+        var ItemDriver = ItemMirror.drivers.item[options.itemDriver.name]
+        self._itemDriver = ItemDriver(options.itemDriver.options)
+        return createFromItemDriver()
+      })
   }
 
   function createFromXML (fragmentString) {
     self._fragment = new FragmentEditor({text: fragmentString})
 
-    new ItemDriver(options.itemDriver, function (error, driver) {
-      if (error) return callback(error)
-      self._itemDriver = driver
+    self._syncDriver = new SyncDriver(self)
 
-      self._syncDriver = new SyncDriver(self)
-
-        // Do a refresh in case something has been added or deleted in
-        // the directory since the last write
-      self.refresh(function () {
-        return callback(false, self)
-      })
+    // Do a refresh in case something has been added or deleted in
+    // the directory since the last write
+    self.refresh(function () {
+      return callback(false, self)
     })
   }
 
-  function createFromItemDriver (error, driver) {
-    self._itemDriver = driver
-
+  function createFromItemDriver () {
     self._itemDriver.listItems()
       .then(buildFragment)
       .catch(function (e) { throw e })
