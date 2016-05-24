@@ -37,7 +37,7 @@ XooMLDriver.prototype._makeAuthHeader = function () {
 XooMLDriver.prototype.checkExists = function () {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + this.fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
@@ -53,7 +53,7 @@ XooMLDriver.prototype.checkExists = function () {
 XooMLDriver.prototype.getXooMLFragment = function () {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + this.fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers
   }).then(function (res) {
     if (res.status >= 400) {
@@ -72,7 +72,7 @@ XooMLDriver.prototype.setXooMLFragment = function (xooml) {
   var bytes = (new Buffer(xooml)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + this.fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     method: 'PUT',
     body: xooml
