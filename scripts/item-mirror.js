@@ -410,47 +410,31 @@ ItemMirror.prototype.setFragmentNamespaceData = function (data, uri) {
  * @param {string} GUID GUID of the association to create the ItemMirror from
  */
 ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID, callback) {
-  // Handle Special cases for the unique stores:
   var self = this
-  var isGrouping
-  var xooMLOptions
-  var itemOptions
-  var syncOptions
-  var uri
-
-  var association = self.getAssociationAssociatedItem(GUID)
-
+  // Handle Special cases for the unique stores:
   // Dropbox root construction
+  var association = this.getAssociationAssociatedItem(GUID)
+  var token = ItemMirror._getToken(this.xooMLDriver)
   if (association === 'dropbox') {
-    var dropboxXooMLUtility = {
-      fragmentURI: '/XooML2.xml',
-    }
-    var dropboxItemUtility = {
-      driverURI: 'DropboxItemUtility',
-      dropboxClient: dropboxClient
-    }
-    var mirrorSyncUtility = {
-      utilityURI: 'MirrorSyncUtility'
-    }
-    var token = ItemMirror._getToken('dropbox')
-    var options = {
+    token = ItemMirror._getToken('dropbox')
+    var dropboxOptions = {
       groupingItemURI: '/',
       xooMLDriver: {
         name: 'dropbox',
-        options: { authToken: token, fragmentURI: '/XooML2.xml' }
+        options: { authToken: token }
       },
       itemDriver: {
         name: 'dropbox',
-        options: { authToken:token, parentURI: '/' }
+        options: { authToken: token, parentURI: '/' }
       }
     }
-    return new ItemMirror(options, callback)
+    return new ItemMirror(dropboxOptions, callback)
   }
 
   // Google root Construction
   if (association === 'google') {
-    var token = ItemMirror._getToken('google')
-    options = {
+    token = ItemMirror._getToken('google')
+    var googleOptions = {
       groupingItemURI: 'root',
       xooMLDriver: {
         name: 'google',
@@ -458,55 +442,37 @@ ItemMirror.prototype.createItemMirrorForAssociatedGroupingItem = function (GUID,
       },
       itemDriver: {
         name: 'google',
-        options: { authToken: token, parentURI: 'root'}
+        options: { authToken: token, parentURI: 'root' }
       }
     }
-    return new ItemMirror(options, callback)
+    return new ItemMirror(googleOptions, callback)
   }
 
-  itemOptions = {
-    driverURI: 'GoogleItemUtility',
-    clientInterface: this._itemDriverClient,
-      // Note that this needs to be changed, we want to point to the grouping item's id
-    associatedItem: self.getAssociationAssociatedItem(GUID)
-  }
-  xooMLOptions = {
-    fragmentURI: uri,
-    driverURI: 'GoogleXooMLUtility',
-    clientInterface: this._xooMLDriverClient,
-    associatedItem: self.getAssociationAssociatedItem(GUID)
-  }
-  syncOptions = {
-    utilityURI: 'SyncUtility'
-  }
-
-  isGrouping = self.isAssociationAssociatedItemGrouping(GUID)
-  if (!isGrouping) {
+  if (!self.isAssociationAssociatedItemGrouping(GUID)) {
       // Need to standardize this error
     return callback('Association not grouping, cannot continue')
   }
 
-  var token = ItemMirror._getToken(this.xooMLDriver)
-
   var options = {
     xooMLDriver: {
       name: this.xooMLDriver,
-      options: { authToken: token, parentURI }
-    } 
+      options: {
+        authToken: token,
+        // Provides a URI specific to the driver!
+        parentURI: this.getAssociationAssociatedItem(GUID)
+      }
+    },
+    itemDriver: {
+      name: this.itemDriver,
+      options: {
+        authToken: token,
+        parentURI: this.getAssociationAssociatedItem(GUID)
+      }
+    },
+    creator: self
   }
 
-  // TODO
-  new ItemMirror(
-      {groupingItemURI: self.getAssociationAssociatedItem(GUID),
-       xooMLDriver: xooMLOptions,
-       itemDriver: itemOptions,
-       syncDriver: syncOptions,
-       creator: self
-      },
-      function (error, itemMirror) {
-        return callback(error, itemMirror)
-      }
-    )
+  return new ItemMirror(options, callback)
 }
 
 /**

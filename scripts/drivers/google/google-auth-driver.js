@@ -34,11 +34,11 @@ function extractToken (hash) {
  * user (by clicking on it).
  */
 function createURI (id) {
-  var redirect_uri = location.origin
+  var redirectUri = location.origin
   var endpoint = 'https://accounts.google.com/o/oauth2/v2/auth?'
 
   return endpoint + 'scope=email' + '&' +
-    'redirect_uri=' + encodeURIComponent(redirect_uri) + '&' +
+    'redirect_uri=' + encodeURIComponent(redirectUri) + '&' +
     'response_type=token&' +
     'client_id=' + encodeURIComponent(id) + '&' +
     // Because we can't rely on the path, we use the state param to store the service

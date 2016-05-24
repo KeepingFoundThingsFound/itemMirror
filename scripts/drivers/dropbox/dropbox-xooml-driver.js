@@ -20,7 +20,10 @@ function XooMLDriver (options) {
     throw new Error('Missing Authentication Token')
   }
 
-  this.fragmentURI = options.fragmentURI || '/XooML2.xml'
+  this.parentURI = options.parentURI
+  this.fragmentURI = options.fragmentURI
+    ? options.parentURI + 'XooML2.xml'
+    : '/XooML2.xml' // Assume root if nothing is provided
 
   this.authToken = options.authToken
   this.name = 'dropbox'

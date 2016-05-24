@@ -134,7 +134,7 @@ function writeFile (parentURI, title, contents, authHeader) {
 
   var boundary = '-------314159265358979323846'
   var delimiter = '\r\n--' + boundary + '\r\n'
-  var close_delim = '\r\n--' + boundary + '--'
+  var closeDelim = '\r\n--' + boundary + '--'
 
   var multipartRequestBody =
     delimiter +
@@ -145,7 +145,7 @@ function writeFile (parentURI, title, contents, authHeader) {
     'Content-Transfer-Encoding: base64\r\n' +
     '\r\n' +
     btoa(contents) +
-    close_delim
+    closeDelim
 
   authHeader.append('Content-Type', 'multipart/related; boundary="' + boundary + '"')
   authHeader.append('Content-Length', (new Buffer(multipartRequestBody)).length)
