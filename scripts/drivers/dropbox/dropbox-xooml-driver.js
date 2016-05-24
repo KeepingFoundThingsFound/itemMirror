@@ -20,6 +20,8 @@ function XooMLDriver (options) {
     throw new Error('Missing Authentication Token')
   }
 
+  this.fragmentURI = options.fragmentURI || '/XooML2.xml'
+
   this.authToken = options.authToken
   return this
 }
@@ -32,10 +34,10 @@ XooMLDriver.prototype._makeAuthHeader = function () {
 
 // Returns true if given path leads to a real thing!
 // Async
-XooMLDriver.prototype.checkExists = function (parentURI) {
+XooMLDriver.prototype.checkExists = function () {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
@@ -48,10 +50,10 @@ XooMLDriver.prototype.checkExists = function (parentURI) {
 }
 
 // Fetches the contents of a XooMLFragment as a string, if it exists
-XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
+XooMLDriver.prototype.getXooMLFragment = function () {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers
   }).then(function (res) {
     if (res.status >= 400) {
@@ -62,7 +64,7 @@ XooMLDriver.prototype.getXooMLFragment = function (parentURI) {
 }
 
 // Saves the contents of a XooMLFragment to the given directory
-XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
+XooMLDriver.prototype.setXooMLFragment = function (xooml) {
   var headers = this._makeAuthHeader()
 
   // Content length is required in bytes. We borrow node's buffers to
@@ -70,7 +72,7 @@ XooMLDriver.prototype.setXooMLFragment = function (parentURI, xooml) {
   var bytes = (new Buffer(xooml)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + fragmentURI + '/' + XooMLConfig.xooMLFragmentFileName), {
     headers: headers,
     method: 'PUT',
     body: xooml
