@@ -211,13 +211,11 @@ function ItemMirror (options, callback) {
 
       // Because the fragment is being built from scratch, it's safe
       // to save it directly via the driver.
-    self._xooMLDriver.setXooMLFragment(self._fragment.toString(), function (error) {
-      if (error) {
-        throw new Error(error)
-      }
-    })
-
-    return callback(false, self)
+    return self._xooMLDriver.setXooMLFragment(self._fragment.toString())
+      .then(function () {
+        callback(false, self)
+      })
+      .catch(function (e) { throw e })
   }
 }
 
