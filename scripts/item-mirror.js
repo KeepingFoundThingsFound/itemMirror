@@ -187,12 +187,12 @@ function ItemMirror (options, callback) {
   function createFromItemDriver (error, driver) {
     self._itemDriver = driver
 
-    self._itemDriver.listItems(self._groupingItemURI, buildFragment)
+    self._itemDriver.listItems(self._groupingItemURI)
+      .then(buildFragment)
+      .catch(function (e) { throw e })
   }
 
-  function buildFragment (error, associations) {
-    if (error) return callback(error)
-
+  function buildFragment (associations) {
     self._fragment = new FragmentEditor({
       commonData: {
         itemDescribed: self._groupingItemURI,
@@ -585,14 +585,11 @@ ItemMirror.prototype.createAssociation = function (options, callback) {
         associatedItem: options.associatedItem
       }
     })
-
-      // Now we use the itemDriver to actually create the folder
-      // NOTE: untested
-    self._itemDriver.createGroupingItem(options.displayText, function (error) {
-      if (error) return callback(error)
-
-      return saveOutFragment(association)
-    })
+    self._itemDriver.createGroupingItem(options.displayText)
+      .then(function () {
+        return saveOutFragment(association)
+      })
+      .catch(function (e) { throw e })
   } else {
       // Synchronous cases
       // Case 2
@@ -699,9 +696,13 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
 
       delete self._fragment.associations[GUID]
       if (isGrouping) {
-        return self._itemDriver.deleteGroupingItem(path, postDelete)
+        return self._itemDriver.deleteGroupingItem(path)
+          .then(postDelete)
+          .catch(function (e) { throw e })
       } else {
-        return self._itemDriver.deleteNonGroupingItem(path, postDelete)
+        return self._itemDriver.deleteNonGroupingItem(path)
+          .then(postDelete)
+          .catch(function (e) { throw e })
       }
     } else {
       delete self._fragment.associations[GUID]
@@ -762,45 +763,10 @@ ItemMirror.prototype.upgradeAssociation = function () {
  * this function, else an contains an object with the error that occurred.
  * @param {string} callback.GUID The GUID of the association that was updated.
  */
-ItemMirror.prototype.renameAssociationLocalItem = function (GUID, newName, callback) {
-  // This method needs a redesign, and can't be properly implemented the way
-  // it is now. Instead, this needs to pass information to the acual item
-  // driver and that needs to implement an agnostic new name format. This
-  // path stuff is specific to dropbox and doesn't work
-  var self = this
-  XooMLUtil.checkCallback(callback)
-  if (!GUID) {
-    return callback(XooMLExceptions.nullArgument)
-  }
-  if (!XooMLUtil.isGUID(GUID)) {
-    return callback(XooMLExceptions.invalidType)
-  }
-
-  self.save(postSave)
-
-  function postSave (error) {
-    if (error) return callback(error)
-
-    self._itemDriver.rename(newName, postMove)
-  }
-
-  function postMove (error) {
-    if (error) return callback(error)
-    // This also needs to be more agnostic
-    self._fragment.associations[GUID].commonData.localItem = newName
-
-    self._forceWrite()
-      .then(function () {
-        self.refresh(postRefresh)
-      })
-      .catch(function (e) {
-        return callback(e)
-      })
-  }
-
-  function postRefresh (error) {
-    return callback(error, self._fragment.associations[GUID].commonData.ID)
-  }
+ItemMirror.prototype.renameAssociation = function (GUID, newName, callback) {
+  // The drivers need to implement a new rename method in order for this to
+  // work properly
+  throw new Error('Method not implemented')
 }
 
 /**
