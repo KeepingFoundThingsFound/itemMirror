@@ -681,8 +681,6 @@ ItemMirror.prototype.deleteAssociation = function (GUID, callback) {
 
     // Now do a refresh since actual files were removed.
   function postDelete () {
-    if (error) return callback(error)
-
     return self.refresh(function (error) {
       if (error) return callback(error)
       return callback(false)
