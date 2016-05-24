@@ -42,7 +42,7 @@ function ItemDriver (options) {
   }
 
   if (!options.pareuntURI) {
-    throw new Error ('Missing parentURI in options')
+    throw new Error('Missing parentURI in options')
   }
 
   this.parentURI = options.parentURI
@@ -113,7 +113,7 @@ ItemDriver.prototype.createGroupingItem = function (title) {
   return this._gFetch('POST', '/' + this.parentURI, {
     mimeType: FOLDER_MIMETYPE,
     title: title,
-    parents: [parentURI]
+    parents: [this.parentURI]
   }).then(function (res) {
     return res.id
   })
