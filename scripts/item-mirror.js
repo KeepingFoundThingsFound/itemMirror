@@ -173,9 +173,9 @@ function ItemMirror (options, callback) {
       commonData: {
         itemDescribed: self._groupingItemURI,
         displayName: displayName,
-        itemDriver: 'dropboxItemDriver',
-        xooMLDriver: 'dropboxXooMLDriver',
-        syncDriver: 'itemMirrorSyncUtility'
+        itemDriver: options.itemDriver.name,
+        xooMLDriver: options.xooMLDriver.name,
+        syncDriver: 'default'
       },
       associations: associations
     })
