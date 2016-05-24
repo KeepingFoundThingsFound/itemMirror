@@ -31,7 +31,11 @@ function ItemDriver (options) {
   if (!this.authToken) {
     throw new Error('Missing Authentication Token')
   }
+  if (!this.parentURI) {
+    throw new Error('Missing parentURI option')
+  }
 
+  this.parentURI = options.parentURI
   this.authToken = options.authToken
   return this
 }
@@ -88,20 +92,21 @@ ItemDriver.prototype.isGroupingItem = function (path) {
     })
 }
 
-ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
+ItemDriver.prototype.createGroupingItem = function (title) {
+  var self = this
   return this._dbFetch(false, 'POST', '/fileops/create_folder', {
     root: 'dropbox',
-    path: parentURI + '/' + title
+    path: self.parentURI + '/' + title
   })
 }
 
-ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data) {
+ItemDriver.prototype.createNonGroupingItem = function (fileName, data) {
   var headers = this._makeAuthHeader()
   // Use Buffers to get byte size
   var bytes = (new Buffer(data)).length
   headers.append('Content-Length', bytes)
 
-  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + parentURI + '/' + fileName), {
+  return fetch(encodeURI(DROPBOX_CONTENT + '/files_put/auto' + this.parentURI + '/' + fileName), {
     headers: headers,
     method: 'PUT',
     body: data
@@ -131,24 +136,23 @@ ItemDriver.prototype.createNonGroupingItem = function (parentURI, fileName, data
   })
 }
 
-ItemDriver.prototype.deleteGroupingItem = function (parentURI, title) {
+ItemDriver.prototype.deleteGroupingItem = function (path) {
   return this._dbFetch(false, 'POST', '/fileops/delete', {
     root: 'dropbox',
-    path: parentURI + '/' + title
+    path: path
   })
 }
 
-ItemDriver.prototype.deleteNonGroupingItem = function (parentURI, title) {
+ItemDriver.prototype.deleteNonGroupingItem = function (path) {
   return this._dbFetch(false, 'POST', '/fileops/delete', {
     root: 'dropbox',
-    path: parentURI + '/' + title
+    path: path
   })
 }
 
-// Returns a structured list of items. Takes a grouping item address as input
 // Async
-ItemDriver.prototype.listItems = function (path) {
-  return this._getMetadata(path).then(function (metadata) {
+ItemDriver.prototype.listItems = function () {
+  return this._getMetadata(this.parentURI).then(function (metadata) {
     // Return a list of AssociationEditor
     function contentsToAssoc (item) {
       // https://www.dropbox.com/developers-v1/core/docs#metadata-details
@@ -179,10 +183,10 @@ ItemDriver.prototype.listItems = function (path) {
 
 // Returns true if given path leads to a real thing!
 // Async
-ItemDriver.prototype.checkExists = function (parentURI, title) {
+ItemDriver.prototype.checkExists = function (path) {
   var headers = this._makeAuthHeader()
 
-  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + parentURI + '/' + title), {
+  return fetch(encodeURI(DROPBOX_API + '/metadata/auto' + path), {
     headers: headers,
     body: {
       // Don't include folder contents, we just want to check for an error
