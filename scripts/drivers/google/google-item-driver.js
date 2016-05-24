@@ -33,13 +33,19 @@ function paramsToQueryString (params) {
  * @constructor
  * @param {Object} options Options passed for construction
  * @param {string} options.authToken Authentication token for authorization
- * @param {Function} callback The function to call after completion
+ * @param {string} options.parentURI The URI of the folder controlling this
+ * driver
  */
 function ItemDriver (options) {
   if (!options.authToken) {
     throw new Error('Missing Authentication Token')
   }
 
+  if (!options.pareuntURI) {
+    throw new Error ('Missing parentURI in options')
+  }
+
+  this.parentURI = options.parentURI
   this.authToken = options.authToken
   return this
 }
@@ -99,14 +105,12 @@ ItemDriver.prototype.isGroupingItem = function (id) {
 /**
  * Creates a grouping item at the location
  * @method createGroupingItem
- * @param {string} parentURI The ID of the folder in which this will be
- * created
  * @param {string} title The title of the folder to create
  * @returns {Promise} A promise that resolves when the folder is created, or an
  * error if it could not be created for some reason
  */
-ItemDriver.prototype.createGroupingItem = function (parentURI, title) {
-  return this._gFetch('POST', '/' + parentURI, {
+ItemDriver.prototype.createGroupingItem = function (title) {
+  return this._gFetch('POST', '/' + this.parentURI, {
     mimeType: FOLDER_MIMETYPE,
     title: title,
     parents: [parentURI]
@@ -157,15 +161,13 @@ function writeFile (parentURI, title, contents, authHeader) {
 /**
  * Creates or uploads a non-grouping item at the location
  * @method createNonGroupingItem
- * @param {string} parentURI The ID of the folder that we want to file to
- * uploaded into
  * @param {string} title The name to set for the fiel
  * @param {string} contents contents to be written to the non-grouping item
  * @returns {Promise} A promise that resolves when the file has been sucessfully
  * uploaded, or if there was an error
  */
-ItemDriver.prototype.createNonGroupingItem = function (parentURI, title, contents) {
-  return writeFile(parentURI, title, contents, this._makeAuthHeader)
+ItemDriver.prototype.createNonGroupingItem = function (title, contents) {
+  return writeFile(this.parentURI, title, contents, this._makeAuthHeader)
 }
 
 // Helper function for deleting files, since no distinction is needed
@@ -190,20 +192,19 @@ ItemDriver.prototype.deleteGroupingItem = function (id) {
  * @param {string} id the id of the file that will be deleted. This is specific to google
  * @returns {Promise} Returns promise with the actual request back
  */
-ItemDriver.prototype.deleteNonGroupingItem = function (id, callback) {
+ItemDriver.prototype.deleteNonGroupingItem = function (id) {
   return this._deleteID(id)
 }
 
 /**
  * Lists the items under the grouping item
  * @method listItems
- * @param {string} parentURI The folder ID according to google
  * @returns {Promise([AssociationEditor])} Returns a promise that resolves with
  * an array of association editors
  */
-ItemDriver.prototype.listItems = function (parentURI, callback) {
+ItemDriver.prototype.listItems = function () {
   return this._gFetch('GET', '/list', {
-    q: "'" + parentURI + "' in parents",
+    q: "'" + this.parentURI + "' in parents",
     maxResults: 1000
   }).then(function (data) {
     return data.items.filter(function (item) {
@@ -215,9 +216,9 @@ ItemDriver.prototype.listItems = function (parentURI, callback) {
           // Will need another parameter for that
           associatedXooMLFragment: null,
           associatedItem: item.id,
-          associatedItemDriver: 'GoogleItemDriver',
-          associatedXooMLDriver: 'GoogleXooMLDriver',
-          associatedSyncDriver: 'MirrorSyncDriver',
+          associatedItemDriver: 'google',
+          associatedXooMLDriver: 'google',
+          associatedSyncDriver: 'default',
           isGrouping: item.mimeType === self._FOLDER_MIMETYPE,
           localItem: item.id,
           displayText: item.title,
