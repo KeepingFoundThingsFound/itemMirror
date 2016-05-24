@@ -96,10 +96,10 @@ function ItemMirror (options, callback) {
       // Special case where we return a limited functionality itemMirror object that
       // represents different informational stores
       // A special XooML fragment, representing information stores
-    var xml = ['<fragment xmlns="http://kftf.ischool.washington.edu/xmlns/xooml" itemDescribed="/" displayName="Dropbox" itemDriver="dropboxItemDriver" syncDriver="itemMirrorSyncUtility" xooMLDriver="dropboxXooMLDriver" GUIDGeneratedOnLastWrite="771c1026-b8d8-4457-9594-01531b9f7ca0">',
-      '<association ID="a02f53d2-18af-4faf-ace9-5305cb808ec5" displayText="Dropbox" associatedItem="Dropbox" isGrouping="true">',
+    var xml = ['<fragment xmlns="http://kftf.ischool.washington.edu/xmlns/xooml" itemDescribed="/" displayName="ItemMirror Stores" itemDriver="internal" syncDriver="internal" xooMLDriver="internal" GUIDGeneratedOnLastWrite="761c1026-b8d8-4457-9594-01531b9f7ca0">',
+      '<association ID="a02f53d2-18af-4faf-ace9-5305cb808ec5" displayText="Dropbox" associatedItem="dropbox" isGrouping="true">',
       '</association>',
-      '<association ID="27955628-7850-4c71-be12-6caed1c9463c" displayText="Google Drive" associatedItem="gapi" isGrouping="true">',
+      '<association ID="27955628-7850-4c71-be12-6caed1c9463c" displayText="Google Drive" associatedItem="google" isGrouping="true">',
       '</association>',
       '</fragment>'].join('\n')
 
