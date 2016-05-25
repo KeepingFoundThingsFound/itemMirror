@@ -921,6 +921,7 @@ ItemMirror.prototype._sync = function () {
  */
 ItemMirror.prototype.refresh = function (callback) {
   // TODO: Store the options upon initial creation to avoid duplication
+  var self = this
   return new ItemMirror({
     itemDriver: {
       name: this.itemDriver,
@@ -942,7 +943,8 @@ ItemMirror.prototype.refresh = function (callback) {
     if (e) {
       return callback(e)
     }
-    callback()
+    self = mirror
+    callback(self)
   })
 }
 
