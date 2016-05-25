@@ -72,11 +72,6 @@ require('isomorphic-fetch')
  * @property {string} schemaLocation The location of the schema for the XooML
  */
 function ItemMirror (options, callback) {
-  XooMLUtil.checkCallback(callback)
-  if (!options) {
-    return callback(XooMLExceptions.nullArgument)
-  }
-
   var self = this
   var xooMLFragmentURI
   var displayName
