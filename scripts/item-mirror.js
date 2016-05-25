@@ -81,7 +81,7 @@ function ItemMirror (options, callback) {
   var xooMLFragmentURI
   var displayName
 
-  if (typeof c1 === 'string') {
+  if (!options) {
     specialConstruction()
   } else {
     regularConstruction()
