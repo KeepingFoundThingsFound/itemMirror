@@ -18,7 +18,8 @@
   "scripts": {
     "lint": "node node_modules/eslint/bin/eslint ./scripts",
     "build": "node node_modules/webpack/bin/webpack",
-    "doc": "node ./util/build-doc github"
+    "doc": "node ./util/build-doc github",
+    "test": "node node_modules/mocha/bin/mocha"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
