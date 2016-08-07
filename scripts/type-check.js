@@ -12,6 +12,18 @@ const validators = {
   'function': _.isFunction
 }
 
+/**
+ * Wraps a function with type checking properties
+ * @param {[String]} types An array of types, that match with the params of the
+ * function to be called. Valid strings are: 'string', 'object', 'array',
+ * 'number', 'boolean', and 'function' 
+ * @param {Function} f The function to be wrapped
+ * @returns {Function} A new function that performs the exact same as `f`, but
+ * will fail if the parameters do not match the type array passed in
+ *
+ * @throws Error if `types` doesn't contain valid types
+ * @throws Error if `f` isn't a function
+ */
 module.exports = function (types, f) {
   function isValidType (t) {
     return _.chain(validators)
