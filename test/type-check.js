@@ -61,4 +61,24 @@ describe('typeCheck', function () {
     expect(() => objectF(foo, 1)).to.throw(Error)
     expect(() => objectF(1, bar)).to.throw(Error)
   })
+
+  it('should be able to handle functions', function () {
+    var functionF = typeCheck(['function', 'function'], () => 1)
+    var foo = x => x + 1
+    var bar = x => x + 2
+    expect(functionF).to.be.a('function')
+    expect(functionF(foo, bar)).to.equal(1)
+    expect(() => objectF(foo, 1)).to.throw(Error)
+    expect(() => objectF(1, bar)).to.throw(Error)
+  })
+
+  it('should be able to handle arrays', function () {
+    var arrayF = typeCheck(['array', 'array'], () => 1)
+    var foo = [1, 2, 3, 4, 5]
+    var bar = ['a', 'b', 'c', 'd']
+    expect(arrayF).to.be.a('function')
+    expect(arrayF(foo, bar)).to.equal(1)
+    expect(() => objectF(foo, 1)).to.throw(Error)
+    expect(() => objectF(1, bar)).to.throw(Error)
+  })
 })
