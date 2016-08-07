@@ -52,7 +52,7 @@ describe('typeCheck', function () {
     expect(() => objectF(1, bar)).to.throw(Error)
   })
 
-  it('should be able to booleans', function () {
+  it('should be able to handle booleans', function () {
     var objectF = typeCheck(['boolean', 'boolean'], () => 1)
     var foo = false
     var bar = true
