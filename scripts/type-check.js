@@ -19,9 +19,16 @@ module.exports = function (types, f) {
     var args = Array.prototype.slice.call(arguments);
 
     // Check that the type array matches the argumements supplied
-    
+    var argTypes = _.map(args, (arg) => typeof arg)
+    const matches = _.zipWith(types, argTypes, (type, arg) => type === arg)
 
-    // Finally call the function with the original arguments
-    return f.apply(null, args)
+    if (_.every(matches)) {
+      // call the function with the original arguments
+      return f.apply(null, args)
+    }
+
+    throw new Error('Arguments supplied to function do not match provided types:' +
+                    '\n' + 'Args: ' + args +
+                    '\n' + 'Types: ' + types)
   }
 }
