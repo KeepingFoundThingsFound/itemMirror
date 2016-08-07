@@ -34,7 +34,7 @@
 'use strict'
 
 var XooMLExceptions = require('./xooml-exceptions')
-var XooMLUtil = require('./xooml-util')
+var guid = require('./guid')
 var AssociationEditor = require('./association-editor')
 
 var _ELEMENT_NAME = 'fragment'
@@ -74,7 +74,7 @@ function FragmentEditor (options) {
    * @protected
    */
 FragmentEditor.prototype.updateID = function () {
-  var guid = XooMLUtil.generateGUID()
+  var guid = guid.generate()
   this.commonData.GUIDGeneratedOnLastWrite = guid
   return guid
 }
@@ -222,7 +222,7 @@ function _fromOptions (commonData, associations, self) {
        * @property commonData.GUIDGeneratedOnLastWrite
        * @type String
        */
-    GUIDGeneratedOnLastWrite: XooMLUtil.generateGUID()
+    GUIDGeneratedOnLastWrite: guid.generate()
   }
 
     /**

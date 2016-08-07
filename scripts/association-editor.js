@@ -29,7 +29,7 @@
 'use strict'
 
 var XooMLExceptions = require('./xooml-exceptions')
-var XooMLUtil = require('./xooml-util')
+const guid = require('./guid')
 
 var _ELEMENT_NAME = 'association'
 var _NAMESPACE_ELEMENT_NAME = 'associationNamespaceElement'
@@ -270,7 +270,7 @@ function _fromOptions (commonData, self) {
        * @type String
        */
       // GUID is generated upon construction
-    ID: XooMLUtil.generateGUID(),
+    ID: guid.generate(),
 
     publicURL: commonData.publicURL || null
   }
