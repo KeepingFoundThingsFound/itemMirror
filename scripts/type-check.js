@@ -1,4 +1,5 @@
 var _ = require('lodash')
+var lines = require('../scripts/lines')
 
 // This is a map of validators. These are all helpfully provided by lodash
 // and make it easy to check whether a type of object actually is something
@@ -21,10 +22,10 @@ module.exports = function (types, f) {
 
   // Check inputs
   if (!_.every(types, isValidType)) {
-    throw new Error('Invalid type provided in types array: ' + types)
+    throw new Error(`Invalid type provided in types array: [${types}]`)
   }
   if (!_.isFunction(f)) {
-    throw new Error('Expected function as parameter, instead got: ' + f)
+    throw new Error(`Expected function as parameter, instead got: ${f}`)
   }
 
   return function () {
@@ -40,8 +41,10 @@ module.exports = function (types, f) {
       return f.apply(null, args)
     }
 
-    throw new Error('Arguments supplied to function do not match provided types:' +
-                    '\n' + 'Args: ' + args +
-                    '\n' + 'Types: ' + types)
+    throw new Error(lines(
+      ['Arguments supplied to function do not match provided types:',
+       `Args: [${args}]`, 
+       `Types: [${types}]`
+      ]))
   }
 }
