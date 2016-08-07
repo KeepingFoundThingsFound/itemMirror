@@ -18,7 +18,7 @@ describe('typeCheck', function () {
 
   it('should be able to handle strings', function () {
     var stringF = typeCheck(['string', 'string'], f)
-    expect(stringF).to.be.a('number')
+    expect(stringF).to.be.a('function')
     expect(stringF('one', 'one')).to.equal('oneone1')
     expect(() => stringF('one', 2)).to.throw(Error)
     expect(() => stringF(2, 'one')).to.throw(Error)
