@@ -16,7 +16,7 @@ const validators = {
  * Wraps a function with type checking properties
  * @param {[String]} types An array of types, that match with the params of the
  * function to be called. Valid strings are: 'string', 'object', 'array',
- * 'number', 'boolean', and 'function' 
+ * 'number', 'boolean', and 'function'
  * @param {Function} f The function to be wrapped
  * @returns {Function} A new function that performs the exact same as `f`, but
  * will fail if the parameters do not match the type array passed in
@@ -42,7 +42,7 @@ module.exports = function (types, f) {
 
   return function () {
     // Turn arguments into an actual array: since it isn't quite the same
-    const args = Array.prototype.slice.call(arguments);
+    const args = Array.prototype.slice.call(arguments)
 
     // Check that the type array matches the argumements supplied
     const validatorFuncs = _.map(types, (t) => validators[t])
@@ -55,7 +55,7 @@ module.exports = function (types, f) {
 
     throw new Error(lines(
       ['Arguments supplied to function do not match provided types:',
-       `Args: [${args}]`, 
+       `Args: [${args}]`,
        `Types: [${types}]`
       ]))
   }
