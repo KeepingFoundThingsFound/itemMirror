@@ -1,5 +1,5 @@
 var _ = require('lodash')
-var lines = require('../scripts/lines')
+var lines = require('./lines')
 
 // This is a map of validators. These are all helpfully provided by lodash
 // and make it easy to check whether a type of object actually is something
