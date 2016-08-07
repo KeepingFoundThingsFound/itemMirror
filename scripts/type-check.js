@@ -1,9 +1,22 @@
 var _ = require('lodash')
 
+// This is a map of validators. These are all helpfully provided by lodash
+// and make it easy to check whether a type of object actually is something
+const validators = {
+  'string': _.isString,
+  'object': _.isPlainObject,
+  'array': _.isArray,
+  'number': _.isNumber,
+  'boolean': _.isBoolean,
+  'function': _.isFunction
+}
+
 module.exports = function (types, f) {
   function isValidType (t) {
-    var valids = ['string', 'object', 'number', 'function', 'boolean'] 
-    return _.includes(valids, t)
+    return _.chain(validators)
+      .keys()
+      .includes(t)
+      .value()
   }
 
   // Check inputs
@@ -16,11 +29,11 @@ module.exports = function (types, f) {
 
   return function () {
     // Turn arguments into an actual array: since it isn't quite the same
-    var args = Array.prototype.slice.call(arguments);
+    const args = Array.prototype.slice.call(arguments);
 
     // Check that the type array matches the argumements supplied
-    var argTypes = _.map(args, (arg) => typeof arg)
-    const matches = _.zipWith(types, argTypes, (type, arg) => type === arg)
+    const validatorFuncs = _.map(types, (t) => validators[t])
+    const matches = _.zipWith(validatorFuncs, args, (validator, arg) => validator(arg))
 
     if (_.every(matches)) {
       // call the function with the original arguments
