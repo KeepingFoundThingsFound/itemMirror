@@ -4,6 +4,9 @@ const _ = require('lodash')
 module.exports = {
   /**
    * Creates a new V4 UUID
+   * @method generate
+   * @private
+   * @static
    * @returns {String} The new UUID
    */
   'generate': uuid.v4,
@@ -11,6 +14,9 @@ module.exports = {
   /**
    * Wraps a function with GUID validation, so that one of the specified
    * paramters must always be a valid parameter
+   * @static
+   * @private
+   * @method validate
    * @param {Number} paramIdx The parameter of f that should be checked
    * @param {Function} f The function to be wrapped
    * @returns {Function} A new function that behaves the same as `f`, but will
