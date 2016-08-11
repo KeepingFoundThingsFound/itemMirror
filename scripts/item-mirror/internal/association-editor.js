@@ -28,8 +28,8 @@
 
 'use strict'
 
-var XooMLExceptions = require('./xooml-exceptions')
-const guid = require('./guid')
+var XooMLExceptions = require('../xooml-exceptions')
+const guid = require('../util/guid')
 
 var _ELEMENT_NAME = 'association'
 var _NAMESPACE_ELEMENT_NAME = 'associationNamespaceElement'

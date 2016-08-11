@@ -33,9 +33,9 @@
 
 'use strict'
 
-var XooMLExceptions = require('./xooml-exceptions')
-var guid = require('./guid')
-var AssociationEditor = require('./association-editor')
+var XooMLExceptions = require('../xooml-exceptions')
+var guid = require('../util/guid')
+var AssociationEditor = require('../association-editor')
 
 var _ELEMENT_NAME = 'fragment'
 var _ASSOCIATION_ELEMENT_NAME = 'association'

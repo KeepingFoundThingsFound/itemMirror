@@ -2,12 +2,12 @@
 
 var XooMLExceptions = require('./xooml-exceptions')
 var XooMLUtil = require('./xooml-util')
-var SyncDriver = require('./sync-driver')
-var FragmentEditor = require('./fragment-editor')
-var AssociationEditor = require('./association-editor')
-var lines = require('./lines')
+var SyncDriver = require('./drivers/sync-driver')
+var FragmentEditor = require('./internal/fragment-editor')
+var AssociationEditor = require('./internal/association-editor')
+var lines = require('../util/lines')
 // Loads private helper for authentication
-var Auth = require('./authentication')
+var Auth = require('../util/authentication')
 
 // Allows allows us to use the fetch API for better requests in the browser and node
 require('es6-promise').polyfill()
